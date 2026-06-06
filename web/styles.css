@@ -453,3 +453,36 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .insp-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 240px; text-align: center; padding: 24px; font-size: 13px; line-height: 1.6; }
 
 .hatchkey { display: inline-block; width: 16px; height: 12px; border-radius: 2px; vertical-align: -2px; background-color: #f6f8fb; background-image: repeating-linear-gradient(45deg, transparent 0, transparent 3px, rgba(148,163,184,.28) 3px, rgba(148,163,184,.28) 4px); }
+
+/* ── Overview lens ("quarter in one view") ─────────────────────────────────── */
+.ov-take { font-size: 14px; line-height: 1.6; color: var(--text); background: var(--surface-2); border: 1px solid var(--border-soft); border-radius: 10px; padding: 12px 15px; margin: 4px 0 16px; }
+.ov-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .ov-grid { grid-template-columns: 1fr; } }
+.ov-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.ov-card h4 { margin: 0 0 8px; font-size: 13px; }
+.ov-card h4 .dim { font-weight: 400; font-size: 11px; }
+.ov-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid var(--border-soft); cursor: pointer; }
+.ov-row:last-child { border-bottom: none; }
+.ov-row:hover { background: #f8fafc; }
+.ov-lab { flex: 1; min-width: 0; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ov-x { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.ov-b { font-size: 10px; color: var(--text-faint); white-space: nowrap; }
+.ov-row .tmom { font-size: 11px; font-weight: 700; }
+.ov-outs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .ov-outs { grid-template-columns: 1fr; } }
+.ov-out { border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; cursor: pointer; background: #fff; }
+.ov-out:hover { border-color: #bcd3f5; background: #f8fbff; }
+.ov-out-h { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+.ov-out-h .ov-dir { margin-left: auto; font-weight: 700; font-size: 12px; }
+.ov-out-hl { font-size: 12px; color: var(--text-dim); line-height: 1.45; margin-top: 5px; }
+/* ── By-company lens ───────────────────────────────────────────────────────── */
+.cv { display: flex; flex-direction: column; }
+.cv-row { display: grid; grid-template-columns: minmax(150px, 1.5fr) repeat(5, 46px) 86px 56px; gap: 4px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border-soft); cursor: pointer; font-size: 12px; }
+.cv-row:hover { background: #f8fafc; }
+.cv-hdr { cursor: default; color: var(--text-faint); font-size: 10.5px; }
+.cv-hdr:hover { background: none; }
+.cv-hdr .smx-c { background: none; color: var(--text-faint); }
+.cv-lab { display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.cv-row .smx-c { height: 22px; font-size: 10px; }
+.cv-st { text-align: center; }
+.cv-m { text-align: right; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }

@@ -346,7 +346,7 @@ def main() -> None:
     outlook = {}
     if outdir.exists():
         for f in sorted(outdir.glob("*.json")):
-            if f.name.endswith(".synth.json"):
+            if f.name.endswith(".synth.json") or f.name.startswith("."):   # skip synth inputs + .cache.json
                 continue
             try:
                 o = json.loads(f.read_text(encoding="utf-8"))

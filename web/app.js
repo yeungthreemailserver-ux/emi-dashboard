@@ -596,16 +596,18 @@ function renderSignals() {
   const main = document.getElementById('main');
   if (!SIGNALS) { main.innerHTML = '<div class="loading">transcripts.json not loaded — run scripts/load_transcripts.py</div>'; return; }
   const S = SIGNALS;
-  const subs = [['topics', 'Topics · trends'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
+  const subs = [['overview', 'Overview'], ['topics', 'Topics · trends'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
   const tabs = subs.map(([k, l]) => `<button class="seg ${STATE.sigView === k ? 'on' : ''}" data-sv="${k}">${l}</button>`).join('');
   const sparks = [];
   const body = STATE.sigView === 'cycle' ? sigCycleBody(S)
     : STATE.sigView === 'topics' ? sigTopicsBody(S)
-      : STATE.sigView === 'matrix' ? sigMatrixBody(S)
-        : STATE.sigView === 'flow' ? sigFlowBody(S)
-          : STATE.sigView === 'radar' ? sigRadarBody(S, sparks)
-            : STATE.sigView === 'roadmap' ? sigRoadmapBody(S)
-              : sigJourneyBody(S, sparks);
+      : STATE.sigView === 'overview' ? sigOverviewBody(S)
+        : STATE.sigView === 'company' ? sigCompanyBody(S)
+          : STATE.sigView === 'matrix' ? sigMatrixBody(S)
+            : STATE.sigView === 'flow' ? sigFlowBody(S)
+              : STATE.sigView === 'radar' ? sigRadarBody(S, sparks)
+                : STATE.sigView === 'roadmap' ? sigRoadmapBody(S)
+                  : sigJourneyBody(S, sparks);
   main.innerHTML = `
     <div class="view-head"><h1>Earnings-call intelligence</h1><span class="crumb">${S.calls.length} companies · ${S.periods[0]}–${S.as_of} · model-extracted from free transcripts</span></div>
     <div class="view-sub">One signal cube, three lenses: <b>Journey</b> walks the chain L1→L3 now · <b>Cycle</b> reads each signal over time · <b>Divergence</b> surfaces tensions & turning points.</div>
@@ -613,6 +615,8 @@ function renderSignals() {
     ${body}
     ${sigMethodology()}`;
   main.querySelectorAll('[data-sv]').forEach(b => b.onclick = () => { STATE.sigView = b.dataset.sv; render(); });
+  main.querySelectorAll('[data-co]').forEach(b => b.onclick = () => { STATE.coView = b.dataset.co; render(); });
+  main.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.sigView = 'topics'; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
   main.querySelectorAll('[data-sm]').forEach(b => b.onclick = () => { STATE.sigMetric = b.dataset.sm; render(); });
   main.querySelectorAll('[data-tl]').forEach(b => b.onclick = () => {
     topicPlayStop();
@@ -899,33 +903,120 @@ function renderTopicInspector(S) {
   return true;
 }
 
+/* Reusable filter bar (Layer · sub-layer · search · Segment · As-of · Labels) — shared by the
+   Topics / Overview / By-company lenses. opts.search/labels/play toggle the lens-specific bits.
+   All controls drive the same STATE (topicLayers/topicSeg/topicQ) so every lens reacts together. */
+function topicFilterToggle() {
+  return `<button class="lnk tctl-toggle" data-tctl="1">${STATE.topicCtlOpen !== false ? '▴ Hide filters' : '▾ Filters'}</button>`;
+}
+function topicFilterBar(S, opts) {
+  opts = opts || {};
+  const T = S.topics, pf = T.plot_from || 0, q = topicAsOf(T), sel = topicLayerSel();
+  const SUBLABEL = { '3.1': 'Analog / MCU', '3.2': 'Logic / GPU', '3.3': 'Discrete / power', '3.4': 'Memory' };
+  const subsBy = {}; topicCos().forEach(c => { if (c.layer && c.sublayer) (subsBy[c.layer] = subsBy[c.layer] || new Set()).add(c.sublayer); });
+  const multiSub = new Set(Object.keys(subsBy).filter(L => subsBy[L].size > 1));
+  const lsel = TOPIC_LAYERS.map(([k, l]) => { const on = k === 'all' ? sel.length === 0 : sel.includes(k); const caret = multiSub.has(k) ? ' ▾' : ''; return `<button class="seg ${on ? 'on' : ''}" data-tl="${k}">${k === 'all' ? '' : `<span class="lyr-dot" style="background:${LAYER_COLORS[k] || '#94a3b8'}"></span>`}${l}${caret}</button>`; }).join('');
+  const subGrps = [...multiSub].filter(L => sel.includes(L) || [...subsBy[L]].some(sc => sel.includes(sc))).sort().map(L => {
+    const chips = [...subsBy[L]].sort().map(sc => `<button class="seg ${sel.includes(sc) ? 'on' : ''}" data-tl="${sc}"><span class="lyr-dot" style="background:${LAYER_COLORS[L] || '#94a3b8'}"></span>${SUBLABEL[sc] || sc}</button>`).join('');
+    return `<div class="seggrp"><span class="seglbl">${L} sub</span>${chips}</div>`;
+  }).join('');
+  const selTk = sel.filter(code => topicCos().some(c => c.ticker === code));
+  const coChips = selTk.map(tk => { const co = topicCos().find(c => c.ticker === tk) || {}; return `<button class="seg on" data-tl="${tk}"><span class="lyr-dot" style="background:${LAYER_COLORS[co.layer] || '#94a3b8'}"></span>${co.name || tk} ✕</button>`; }).join('');
+  const coGrp = opts.search ? `<div class="seggrp"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics, companies, layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span>${coChips}</div>` : (coChips ? `<div class="seggrp">${coChips}</div>` : '');
+  const qsel = T.periods.map((p, i) => i >= pf ? `<button class="seg ${i === q ? 'on' : ''}" data-tq="${i}">${qLabel(p)}</button>` : '').join('');
+  const playBtn = opts.play ? `<button class="seg ${TOPIC_PLAY ? 'on' : ''}" data-tplay="1">${TOPIC_PLAY ? '⏸ Pause' : '▶ Play'}</button>` : '';
+  const labMode = STATE.topicLabels || 'auto';
+  const labSel = opts.labels ? `<div class="seggrp"><span class="seglbl">Labels</span>${[['auto', 'Auto'], ['all', 'All'], ['off', 'Off']].map(([k, l]) => `<button class="seg ${labMode === k ? 'on' : ''}" data-tlabels="${k}">${l}</button>`).join('')}</div>` : '';
+  const segSel = [['all', 'All speech'], ['prepared', 'Prepared'], ['ceo', 'CEO'], ['cfo', 'CFO'], ['q', 'Analyst Q'], ['a', 'Mgmt A']].map(([k, l]) => `<button class="seg ${topicSeg() === k ? 'on' : ''}" data-tseg="${k}">${l}</button>`).join('');
+  const selLabel = sel.map(code => { const co = topicCos().find(c => c.ticker === code); return co ? co.name : code; }).join(' + ');
+  const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
+  if (STATE.topicCtlOpen === false) return `<div class="ctl-collapsed dim" data-tctl="1">Layer: <b>${sel.length ? selLabel : 'All'}</b> · Segment: <b>${segName || 'All speech'}</b> · As of <b>${qLabel(T.periods[q])}</b> <span class="lnk" style="margin-left:6px">▾ change</span></div>`;
+  return `<div class="topicctl">
+    <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Layer</span>${lsel}</div>${subGrps}${coGrp}</div>
+    <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Segment</span>${segSel}</div><div class="seggrp"><span class="seglbl">As of</span>${qsel}${playBtn}</div>${labSel}</div>
+  </div>`;
+}
+
+/* Lens — OVERVIEW: "the quarter in one view". Synthesizes all topics into a scannable brief:
+   dominant themes, what's accelerating/cooling, and the validated forward outlooks. */
+const DIRBADGE = { improving: ['▲', '#16a34a', 'Improving'], stabilizing: ['→', '#d97706', 'Stabilizing'], deteriorating: ['▼', '#dc2626', 'Deteriorating'], mixed: ['◆', '#d97706', 'Mixed'] };
+function sigOverviewBody(S) {
+  const T = S.topics; if (!T) return `<div class="panel"><div class="dim">No topic data.</div></div>`;
+  const q = topicAsOf(T), catOf = id => (T.categories || []).find(c => c.id === id) || {};
+  // filter-aware: only topics raised by the selected layer(s), with series/breadth for the chosen segment
+  const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
+  const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
+  const mom = it => topicMomentum(it.series, q, momSmooth(T));
+  const pct = m => (m >= 0 ? '+' : '') + Math.round((m || 0) * 100) + '%';
+  const dot = it => `<span class="tdot" style="background:${catOf(it.cat).color}"></span>`;
+  const goto = (it, extra) => `<div class="ov-row" data-goto="${it.id}">${dot(it)}<span class="ov-lab">${it.label}</span>${extra}</div>`;
+  const hottest = items.slice().sort((a, b) => b.series[q] - a.series[q]).slice(0, 5);
+  const ranked = items.map(it => ({ it, m: mom(it) })).filter(r => r.m != null).sort((a, b) => b.m - a.m);
+  const accel = ranked.filter(r => r.m > 0.02).slice(0, 5), cool = ranked.filter(r => r.m < -0.02).slice(-5).reverse();
+  const O = T.outlook || {};
+  const outRows = Object.keys(O).map(id => { const o = O[id], it = items.find(x => x.id === id) || {}, d = DIRBADGE[(o.outlook || {}).direction] || ['◆', '#64748b', '—']; return { id, label: it.label || id, cat: it.cat, d, o }; });
+  const impv = outRows.filter(o => o.d[0] === '▲').map(o => o.label), stab = outRows.filter(o => o.d[0] === '→').map(o => o.label), wors = outRows.filter(o => o.d[0] === '▼').map(o => o.label);
+  const takeaway = `<b>${(hottest[0] || {}).label} &amp; ${(hottest[1] || {}).label}</b> dominate this quarter's calls${accel.length ? ` — <b style="color:#16a34a">${accel[0].it.label}</b> is the fastest-accelerating theme (${pct(accel[0].m)})` : ''}. ${impv.length ? `Forward read: <b style="color:#16a34a">${impv.join(', ')}</b> improving` : ''}${stab.length ? `; <b style="color:#d97706">${stab.join(', ')}</b> stabilizing` : ''}${wors.length ? `; <b style="color:#dc2626">${wors.join(', ')}</b> under pressure` : ''}.`;
+  const hotRow = it => goto(it, `<span class="ov-x">${(+it.series[q]).toFixed(1)}×</span><span class="tmom ${mom(it) >= 0 ? 'up' : 'down'}">${pct(mom(it))}</span><span class="ov-b">${(it.breadth || [])[q] || 0} cos</span>`);
+  const momRow = r => goto(r.it, `<span class="tmom ${r.m >= 0 ? 'up' : 'down'}">${pct(r.m)}</span><span class="ov-x">${(+r.it.series[q]).toFixed(1)}×</span>`);
+  const outCard = o => `<div class="ov-out" data-goto="${o.id}"><div class="ov-out-h"><span class="tdot" style="background:${catOf(o.cat).color}"></span><b>${o.label}</b><span class="ov-dir" style="color:${o.d[1]}">${o.d[0]} ${o.d[2]}</span></div><div class="ov-out-hl">${(o.o.outlook || {}).headline || ''}</div></div>`;
+  return `<div class="panel">
+    <div class="thead-row"><h3>Quarter in one view <span class="dim" style="font-weight:400;font-size:13px">— ${qLabel(T.periods[q])} · ${items.length} topics${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
+    ${topicFilterBar(S, {})}
+    <div class="ov-take">${takeaway}</div>
+    <div class="ov-grid">
+      <div class="ov-card"><h4>🔥 Dominant themes <span class="dim">— most-raised</span></h4>${hottest.map(hotRow).join('')}</div>
+      <div class="ov-card"><h4>🚀 Accelerating <span class="dim">— momentum vs 4Q</span></h4>${accel.map(momRow).join('') || '<div class="dim" style="font-size:12px">—</div>'}</div>
+      <div class="ov-card"><h4>❄️ Cooling</h4>${cool.map(momRow).join('') || '<div class="dim" style="font-size:12px">—</div>'}</div>
+    </div>
+    <h4 style="margin:16px 0 8px">🧭 Forward outlooks <span class="dim" style="font-weight:400">— LLM-validated, click to open</span></h4>
+    <div class="ov-outs">${outRows.map(outCard).join('')}</div>
+    <div class="dim" style="font-size:11px;margin-top:12px">Counts &amp; momentum are token-free (regex over transcripts); forward outlooks are LLM-validated (false-positives excluded). Click any row to open the topic.</div>
+  </div>`;
+}
+
+/* Lens — BY COMPANY: flip topic→company. Pick a company, see its stance across every topic it raised. */
+function sigCompanyBody(S) {
+  const T = S.topics; if (!T) return `<div class="panel"><div class="dim">No topic data.</div></div>`;
+  const cos = topicSelCos(), q = topicAsOf(T), P = T.periods || [], seg = topicSeg(), catOf = id => (T.categories || []).find(c => c.id === id) || {};
+  const sel = (STATE.coView && cos.find(c => c.ticker === STATE.coView)) ? STATE.coView : (cos[0] || {}).ticker;
+  const co = cos.find(c => c.ticker === sel) || {};
+  const chips = cos.slice().sort((a, b) => (a.layer + a.sublayer).localeCompare(b.layer + b.sublayer)).map(c => `<button class="seg ${c.ticker === sel ? 'on' : ''}" data-co="${c.ticker}"><span class="lyr-dot" style="background:${LAYER_COLORS[c.layer] || '#94a3b8'}"></span>${c.name}</button>`).join('');
+  const pc = T.per_company || {}, sd = T.sentiment || {}, segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[seg] || '';
+  const rows = (T.items || []).map(it => {
+    const traj = ((sd[sel] || {})[it.id] || {})[seg] || [];
+    if (traj[q] == null) return null;   // raised THIS quarter only (sentiment non-null = actually mentioned; counts are nearest-filled so unreliable)
+    const carr = ((pc[sel] || {})[it.id] || {})[seg] || [];
+    return { it, mentions: carr[q] || 0, traj, latest: traj[q] };
+  }).filter(Boolean).sort((a, b) => b.mentions - a.mentions);
+  const exc = rows.filter(r => r.latest != null && r.latest >= 0.2).sort((a, b) => b.latest - a.latest);
+  const cau = rows.filter(r => r.latest != null && r.latest <= -0.2).sort((a, b) => a.latest - b.latest);
+  const vocal = rows.slice(0, 3).map(r => r.it.label);
+  const badge = v => { const m = v == null ? ['—', '#94a3b8'] : v >= 0.2 ? ['Positive', '#16a34a'] : v <= -0.2 ? ['Negative', '#dc2626'] : ['Neutral', '#d97706']; return `<span class="smx-badge" style="color:${m[1]};border-color:${m[1]}">${m[0]}</span>`; };
+  const row = r => {
+    const cells = P.map((p, i) => { const v = r.traj[i]; if (v == null) return `<span class="smx-c miss" title="${qLabel(p)}: not mentioned"></span>`; const sc = sentCell(v); return `<span class="smx-c" style="background:${sc.bg}" title="${qLabel(p)}: ${sc.txt}">${sc.txt}</span>`; }).join('');
+    return `<div class="cv-row" data-goto="${r.it.id}"><span class="cv-lab"><span class="tdot" style="background:${catOf(r.it.cat).color}"></span>${r.it.label}</span>${cells}<span class="cv-st">${badge(r.latest)}</span><span class="cv-m">${r.mentions}×</span></div>`;
+  };
+  const hdr = `<div class="cv-row cv-hdr"><span class="cv-lab">topic</span>${P.map(p => `<span class="smx-c">${qLabel(p)}</span>`).join('')}<span class="cv-st">latest</span><span class="cv-m">/call</span></div>`;
+  const summary = `<b>${co.name}</b> raised <b>${rows.length}</b> topics this quarter — most on <b>${vocal.join(', ') || '—'}</b>. ${exc.length ? `Bullish on <b style="color:#16a34a">${exc.slice(0, 3).map(r => r.it.label).join(', ')}</b>` : ''}${cau.length ? `${exc.length ? '; ' : ''}cautious on <b style="color:#dc2626">${cau.slice(0, 3).map(r => r.it.label).join(', ')}</b>` : ''}.`;
+  return `<div class="panel">
+    <div class="thead-row"><h3>By company <span class="dim" style="font-weight:400;font-size:13px">— ${co.name} · ${co.layer} ${co.sublayer} · ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
+    ${topicFilterBar(S, {})}
+    <div class="mkbar" style="margin:8px 0 10px"><div class="seggrp" style="flex-wrap:wrap"><span class="seglbl">Company</span>${chips}</div></div>
+    <div class="ov-take">${summary}</div>
+    <div class="cv">${hdr}${rows.map(row).join('') || '<div class="dim" style="font-size:12px;padding:8px 0">No topic mentions found for this company.</div>'}</div>
+    <div class="dim" style="font-size:11px;margin-top:10px">Heatmap = this company's per-quarter lexicon sentiment on each topic (green positive); hatched = not mentioned. Click a row to open the topic. Sorted by mentions/call this quarter.</div>
+  </div>`;
+}
+
 function sigTopicsBody(S) {
   const T = S.topics;
   if (!T) return `<div class="panel"><div class="dim">No topic data — re-run scripts/load_transcripts.py</div></div>`;
   const pf = T.plot_from || 0, q = topicAsOf(T), catOf = id => T.categories.find(c => c.id === id) || {};
   const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });  // layer-effective, so lists track the filter
   const pct = m => (m >= 0 ? '+' : '') + Math.round(m * 100) + '%';
-  const sel = topicLayerSel();
-  const SUBLABEL = { '3.1': 'Analog / MCU', '3.2': 'Logic / GPU', '3.3': 'Discrete / power', '3.4': 'Memory' };
-  const subsBy = {}; topicCos().forEach(c => { if (c.layer && c.sublayer) (subsBy[c.layer] = subsBy[c.layer] || new Set()).add(c.sublayer); });
-  const multiSub = new Set(Object.keys(subsBy).filter(L => subsBy[L].size > 1));  // layers that have >1 sub-layer
-  const lsel = TOPIC_LAYERS.map(([k, l]) => { const on = k === 'all' ? sel.length === 0 : sel.includes(k); const caret = multiSub.has(k) ? ' ▾' : ''; return `<button class="seg ${on ? 'on' : ''}" data-tl="${k}">${k === 'all' ? '' : `<span class="lyr-dot" style="background:${LAYER_COLORS[k] || '#94a3b8'}"></span>`}${l}${caret}</button>`; }).join('');
-  // sub-layer chips appear ONLY for a layer you've engaged (selected the layer, or one of its sub-layers) — inline
-  const subGrps = [...multiSub].filter(L => sel.includes(L) || [...subsBy[L]].some(sc => sel.includes(sc))).sort().map(L => {
-    const chips = [...subsBy[L]].sort().map(sc => `<button class="seg ${sel.includes(sc) ? 'on' : ''}" data-tl="${sc}"><span class="lyr-dot" style="background:${LAYER_COLORS[L] || '#94a3b8'}"></span>${SUBLABEL[sc] || sc}</button>`).join('');
-    return `<div class="seggrp"><span class="seglbl">${L} sub</span>${chips}</div>`;
-  }).join('');
-  // company filter — search box + selected-company chips (toggle off via the chip)
-  const selTk = sel.filter(code => topicCos().some(c => c.ticker === code));
-  const coChips = selTk.map(tk => { const co = topicCos().find(c => c.ticker === tk) || {}; return `<button class="seg on" data-tl="${tk}"><span class="lyr-dot" style="background:${LAYER_COLORS[co.layer] || '#94a3b8'}"></span>${co.name || tk} ✕</button>`; }).join('');
-  const coGrp = `<div class="seggrp"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics, companies, layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span>${coChips}</div>`;
+  const sel = topicLayerSel(), segMode = topicSeg();
   const selLabel = sel.map(code => { const co = topicCos().find(c => c.ticker === code); return co ? co.name : code; }).join(' + ');
-  const qsel = T.periods.map((p, i) => i >= pf ? `<button class="seg ${i === q ? 'on' : ''}" data-tq="${i}">${qLabel(p)}</button>` : '').join('');
-  const playBtn = `<button class="seg ${TOPIC_PLAY ? 'on' : ''}" data-tplay="1">${TOPIC_PLAY ? '⏸ Pause' : '▶ Play'}</button>`;
-  const labMode = STATE.topicLabels || 'auto';
-  const labSel = [['auto', 'Auto'], ['all', 'All'], ['off', 'Off']].map(([k, l]) => `<button class="seg ${labMode === k ? 'on' : ''}" data-tlabels="${k}">${l}</button>`).join('');
-  const segMode = topicSeg();
-  const segSel = [['all', 'All speech'], ['prepared', 'Prepared'], ['ceo', 'CEO'], ['cfo', 'CFO'], ['q', 'Analyst Q'], ['a', 'Mgmt A']].map(([k, l]) => `<button class="seg ${segMode === k ? 'on' : ''}" data-tseg="${k}">${l}</button>`).join('');
   const ranked = items.map(it => ({ it, m: topicMomentum(it.series, q, momSmooth(T)), cur: it.series[q] })).filter(r => r.m != null).sort((a, b) => b.m - a.m);
   const trow = r => `<div class="trow"><span class="tdot" style="background:${catOf(r.it.cat).color}"></span><span class="tlab">${r.it.label}</span>${STANCE_TAG[r.it.stance] || ''}<span class="tmom ${r.m >= 0 ? 'up' : 'down'}">${pct(r.m)}</span></div>`;
   const heating = ranked.slice(0, 6).map(trow).join('');
@@ -936,14 +1027,9 @@ function sigTopicsBody(S) {
   }).join('');
   const legend = T.categories.map(c => `<span class="tlg"><span class="tdot" style="background:${c.color}"></span>${c.label}</span>`).join('');
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[segMode] || '';
-  const open = STATE.topicCtlOpen !== false;
-  const ctlSummary = `Layer: <b>${sel.length ? selLabel : 'All'}</b> · Segment: <b>${(segName || 'All speech')}</b> · As of <b>${qLabel(T.periods[q])}</b>`;
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
-      <button class="lnk tctl-toggle" data-tctl="1">${open ? '▴ Hide filters' : '▾ Filters'}</button></div>
-    ${open ? `<div class="topicctl">
-      <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Layer</span>${lsel}</div>${subGrps}${coGrp}</div>
-      <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Segment</span>${segSel}</div><div class="seggrp"><span class="seglbl">As of</span>${qsel}${playBtn}</div><div class="seggrp"><span class="seglbl">Labels</span>${labSel}</div></div>
-    </div>` : `<div class="ctl-collapsed dim" data-tctl="1">${ctlSummary} <span class="lnk" style="margin-left:6px">▾ change</span></div>`}
+      ${topicFilterToggle()}</div>
+    ${topicFilterBar(S, { search: true, labels: true, play: true })}
     <div class="topiccap dim">X = avg mentions/company · Y = momentum vs prior 4Q · size = # companies · colour = category · shape = stance — <b>hover a bubble</b> to see its full outlook on the right.</div>
     <div class="topicwrap2"><div class="chart" id="topicchart" style="height:560px"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
     <div class="tlgrow">${legend}</div>
