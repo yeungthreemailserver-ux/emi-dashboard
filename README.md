@@ -105,6 +105,57 @@ Then open **http://localhost:8765** — supply-chain layer navigation (L0→L5),
 and company drill-down with forward consensus. ECharts + Fira fonts are vendored under `web/vendor/`
 (fully offline). Sanity-check the data with `scripts\check_data.py`. *(The v1 Streamlit `app.py` is superseded.)*
 
+## Earnings-call topic intelligence (Signals → Topics)
+The dashboard's landing lens. One bubble per topic on a **hot (avg mentions/company) × momentum**
+map; **hover a bubble** to open a full-height right-side **outlook drawer** — executive summary,
+highlights/lowlights, a per-quarter **layer trend** (averaged) with collapsible per-company stance,
+stance-by-speaker, and key concepts.
+
+**Hybrid by design — keyword retrieves, LLM judges:**
+- **Counting is token-free** (Python regex over the verbatim transcripts): X (mentions), momentum,
+  breadth, and a lexicon sentiment trajectory. Scaling to more companies costs ~0 tokens here.
+- **LLM only for judgment**: each topic outlook is synthesized by an LLM that first marks every
+  company **substantive vs tangential/false-positive** (e.g. a financial "vehicle" ≠ automotive;
+  "China" in a list ≠ China commentary) and **excludes** the noise before writing the forward call.
+  Validated outlooks ship for `auto / hbm / capex / china`; others are counts-only until validated.
+
+### Single source of truth — `data/manifest.json`
+Company roster + transcript URLs live in `data/manifest.json` (one entry per company):
+```json
+{ "ticker": "TXN", "name": "Texas Instruments", "layer": "L3", "sublayer": "3.1",
+  "core": false, "source": "marketbeat", "mb": "NASDAQ/TXN", "urls": ["<newest>", ...] }
+```
+`core: true` = also appears in the other Signals lenses (needs hand-curated cards); `false` = topic
+bubble only. `source`: `marketbeat` (auto-discoverable) or `ir_pdf` (manual, e.g. Renesas).
+Both `build_topic_counts.py` and `load_transcripts.py` read it — **add a company = one entry**.
+
+### `scripts/refresh.py` — the incremental orchestrator (idempotent)
+```powershell
+$env:PYTHONPATH="src"
+.\.venv\Scripts\python.exe scripts\refresh.py detect    # poll MarketBeat: who has a newer report? (read-only, free)
+.\.venv\Scripts\python.exe scripts\refresh.py all       # counts -> outlooks -> bundle  (free unless LLM key set)
+# sub-steps: counts | outlooks | bundle   (e.g. refresh.py outlooks --topics auto,hbm)
+```
+A **content-hash cache** (`data/topic_outlook/.cache.json`) gates the LLM step: a topic is
+re-validated **only when its extracted input changed**. The LLM call runs **only if
+`EMI_ANTHROPIC_KEY` is set** → uses the cheap **Haiku API** (a cron, never your interactive quota);
+with no key, existing `*.synth.json` are kept and only the free layers refresh.
+
+### Daily / quarterly operations
+- **Add a company:** add one entry to `data/manifest.json` (with its 5 newest report URLs,
+  newest-first) → `refresh.py all`. It flows into counts, the bubble, and (if validated) outlooks.
+- **New quarter (end of earnings season):**
+  ```powershell
+  refresh.py detect                 # confirm most companies have reported the new quarter
+  refresh.py detect --bump 2026Q2   # prepend each new url + add the period to the manifest
+  # then fill any ir_pdf urls (e.g. Renesas 6723.T) by hand in data/manifest.json
+  $env:EMI_ANTHROPIC_KEY="sk-..."; refresh.py all   # re-count + re-validate changed topics + rebundle
+  ```
+- **Weekly watch:** a scheduled task (`~/.claude/scheduled-tasks/emi-earnings-detect/`) runs
+  `refresh.py detect` every Monday and notifies if any company has a newer report than the manifest.
+- **After any data change** bump the `?v=` query on `bundle.js`/`app.js`/`styles.css` in
+  `web/index.html` so browsers refetch (the file:// open path caches by query string).
+
 ## Known gaps (free-only) & how we patch them
 - **Non-US filers** (Samsung, SK Hynix, TSMC detail, Murata, Foxconn, Infineon) don't file
   full XBRL with SEC → captured later via IR-page ingestion / manual CSV drops (Phase 3+).
