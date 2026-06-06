@@ -337,7 +337,7 @@ def main() -> None:
     topics = {"periods": t_periods, "plot_from": t_plotfrom, "categories": TOPIC_CATS, "items": topic_items,
               "source": "real" if real else "estimated", "coverage": (real or {}).get("coverage"),
               "per_company": (real or {}).get("per_company"), "companies": TOPIC_COMPANIES,
-              "sentiment": (real or {}).get("sentiment"),
+              "sentiment": (real or {}).get("sentiment"), "quotes": (real or {}).get("quotes"),
               "segments": (real or {}).get("segments", ["all"]),
               "unit": (real or {}).get("unit", "count"), "mom_smooth": 4 if real else 20}
 

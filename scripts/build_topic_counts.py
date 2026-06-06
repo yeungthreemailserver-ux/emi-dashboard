@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from emi.config import ROOT
-from count_topics import _COMPILED, count_topics, to_body
+from count_topics import _COMPILED, _SENT, count_topics, to_body
 from count_topics import topic_sentiment
 from parse_transcript import segments
 
@@ -97,6 +97,7 @@ SEGS = ["all", "prepared", "ceo", "cfo", "q", "a"]  # speech segments (ceo/cfo =
 def main() -> None:
     per_company = {}   # ticker -> {topic: {seg: [5 raw counts]}}
     per_sent = {}      # ticker -> {topic: {seg: [5 net sentiment -1..1 / null]}}
+    quotes = {}        # ticker -> {topic: "representative management sentence"} (latest call)
     coverage = {}
     NP = len(PERIODS)
     for tk, urls in MANIFEST.items():
@@ -131,6 +132,13 @@ def main() -> None:
                 for tid in TOPIC_IDS:
                     raw[tid][sg][si] = c[tid] if c else 0
                     sent[tid][sg][si] = sc[tid] if sc else None
+            # representative MANAGEMENT quote per topic (prepared + answers; PDF -> all). Latest processed quarter wins.
+            mgmt = (texts["ceo"] + " " + texts["cfo"] + " " + texts["a"]).strip() or texts["all"]
+            msents = _SENT.split(mgmt)
+            for tid in TOPIC_IDS:
+                hits = [s.strip() for s in msents if any(rx.search(s) for rx in _COMPILED[tid])]
+                if hits:
+                    quotes.setdefault(tk, {})[tid] = max(hits, key=len)[:220]
         keep = SEGS if segmentable else ["all"]   # PDF companies expose only 'all'
         per_company[tk] = {tid: {sg: nearest_fill(raw[tid][sg]) for sg in keep} for tid in TOPIC_IDS}
         per_sent[tk] = {tid: {sg: sent[tid][sg] for sg in keep} for tid in TOPIC_IDS}  # keep nulls (no fill)
@@ -142,7 +150,7 @@ def main() -> None:
     agg = {tid: [round(sum(per_company[tk][tid]["all"][si] for tk in per_company) / n, 1) for si in range(len(PERIODS))] for tid in TOPIC_IDS}
     breadth = {tid: [sum(1 for tk in per_company if per_company[tk][tid]["all"][si] >= 1) for si in range(len(PERIODS))] for tid in TOPIC_IDS}
     out = {"periods": PERIODS, "unit": "percompany", "segments": SEGS, "series": agg, "breadth": breadth,
-           "per_company": per_company, "sentiment": per_sent, "coverage": coverage}
+           "per_company": per_company, "sentiment": per_sent, "quotes": quotes, "coverage": coverage}
     (ROOT / "data" / "topic_counts.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("\nwrote data/topic_counts.json  (avg mentions/company, segmented all/prepared/q/a)")
     for t in sorted(agg, key=lambda t: -agg[t][-1])[:6]:

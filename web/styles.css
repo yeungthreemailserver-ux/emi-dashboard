@@ -477,7 +477,7 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .ov-out-hl { font-size: 12px; color: var(--text-dim); line-height: 1.45; margin-top: 5px; }
 /* ── By-company lens ───────────────────────────────────────────────────────── */
 .cv { display: flex; flex-direction: column; }
-.cv-row { display: grid; grid-template-columns: minmax(150px, 1.5fr) repeat(5, 46px) 86px 56px; gap: 4px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border-soft); cursor: pointer; font-size: 12px; }
+.cv-row { display: grid; grid-template-columns: 230px repeat(5, 44px) 78px 48px minmax(0, 1fr); gap: 4px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border-soft); cursor: pointer; font-size: 12px; }
 .cv-row:hover { background: #f8fafc; }
 .cv-hdr { cursor: default; color: var(--text-faint); font-size: 10.5px; }
 .cv-hdr:hover { background: none; }
@@ -486,3 +486,11 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .cv-row .smx-c { height: 22px; font-size: 10px; }
 .cv-st { text-align: center; }
 .cv-m { text-align: right; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+
+.cosel { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 7px; padding: 5px 28px 5px 10px; cursor: pointer; max-width: 280px; }
+.cosel:hover { border-color: #bcd3f5; }
+.cosel:focus { outline: none; border-color: #2563eb; }
+.cv-why { font-size: 11px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 14px; }
+.cv-hdr .cv-why { color: var(--text-faint); }
+.cv-why.quote { font-style: italic; color: var(--text-faint); }
+.cv-why.llm { color: var(--text-dim); }

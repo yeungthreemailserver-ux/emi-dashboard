@@ -993,11 +993,23 @@ function sigCompanyBody(S) {
   const cau = rows.filter(r => r.latest != null && r.latest <= -0.2).sort((a, b) => a.latest - b.latest);
   const vocal = rows.slice(0, 3).map(r => r.it.label);
   const badge = v => { const m = v == null ? ['—', '#94a3b8'] : v >= 0.2 ? ['Positive', '#16a34a'] : v <= -0.2 ? ['Negative', '#dc2626'] : ['Neutral', '#d97706']; return `<span class="smx-badge" style="color:${m[1]};border-color:${m[1]}">${m[0]}</span>`; };
+  // right-side commentary = WHAT THEY SAID: LLM per-company "why" (validated) → real management quote
+  // (token-free, pulled from the transcript) → a data-derived tone phrase only as a last resort.
+  const quotes = T.quotes || {};
+  const tonePhrase = r => { const nn = r.traj.filter(v => v != null); if (nn.length <= 1) return ''; const f = nn[0], l = nn[nn.length - 1], d = l - f, fs = (f >= 0 ? '+' : '') + f.toFixed(1), ls = (l >= 0 ? '+' : '') + l.toFixed(1); return l <= -0.2 ? `turned cautious (${fs}→${ls})` : d >= 0.3 ? `tone improving (${fs}→${ls})` : d <= -0.3 ? `tone softening (${fs}→${ls})` : `steady tone (~${ls})`; };
+  const why = r => {
+    const O = topicOutlookFor(S, r.it.id), pt = (O && O.companies && O.companies[sel]) ? O.companies[sel].point : '';
+    if (pt) return { txt: pt, cls: 'llm' };
+    const q2 = (quotes[sel] || {})[r.it.id];
+    if (q2) return { txt: '“' + q2 + '”', cls: 'quote' };
+    return { txt: tonePhrase(r), cls: 'tone' };
+  };
   const row = r => {
     const cells = P.map((p, i) => { const v = r.traj[i]; if (v == null) return `<span class="smx-c miss" title="${qLabel(p)}: not mentioned"></span>`; const sc = sentCell(v); return `<span class="smx-c" style="background:${sc.bg}" title="${qLabel(p)}: ${sc.txt}">${sc.txt}</span>`; }).join('');
-    return `<div class="cv-row" data-goto="${r.it.id}"><span class="cv-lab"><span class="tdot" style="background:${catOf(r.it.cat).color}"></span>${r.it.label}</span>${cells}<span class="cv-st">${badge(r.latest)}</span><span class="cv-m">${r.mentions}×</span></div>`;
+    const w = why(r);
+    return `<div class="cv-row" data-goto="${r.it.id}"><span class="cv-lab"><span class="tdot" style="background:${catOf(r.it.cat).color}"></span>${r.it.label}</span>${cells}<span class="cv-st">${badge(r.latest)}</span><span class="cv-m">${r.mentions}×</span><span class="cv-why ${w.cls}" title="${(w.txt || '').replace(/"/g, '&quot;')}">${w.txt}</span></div>`;
   };
-  const hdr = `<div class="cv-row cv-hdr"><span class="cv-lab">topic</span>${P.map(p => `<span class="smx-c">${qLabel(p)}</span>`).join('')}<span class="cv-st">latest</span><span class="cv-m">/call</span></div>`;
+  const hdr = `<div class="cv-row cv-hdr"><span class="cv-lab">topic</span>${P.map(p => `<span class="smx-c">${qLabel(p)}</span>`).join('')}<span class="cv-st">latest</span><span class="cv-m">/call</span><span class="cv-why">commentary</span></div>`;
   const summary = `<b>${co.name}</b> raised <b>${rows.length}</b> topics this quarter — most on <b>${vocal.join(', ') || '—'}</b>. ${exc.length ? `Bullish on <b style="color:#16a34a">${exc.slice(0, 3).map(r => r.it.label).join(', ')}</b>` : ''}${cau.length ? `${exc.length ? '; ' : ''}cautious on <b style="color:#dc2626">${cau.slice(0, 3).map(r => r.it.label).join(', ')}</b>` : ''}.`;
   return `<div class="panel">
     <div class="thead-row"><h3>By company <span class="dim" style="font-weight:400;font-size:13px">— ${co.name} · ${co.layer} ${co.sublayer} · ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
