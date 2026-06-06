@@ -1,0 +1,103 @@
+# L5 — OEM / Brands, organized by END-MARKET. yfinance symbols.
+# Hyperscalers are included under Data Center as DEMAND DRIVERS (capex), not suppliers.
+layer: L5
+name: OEM by End-Market
+sublayers:
+  - id: "5.1"
+    name: Automotive / EV / Tier-1
+    companies:
+      - {name: Tesla,                    ticker: "TSLA",    region: US, end_market: auto}
+      - {name: BYD,                      ticker: "1211.HK", region: CN, end_market: auto}
+      - {name: Toyota Motor,             ticker: "7203.T",  region: JP, end_market: auto}
+      - {name: Volkswagen,               ticker: "VOW3.DE", region: DE, end_market: auto}
+      - {name: Mercedes-Benz Group,      ticker: "MBG.DE",  region: DE, end_market: auto}
+      - {name: BMW,                      ticker: "BMW.DE",  region: DE, end_market: auto}
+      - {name: Stellantis,               ticker: "STLA",    region: EU, end_market: auto}
+      - {name: Ford Motor,               ticker: "F",       region: US, end_market: auto}
+      - {name: General Motors,           ticker: "GM",      region: US, end_market: auto}
+      - {name: Hyundai Motor,            ticker: "005380.KS", region: KR, end_market: auto}
+      - {name: Li Auto,                  ticker: "LI",      region: CN, end_market: auto}
+      - {name: XPeng,                    ticker: "XPEV",    region: CN, end_market: auto}
+      - {name: NIO,                      ticker: "NIO",     region: CN, end_market: auto}
+      - {name: Rivian Automotive,        ticker: "RIVN",    region: US, end_market: auto}
+      - {name: Denso,                    ticker: "6902.T",  region: JP, end_market: auto}
+      - {name: Continental,              ticker: "CON.DE",  region: DE, end_market: auto}
+      - {name: Aptiv,                    ticker: "APTV",    region: US, end_market: auto}
+      - {name: Magna International,      ticker: "MGA",     region: CA, end_market: auto}
+      - {name: Valeo,                    ticker: "FR.PA",   region: FR, end_market: auto}
+      - {name: BorgWarner,               ticker: "BWA",     region: US, end_market: auto}
+      - {name: Mobileye,                 ticker: "MBLY",    region: IL, end_market: auto}
+      - {name: Visteon,                  ticker: "VC",      region: US, end_market: auto}
+  - id: "5.2"
+    name: Data Center / Infrastructure
+    companies:
+      - {name: Dell Technologies,        ticker: "DELL",    region: US, end_market: datacenter}
+      - {name: Hewlett Packard Enterprise, ticker: "HPE",   region: US, end_market: datacenter}
+      - {name: Super Micro Computer,     ticker: "SMCI",    region: US, end_market: datacenter}
+      - {name: Lenovo Group,             ticker: "0992.HK", region: CN, end_market: datacenter}
+      - {name: Arista Networks,          ticker: "ANET",    region: US, end_market: datacenter}
+      - {name: Vertiv Holdings,          ticker: "VRT",     region: US, end_market: datacenter}
+      - {name: Eaton,                    ticker: "ETN",     region: US, end_market: datacenter}
+      - {name: Pure Storage,             ticker: "PSTG",    region: US, end_market: datacenter}
+      - {name: NetApp,                   ticker: "NTAP",    region: US, end_market: datacenter}
+      - {name: Equinix,                  ticker: "EQIX",    region: US, end_market: datacenter}
+      - {name: Digital Realty,           ticker: "DLR",     region: US, end_market: datacenter}
+      - {name: Microsoft (hyperscaler),  ticker: "MSFT",    region: US, end_market: datacenter}
+      - {name: Amazon (hyperscaler),     ticker: "AMZN",    region: US, end_market: datacenter}
+      - {name: Alphabet (hyperscaler),   ticker: "GOOGL",   region: US, end_market: datacenter}
+      - {name: Meta Platforms (hyperscaler), ticker: "META", region: US, end_market: datacenter}
+      - {name: Oracle,                   ticker: "ORCL",    region: US, end_market: datacenter}
+      - {name: CoreWeave,                ticker: "CRWV",    region: US, end_market: datacenter}
+  - id: "5.3"
+    name: Industrial / Automation
+    companies:
+      - {name: Rockwell Automation,      ticker: "ROK",     region: US, end_market: industrial}
+      - {name: Emerson Electric,         ticker: "EMR",     region: US, end_market: industrial}
+      - {name: Honeywell,                ticker: "HON",     region: US, end_market: industrial}
+      - {name: Siemens,                  ticker: "SIE.DE",  region: DE, end_market: industrial}
+      - {name: Schneider Electric,       ticker: "SU.PA",   region: FR, end_market: industrial}
+      - {name: ABB,                      ticker: "ABBN.SW", region: CH, end_market: industrial}
+      - {name: Mitsubishi Electric,      ticker: "6503.T",  region: JP, end_market: industrial}
+      - {name: Fanuc,                    ticker: "6954.T",  region: JP, end_market: industrial}
+      - {name: Yaskawa Electric,         ticker: "6506.T",  region: JP, end_market: industrial}
+      - {name: Keyence,                  ticker: "6861.T",  region: JP, end_market: industrial}
+      - {name: Omron,                    ticker: "6645.T",  region: JP, end_market: industrial}
+      - {name: Teledyne Technologies,    ticker: "TDY",     region: US, end_market: industrial}
+      - {name: Cognex,                   ticker: "CGNX",    region: US, end_market: industrial}
+      - {name: Zebra Technologies,       ticker: "ZBRA",    region: US, end_market: industrial}
+      - {name: Trimble,                  ticker: "TRMB",    region: US, end_market: industrial}
+  - id: "5.4"
+    name: Consumer / Mobile / PC
+    companies:
+      - {name: Apple,                    ticker: "AAPL",    region: US, end_market: consumer}
+      - {name: Xiaomi,                   ticker: "1810.HK", region: CN, end_market: consumer}
+      - {name: Sony Group,               ticker: "6758.T",  region: JP, end_market: consumer}
+      - {name: LG Electronics,           ticker: "066570.KS", region: KR, end_market: consumer}
+      - {name: HP Inc,                   ticker: "HPQ",     region: US, end_market: consumer}
+      - {name: Acer,                     ticker: "2353.TW", region: TW, end_market: consumer}
+      - {name: ASUSTeK Computer,         ticker: "2357.TW", region: TW, end_market: consumer}
+      - {name: Micro-Star (MSI),         ticker: "2377.TW", region: TW, end_market: consumer}
+      - {name: Gigabyte Technology,      ticker: "2376.TW", region: TW, end_market: consumer}
+      - {name: Garmin,                   ticker: "GRMN",    region: US, end_market: consumer}
+      - {name: Logitech,                 ticker: "LOGI",    region: CH, end_market: consumer}
+      - {name: Panasonic Holdings,       ticker: "6752.T",  region: JP, end_market: consumer}
+      - {name: Sharp,                    ticker: "6753.T",  region: JP, end_market: consumer}
+      - {name: Nintendo,                 ticker: "7974.T",  region: JP, end_market: consumer}
+  - id: "5.5"
+    name: Comms / Networking / Telecom Equipment
+    companies:
+      - {name: Cisco Systems,            ticker: "CSCO",    region: US, end_market: comms}
+      - {name: Nokia,                    ticker: "NOK",     region: EU, end_market: comms}
+      - {name: Ericsson,                 ticker: "ERIC",    region: EU, end_market: comms}
+      - {name: Ciena,                    ticker: "CIEN",    region: US, end_market: comms}
+      - {name: Corning,                  ticker: "GLW",     region: US, end_market: comms}
+      - {name: CommScope,                ticker: "COMM",    region: US, end_market: comms}
+      - {name: Ubiquiti,                 ticker: "UI",      region: US, end_market: comms}
+      - {name: Calix,                    ticker: "CALX",    region: US, end_market: comms}
+      - {name: Adtran,                   ticker: "ADTN",    region: US, end_market: comms}
+      - {name: ZTE,                      ticker: "000063.SZ", region: CN, end_market: comms}
+  - id: "5.6"
+    name: Drone / Defense Electronics
+    companies:
+      - {name: AeroVironment,            ticker: "AVAV",    region: US, end_market: drone}
+      - {name: Kratos Defense,           ticker: "KTOS",    region: US, end_market: drone}

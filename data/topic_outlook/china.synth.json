@@ -1,0 +1,101 @@
+{
+  "topic": "china",
+  "as_of": "2026Q1",
+  "outlook": {
+    "direction": "stabilizing",
+    "confidence": "medium",
+    "headline": "China drag stabilizes: export-control losses absorbed, WFE flattish, autos demand mixed",
+    "summary": "China remains a headwind but the drag is stabilizing rather than worsening: AI/data-center players have largely absorbed export-control step-downs and excluded China from guidance, while equipment names see China WFE flattish and decelerating as a share of revenue. Analog/auto demand is mixed, with ADI seeing a China pickup but TXN and Renesas still soft. Trade-policy uncertainty remains the dominant unquantified risk."
+  },
+  "drivers": [
+    {
+      "label": "Export controls capped, not worsening",
+      "polarity": "mixed",
+      "detail": "AI/DC China revenue excluded from outlook; losses absorbed within guidance",
+      "companies": ["NVDA", "AMD", "ASML.AS"]
+    },
+    {
+      "label": "China WFE flattish, share declining",
+      "polarity": "neg",
+      "detail": "China spending flat-to-slightly-up, grows slower than overall WFE",
+      "companies": ["LRCX", "KLAC", "AMAT"]
+    },
+    {
+      "label": "Auto/analog China demand mixed",
+      "polarity": "mixed",
+      "detail": "ADI sees China pickup; TXN and Renesas China still soft/choppy",
+      "companies": ["ADI", "TXN", "6723.T"]
+    },
+    {
+      "label": "China localization and EV/ADAS penetration",
+      "polarity": "pos",
+      "detail": "Rising China EV/ADAS adoption supports BMS and L3 content growth",
+      "companies": ["ADI"]
+    }
+  ],
+  "risks": [
+    "Further export-control tightening reopens AI/DC China revenue losses",
+    "China WFE underperforms as domestic capex decelerates vs global",
+    "Auto/industrial demand in China stays choppy or weakens",
+    "Trade-policy impacts excluded from guidance could surprise to downside"
+  ],
+  "companies": {
+    "NVDA": {
+      "stance": "neutral",
+      "trend": "flat",
+      "point": "H200 licenses approved but no revenue; China DC compute excluded from outlook"
+    },
+    "AMD": {
+      "stance": "neutral",
+      "trend": "improving",
+      "point": "DC AI down modestly on China transition; China now immaterial to revenue"
+    },
+    "ASML.AS": {
+      "stance": "neutral",
+      "trend": "flat",
+      "point": "Can accommodate export-control outcomes within EUR36-40B guidance"
+    },
+    "LRCX": {
+      "stance": "neutral",
+      "trend": "worsening",
+      "point": "China 34% and declining; WFE flattish YoY as multinationals broaden"
+    },
+    "KLAC": {
+      "stance": "neutral",
+      "trend": "flat",
+      "point": "China spending flat-to-slightly-up; grows slower than overall WFE"
+    },
+    "AMAT": {
+      "stance": "neutral",
+      "trend": "flat",
+      "point": "China 24% of systems+AGS; business and ICAPS flat-to-slightly-higher in CY"
+    },
+    "ADI": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Material China pickup drove Q2 upside; EV/ADAS penetration boosts content"
+    },
+    "TXN": {
+      "stance": "neutral",
+      "trend": "flat",
+      "point": "China down seasonally in Q1; autos choppy amid geopolitical tension"
+    },
+    "6723.T": {
+      "stance": "negative",
+      "trend": "improving",
+      "point": "China customers' production and sales materially affecting results"
+    }
+  },
+  "consensus": "aligned",
+  "consensus_note": "Broad agreement China is a headwind that is stabilizing; difference is degree, not direction",
+  "excluded": [
+    {
+      "ticker": "AVT",
+      "reason": "Only a CEO travelogue (visited China) plus boilerplate geopolitical-monitoring; no demand/policy point"
+    },
+    {
+      "ticker": "MU",
+      "reason": "Single boilerplate disclaimer that trade/geopolitical impacts are not in guidance; no China-specific commentary"
+    }
+  ]
+}

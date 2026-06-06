@@ -1,0 +1,40 @@
+# Data-quality flags — companies whose CONSOLIDATED revenue overstates their
+# supply-chain layer, because the reported figure spans multiple layers or is
+# dominated by non-electronics businesses. yfinance/EDGAR give only consolidated
+# revenue (no free, reliable segment split), so we FLAG these names rather than
+# silently mis-attributing them. In the dashboard they get a ⚠ badge and can be
+# removed from layer subtotals via  Exclude ▸ Conglomerates / proxies.
+#
+# ticker: short note shown on hover (English — dashboard stays 100% English)
+conglomerate:
+  # --- genuine cross-layer conglomerates (semiconductor + much else) ---
+  "6758.T":    "Semiconductors = image sensors only; majority is Gaming, Pictures, Music and Financial services."
+  "SIE.DE":    "Industrial conglomerate (automation, mobility, smart infrastructure); limited semiconductor content."
+  "6501.T":    "Hitachi — industrial/IT conglomerate; electronics is a minority of revenue."
+
+  # --- L5 'Data Center' names: total revenue is mostly cloud/ads/retail, not hardware ---
+  "AMZN":  "Total revenue is mostly retail + AWS services; data-center hardware is a small fraction."
+  "GOOGL": "Total revenue is mostly advertising; data-center hardware is a small fraction."
+  "MSFT":  "Total revenue is mostly software + cloud; data-center hardware is a small fraction."
+  "META":  "Total revenue is advertising; data-center hardware is a small fraction."
+  "ORCL":  "Total revenue is mostly software + cloud; data-center hardware is a small fraction."
+
+  # --- L5 'Automotive' names: whole-vehicle revenue, semis are a small slice of BoM ---
+  "VOW3.DE":  "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "7203.T":   "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "MBG.DE":   "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "BMW.DE":   "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "STLA":     "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "GM":       "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "F":        "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "005380.KS": "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "TSLA":     "Whole-vehicle revenue; semiconductor content is a small fraction of the bill of materials."
+  "1211.HK":  "Whole-vehicle + battery revenue; semiconductor content is a small fraction of the bill of materials."
+
+# Strategic PRIVATE companies with NO public listing — quarterly revenue shown is a PUBLIC
+# INDUSTRY ESTIMATE (TrendForce / Omdia / DigiTimes / Reuters), not reported financials.
+# Loaded via scripts/load_private.py. Shown with a blue "EST" badge.
+private_estimate:
+  "CXMT":      "PRIVATE — China's #1 / world #4 DRAM maker. Revenue is a public industry estimate; CXMT has filed for a Shanghai STAR Market IPO (~$4.2B)."
+  "YMTC":      "PRIVATE — China's leading 3D-NAND maker. Revenue is a public industry estimate; not yet listed."
+  "HISILICON": "PRIVATE — Huawei's fabless arm (Kirin / Ascend AI). Revenue is a public industry estimate; will not list (Huawei subsidiary)."

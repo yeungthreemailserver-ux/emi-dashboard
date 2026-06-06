@@ -1,0 +1,107 @@
+# L3 — Component Manufacturers. yfinance symbols (local listings preferred).
+layer: L3
+name: Component Manufacturers
+sublayers:
+  - id: "3.1"
+    name: Analog / Power / Discrete / MCU
+    companies:
+      - {name: Texas Instruments,        ticker: "TXN",     region: US}
+      - {name: Analog Devices,           ticker: "ADI",     region: US}
+      - {name: Infineon Technologies,    ticker: "IFX.DE",  region: DE}
+      - {name: STMicroelectronics,       ticker: "STM",     region: EU}
+      - {name: NXP Semiconductors,       ticker: "NXPI",    region: NL}
+      - {name: Microchip Technology,     ticker: "MCHP",    region: US}
+      - {name: ON Semiconductor,         ticker: "ON",      region: US}
+      - {name: Renesas Electronics,      ticker: "6723.T",  region: JP}
+      - {name: Rohm,                     ticker: "6963.T",  region: JP}
+      - {name: Nuvoton Technology,       ticker: "4919.TW", region: TW}
+      - {name: Vishay Intertechnology,   ticker: "VSH",     region: US}
+      - {name: Diodes Incorporated,      ticker: "DIOD",    region: US}
+      - {name: Power Integrations,       ticker: "POWI",    region: US}
+      - {name: Monolithic Power Systems, ticker: "MPWR",    region: US}
+      - {name: Allegro MicroSystems,     ticker: "ALGM",    region: US}
+      - {name: Wolfspeed,                ticker: "WOLF",    region: US}
+      - {name: Navitas Semiconductor,    ticker: "NVTS",    region: US}
+      - {name: Silicon Laboratories,     ticker: "SLAB",    region: US}
+      - {name: Semtech,                  ticker: "SMTC",    region: US}
+      - {name: MaxLinear,                ticker: "MXL",     region: US}
+      - {name: Lattice Semiconductor,    ticker: "LSCC",    region: US}
+      - {name: Cirrus Logic,             ticker: "CRUS",    region: US}
+      - {name: Synaptics,                ticker: "SYNA",    region: US}
+      - {name: ams-OSRAM,                ticker: "AMS.SW",  region: CH}
+      - {name: Melexis,                  ticker: "MELE.BR", region: BE}
+      - {name: u-blox,                   ticker: "UBXN.SW", region: CH}
+      - {name: Nordic Semiconductor,     ticker: "NOD.OL",  region: "NO"}
+      - {name: GigaDevice Semiconductor, ticker: "603986.SS", region: CN}
+      - {name: Will Semiconductor,       ticker: "603501.SS", region: CN}
+      - {name: SG Micro,                 ticker: "300661.SZ", region: CN}
+      - {name: Silergy,                  ticker: "6415.TW", region: TW}
+      - {name: Skyworks Solutions,       ticker: "SWKS",    region: US}
+      - {name: Qorvo,                    ticker: "QRVO",    region: US}
+      - {name: MACOM Technology,         ticker: "MTSI",    region: US}
+      - {name: SiTime,                   ticker: "SITM",    region: US}
+      - {name: Alpha & Omega Semi,       ticker: "AOSL",    region: US}
+      - {name: indie Semiconductor,      ticker: "INDI",    region: US}
+      - {name: Hangzhou Silan Micro,     ticker: "600460.SS", region: CN}
+      - {name: StarPower Semiconductor,  ticker: "603290.SS", region: CN}
+      - {name: 3Peak,                    ticker: "688536.SS", region: CN}
+      - {name: Wingtech Technology,      ticker: "600745.SS", region: CN}
+  - id: "3.2"
+    name: Core Compute & Logic
+    companies:
+      - {name: NVIDIA,                   ticker: "NVDA",    region: US}
+      - {name: AMD,                      ticker: "AMD",     region: US}
+      - {name: Intel,                    ticker: "INTC",    region: US}
+      - {name: Qualcomm,                 ticker: "QCOM",    region: US}
+      - {name: Broadcom,                 ticker: "AVGO",    region: US}
+      - {name: Marvell Technology,       ticker: "MRVL",    region: US}
+      - {name: MediaTek,                 ticker: "2454.TW", region: TW}
+      - {name: Realtek Semiconductor,    ticker: "2379.TW", region: TW}
+      - {name: Novatek Microelectronics, ticker: "3034.TW", region: TW}
+      - {name: Ambarella,                ticker: "AMBA",    region: US}
+      - {name: Credo Technology,         ticker: "CRDO",    region: US}
+      - {name: Astera Labs,              ticker: "ALAB",    region: US}
+      - {name: Rambus,                   ticker: "RMBS",    region: US}
+      - {name: Cambricon Technologies,   ticker: "688256.SS", region: CN}
+      - {name: Hygon Information Tech,   ticker: "688041.SS", region: CN}
+      - {name: Loongson Technology,      ticker: "688047.SS", region: CN}
+      - {name: Himax Technologies,       ticker: "HIMX",    region: TW}
+      - {name: Alchip Technologies,      ticker: "3661.TW", region: TW}
+      - {name: Global Unichip,           ticker: "3443.TW", region: TW}
+  - id: "3.3"
+    name: Interconnect / Passive / Electromechanical (IP&E)
+    companies:
+      - {name: TE Connectivity,          ticker: "TEL",     region: US}
+      - {name: Amphenol,                 ticker: "APH",     region: US}
+      - {name: Murata Manufacturing,     ticker: "6981.T",  region: JP}
+      - {name: TDK,                      ticker: "6762.T",  region: JP}
+      - {name: Yageo,                    ticker: "2327.TW", region: TW}
+      - {name: Littelfuse,               ticker: "LFUS",    region: US}
+      - {name: Bel Fuse,                 ticker: "BELFB",   region: US}
+      - {name: Samsung Electro-Mechanics, ticker: "009150.KS", region: KR}
+      - {name: Taiyo Yuden,              ticker: "6976.T",  region: JP}
+      - {name: Nidec,                    ticker: "6594.T",  region: JP}
+      - {name: Hirose Electric,          ticker: "6806.T",  region: JP}
+      - {name: Kyocera,                  ticker: "6971.T",  region: JP}
+      - {name: Delta Electronics,        ticker: "2308.TW", region: TW}
+      - {name: Walsin Technology,        ticker: "2492.TW", region: TW}
+      - {name: Sunlord Electronics,      ticker: "002138.SZ", region: CN}
+      - {name: CTS Corporation,          ticker: "CTS",     region: US}
+      - {name: Methode Electronics,      ticker: "MEI",     region: US}
+      - {name: Fenghua Advanced Tech,    ticker: "000636.SZ", region: CN}
+  - id: "3.4"
+    name: Memory & Storage
+    companies:
+      - {name: Micron Technology,        ticker: "MU",      region: US}
+      - {name: Samsung Electronics,      ticker: "005930.KS", region: KR}
+      - {name: SK hynix,                 ticker: "000660.KS", region: KR}
+      - {name: Kioxia Holdings,          ticker: "285A.T",  region: JP}
+      - {name: Western Digital,          ticker: "WDC",     region: US}
+      - {name: Seagate Technology,       ticker: "STX",     region: US}
+      - {name: SanDisk,                  ticker: "SNDK",    region: US}
+      - {name: Nanya Technology,         ticker: "2408.TW", region: TW}
+      - {name: Winbond Electronics,      ticker: "2344.TW", region: TW}
+      - {name: Macronix International,   ticker: "2337.TW", region: TW}
+      - {name: Silicon Motion,           ticker: "SIMO",    region: TW}
+      - {name: Phison Electronics,       ticker: "8299.TWO", region: TW}
+      - {name: ADATA Technology,         ticker: "3260.TW", region: TW}

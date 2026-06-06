@@ -1,0 +1,680 @@
+{
+ "topic": "china",
+ "as_of": "2026Q1",
+ "outlook": {
+  "direction": "stabilizing",
+  "confidence": "medium",
+  "headline": "China drag stabilizes: export-control losses absorbed, WFE flattish, autos demand mixed",
+  "summary": "China remains a headwind but the drag is stabilizing rather than worsening: AI/data-center players have largely absorbed export-control step-downs and excluded China from guidance, while equipment names see China WFE flattish and decelerating as a share of revenue. Analog/auto demand is mixed, with ADI seeing a China pickup but TXN and Renesas still soft. Trade-policy uncertainty remains the dominant unquantified risk."
+ },
+ "drivers": [
+  {
+   "label": "Export controls capped, not worsening",
+   "polarity": "mixed",
+   "detail": "AI/DC China revenue excluded from outlook; losses absorbed within guidance",
+   "companies": [
+    "NVDA",
+    "AMD",
+    "ASML.AS"
+   ]
+  },
+  {
+   "label": "China WFE flattish, share declining",
+   "polarity": "neg",
+   "detail": "China spending flat-to-slightly-up, grows slower than overall WFE",
+   "companies": [
+    "LRCX",
+    "KLAC",
+    "AMAT"
+   ]
+  },
+  {
+   "label": "Auto/analog China demand mixed",
+   "polarity": "mixed",
+   "detail": "ADI sees China pickup; TXN and Renesas China still soft/choppy",
+   "companies": [
+    "ADI",
+    "TXN",
+    "6723.T"
+   ]
+  },
+  {
+   "label": "China localization and EV/ADAS penetration",
+   "polarity": "pos",
+   "detail": "Rising China EV/ADAS adoption supports BMS and L3 content growth",
+   "companies": [
+    "ADI"
+   ]
+  }
+ ],
+ "risks": [
+  "Further export-control tightening reopens AI/DC China revenue losses",
+  "China WFE underperforms as domestic capex decelerates vs global",
+  "Auto/industrial demand in China stays choppy or weakens",
+  "Trade-policy impacts excluded from guidance could surprise to downside"
+ ],
+ "companies": {
+  "NVDA": {
+   "stance": "neutral",
+   "trend": "flat",
+   "point": "H200 licenses approved but no revenue; China DC compute excluded from outlook"
+  },
+  "AMD": {
+   "stance": "neutral",
+   "trend": "improving",
+   "point": "DC AI down modestly on China transition; China now immaterial to revenue"
+  },
+  "ASML.AS": {
+   "stance": "neutral",
+   "trend": "flat",
+   "point": "Can accommodate export-control outcomes within EUR36-40B guidance"
+  },
+  "LRCX": {
+   "stance": "neutral",
+   "trend": "worsening",
+   "point": "China 34% and declining; WFE flattish YoY as multinationals broaden"
+  },
+  "KLAC": {
+   "stance": "neutral",
+   "trend": "flat",
+   "point": "China spending flat-to-slightly-up; grows slower than overall WFE"
+  },
+  "AMAT": {
+   "stance": "neutral",
+   "trend": "flat",
+   "point": "China 24% of systems+AGS; business and ICAPS flat-to-slightly-higher in CY"
+  },
+  "ADI": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Material China pickup drove Q2 upside; EV/ADAS penetration boosts content"
+  },
+  "TXN": {
+   "stance": "neutral",
+   "trend": "flat",
+   "point": "China down seasonally in Q1; autos choppy amid geopolitical tension"
+  },
+  "6723.T": {
+   "stance": "negative",
+   "trend": "improving",
+   "point": "China customers' production and sales materially affecting results"
+  }
+ },
+ "consensus": "aligned",
+ "consensus_note": "Broad agreement China is a headwind that is stabilizing; difference is degree, not direction",
+ "excluded": [
+  {
+   "ticker": "AVT",
+   "reason": "Only a CEO travelogue (visited China) plus boilerplate geopolitical-monitoring; no demand/policy point"
+  },
+  {
+   "ticker": "MU",
+   "reason": "Single boilerplate disclaimer that trade/geopolitical impacts are not in guidance; no China-specific commentary"
+  }
+ ],
+ "evidence": {
+  "ADI": [
+   {
+    "seg": "ceo",
+    "t": "Despite the quarter's heightened geopolitical tensions and ongoing macroeconomic challenges, we're currently seeing record demand for our products and solutions."
+   },
+   {
+    "seg": "cfo",
+    "t": "While we remain mindful of the dynamic macro and geopolitical environment, we believe we are well-positioned to continue executing against both cyclical and secular opportunities."
+   },
+   {
+    "seg": "a",
+    "t": "Led by a material pickup in China during the back part of the quarter, and that drove a significant part of our Q2 upside."
+   }
+  ],
+  "AMAT": [
+   {
+    "seg": "cfo",
+    "t": "China represented 24% of our Semiconductor Systems plus AGS revenue."
+   },
+   {
+    "seg": "cfo",
+    "t": "We expect our business in China and our ICAPS business worldwide to be flat to slightly higher in the calendar year."
+   },
+   {
+    "seg": "q",
+    "t": "As a quick follow-up, just on the gross margin side, you know, great guide with, I'm assuming, depressed China."
+   }
+  ],
+  "AMD": [
+   {
+    "seg": "a",
+    "t": "The data center AI was actually down modestly because of the China transition."
+   },
+   {
+    "seg": "a",
+    "t": "We had more China revenue sequentially, more China revenue in Q4, and it was less in Q1."
+   },
+   {
+    "seg": "a",
+    "t": "I think if you look at the Q1, we did mention data center AI was down modest base up sequentially, primarily due to lower China revenue in the quarter."
+   }
+  ],
+  "ASML.AS": [
+   {
+    "seg": "a",
+    "t": "I would say that within the guidance that we provided, the EUR 36 billion-EUR 40 billion, we believe we can accommodate potential outcomes of the export control discussions that are currently ongoing."
+   }
+  ],
+  "KLAC": [
+   {
+    "seg": "a",
+    "t": "Yeah, I think when you look at China overall, it's playing out more or less consistent with the way we've talked about it."
+   },
+   {
+    "seg": "a",
+    "t": "I think if you look at overall spending in China, it's, you know, more or less flat, maybe a little bit up."
+   },
+   {
+    "seg": "a",
+    "t": "I would expect that the China growth rate is probably lower than where the overall WFE growth rate is projected to be here moving forward."
+   }
+  ],
+  "LRCX": [
+   {
+    "seg": "cfo",
+    "t": "China came in at 34%, which was a slight decrease from the prior quarter level of 35%."
+   },
+   {
+    "seg": "cfo",
+    "t": "We expect that China revenue in the June quarter will decline from these levels."
+   },
+   {
+    "seg": "a",
+    "t": "I think WFE in China is flattish year-over-year from 2025 - 2026."
+   }
+  ],
+  "NVDA": [
+   {
+    "seg": "cfo",
+    "t": "government has approved licenses for H200 to be shipped to China-based customers, we have yet to generate any revenue."
+   },
+   {
+    "seg": "cfo",
+    "t": "As a result, consistent with last quarter, we are not including any China data center compute revenue in our outlook."
+   },
+   {
+    "seg": "q",
+    "t": "Your Data Center business, ex-China, grew about 120% in the quarter, and then you're guiding about 100%."
+   }
+  ],
+  "TXN": [
+   {
+    "seg": "a",
+    "t": "It's always the same in Q1 in China."
+   },
+   {
+    "seg": "a",
+    "t": "China was down, the rest of the world was up."
+   },
+   {
+    "seg": "a",
+    "t": "All of them, not only the data center related, the energy infrastructure or power delivery, not only aerospace and defense, and we know the geopolitical tensions in the market is establishing new peaks every quarter."
+   }
+  ],
+  "6723.T": [
+   {
+    "seg": "all",
+    "t": "But in particular, because China is large, especially some customers \nin China, their production and sales are affecting our results."
+   }
+  ]
+ },
+ "matrix": {
+  "periods": [
+   "2025Q1",
+   "2025Q2",
+   "2025Q3",
+   "2025Q4",
+   "2026Q1"
+  ],
+  "companies": {
+   "ADI": {
+    "traj": [
+     0.5,
+     0.45,
+     0.33,
+     0.0,
+     0.33
+    ],
+    "sent": {
+     "all": [
+      0.5,
+      0.45,
+      0.33,
+      0.0,
+      0.33
+     ],
+     "prepared": [
+      0.5,
+      0.45,
+      0.5,
+      1.0,
+      0.0
+     ],
+     "ceo": [
+      0.0,
+      null,
+      0.5,
+      1.0,
+      0.0
+     ],
+     "cfo": [
+      1.0,
+      null,
+      0.5,
+      null,
+      0.0
+     ],
+     "q": [
+      0.0,
+      null,
+      null,
+      null,
+      null
+     ],
+     "a": [
+      1.0,
+      null,
+      0.0,
+      -0.5,
+      0.47
+     ]
+    }
+   },
+   "AMAT": {
+    "traj": [
+     0.1,
+     -0.12,
+     0.1,
+     -0.18,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.1,
+      -0.12,
+      0.1,
+      -0.18,
+      0.0
+     ],
+     "prepared": [
+      0.0,
+      -0.12,
+      0.12,
+      -0.33,
+      0.0
+     ],
+     "ceo": [
+      0.0,
+      null,
+      0.0,
+      0.0,
+      null
+     ],
+     "cfo": [
+      null,
+      null,
+      0.25,
+      -0.5,
+      0.0
+     ],
+     "q": [
+      0.0,
+      null,
+      0.31,
+      0.0,
+      0.0
+     ],
+     "a": [
+      0.22,
+      null,
+      -0.05,
+      -0.25,
+      null
+     ]
+    }
+   },
+   "AMD": {
+    "traj": [
+     0.0,
+     0.13,
+     0.0,
+     0.09,
+     0.22
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      0.13,
+      0.0,
+      0.09,
+      0.22
+     ],
+     "prepared": [
+      0.0,
+      0.13,
+      0.0,
+      0.25,
+      null
+     ],
+     "ceo": [
+      0.0,
+      null,
+      null,
+      0.0,
+      null
+     ],
+     "cfo": [
+      0.0,
+      null,
+      0.0,
+      0.33,
+      null
+     ],
+     "q": [
+      0.0,
+      null,
+      null,
+      -0.5,
+      0.5
+     ],
+     "a": [
+      0.0,
+      null,
+      null,
+      0.2,
+      0.0
+     ]
+    }
+   },
+   "ASML.AS": {
+    "traj": [
+     0.0,
+     null,
+     -0.67,
+     null,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      null,
+      -0.67,
+      null,
+      0.0
+     ],
+     "prepared": [
+      0.0,
+      null,
+      -0.67,
+      null,
+      null
+     ],
+     "ceo": [
+      0.0,
+      null,
+      -0.67,
+      null,
+      null
+     ],
+     "cfo": [
+      0.0,
+      null,
+      null,
+      null,
+      null
+     ],
+     "q": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "a": [
+      null,
+      null,
+      null,
+      null,
+      0.0
+     ]
+    }
+   },
+   "KLAC": {
+    "traj": [
+     -0.08,
+     0.14,
+     0.02,
+     0.21,
+     0.1
+    ],
+    "sent": {
+     "all": [
+      -0.08,
+      0.14,
+      0.02,
+      0.21,
+      0.1
+     ],
+     "prepared": [
+      1.0,
+      0.5,
+      0.5,
+      null,
+      null
+     ],
+     "ceo": [
+      1.0,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      1.0,
+      0.5,
+      0.5,
+      null,
+      null
+     ],
+     "q": [
+      -0.25,
+      0.14,
+      0.0,
+      0.43,
+      0.0
+     ],
+     "a": [
+      -0.33,
+      0.04,
+      -0.07,
+      0.0,
+      0.2
+     ]
+    }
+   },
+   "LRCX": {
+    "traj": [
+     0.0,
+     0.17,
+     0.02,
+     0.24,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      0.17,
+      0.02,
+      0.24,
+      0.0
+     ],
+     "prepared": [
+      0.25,
+      0.2,
+      0.06,
+      0.0,
+      -0.5
+     ],
+     "ceo": [
+      null,
+      0.0,
+      0.5,
+      null,
+      null
+     ],
+     "cfo": [
+      0.25,
+      0.33,
+      -0.17,
+      0.0,
+      -0.5
+     ],
+     "q": [
+      -0.1,
+      0.1,
+      -0.18,
+      0.1,
+      0.0
+     ],
+     "a": [
+      0.0,
+      0.3,
+      0.29,
+      0.6,
+      0.2
+     ]
+    }
+   },
+   "NVDA": {
+    "traj": [
+     0.03,
+     -0.08,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.03,
+      -0.08,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "prepared": [
+      0.0,
+      -0.08,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "ceo": [
+      0.0,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      0.0,
+      null,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "q": [
+      0.14,
+      null,
+      null,
+      null,
+      0.0
+     ],
+     "a": [
+      0.0,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   "TXN": {
+    "traj": [
+     0.04,
+     -0.01,
+     0.0,
+     0.0,
+     0.17
+    ],
+    "sent": {
+     "all": [
+      0.04,
+      -0.01,
+      0.0,
+      0.0,
+      0.17
+     ],
+     "prepared": [
+      -0.33,
+      0.0,
+      null,
+      null,
+      null
+     ],
+     "ceo": [
+      -0.33,
+      0.0,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "q": [
+      0.0,
+      0.08,
+      0.0,
+      0.0,
+      1.0
+     ],
+     "a": [
+      0.12,
+      -0.06,
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "6723.T": {
+    "traj": [
+     0.25,
+     0.0,
+     -0.17,
+     -0.4,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.25,
+      0.0,
+      -0.17,
+      -0.4,
+      0.0
+     ]
+    }
+   }
+  }
+ }
+}

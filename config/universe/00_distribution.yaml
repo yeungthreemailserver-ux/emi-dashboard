@@ -1,0 +1,14 @@
+# L0 — Distribution (channel; a leading indicator via book-to-bill & inventory). yfinance symbols.
+layer: L0
+name: Distribution (Channel)
+sublayers:
+  - id: "0"
+    name: Component Distribution
+    companies:
+      - {name: Arrow Electronics,        ticker: "ARW",     region: US}
+      - {name: Avnet,                    ticker: "AVT",     region: US}
+      - {name: WT Microelectronics,      ticker: "3036.TW", region: TW}
+      - {name: WPG Holdings,             ticker: "3702.TW", region: TW}
+      - {name: Macnica Holdings,         ticker: "3132.T",  region: JP}
+      - {name: Restar Holdings,          ticker: "3156.T",  region: JP}
+      - {name: Weikeng Industrial,       ticker: "3033.TW", region: TW}

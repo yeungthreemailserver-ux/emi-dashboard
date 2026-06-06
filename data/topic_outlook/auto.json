@@ -1,0 +1,415 @@
+{
+ "topic": "auto",
+ "as_of": "2026Q1",
+ "outlook": {
+  "direction": "improving",
+  "confidence": "medium",
+  "headline": "Automotive semis inflecting up as destocking ends and ADAS content secular growth reaccelerates",
+  "summary": "After a 2025 trough, automotive demand turned stronger-than-expected in 2026Q1, with ADI and Renesas posting record auto results amid restocking and Micron citing improving pricing. Durable secular drivers (L2+/L4 ADAS, rising silicon content per vehicle) underpin the recovery, though TSMC's auto revenue still fell 7% sequentially and TI stayed near-term cautious."
+ },
+ "drivers": [
+  {
+   "label": "ADAS / autonomy memory & content",
+   "polarity": "pos",
+   "detail": "L2+ ADAS scaling fast; L4 needs ~300GB DRAM vs ~16GB today, driving content growth",
+   "companies": [
+    "MU",
+    "TXN"
+   ]
+  },
+  {
+   "label": "Inventory normalization / restocking",
+   "polarity": "pos",
+   "detail": "Destocking ending; channel rebuild and short-delivery demand lifting orders above expectations",
+   "companies": [
+    "ADI",
+    "6723.T"
+   ]
+  },
+  {
+   "label": "Stronger-than-expected demand",
+   "polarity": "pos",
+   "detail": "Record auto quarters and upside vs guide across Europe, Japan and Japanese OEMs",
+   "companies": [
+    "ADI",
+    "6723.T"
+   ]
+  },
+  {
+   "label": "Rising silicon content per vehicle",
+   "polarity": "pos",
+   "detail": "More content across BEV/ICE/hybrid powertrains; secular per-car growth seen continuing",
+   "companies": [
+    "TXN",
+    "MU"
+   ]
+  },
+  {
+   "label": "Pricing & mature-node auto capacity",
+   "polarity": "pos",
+   "detail": "Continued auto pricing improvement; new mature-node fab (ESMC Germany) built for automotive",
+   "companies": [
+    "MU",
+    "2330.TW"
+   ]
+  }
+ ],
+ "risks": [
+  "China automotive still declining quarter-over-quarter, dragging the regional recovery",
+  "Recovery partly restocking-driven; demand could fade once channels refill",
+  "TI stays cautious, wanting another quarter to confirm auto's trajectory",
+  "TSMC auto revenue still down 7% QoQ and only 4% of sales"
+ ],
+ "companies": {
+  "2330.TW": {
+   "stance": "neutral",
+   "trend": "worsening",
+   "point": "Auto -7% QoQ and just 4% of revenue, but building ESMC Germany mature-node capacity for automotive"
+  },
+  "ADI": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Record auto quarter, up 8% sequentially; guides above-seasonal growth, sees 2026 auto growth"
+  },
+  "MU": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Record AEBU >$2.7B; ADAS deployment accelerating, pricing improving, robust long-term auto memory growth"
+  },
+  "TXN": {
+   "stance": "positive",
+   "trend": "flat",
+   "point": "Auto up mid-single-digits YoY, flat sequentially; secular content growth continues but stays near-term cautious"
+  },
+  "6723.T": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Auto demand stronger than expected with sell-in/sell-through upside; building channel inventory for rising demand"
+  }
+ },
+ "consensus": "mixed",
+ "consensus_note": "Agreement on secular ADAS/content growth and a 2026Q1 upturn; split on near-term durability, China, and lagging TSMC",
+ "excluded": [
+  {
+   "ticker": "AVGO",
+   "reason": "Only match is a financial 'vehicle' to fund chips for LLM players, not automotive"
+  },
+  {
+   "ticker": "NVDA",
+   "reason": "Automotive/autonomous vehicles appear only inside lists of edge/physical-AI devices; no substantive auto commentary"
+  }
+ ],
+ "evidence": {
+  "2330.TW": [
+   {
+    "seg": "ceo",
+    "t": "Thus, we are now executing a global capacity plan to support the robust multi-year pipeline of demand for 3 nm technologies, which are used by smartphone, HPC AI, including HBM-based ASICs, automotive and IoT customers."
+   },
+   {
+    "seg": "ceo",
+    "t": "For example, we are increasing our mature node capacity, such as in JASM Fab 1 in Japan for CMOS image sensor application, and ESMC in Germany for automotive and industrial applications."
+   },
+   {
+    "seg": "cfo",
+    "t": "Automotive decreased 7% and accounted for 4%, and DCE increased 28% to account for 1%."
+   }
+  ],
+  "ADI": [
+   {
+    "seg": "cfo",
+    "t": "Automotive represented 24% of revenue, finishing up 8% sequentially and 2% year-over-year."
+   },
+   {
+    "seg": "cfo",
+    "t": "We continue to see constructive demand signals in our order book and backlog, particularly in industrial, AI-related applications, and automotive."
+   },
+   {
+    "seg": "a",
+    "t": "We saw upside everywhere else, notably in auto and data center."
+   }
+  ],
+  "MU": [
+   {
+    "seg": "ceo",
+    "t": "We saw continued pricing improvement across automotive, industrial, and embedded markets."
+   },
+   {
+    "seg": "ceo",
+    "t": "Total AEBU revenue reached a record, with automotive and industrial revenue together exceeding $2 billion in the quarter."
+   },
+   {
+    "seg": "ceo",
+    "t": "In automotive, OEMs are deploying level 2+ ADAS across their fleets at an accelerating pace."
+   }
+  ],
+  "TXN": [
+   {
+    "seg": "ceo",
+    "t": "Automotive increased mid-single digits year-on-year and was about flat sequentially."
+   },
+   {
+    "seg": "a",
+    "t": "I think I can help you a little bit on the automotive side."
+   },
+   {
+    "seg": "a",
+    "t": "Regarding automotive, you're right that Q1 was."
+   }
+  ],
+  "6723.T": [
+   {
+    "seg": "all",
+    "t": "Automotive demand was also stronger than expected."
+   },
+   {
+    "seg": "all",
+    "t": "Automotive results were therefore strong."
+   },
+   {
+    "seg": "all",
+    "t": "As for segments other than automotive, Data center AI may be attracting much attention."
+   }
+  ]
+ },
+ "matrix": {
+  "periods": [
+   "2025Q1",
+   "2025Q2",
+   "2025Q3",
+   "2025Q4",
+   "2026Q1"
+  ],
+  "companies": {
+   "2330.TW": {
+    "traj": [
+     0.0,
+     0.0,
+     0.0,
+     0.25,
+     0.33
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      0.0,
+      0.0,
+      0.25,
+      0.33
+     ],
+     "prepared": [
+      0.0,
+      0.0,
+      0.0,
+      0.25,
+      0.33
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      1.0,
+      0.5
+     ],
+     "cfo": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "q": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "a": [
+      null,
+      0.0,
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   "ADI": {
+    "traj": [
+     0.26,
+     0.32,
+     0.18,
+     -0.49,
+     0.54
+    ],
+    "sent": {
+     "all": [
+      0.26,
+      0.32,
+      0.18,
+      -0.49,
+      0.54
+     ],
+     "prepared": [
+      0.17,
+      0.32,
+      0.33,
+      0.0,
+      0.0
+     ],
+     "ceo": [
+      0.0,
+      null,
+      1.0,
+      null,
+      null
+     ],
+     "cfo": [
+      0.25,
+      null,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "q": [
+      0.0,
+      null,
+      -1.0,
+      -1.0,
+      0.5
+     ],
+     "a": [
+      0.33,
+      null,
+      0.29,
+      -0.48,
+      0.67
+     ]
+    }
+   },
+   "MU": {
+    "traj": [
+     0.12,
+     0.6,
+     0.5,
+     0.83,
+     0.62
+    ],
+    "sent": {
+     "all": [
+      0.12,
+      0.6,
+      0.5,
+      0.83,
+      0.62
+     ],
+     "prepared": [
+      0.17,
+      0.5,
+      0.5,
+      0.83,
+      0.71
+     ],
+     "ceo": [
+      0.0,
+      0.5,
+      0.67,
+      0.8,
+      0.67
+     ],
+     "cfo": [
+      1.0,
+      null,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "q": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "a": [
+      0.0,
+      1.0,
+      0.5,
+      null,
+      0.0
+     ]
+    }
+   },
+   "TXN": {
+    "traj": [
+     0.33,
+     0.12,
+     0.33,
+     0.05,
+     0.21
+    ],
+    "sent": {
+     "all": [
+      0.33,
+      0.12,
+      0.33,
+      0.05,
+      0.21
+     ],
+     "prepared": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "ceo": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     "cfo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "q": [
+      1.0,
+      0.11,
+      0.0,
+      -0.17,
+      null
+     ],
+     "a": [
+      0.25,
+      0.12,
+      0.33,
+      0.2,
+      0.24
+     ]
+    }
+   },
+   "6723.T": {
+    "traj": [
+     0.12,
+     0.1,
+     -0.24,
+     -0.01,
+     0.38
+    ],
+    "sent": {
+     "all": [
+      0.12,
+      0.1,
+      -0.24,
+      -0.01,
+      0.38
+     ]
+    }
+   }
+  }
+ }
+}

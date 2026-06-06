@@ -1,0 +1,36 @@
+{
+ "topic":"auto",
+ "as_of":"2026Q1",
+ "outlook":{
+   "direction":"improving",
+   "confidence":"medium",
+   "headline":"Automotive semis inflecting up as destocking ends and ADAS content secular growth reaccelerates",
+   "summary":"After a 2025 trough, automotive demand turned stronger-than-expected in 2026Q1, with ADI and Renesas posting record auto results amid restocking and Micron citing improving pricing. Durable secular drivers (L2+/L4 ADAS, rising silicon content per vehicle) underpin the recovery, though TSMC's auto revenue still fell 7% sequentially and TI stayed near-term cautious."
+ },
+ "drivers":[
+   {"label":"ADAS / autonomy memory & content","polarity":"pos","detail":"L2+ ADAS scaling fast; L4 needs ~300GB DRAM vs ~16GB today, driving content growth","companies":["MU","TXN"]},
+   {"label":"Inventory normalization / restocking","polarity":"pos","detail":"Destocking ending; channel rebuild and short-delivery demand lifting orders above expectations","companies":["ADI","6723.T"]},
+   {"label":"Stronger-than-expected demand","polarity":"pos","detail":"Record auto quarters and upside vs guide across Europe, Japan and Japanese OEMs","companies":["ADI","6723.T"]},
+   {"label":"Rising silicon content per vehicle","polarity":"pos","detail":"More content across BEV/ICE/hybrid powertrains; secular per-car growth seen continuing","companies":["TXN","MU"]},
+   {"label":"Pricing & mature-node auto capacity","polarity":"pos","detail":"Continued auto pricing improvement; new mature-node fab (ESMC Germany) built for automotive","companies":["MU","2330.TW"]}
+ ],
+ "risks":[
+   "China automotive still declining quarter-over-quarter, dragging the regional recovery",
+   "Recovery partly restocking-driven; demand could fade once channels refill",
+   "TI stays cautious, wanting another quarter to confirm auto's trajectory",
+   "TSMC auto revenue still down 7% QoQ and only 4% of sales"
+ ],
+ "companies":{
+   "2330.TW":{"stance":"neutral","trend":"worsening","point":"Auto -7% QoQ and just 4% of revenue, but building ESMC Germany mature-node capacity for automotive"},
+   "ADI":{"stance":"positive","trend":"improving","point":"Record auto quarter, up 8% sequentially; guides above-seasonal growth, sees 2026 auto growth"},
+   "MU":{"stance":"positive","trend":"improving","point":"Record AEBU >$2.7B; ADAS deployment accelerating, pricing improving, robust long-term auto memory growth"},
+   "TXN":{"stance":"positive","trend":"flat","point":"Auto up mid-single-digits YoY, flat sequentially; secular content growth continues but stays near-term cautious"},
+   "6723.T":{"stance":"positive","trend":"improving","point":"Auto demand stronger than expected with sell-in/sell-through upside; building channel inventory for rising demand"}
+ },
+ "consensus":"mixed",
+ "consensus_note":"Agreement on secular ADAS/content growth and a 2026Q1 upturn; split on near-term durability, China, and lagging TSMC",
+ "excluded":[
+   {"ticker":"AVGO","reason":"Only match is a financial 'vehicle' to fund chips for LLM players, not automotive"},
+   {"ticker":"NVDA","reason":"Automotive/autonomous vehicles appear only inside lists of edge/physical-AI devices; no substantive auto commentary"}
+ ]
+}

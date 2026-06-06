@@ -1,0 +1,145 @@
+# Electronic Market Intelligence — Company & Supply-Chain Universe
+# Tiers are ordered upstream (materials) -> downstream (end-markets / demand drivers).
+#
+# listing:
+#   us_domestic = files 10-K/10-Q  -> full quarterly XBRL via EDGAR (best coverage)
+#   adr         = foreign private issuer, files 20-F/6-K -> annual-only XBRL via EDGAR
+#   foreign     = no SEC filings -> IR-page / manual ingestion (later phase)
+#
+# end_markets vocabulary: ai_datacenter, mobile, auto, industrial, consumer, compute,
+#   server, networking, storage, power, rf, semicap, materials, memory, drone, defense
+
+meta:
+  schema_version: 1
+  primary_lens: corporate_strategy
+  notes: >
+    EDGAR XBRL works best for us_domestic filers. ADRs are annual-only; foreign names
+    need IR-page ingestion. Tickers are resolved to SEC CIKs automatically at ingest time.
+
+tiers:
+  - id: materials
+    name: Materials, Gases & Wafers
+    key_signals: [wafer_shipments, materials_revenue, capex_pass_through]
+    companies:
+      - {name: Entegris,            ticker: ENTG, region: US, listing: us_domestic, end_markets: [semicap, materials]}
+      - {name: DuPont,              ticker: DD,   region: US, listing: us_domestic, end_markets: [materials]}
+      - {name: Air Products,        ticker: APD,  region: US, listing: us_domestic, end_markets: [materials]}
+      - {name: Linde,               ticker: LIN,  region: US, listing: us_domestic, end_markets: [materials]}
+      - {name: Shin-Etsu Chemical,  ticker: "4063.T", region: JP, listing: foreign, end_markets: [materials]}
+      - {name: SUMCO,               ticker: "3436.T", region: JP, listing: foreign, end_markets: [materials]}
+
+  - id: equipment
+    name: Semiconductor Equipment (WFE)
+    key_signals: [capex_cycle, book_to_bill, china_exposure, backlog]
+    companies:
+      - {name: ASML,                ticker: ASML, region: NL, listing: adr,         end_markets: [semicap]}
+      - {name: Applied Materials,   ticker: AMAT, region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Lam Research,        ticker: LRCX, region: US, listing: us_domestic, end_markets: [semicap, memory]}
+      - {name: KLA,                 ticker: KLAC, region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Teradyne,            ticker: TER,  region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Onto Innovation,     ticker: ONTO, region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Tokyo Electron,      ticker: "8035.T", region: JP, listing: foreign, end_markets: [semicap]}
+
+  - id: eda_ip
+    name: EDA & IP
+    key_signals: [design_starts, backlog, royalty_revenue]
+    companies:
+      - {name: Cadence,             ticker: CDNS, region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Synopsys,            ticker: SNPS, region: US, listing: us_domestic, end_markets: [semicap]}
+      - {name: Arm Holdings,        ticker: ARM,  region: UK, listing: adr,         end_markets: [mobile, ai_datacenter]}
+
+  - id: foundry
+    name: Foundry / Manufacturing
+    key_signals: [utilization, capex, wafer_pricing, node_mix]
+    companies:
+      - {name: TSMC,                ticker: TSM,  region: TW, listing: adr,         end_markets: [ai_datacenter, mobile, auto]}
+      - {name: GlobalFoundries,     ticker: GFS,  region: US, listing: us_domestic, end_markets: [auto, mobile, industrial]}
+      - {name: United Microelectronics, ticker: UMC, region: TW, listing: adr,      end_markets: [consumer, auto]}
+      - {name: Tower Semiconductor, ticker: TSEM, region: IL, listing: adr,         end_markets: [analog, rf]}
+
+  - id: semiconductors
+    name: Fabless / IDM Semiconductors
+    key_signals: [revenue_growth, gross_margin, inventory_days, guidance]
+    companies:
+      - {name: NVIDIA,              ticker: NVDA, region: US, listing: us_domestic, end_markets: [ai_datacenter, gaming, auto]}
+      - {name: AMD,                 ticker: AMD,  region: US, listing: us_domestic, end_markets: [ai_datacenter, compute, gaming]}
+      - {name: Broadcom,            ticker: AVGO, region: US, listing: us_domestic, end_markets: [ai_datacenter, networking, broadband]}
+      - {name: Qualcomm,            ticker: QCOM, region: US, listing: us_domestic, end_markets: [mobile, auto, iot]}
+      - {name: Intel,               ticker: INTC, region: US, listing: us_domestic, end_markets: [compute, server, semicap]}
+      - {name: Texas Instruments,   ticker: TXN,  region: US, listing: us_domestic, end_markets: [industrial, auto, analog]}
+      - {name: Analog Devices,      ticker: ADI,  region: US, listing: us_domestic, end_markets: [industrial, auto, comms]}
+      - {name: Marvell,             ticker: MRVL, region: US, listing: us_domestic, end_markets: [ai_datacenter, networking]}
+      - {name: NXP Semiconductors,  ticker: NXPI, region: NL, listing: adr,         end_markets: [auto, industrial, mobile]}
+      - {name: Microchip,           ticker: MCHP, region: US, listing: us_domestic, end_markets: [industrial, auto, micro]}
+      - {name: ON Semiconductor,    ticker: "ON", region: US, listing: us_domestic, end_markets: [auto, industrial, power]}
+      - {name: STMicroelectronics,  ticker: STM,  region: CH, listing: adr,         end_markets: [auto, industrial, mobile]}
+      - {name: Skyworks Solutions,  ticker: SWKS, region: US, listing: us_domestic, end_markets: [mobile, rf]}
+      - {name: Qorvo,               ticker: QRVO, region: US, listing: us_domestic, end_markets: [mobile, rf]}
+      - {name: Lattice Semiconductor, ticker: LSCC, region: US, listing: us_domestic, end_markets: [industrial, comms]}
+      - {name: Monolithic Power,    ticker: MPWR, region: US, listing: us_domestic, end_markets: [ai_datacenter, auto, power]}
+      - {name: Wolfspeed,           ticker: WOLF, region: US, listing: us_domestic, end_markets: [auto, power]}
+      - {name: Allegro MicroSystems, ticker: ALGM, region: US, listing: us_domestic, end_markets: [auto, industrial]}
+
+  - id: memory_storage
+    name: Memory & Storage
+    key_signals: [dram_nand_pricing, bit_growth, inventory_days, capex]
+    companies:
+      - {name: Micron,              ticker: MU,   region: US, listing: us_domestic, end_markets: [memory, ai_datacenter, mobile]}
+      - {name: Western Digital,     ticker: WDC,  region: US, listing: us_domestic, end_markets: [storage, memory]}
+      - {name: Seagate,             ticker: STX,  region: US, listing: us_domestic, end_markets: [storage, ai_datacenter]}
+      - {name: SK Hynix,            ticker: "000660.KS", region: KR, listing: foreign, end_markets: [memory, ai_datacenter]}
+      - {name: Samsung Electronics, ticker: "005930.KS", region: KR, listing: foreign, end_markets: [memory, mobile, consumer]}
+
+  - id: components_ipe
+    name: Interconnect / Passive / Electromechanical (IP&E)
+    key_signals: [book_to_bill, distributor_inventory, lead_times]
+    companies:
+      - {name: TE Connectivity,     ticker: TEL,  region: US, listing: us_domestic, end_markets: [auto, industrial, comms]}
+      - {name: Amphenol,            ticker: APH,  region: US, listing: us_domestic, end_markets: [ai_datacenter, comms, auto]}
+      - {name: Vishay,              ticker: VSH,  region: US, listing: us_domestic, end_markets: [industrial, auto]}
+      - {name: Littelfuse,          ticker: LFUS, region: US, listing: us_domestic, end_markets: [auto, industrial]}
+      - {name: Murata,              ticker: "6981.T", region: JP, listing: foreign, end_markets: [mobile, auto]}
+      - {name: TDK,                 ticker: "6762.T", region: JP, listing: foreign, end_markets: [mobile, auto, industrial]}
+
+  - id: distribution
+    name: Distribution
+    key_signals: [book_to_bill, backlog, channel_inventory]
+    companies:
+      - {name: Arrow Electronics,   ticker: ARW,  region: US, listing: us_domestic, end_markets: [industrial, compute]}
+      - {name: Avnet,               ticker: AVT,  region: US, listing: us_domestic, end_markets: [industrial, comms]}
+
+  - id: ems_odm
+    name: EMS / ODM
+    key_signals: [revenue_mix, ai_server_exposure, margin]
+    companies:
+      - {name: Jabil,               ticker: JBL,  region: US, listing: us_domestic, end_markets: [ai_datacenter, auto, consumer]}
+      - {name: Flex,                ticker: FLEX, region: US, listing: us_domestic, end_markets: [industrial, auto, consumer]}
+      - {name: Sanmina,             ticker: SANM, region: US, listing: us_domestic, end_markets: [comms, industrial, server]}
+      - {name: Celestica,           ticker: CLS,  region: CA, listing: adr,         end_markets: [ai_datacenter, server]}
+      - {name: Hon Hai (Foxconn),   ticker: "2317.TW", region: TW, listing: foreign, end_markets: [consumer, ai_datacenter, mobile]}
+
+  - id: oem_systems
+    name: OEM Systems (PC / Server / Networking)
+    key_signals: [units, ai_server_demand, gross_margin, guidance]
+    companies:
+      - {name: Apple,               ticker: AAPL, region: US, listing: us_domestic, end_markets: [consumer, mobile, compute]}
+      - {name: Dell Technologies,   ticker: DELL, region: US, listing: us_domestic, end_markets: [server, compute, storage]}
+      - {name: HP Inc,              ticker: HPQ,  region: US, listing: us_domestic, end_markets: [compute, consumer]}
+      - {name: Hewlett Packard Enterprise, ticker: HPE, region: US, listing: us_domestic, end_markets: [server, ai_datacenter, networking]}
+      - {name: Super Micro,         ticker: SMCI, region: US, listing: us_domestic, end_markets: [ai_datacenter, server]}
+      - {name: Cisco,               ticker: CSCO, region: US, listing: us_domestic, end_markets: [networking, ai_datacenter]}
+      - {name: Arista Networks,     ticker: ANET, region: US, listing: us_domestic, end_markets: [ai_datacenter, networking]}
+      # Juniper (JNPR) removed — absorbed by HPE (2024-25), no longer files with SEC.
+
+  - id: demand_drivers
+    name: End-Market Demand Drivers
+    key_signals: [hyperscaler_capex, auto_production, industrial_pmi]
+    companies:
+      - {name: Microsoft,           ticker: MSFT, region: US, listing: us_domestic, end_markets: [ai_datacenter]}
+      - {name: Amazon,              ticker: AMZN, region: US, listing: us_domestic, end_markets: [ai_datacenter]}
+      - {name: Alphabet,            ticker: GOOGL, region: US, listing: us_domestic, end_markets: [ai_datacenter]}
+      - {name: Meta Platforms,      ticker: META, region: US, listing: us_domestic, end_markets: [ai_datacenter]}
+      - {name: Tesla,               ticker: TSLA, region: US, listing: us_domestic, end_markets: [auto]}
+      - {name: Rockwell Automation, ticker: ROK,  region: US, listing: us_domestic, end_markets: [industrial]}
+      - {name: Honeywell,           ticker: HON,  region: US, listing: us_domestic, end_markets: [industrial, aero]}
+      - {name: AeroVironment,       ticker: AVAV, region: US, listing: us_domestic, end_markets: [drone, defense]}

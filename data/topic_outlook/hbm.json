@@ -1,0 +1,375 @@
+{
+ "topic": "hbm",
+ "as_of": "2026Q1",
+ "outlook": {
+  "direction": "improving",
+  "confidence": "high",
+  "headline": "HBM4 ramps into AI demand; supply tight, but margin/pricing pressure tempers Micron sentiment",
+  "summary": "AI compute is driving robust HBM demand, with Micron shipping HBM4 in volume and equipment vendors (AMAT, KLAC, LRCX) citing HBM as a leading-edge WFE and advanced-packaging growth driver. Supply remains constrained by cleanroom limits, higher trade ratios, and capacity buildout. Micron's own sentiment trajectory is softening on gross-margin and pricing-sustainability concerns despite record HBM revenue."
+ },
+ "drivers": [
+  {
+   "label": "HBM4 volume ramp",
+   "polarity": "pos",
+   "detail": "Micron shipping HBM4 12-high for Rubin, faster yield maturity, HBM4E in 2027",
+   "companies": [
+    "MU"
+   ]
+  },
+  {
+   "label": "AI-driven WFE & packaging demand",
+   "polarity": "pos",
+   "detail": "HBM cited as key driver of leading-edge DRAM, process control, advanced packaging",
+   "companies": [
+    "AMAT",
+    "KLAC",
+    "LRCX"
+   ]
+  },
+  {
+   "label": "Supply constraints",
+   "polarity": "mixed",
+   "detail": "Cleanroom limits, higher trade ratios, long lead times constrain bit supply growth",
+   "companies": [
+    "MU"
+   ]
+  },
+  {
+   "label": "Capacity & capex buildout",
+   "polarity": "pos",
+   "detail": "Singapore advanced-packaging facility plus FY2027 capex step-up for HBM/DRAM",
+   "companies": [
+    "MU"
+   ]
+  },
+  {
+   "label": "Content uplift per layer",
+   "polarity": "pos",
+   "detail": "HBM3-to-HBM4 higher layer counts lift equipment content per wafer",
+   "companies": [
+    "LRCX"
+   ]
+  }
+ ],
+ "risks": [
+  "Gross-margin and pricing sustainability pressure as HBM4 mix grows",
+  "Supply tightness from cleanroom and trade-ratio constraints caps shipments",
+  "HBM cycle could normalize if AI capex decelerates",
+  "Yield ramp execution risk on new HBM4/HBM4E nodes"
+ ],
+ "companies": {
+  "MU": {
+   "stance": "positive",
+   "trend": "worsening",
+   "point": "HBM4 in volume, HBM4E underway; record revenue but margin sentiment softening"
+  },
+  "AMAT": {
+   "stance": "positive",
+   "trend": "flat",
+   "point": "Leader in HBM packaging and 3D stacking; AI compute drives demand through 2027"
+  },
+  "KLAC": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "HBM lifts revenue and process-control relevance at leading edge"
+  },
+  "LRCX": {
+   "stance": "positive",
+   "trend": "flat",
+   "point": "HBM investments strong; HBM3-to-HBM4 layer counts raise equipment content"
+  }
+ },
+ "consensus": "aligned",
+ "consensus_note": "Demand-side bullish across Micron and WFE vendors; divergence only on Micron's margin/pricing caution",
+ "excluded": [
+  {
+   "ticker": "AVGO",
+   "reason": "HBM appears in analyst supply questions and incidental XPU mentions, no substantive HBM market view"
+  },
+  {
+   "ticker": "AMD",
+   "reason": "Single analyst question on passing HBM cost into Instinct margins, not HBM commentary"
+  },
+  {
+   "ticker": "2330.TW",
+   "reason": "HBM only inside product lists (HBM-based ASICs, HBM base die), no substantive content"
+  }
+ ],
+ "evidence": {
+  "AMAT": [
+   {
+    "seg": "ceo",
+    "t": "In advanced packaging, Applied is also the overall leader with strong positions in high-bandwidth memory and 3D chiplet stacking."
+   },
+   {
+    "seg": "a",
+    "t": "That is really great for Applied because all of the markets that are growing the fastest, the leading edge foundry logic, we're seeing a broadening of demand, very strong demand for DRAM and high-bandwidth memory."
+   },
+   {
+    "seg": "a",
+    "t": "Again, what I would say, if you look at the mix of business going forward, the AI compute innovations are really going to drive, in 2026, 2027 and going forward, leading-edge foundry logic, DRAM, high-bandwidth memory and advanced packaging."
+   }
+  ],
+  "KLAC": [
+   {
+    "seg": "ceo",
+    "t": "KLA delivered strong results across the board for the March quarter, with revenue of $3.415 billion, up 4% sequentially, and 11% year-over-year, driven by increased investment in leading-edge Foundry Logic and High-Bandwidth Memory."
+   },
+   {
+    "seg": "ceo",
+    "t": "KLA's relevance has increased across all vectors of semiconductor manufacturing as process control enables a growing volume of design starts at the leading edge and supports the needs for increased performance and reliability in the production of High-Bandwidth Memory."
+   }
+  ],
+  "LRCX": [
+   {
+    "seg": "cfo",
+    "t": "High bandwidth memory investments remained strong."
+   },
+   {
+    "seg": "a",
+    "t": "Also, if you think of the, on a relative basis, somewhat under-investment in that area, partly as customers made choices about clean room allocation and obviously, some other devices like HBM were so hot during that period."
+   },
+   {
+    "seg": "q",
+    "t": "We've heard a lot about reasons why this memory cycle is different with HBM and trade ratios and new applications like SoCAM."
+   }
+  ],
+  "MU": [
+   {
+    "seg": "ceo",
+    "t": "Quarterly revenue nearly tripled versus one year ago, and revenue for DRAM, NAND, HBM, and each business unit reached new highs."
+   },
+   {
+    "seg": "ceo",
+    "t": "At NVIDIA's GTC, we announced that Micron has begun volume shipment of its HBM4 36 GB 12-high in the first quarter of calendar year 2026 and is designed for NVIDIA Rubin."
+   },
+   {
+    "seg": "ceo",
+    "t": "With our HBM4 production ramp and volume shipments underway, we expect to reach mature yields faster than HBM3E."
+   }
+  ]
+ },
+ "matrix": {
+  "periods": [
+   "2025Q1",
+   "2025Q2",
+   "2025Q3",
+   "2025Q4",
+   "2026Q1"
+  ],
+  "companies": {
+   "AMAT": {
+    "traj": [
+     0.38,
+     0.2,
+     0.38,
+     0.67,
+     0.4
+    ],
+    "sent": {
+     "all": [
+      0.38,
+      0.2,
+      0.38,
+      0.67,
+      0.4
+     ],
+     "prepared": [
+      1.0,
+      0.2,
+      0.67,
+      0.6,
+      1.0
+     ],
+     "ceo": [
+      1.0,
+      null,
+      0.0,
+      0.6,
+      1.0
+     ],
+     "cfo": [
+      null,
+      null,
+      1.0,
+      null,
+      null
+     ],
+     "q": [
+      0.33,
+      null,
+      null,
+      1.0,
+      null
+     ],
+     "a": [
+      0.25,
+      null,
+      0.31,
+      0.67,
+      0.25
+     ]
+    }
+   },
+   "KLAC": {
+    "traj": [
+     0.18,
+     0.21,
+     0.0,
+     0.48,
+     1.0
+    ],
+    "sent": {
+     "all": [
+      0.18,
+      0.21,
+      0.0,
+      0.48,
+      1.0
+     ],
+     "prepared": [
+      0.33,
+      0.25,
+      0.5,
+      null,
+      1.0
+     ],
+     "ceo": [
+      0.5,
+      0.33,
+      1.0,
+      null,
+      1.0
+     ],
+     "cfo": [
+      0.0,
+      0.0,
+      0.0,
+      null,
+      null
+     ],
+     "q": [
+      0.2,
+      0.17,
+      null,
+      0.0,
+      null
+     ],
+     "a": [
+      0.0,
+      0.22,
+      -0.1,
+      0.67,
+      null
+     ]
+    }
+   },
+   "LRCX": {
+    "traj": [
+     0.0,
+     0.2,
+     0.55,
+     0.33,
+     0.17
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      0.2,
+      0.55,
+      0.33,
+      0.17
+     ],
+     "prepared": [
+      0.0,
+      0.5,
+      1.0,
+      0.5,
+      1.0
+     ],
+     "ceo": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      null
+     ],
+     "cfo": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "q": [
+      null,
+      0.0,
+      null,
+      0.4,
+      0.0
+     ],
+     "a": [
+      null,
+      0.2,
+      0.29,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "MU": {
+    "traj": [
+     0.36,
+     0.41,
+     0.42,
+     0.3,
+     0.19
+    ],
+    "sent": {
+     "all": [
+      0.36,
+      0.41,
+      0.42,
+      0.3,
+      0.19
+     ],
+     "prepared": [
+      0.43,
+      0.63,
+      0.57,
+      0.07,
+      0.34
+     ],
+     "ceo": [
+      0.42,
+      0.66,
+      0.57,
+      0.07,
+      0.34
+     ],
+     "cfo": [
+      0.5,
+      0.5,
+      0.5,
+      null,
+      null
+     ],
+     "q": [
+      0.0,
+      0.25,
+      0.2,
+      0.2,
+      0.12
+     ],
+     "a": [
+      0.36,
+      0.36,
+      0.38,
+      0.42,
+      0.14
+     ]
+    }
+   }
+  }
+ }
+}

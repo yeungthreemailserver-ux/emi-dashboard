@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.ipynb_checkpoints/
+
+# Data artifacts (re-ingestable; keep out of git)
+data/raw/
+data/processed/
+# 84MB cached transcripts — re-fetchable via refresh.py counts
+data/transcripts/
+# regenerable topic-paragraph extracts (build inputs)
+data/_topic_*.json
+*.db
+*.sqlite
+
+# Local tooling / agent config
+.claude/
+
+.DS_Store

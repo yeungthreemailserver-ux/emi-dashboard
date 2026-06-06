@@ -1,0 +1,103 @@
+{
+  "topic": "capex",
+  "as_of": "2026Q1",
+  "outlook": {
+    "direction": "improving",
+    "confidence": "high",
+    "headline": "Capex/WFE cycle inflecting up, led by AI memory, foundry and equipment spend",
+    "summary": "Equipment makers raised 2026 WFE to ~$140B with upside bias and see 2027 accelerating, while foundry and memory leaders step up their own capacity capex for AI/HBM. Fabless and analog cite booming hyperscaler and back-end spending as a strong demand signal, making the broad direction clearly upward."
+  },
+  "drivers": [
+    {
+      "label": "WFE guidance raised into 2026-27",
+      "polarity": "pos",
+      "detail": "2026 WFE lifted to ~$140B with upside bias; 2027 expected faster",
+      "companies": ["KLAC", "LRCX", "AMAT"]
+    },
+    {
+      "label": "AI/HBM driving own-capacity capex up",
+      "polarity": "pos",
+      "detail": "TSMC steps up N3; Micron FY26 >$25B, FY27 meaningfully higher for HBM/DRAM",
+      "companies": ["2330.TW", "MU"]
+    },
+    {
+      "label": "Hyperscaler/cloud capex surging",
+      "polarity": "pos",
+      "detail": "Hyperscale capex toward $3-4T; CSP capital investment keeps rising",
+      "companies": ["NVDA", "AMAT", "ASML.AS"]
+    },
+    {
+      "label": "Customers accelerating capacity ramps",
+      "polarity": "pos",
+      "detail": "Memory and logic customers increasing capex, pulling forward capacity into 2026+",
+      "companies": ["ASML.AS"]
+    },
+    {
+      "label": "Analog/own back-end capex moderating",
+      "polarity": "mixed",
+      "detail": "TXN holds $2-3B 2026 capex, moderating to ~1.2x intensity for internalization",
+      "companies": ["TXN", "6723.T"]
+    }
+  ],
+  "risks": [
+    "WFE growth estimates may be too optimistic versus equipment makers' own view",
+    "Capex increasingly driven by memory pricing inflation, not unit growth",
+    "Concentration in AI/hyperscaler spending creates a single demand dependency",
+    "Construction-heavy capex steps up before revenue contribution lands"
+  ],
+  "companies": {
+    "2330.TW": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Stepping up CapEx for N3; raised guidance on stronger-than-expected AI demand"
+    },
+    "KLAC": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Raised 2026 WFE to $140B+, high-teens growth; 2027 to grow faster"
+    },
+    "LRCX": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Lifted 2026 WFE to $140B with upside bias; 2027 compelling growth"
+    },
+    "MU": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "FY26 CapEx above $25B; FY27 steps up meaningfully for HBM/DRAM"
+    },
+    "AMAT": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Expects WFE growth as cloud providers keep increasing capital investment"
+    },
+    "NVDA": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Hyperscaler capex growing ~90-100%, heading toward $3-4T by decade-end"
+    },
+    "TXN": {
+      "stance": "neutral",
+      "trend": "improving",
+      "point": "Holds $2-3B 2026 capex, moderating toward 1.2x long-term intensity"
+    },
+    "6723.T": {
+      "stance": "positive",
+      "trend": "flat",
+      "point": "JPY94B CapEx, ~80% for capacity expansion at Naka, Saijo, Kofu"
+    },
+    "ASML.AS": {
+      "stance": "positive",
+      "trend": "improving",
+      "point": "Memory and logic customers increasing capex, accelerating 2026+ capacity ramp"
+    }
+  },
+  "consensus": "aligned",
+  "consensus_note": "Broad agreement capex/WFE is rising into 2026-27; only debate is the magnitude of WFE growth",
+  "excluded": [
+    {"ticker": "ADI", "reason": "Generic 4-6% long-term capex model and routine refresh, no real outlook"},
+    {"ticker": "AMD", "reason": "Single analyst-question fragment on customer memory-cost capex; no company commentary"},
+    {"ticker": "AVGO", "reason": "Bare $231M capex figure with no outlook or demand signal"},
+    {"ticker": "AVT", "reason": "Distributor with negligible $17M capex; balance-sheet mention only"}
+  ]
+}

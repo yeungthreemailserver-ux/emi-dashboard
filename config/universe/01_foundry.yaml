@@ -1,0 +1,31 @@
+# L1 — Foundry & Back-end Manufacturing. yfinance symbols (local listings preferred).
+layer: L1
+name: Foundry & Manufacturing
+sublayers:
+  - id: "1.1"
+    name: Pure-play & Specialty Foundry
+    companies:
+      - {name: TSMC,                      ticker: "2330.TW", region: TW}
+      - {name: GlobalFoundries,           ticker: "GFS",     region: US}
+      - {name: United Microelectronics,   ticker: "UMC",     region: TW}
+      - {name: SMIC,                       ticker: "0981.HK", region: CN}
+      - {name: Hua Hong Semiconductor,    ticker: "1347.HK", region: CN}
+      - {name: Tower Semiconductor,        ticker: "TSEM",    region: IL}
+      - {name: Powerchip (PSMC),           ticker: "6770.TW", region: TW}
+      - {name: Vanguard Intl Semiconductor, ticker: "5347.TWO", region: TW}
+      - {name: SkyWater Technology,        ticker: "SKYT",    region: US}
+      - {name: DB HiTek,                   ticker: "000990.KS", region: KR}
+      - {name: X-FAB Silicon Foundries,    ticker: "XFAB.PA", region: EU}
+      - {name: Nexchip Semiconductor,      ticker: "688249.SS", region: CN}
+  - id: "1.2"
+    name: OSAT (Assembly & Test)
+    companies:
+      - {name: ASE Technology,            ticker: "3711.TW", region: TW}
+      - {name: Amkor Technology,          ticker: "AMKR",    region: US}
+      - {name: JCET Group,                ticker: "600584.SS", region: CN}
+      - {name: Powertech Technology,      ticker: "6239.TW", region: TW}
+      - {name: Tongfu Microelectronics,   ticker: "002156.SZ", region: CN}
+      - {name: Chipbond Technology,       ticker: "6147.TWO", region: TW}
+      - {name: King Yuan Electronics,     ticker: "2449.TW", region: TW}
+      - {name: Tianshui Huatian Tech,     ticker: "002185.SZ", region: CN}
+      - {name: ChipMOS Technologies,      ticker: "8150.TW", region: TW}

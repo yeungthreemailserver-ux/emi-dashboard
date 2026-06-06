@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electronic Market Intelligence — Supply-Chain Terminal</title>
+  <link rel="stylesheet" href="vendor/fonts.css" />
+  <script src="vendor/echarts.min.js"></script>
+  <link rel="stylesheet" href="styles.css?v=3k7" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="dot">◢</span><b>EMI</b><small>Electronic Market Intelligence</small></div>
+      <div class="tabs"><button class="tab active" data-tab="signals">Signals</button><button class="tab" data-tab="chain">Supply Chain</button><button class="tab" data-tab="market">Market</button></div>
+      <div class="asof">as of <b id="asof">—</b></div>
+      <div class="spacer"></div>
+      <div class="legend-hint">▸ click a layer to expand · click a company for detail</div>
+    </header>
+    <main class="main" id="main">
+      <div class="loading">Loading data…</div>
+    </main>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="modal" id="modal">
+    <header>
+      <div>
+        <h2 id="m-name">—</h2>
+        <div class="sub" id="m-sub">—</div>
+      </div>
+      <button class="x" id="m-close">×</button>
+    </header>
+    <div class="body" id="m-body"></div>
+  </div>
+
+  <script src="bundle.js?v=3k4"></script>
+  <script src="app.js?v=3k7"></script>
+</body>
+</html>

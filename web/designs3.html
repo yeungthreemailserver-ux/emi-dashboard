@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EMI — Option 3 variants</title>
+<link rel="stylesheet" href="vendor/fonts.css" />
+<style>
+  :root{ --sans:"Fira Sans",system-ui,sans-serif; --mono:"Fira Code",ui-monospace,monospace; }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9eef4;color:#0f172a;font-family:var(--sans);padding:24px 28px 80px}
+  h1{font-size:20px;margin:0 0 4px}.sub{color:#64748b;font-size:13px;margin-bottom:22px}
+  .opt{background:#fff;border:1px solid #d4dde8;border-radius:12px;padding:16px 18px 18px;margin-bottom:22px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .opt > h2{font-size:15px;margin:0 0 2px}.opt > .cap{color:#64748b;font-size:12px;margin-bottom:12px}
+
+  /* shared Option-3 (left-rail tree + chips) */
+  .t3 table{font-size:12.5px;border-collapse:separate;border-spacing:0;width:100%}
+  .t3 td,.t3 th{padding:7px 12px}
+  .t3 td.v,.t3 td.g{font-family:var(--mono);text-align:right;white-space:nowrap}
+  .t3 thead th{font-size:11px;color:#64748b;text-align:right;font-family:var(--mono);border-bottom:1px solid #d4dde8}
+  .t3 thead th.l{text-align:left}
+  .t3 td.name{text-align:left}
+  .t3 .tag{font-family:var(--mono);font-size:10px;color:#64748b}
+  .t3 .n{font-family:var(--mono);font-size:10px;color:#94a3b8;margin-left:6px}
+  .t3 .tk{font-family:var(--mono);color:#2563eb;font-size:12px}
+  .t3 .conm{color:#475569}
+  .t3 .dot{display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c,#64748b);margin-right:7px;vertical-align:middle}
+  .t3 td{border-bottom:1px solid #eef0f4}
+  .t3 tr.lvl0 td.name{font-weight:700;box-shadow:inset 4px 0 0 var(--c)}
+  .t3 tr.lvl0 .nm{font-weight:700;font-size:13.5px}
+  .t3 tr.lvl1 td.name{padding-left:26px;box-shadow:inset 4px 0 0 var(--c)}
+  .t3 tr.lvl1 .nm{font-weight:600}
+  .t3 tr.co td.name{padding-left:44px}
+  .t3 tr.co .nmwrap::before{content:'└ ';color:#cbd5e1;font-family:var(--mono)}
+  .t3 td.g .chip{padding:2px 8px;border-radius:10px;font-family:var(--mono)}
+  .t3 td.g.pos .chip{background:#d8f0df;color:#0f5132}
+  .t3 td.g.neg .chip{background:#f9dcdc;color:#842029}
+
+  /* 3A — heavy grey rule + small gap above each layer */
+  .v3a tr.lvl0 td{border-top:2px solid #94a3b8;padding-top:13px}
+  /* 3B — layer-colored top rule + light header band */
+  .v3b tr.lvl0 td{border-top:3px solid var(--c);background:#eef3f9}
+  /* 3C — whitespace gap band between sections */
+  .v3c tr.spacer td{padding:0;height:13px;border:0;background:#eaeef4}
+  .v3c tr.lvl0 td{border-top:1px solid #cbd5e1}
+</style>
+</head>
+<body>
+  <h1>Option 3 — how to separate the big sections (pick A / B / C)</h1>
+  <div class="sub">Same left-rail tree + chips. Only the <b>section divider between layers</b> differs.</div>
+
+  <div class="opt"><h2>3A — Strong grey rule + gap</h2>
+    <div class="cap">A 2px slate rule and a little space above every layer. Clean, neutral, unambiguous breaks.</div>
+    <div class="t3 v3a" id="a"></div></div>
+
+  <div class="opt"><h2>3B — Layer-colored top rule + header band</h2>
+    <div class="cap">Each section starts with a thick rule in the layer's own color, plus a light band on the header row. Color-codes the sections.</div>
+    <div class="t3 v3b" id="b"></div></div>
+
+  <div class="opt"><h2>3C — Whitespace gap band</h2>
+    <div class="cap">A blank divider band between layers — separation by space rather than a heavy line. Most breathing room.</div>
+    <div class="t3 v3c" id="c"></div></div>
+
+<script>
+const rows = [
+  {lvl:0, dot:'#0284c7', tag:'L1', nm:'Foundry & Manufacturing', n:13, v:['$44.0B','$51.4B','$51.2B'], yoy:'+28.7%', qoq:'+4.2%'},
+  {lvl:1, dot:'#0284c7', tag:'1.1', nm:'Pure-play & Specialty Foundry', n:7, v:['$36.2B','$38.9B','$40.6B'], yoy:'+32.5%', qoq:'+6.8%'},
+  {co:1, tk:'2330.TW', nm:'Taiwan Semiconductor', v:['$31.5B','$33.2B','$36.0B'], yoy:'+35.1%', qoq:'+8.4%'},
+  {co:1, tk:'UMC', nm:'United Microelectronics', v:['$1.9B','$2.0B','$1.9B'], yoy:'+5.5%', qoq:'-1.3%'},
+  {lvl:0, dot:'#16a34a', tag:'L3', nm:'Component Manufacturers', n:52, v:['$242.4B','$279.3B','$329.0B'], yoy:'+84.6%', qoq:'+30.0%'},
+  {lvl:1, dot:'#16a34a', tag:'3.2', nm:'Core Compute & Logic', n:12, v:['$99.6B','$115.1B','$126.1B'], yoy:'+22.1%', qoq:'+10.8%'},
+  {co:1, tk:'NVDA', nm:'NVIDIA Corporation', v:['$46.7B','$57.0B','$68.1B'], yoy:'+85.2%', qoq:'+19.5%'},
+  {co:1, tk:'AVGO', nm:'Broadcom Inc.', v:['$16.0B','$18.0B','$19.3B'], yoy:'+29.5%', qoq:'+7.2%'},
+  {co:1, tk:'AMD', nm:'Advanced Micro Devices', v:['$9.2B','$10.3B','$10.3B'], yoy:'+37.9%', qoq:'-0.2%'},
+];
+const cls = x => x && x[0] === '-' ? 'neg' : 'pos';
+function rowHTML(r){
+  const klass = r.co ? 'row co' : 'row grp lvl' + r.lvl;
+  const style = r.dot ? `style="--c:${r.dot}"` : '';
+  const name = r.co
+    ? `<td class="name"><span class="nmwrap"><span class="tk">${r.tk}</span> <span class="conm">${r.nm}</span></span></td>`
+    : `<td class="name"><span class="dot"></span><span class="tag">${r.tag}</span> <span class="nm">${r.nm}</span><span class="n">${r.n}</span></td>`;
+  const vs = r.v.map(x => `<td class="v">${x}</td>`).join('');
+  const g = x => `<td class="g ${cls(x)}"><span class="chip">${x}</span></td>`;
+  return `<tr class="${klass}" ${style}>${name}${vs}${g(r.yoy)}${g(r.qoq)}</tr>`;
+}
+const head = `<thead><tr><th class="l">Layer / Company</th><th>Q3 '25</th><th>Q4 '25</th><th>Q1 '26</th><th>YoY</th><th>QoQ</th></tr></thead>`;
+function build(spacers){
+  let b = '';
+  let first = true;
+  for (const r of rows){
+    if (!r.co && r.lvl === 0){ if (spacers && !first) b += `<tr class="spacer"><td colspan="6"></td></tr>`; first = false; }
+    b += rowHTML(r);
+  }
+  return `<table>${head}<tbody>${b}</tbody></table>`;
+}
+document.getElementById('a').innerHTML = build(false);
+document.getElementById('b').innerHTML = build(false);
+document.getElementById('c').innerHTML = build(true);
+</script>
+</body>
+</html>

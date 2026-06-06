@@ -1,0 +1,28 @@
+# L4 — EMS / ODM (contract manufacturing & assembly). yfinance symbols.
+layer: L4
+name: EMS / ODM
+sublayers:
+  - id: "4.1"
+    name: EMS / ODM
+    companies:
+      - {name: Hon Hai (Foxconn),        ticker: "2317.TW", region: TW}
+      - {name: Pegatron,                 ticker: "4938.TW", region: TW}
+      - {name: Quanta Computer,          ticker: "2382.TW", region: TW}
+      - {name: Compal Electronics,       ticker: "2324.TW", region: TW}
+      - {name: Wistron,                  ticker: "3231.TW", region: TW}
+      - {name: Inventec,                 ticker: "2356.TW", region: TW}
+      - {name: Wiwynn,                   ticker: "6669.TW", region: TW}
+      - {name: Universal Scientific (USI), ticker: "6285.TW", region: TW}
+      - {name: Foxconn Industrial Internet, ticker: "601138.SS", region: CN}
+      - {name: Luxshare Precision,       ticker: "002475.SZ", region: CN}
+      - {name: BYD Electronic,           ticker: "0285.HK", region: CN}
+      - {name: Goertek,                  ticker: "002241.SZ", region: CN}
+      - {name: Lens Technology,          ticker: "300433.SZ", region: CN}
+      - {name: Jabil,                    ticker: "JBL",     region: US}
+      - {name: Flex,                     ticker: "FLEX",    region: US}
+      - {name: Celestica,                ticker: "CLS",     region: CA}
+      - {name: Sanmina,                  ticker: "SANM",    region: US}
+      - {name: Benchmark Electronics,    ticker: "BHE",     region: US}
+      - {name: Plexus,                   ticker: "PLXS",    region: US}
+      - {name: Fabrinet,                 ticker: "FN",      region: US}
+      - {name: Venture Corporation,      ticker: "VMS.SI",  region: SG}

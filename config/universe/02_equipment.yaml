@@ -1,0 +1,76 @@
+# L2 — Equipment, Materials & EDA. yfinance symbols (local listings preferred).
+layer: L2
+name: Equipment, Materials & EDA
+sublayers:
+  - id: "2.1"
+    name: Wafer Fab Equipment (WFE) & Test
+    companies:
+      - {name: ASML,                     ticker: "ASML.AS", region: NL}
+      - {name: Applied Materials,        ticker: "AMAT",    region: US}
+      - {name: Lam Research,             ticker: "LRCX",    region: US}
+      - {name: KLA,                      ticker: "KLAC",    region: US}
+      - {name: Tokyo Electron,           ticker: "8035.T",  region: JP}
+      - {name: Advantest,                ticker: "6857.T",  region: JP}
+      - {name: Disco,                    ticker: "6146.T",  region: JP}
+      - {name: Screen Holdings,          ticker: "7735.T",  region: JP}
+      - {name: Kokusai Electric,         ticker: "6525.T",  region: JP}
+      - {name: Tokyo Seimitsu,           ticker: "7729.T",  region: JP}
+      - {name: Lasertec,                 ticker: "6920.T",  region: JP}
+      - {name: Ebara,                    ticker: "6361.T",  region: JP}
+      - {name: Teradyne,                 ticker: "TER",     region: US}
+      - {name: Onto Innovation,          ticker: "ONTO",    region: US}
+      - {name: Camtek,                   ticker: "CAMT",    region: IL}
+      - {name: Nova,                     ticker: "NVMI",    region: IL}
+      - {name: ACM Research,             ticker: "ACMR",    region: US}
+      - {name: Ultra Clean Holdings,     ticker: "UCTT",    region: US}
+      - {name: Ichor Holdings,           ticker: "ICHR",    region: US}
+      - {name: MKS Instruments,          ticker: "MKSI",    region: US}
+      - {name: Advanced Energy,          ticker: "AEIS",    region: US}
+      - {name: Azenta,                   ticker: "AZTA",    region: US}
+      - {name: FormFactor,               ticker: "FORM",    region: US}
+      - {name: Cohu,                     ticker: "COHU",    region: US}
+      - {name: Veeco Instruments,        ticker: "VECO",    region: US}
+      - {name: Kulicke & Soffa,          ticker: "KLIC",    region: US}
+      - {name: Aixtron,                  ticker: "AIXA.DE", region: DE}
+      - {name: ASM International,         ticker: "ASM.AS",  region: NL}
+      - {name: BE Semiconductor (Besi),  ticker: "BESI.AS", region: NL}
+      - {name: SUSS MicroTec,            ticker: "SMHN.DE", region: DE}
+      - {name: NAURA Technology,         ticker: "002371.SZ", region: CN}
+      - {name: AMEC (Advanced Micro-Fab), ticker: "688012.SS", region: CN}
+      - {name: ACM Research Shanghai,    ticker: "688082.SS", region: CN}
+      - {name: Piotech,                  ticker: "688072.SS", region: CN}
+      - {name: Hwatsing (Huahai Qingke), ticker: "688120.SS", region: CN}
+  - id: "2.2"
+    name: Materials, Wafers & Gases
+    companies:
+      - {name: Shin-Etsu Chemical,       ticker: "4063.T",  region: JP}
+      - {name: SUMCO,                    ticker: "3436.T",  region: JP}
+      - {name: Siltronic,                ticker: "WAF.DE",  region: DE}
+      - {name: GlobalWafers,             ticker: "6488.TWO", region: TW}
+      - {name: Entegris,                 ticker: "ENTG",    region: US}
+      - {name: Tokyo Ohka Kogyo,         ticker: "4186.T",  region: JP}
+      - {name: Resonac Holdings,         ticker: "4004.T",  region: JP}
+      - {name: Sumitomo Chemical,        ticker: "4005.T",  region: JP}
+      - {name: Air Products,             ticker: "APD",     region: US}
+      - {name: Linde,                    ticker: "LIN",     region: US}
+      - {name: Air Liquide,              ticker: "AI.PA",   region: FR}
+      - {name: Merck KGaA,               ticker: "MRK.DE",  region: DE}
+      - {name: DuPont,                   ticker: "DD",      region: US}
+      - {name: Hoya,                     ticker: "7741.T",  region: JP}
+      - {name: Soitec,                   ticker: "SOI.PA",  region: FR}
+      - {name: Element Solutions,        ticker: "ESI",     region: US}
+      - {name: Cabot,                    ticker: "CBT",     region: US}
+      - {name: Nitto Denko,              ticker: "6988.T",  region: JP}
+  - id: "2.3"
+    name: EDA & Semiconductor IP
+    companies:
+      - {name: Cadence Design Systems,   ticker: "CDNS",    region: US}
+      - {name: Synopsys,                 ticker: "SNPS",    region: US}
+      - {name: Arm Holdings,             ticker: "ARM",     region: UK}
+      - {name: CEVA,                     ticker: "CEVA",    region: US}
+      - {name: Alphawave Semi,           ticker: "AWE.L",   region: UK}
+      - {name: VeriSilicon,              ticker: "688521.SS", region: CN}
+      - {name: Socionext,                ticker: "6526.T",  region: JP}
+      - {name: Empyrean Technology,      ticker: "301269.SZ", region: CN}
+      - {name: Primarius Technologies,   ticker: "688206.SS", region: CN}
+      - {name: Semitronix,               ticker: "301095.SZ", region: CN}

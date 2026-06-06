@@ -1,0 +1,35 @@
+# Segment-revenue SHARE applied to a company's consolidated revenue to approximate the
+# revenue RELEVANT to its supply-chain layer (the "Samsung problem"). Applied at build time
+# to whatever history exists, so it survives re-ingests and benefits from deeper EDGAR history.
+# Non-revenue metrics (margin, op income, inventory, capex) are BLANKED for these names, since
+# segment-level figures aren't cleanly/freely available — shown with a "SEG" badge + tooltip.
+#
+# Tier-1 shares come from the company's own quarterly segment reporting (reliable).
+# Tier-2 shares ("(est.)") are rough analyst estimates for diversified chemical/gas/industrial
+# groups where semiconductors are a small slice and segments aren't cleanly reported.
+#
+# ticker: {share: <0-1>, note: "<shown on hover>"}   share omitted => label only (data already
+#                                                      overridden elsewhere, e.g. Samsung).
+segment_share:
+  # ---- Tier 1: reported segments ----
+  "AVGO":      {share: 0.58, note: "Semiconductor Solutions only — ~40% of Broadcom is Infrastructure Software (VMware/CA/Symantec)."}
+  "6762.T":    {share: 0.27, note: "Passive Components only — ~53% of TDK is rechargeable batteries (Energy); rest sensors/magnetic."}
+  "3711.TW":   {share: 0.55, note: "ATM (packaging & test) only — ~45% of ASE Holding is its EMS arm (USI)."}
+  "QCOM":      {share: 0.86, note: "QCT chips only — ~14% of Qualcomm is QTL patent licensing."}
+  "600745.SS": {share: 0.30, note: "Nexperia semiconductors only — majority of Wingtech is ODM / system integration."}
+  # ---- Tier 1: components groups that are mostly something else ----
+  "6594.T":    {share: 0.15, note: "(est.) Electronic components only — most of Nidec is electric motors."}
+  "6971.T":    {share: 0.30, note: "(est.) Components & devices only — Kyocera also does ceramics, solar, telecom."}
+  # ---- Tier 2: diversified chemical / industrial-gas giants (semi materials a fraction) ----
+  "LIN":       {share: 0.10, note: "(est.) Electronics & semiconductor gases only — Linde is a broad industrial-gas company."}
+  "MRK.DE":    {share: 0.18, note: "(est.) Electronics segment only — Merck KGaA is also pharma & life-science."}
+  "APD":       {share: 0.20, note: "(est.) Electronics/semiconductor gases only — Air Products is broad industrial gas."}
+  "AI.PA":     {share: 0.10, note: "(est.) Electronics gases only — Air Liquide is broad industrial gas."}
+  "DD":        {share: 0.45, note: "(est.) Electronics & Industrial semiconductor-materials portion only — DuPont is diversified."}
+  "4063.T":    {share: 0.35, note: "(est.) Semiconductor silicon only — Shin-Etsu is a broad chemical company (PVC, silicones)."}
+  "4005.T":    {share: 0.15, note: "(est.) Semiconductor materials only — Sumitomo Chemical is broad chemicals."}
+  "4004.T":    {share: 0.35, note: "(est.) Semiconductor materials only — Resonac (Showa Denko) is broad chemicals."}
+  "7741.T":    {share: 0.25, note: "(est.) Mask blanks / semiconductor only — Hoya is also medical & eyewear."}
+  # ---- actual revenue overridden by scripts/load_samsung_memory.py; cons_share scales the
+  #      (still-consolidated) analyst consensus to the memory segment so forecast cols stay apple-to-apple ----
+  "005930.KS": {cons_share: 0.31, note: "Memory segment only (from Samsung quarterly reports) — full Samsung also spans Mobile, Display, Foundry."}

@@ -1,0 +1,235 @@
+{
+ "periods": [
+  "2025Q1",
+  "2025Q2",
+  "2025Q3",
+  "2025Q4",
+  "2026Q1"
+ ],
+ "companies": [
+  {
+   "ticker": "2330.TW",
+   "name": "TSMC",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NYSE/TSM",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-15-taiwan-semiconductor-manufacturing-company-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-15-taiwan-semiconductor-manufacturing-company-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-16-taiwan-semiconductor-manufacturing-company-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-17-taiwan-semiconductor-manufacturing-company-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-17-taiwan-semiconductor-manufacturing-company-limited-stock/"
+   ]
+  },
+  {
+   "ticker": "ASML.AS",
+   "name": "ASML",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ASML",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-3-30-asml-holding-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-15-asml-holding-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-16-asml-holding-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-16-asml-holding-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-1-29-asml-holding-stock/"
+   ]
+  },
+  {
+   "ticker": "AMAT",
+   "name": "Applied Materials",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AMAT",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-14-applied-materials-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-12-applied-materials-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-13-applied-materials-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-14-applied-materials-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-15-applied-materials-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "LRCX",
+   "name": "Lam Research",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/LRCX",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-22-lam-research-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-28-lam-research-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-22-lam-research-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-lam-research-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-lam-research-co-stock/"
+   ]
+  },
+  {
+   "ticker": "NVDA",
+   "name": "NVIDIA",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/NVDA",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-20-nvidia-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-25-nvidia-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-19-nvidia-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-27-nvidia-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-28-nvidia-co-stock/"
+   ]
+  },
+  {
+   "ticker": "MU",
+   "name": "Micron",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MU",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-3-18-micron-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-17-micron-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-9-23-micron-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-6-25-micron-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-3-20-micron-technology-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "6723.T",
+   "name": "Renesas",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": true,
+   "source": "ir_pdf",
+   "mb": null,
+   "urls": [
+    "https://www.renesas.com/document/ppt/2026-1q-presentation-minutes-and-qa",
+    "https://www.renesas.com/document/ppt/2025-full-year-presentation-minutes-and-qa",
+    "https://www.renesas.com/document/ppt/2025-3q-presentation-minutes-and-qa",
+    "https://www.renesas.com/document/ppt/2025-2q-presentation-minutes-and-qa",
+    "https://www.renesas.com/document/ppt/2025-1q-presentation-minutes-and-qa"
+   ]
+  },
+  {
+   "ticker": "AVT",
+   "name": "Avnet",
+   "layer": "L0",
+   "sublayer": "0",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AVT",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-avnet-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-28-avnet-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-avnet-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-avnet-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-avnet-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ARW",
+   "name": "Arrow Electronics",
+   "layer": "L0",
+   "sublayer": "0",
+   "core": true,
+   "source": "marketbeat",
+   "mb": "NYSE/ARW",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-arrow-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-arrow-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-30-arrow-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-arrow-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-1-arrow-electronics-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "AMD",
+   "name": "AMD",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AMD",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-advanced-micro-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-3-advanced-micro-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-advanced-micro-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-advanced-micro-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-6-advanced-micro-devices-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "AVGO",
+   "name": "Broadcom",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AVGO",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-6-3-broadcom-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-3-4-broadcom-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-11-broadcom-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-9-4-broadcom-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-6-5-broadcom-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "TXN",
+   "name": "Texas Instruments",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/TXN",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-22-texas-instruments-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-27-texas-instruments-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-21-texas-instruments-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-22-texas-instruments-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-texas-instruments-incorporated-stock/"
+   ]
+  },
+  {
+   "ticker": "ADI",
+   "name": "Analog Devices",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ADI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-20-analog-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-18-analog-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-25-analog-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-20-analog-devices-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-22-analog-devices-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "KLAC",
+   "name": "KLA",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/KLAC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-kla-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-29-kla-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-kla-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-kla-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-kla-co-stock/"
+   ]
+  }
+ ]
+}

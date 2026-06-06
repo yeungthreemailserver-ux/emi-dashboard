@@ -1,0 +1,704 @@
+{
+ "topic": "capex",
+ "as_of": "2026Q1",
+ "outlook": {
+  "direction": "improving",
+  "confidence": "high",
+  "headline": "Capex/WFE cycle inflecting up, led by AI memory, foundry and equipment spend",
+  "summary": "Equipment makers raised 2026 WFE to ~$140B with upside bias and see 2027 accelerating, while foundry and memory leaders step up their own capacity capex for AI/HBM. Fabless and analog cite booming hyperscaler and back-end spending as a strong demand signal, making the broad direction clearly upward."
+ },
+ "drivers": [
+  {
+   "label": "WFE guidance raised into 2026-27",
+   "polarity": "pos",
+   "detail": "2026 WFE lifted to ~$140B with upside bias; 2027 expected faster",
+   "companies": [
+    "KLAC",
+    "LRCX",
+    "AMAT"
+   ]
+  },
+  {
+   "label": "AI/HBM driving own-capacity capex up",
+   "polarity": "pos",
+   "detail": "TSMC steps up N3; Micron FY26 >$25B, FY27 meaningfully higher for HBM/DRAM",
+   "companies": [
+    "2330.TW",
+    "MU"
+   ]
+  },
+  {
+   "label": "Hyperscaler/cloud capex surging",
+   "polarity": "pos",
+   "detail": "Hyperscale capex toward $3-4T; CSP capital investment keeps rising",
+   "companies": [
+    "NVDA",
+    "AMAT",
+    "ASML.AS"
+   ]
+  },
+  {
+   "label": "Customers accelerating capacity ramps",
+   "polarity": "pos",
+   "detail": "Memory and logic customers increasing capex, pulling forward capacity into 2026+",
+   "companies": [
+    "ASML.AS"
+   ]
+  },
+  {
+   "label": "Analog/own back-end capex moderating",
+   "polarity": "mixed",
+   "detail": "TXN holds $2-3B 2026 capex, moderating to ~1.2x intensity for internalization",
+   "companies": [
+    "TXN",
+    "6723.T"
+   ]
+  }
+ ],
+ "risks": [
+  "WFE growth estimates may be too optimistic versus equipment makers' own view",
+  "Capex increasingly driven by memory pricing inflation, not unit growth",
+  "Concentration in AI/hyperscaler spending creates a single demand dependency",
+  "Construction-heavy capex steps up before revenue contribution lands"
+ ],
+ "companies": {
+  "2330.TW": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Stepping up CapEx for N3; raised guidance on stronger-than-expected AI demand"
+  },
+  "KLAC": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Raised 2026 WFE to $140B+, high-teens growth; 2027 to grow faster"
+  },
+  "LRCX": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Lifted 2026 WFE to $140B with upside bias; 2027 compelling growth"
+  },
+  "MU": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "FY26 CapEx above $25B; FY27 steps up meaningfully for HBM/DRAM"
+  },
+  "AMAT": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Expects WFE growth as cloud providers keep increasing capital investment"
+  },
+  "NVDA": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Hyperscaler capex growing ~90-100%, heading toward $3-4T by decade-end"
+  },
+  "TXN": {
+   "stance": "neutral",
+   "trend": "improving",
+   "point": "Holds $2-3B 2026 capex, moderating toward 1.2x long-term intensity"
+  },
+  "6723.T": {
+   "stance": "positive",
+   "trend": "flat",
+   "point": "JPY94B CapEx, ~80% for capacity expansion at Naka, Saijo, Kofu"
+  },
+  "ASML.AS": {
+   "stance": "positive",
+   "trend": "improving",
+   "point": "Memory and logic customers increasing capex, accelerating 2026+ capacity ramp"
+  }
+ },
+ "consensus": "aligned",
+ "consensus_note": "Broad agreement capex/WFE is rising into 2026-27; only debate is the magnitude of WFE growth",
+ "excluded": [
+  {
+   "ticker": "ADI",
+   "reason": "Generic 4-6% long-term capex model and routine refresh, no real outlook"
+  },
+  {
+   "ticker": "AMD",
+   "reason": "Single analyst-question fragment on customer memory-cost capex; no company commentary"
+  },
+  {
+   "ticker": "AVGO",
+   "reason": "Bare $231M capex figure with no outlook or demand signal"
+  },
+  {
+   "ticker": "AVT",
+   "reason": "Distributor with negligible $17M capex; balance-sheet mention only"
+  }
+ ],
+ "evidence": {
+  "2330.TW": [
+   {
+    "seg": "ceo",
+    "t": "Based on our assessment, to meet the strong demand in AI application, we are stepping up our CapEx investment to increase our N3 capacity."
+   },
+   {
+    "seg": "cfo",
+    "t": "Regarding cash flow and CapEx, during the first quarter, we generated about TWD 699 billion in cash from operations, spent TWD 351 billion in CapEx, and distributed TWD 130 billion for second quarter 2025 cash dividend."
+   },
+   {
+    "seg": "cfo",
+    "t": "dollar terms, our first quarter capital expenditures total $11.1 billion."
+   }
+  ],
+  "AMAT": [
+   {
+    "seg": "cfo",
+    "t": "Cloud service providers continue to increase capital investments."
+   },
+   {
+    "seg": "cfo",
+    "t": "Capital expenditures were $635 million, resulting in free cash flow of $210 million."
+   },
+   {
+    "seg": "a",
+    "t": "We do expect growth in WFE."
+   }
+  ],
+  "ASML.AS": [
+   {
+    "seg": "a",
+    "t": "We see our memory and logic customer increasing their capital expenditure and trying to accelerate basically their capacity ramp in 2026 and beyond."
+   }
+  ],
+  "KLAC": [
+   {
+    "seg": "q",
+    "t": "You know, at the analyst day you talked about a 2030 model which had $215 billion WFE and, like, $1.4 billion in semis."
+   },
+   {
+    "seg": "q",
+    "t": "On your 2026 WFE better outlook, now $140 billion+, so kind of high teens percentage type of growth outlook."
+   },
+   {
+    "seg": "q",
+    "t": "Then for 2027, now you're saying WFE will go faster than 2026 versus your prior view of in line to better."
+   }
+  ],
+  "LRCX": [
+   {
+    "seg": "ceo",
+    "t": "In January, we shared our outlook for 2026 WFE in the $135 billion range."
+   },
+   {
+    "seg": "ceo",
+    "t": "We now expect WFE of $140 billion with a bias to the upside as the industry continues to work through various constraints."
+   },
+   {
+    "seg": "ceo",
+    "t": "We believe this sets the stage for another year of compelling WFE growth in 2027."
+   }
+  ],
+  "MU": [
+   {
+    "seg": "ceo",
+    "t": "We expect fiscal 2026 CapEx to be above $25 billion."
+   },
+   {
+    "seg": "ceo",
+    "t": "From our last earnings call estimate, the majority of the increase is driven by clean room facility related CapEx, of which the largest factor is Tongluo, followed by construction spend increase in our U.S."
+   },
+   {
+    "seg": "ceo",
+    "t": "We project our fiscal 2027 CapEx to step up meaningfully to support HBM and DRAM related investments."
+   }
+  ],
+  "NVDA": [
+   {
+    "seg": "cfo",
+    "t": "With analysts now forecasting hyperscale CapEx to exceed $1 trillion in 2027 and agentic AI beginning to proliferate all industries, AI infrastructure spending is on track to reach $3 trillion-$4 trillion annually by the end of this decade."
+   },
+   {
+    "seg": "a",
+    "t": "First of all, we should be growing faster than hyperscale CapEx."
+   },
+   {
+    "seg": "a",
+    "t": "That's the hyperscale CapEx that you were just talking about."
+   }
+  ],
+  "TXN": [
+   {
+    "seg": "cfo",
+    "t": "Capital expenditures were $676 million in the quarter and $4.1 billion over the last 12 months."
+   },
+   {
+    "seg": "cfo",
+    "t": "Free cash flow on a trailing 12-month basis was $4.4 billion, up from $1.7 billion in the first quarter of 2025, trending up as growth returns and CapEx begins to moderate."
+   },
+   {
+    "seg": "a",
+    "t": "First, the answer to your question is yes, we're looking at $2 billion-$3 billion of CapEx for this year."
+   }
+  ],
+  "6723.T": [
+   {
+    "seg": "all",
+    "t": "If you could go to the next page, this is the utilization rate and CAPEX status."
+   },
+   {
+    "seg": "all",
+    "t": "As for CAPEX, as shown on this graph, for Q1, we made the decision to invest in capacity expansion."
+   },
+   {
+    "seg": "all",
+    "t": "As for CAPEX, when will CAPEX start to make a contribution?"
+   }
+  ]
+ },
+ "matrix": {
+  "periods": [
+   "2025Q1",
+   "2025Q2",
+   "2025Q3",
+   "2025Q4",
+   "2026Q1"
+  ],
+  "companies": {
+   "2330.TW": {
+    "traj": [
+     0.6,
+     0.2,
+     0.41,
+     0.35,
+     0.46
+    ],
+    "sent": {
+     "all": [
+      0.6,
+      0.2,
+      0.41,
+      0.35,
+      0.46
+     ],
+     "prepared": [
+      0.6,
+      0.0,
+      0.33,
+      0.38,
+      0.6
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      1.0,
+      1.0
+     ],
+     "cfo": [
+      0.6,
+      0.0,
+      0.33,
+      0.33,
+      0.5
+     ],
+     "q": [
+      null,
+      0.0,
+      0.33,
+      0.33,
+      0.46
+     ],
+     "a": [
+      null,
+      0.5,
+      0.6,
+      0.25,
+      0.33
+     ]
+    }
+   },
+   "AMAT": {
+    "traj": [
+     0.0,
+     -0.25,
+     0.31,
+     0.33,
+     0.52
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      -0.25,
+      0.31,
+      0.33,
+      0.52
+     ],
+     "prepared": [
+      0.0,
+      -0.25,
+      0.0,
+      0.5,
+      0.0
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      0.0,
+      null,
+      0.0,
+      0.5,
+      0.0
+     ],
+     "q": [
+      0.0,
+      null,
+      0.75,
+      0.4,
+      0.89
+     ],
+     "a": [
+      0.0,
+      null,
+      0.12,
+      0.22,
+      0.5
+     ]
+    }
+   },
+   "ASML.AS": {
+    "traj": [
+     null,
+     null,
+     null,
+     null,
+     1.0
+    ],
+    "sent": {
+     "all": [
+      null,
+      null,
+      null,
+      null,
+      1.0
+     ],
+     "prepared": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "q": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "a": [
+      null,
+      null,
+      null,
+      null,
+      1.0
+     ]
+    }
+   },
+   "KLAC": {
+    "traj": [
+     0.5,
+     0.23,
+     0.67,
+     0.5,
+     0.35
+    ],
+    "sent": {
+     "all": [
+      0.5,
+      0.23,
+      0.67,
+      0.5,
+      0.35
+     ],
+     "prepared": [
+      0.8,
+      0.5,
+      0.8,
+      null,
+      null
+     ],
+     "ceo": [
+      1.0,
+      0.0,
+      1.0,
+      null,
+      null
+     ],
+     "cfo": [
+      0.75,
+      0.6,
+      0.71,
+      null,
+      null
+     ],
+     "q": [
+      0.2,
+      0.25,
+      0.62,
+      0.67,
+      0.37
+     ],
+     "a": [
+      0.5,
+      0.04,
+      0.5,
+      0.33,
+      0.29
+     ]
+    }
+   },
+   "LRCX": {
+    "traj": [
+     0.43,
+     0.32,
+     0.39,
+     0.5,
+     0.4
+    ],
+    "sent": {
+     "all": [
+      0.43,
+      0.32,
+      0.39,
+      0.5,
+      0.4
+     ],
+     "prepared": [
+      0.56,
+      0.2,
+      0.4,
+      0.6,
+      0.5
+     ],
+     "ceo": [
+      0.6,
+      0.33,
+      0.43,
+      0.83,
+      0.8
+     ],
+     "cfo": [
+      0.5,
+      0.0,
+      0.33,
+      0.25,
+      0.0
+     ],
+     "q": [
+      0.33,
+      0.3,
+      0.36,
+      0.2,
+      0.5
+     ],
+     "a": [
+      0.33,
+      0.45,
+      0.44,
+      0.75,
+      0.17
+     ]
+    }
+   },
+   "MU": {
+    "traj": [
+     0.18,
+     0.0,
+     0.0,
+     0.23,
+     0.25
+    ],
+    "sent": {
+     "all": [
+      0.18,
+      0.0,
+      0.0,
+      0.23,
+      0.25
+     ],
+     "prepared": [
+      0.22,
+      0.0,
+      0.0,
+      0.0,
+      0.22
+     ],
+     "ceo": [
+      0.4,
+      null,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "cfo": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.4
+     ],
+     "q": [
+      null,
+      0.0,
+      0.0,
+      0.33,
+      0.0
+     ],
+     "a": [
+      0.0,
+      0.0,
+      0.0,
+      0.4,
+      0.5
+     ]
+    }
+   },
+   "NVDA": {
+    "traj": [
+     null,
+     1.0,
+     0.0,
+     0.29,
+     0.86
+    ],
+    "sent": {
+     "all": [
+      null,
+      1.0,
+      0.0,
+      0.29,
+      0.86
+     ],
+     "prepared": [
+      null,
+      1.0,
+      0.0,
+      0.5,
+      1.0
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      null,
+      null,
+      0.0,
+      0.5,
+      1.0
+     ],
+     "q": [
+      null,
+      null,
+      null,
+      0.67,
+      1.0
+     ],
+     "a": [
+      null,
+      null,
+      0.0,
+      -0.5,
+      0.67
+     ]
+    }
+   },
+   "TXN": {
+    "traj": [
+     0.0,
+     0.0,
+     0.0,
+     0.23,
+     0.4
+    ],
+    "sent": {
+     "all": [
+      0.0,
+      0.0,
+      0.0,
+      0.23,
+      0.4
+     ],
+     "prepared": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5
+     ],
+     "ceo": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "cfo": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5
+     ],
+     "q": [
+      null,
+      0.0,
+      0.0,
+      0.0,
+      0.5
+     ],
+     "a": [
+      0.0,
+      0.0,
+      0.0,
+      0.38,
+      0.33
+     ]
+    }
+   },
+   "6723.T": {
+    "traj": [
+     0.33,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sent": {
+     "all": [
+      0.33,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   }
+  }
+ }
+}

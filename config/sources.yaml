@@ -1,0 +1,50 @@
+# Data source registry — free / public only (current phase).
+sources:
+  edgar:
+    name: SEC EDGAR XBRL company facts
+    base: https://data.sec.gov/api/xbrl/companyfacts/
+    access: free (descriptive User-Agent required, < 10 req/s)
+    cadence: per filing (10-Q quarterly, 10-K / 20-F annual)
+    coverage: us_domestic = full quarterly; adr = annual-only
+    status: implemented
+
+  wsts:
+    name: WSTS global semiconductor billings
+    url: https://www.wsts.org/
+    access: free headline (monthly press release + 3-month moving avg); detailed dataset paid
+    cadence: monthly; spring & fall forecast
+    status: planned
+
+  sia:
+    name: Semiconductor Industry Association
+    url: https://www.semiconductors.org/category/news/
+    access: free monthly press release (US repackaging of WSTS)
+    cadence: monthly
+    status: planned
+
+  ecia:
+    name: Electronic Components Industry Association
+    url: https://www.ecianow.org/
+    access: free summaries — book-to-bill, ESI sentiment index
+    cadence: monthly
+    status: planned
+
+  fred:
+    name: FRED (St. Louis Fed)
+    url: https://fred.stlouisfed.org/
+    access: free API key; macro & industrial-production series
+    cadence: monthly
+    series_examples: [IPB52310S, semiconductor shipments, ISM PMI proxies]
+    status: planned
+
+  transcripts:
+    name: Earnings-call transcripts
+    access: free (e.g. company IR, Motley Fool); ToS-sensitive — respect robots/rate limits
+    cadence: quarterly
+    status: planned
+
+  news:
+    name: Industry news RSS
+    access: free RSS feeds (EE Times, company newsrooms, etc.)
+    cadence: continuous
+    status: planned

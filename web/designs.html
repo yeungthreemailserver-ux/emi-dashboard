@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EMI — Design Options</title>
+<link rel="stylesheet" href="vendor/fonts.css" />
+<style>
+  :root{ --sans:"Fira Sans",system-ui,sans-serif; --mono:"Fira Code",ui-monospace,monospace; }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9eef4;color:#0f172a;font-family:var(--sans);padding:24px 28px 80px}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:#64748b;font-size:13px;margin-bottom:24px}
+  .opt{background:#fff;border:1px solid #d4dde8;border-radius:12px;padding:16px 18px 20px;margin-bottom:22px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .opt > h2{font-size:15px;margin:0 0 2px}
+  .opt > .cap{color:#64748b;font-size:12px;margin-bottom:14px}
+  .demo table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+  .demo td.v,.demo td.g{font-family:var(--mono);text-align:right;white-space:nowrap}
+  .demo td,.demo th{padding:7px 12px}
+  .demo thead th{font-size:11px;color:#64748b;text-align:right;font-family:var(--mono);border-bottom:1px solid #d4dde8}
+  .demo thead th.l{text-align:left}
+  .demo td.name{text-align:left}
+  .demo .tag{font-family:var(--mono);font-size:10px;color:#64748b}
+  .demo .n{font-family:var(--mono);font-size:10px;color:#94a3b8;margin-left:6px}
+  .demo .tk{font-family:var(--mono);color:#2563eb;font-size:12px}
+  .demo .conm{color:#475569}
+  .demo .dot{display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c,#64748b);margin-right:7px;vertical-align:middle}
+  .demo .chip{font-family:var(--mono)}
+
+  /* ---- Option 1: Institutional Clean ---- */
+  .v1 td{border-bottom:1px solid #eef0f4}
+  .v1 tr.lvl0 td{background:#e9f1f9;border-top:2px solid #c4d6ea}
+  .v1 tr.lvl0 .nm{font-weight:700;color:#0f172a;font-size:14px}
+  .v1 tr.lvl0 .tag{color:#2563eb}
+  .v1 tr.lvl1 .nm{font-weight:600}
+  .v1 tr.lvl1 td.name{box-shadow:inset 3px 0 0 var(--c)}
+  .v1 td.g.pos{color:#15803d}
+  .v1 td.g.neg{color:#dc2626}
+
+  /* ---- Option 2: Refined Heat Grid ---- */
+  .v2 td{border-bottom:1px solid #eaeff5}
+  .v2 td.v,.v2 td.g{border-left:1px solid #eef2f7}
+  .v2 tr.lvl0 td{background:#e3ebf6;border-top:2px solid #b9cae0}
+  .v2 tr.lvl0 .nm{font-weight:700;font-size:14px}
+  .v2 tr.lvl1 td{background:#eef3f9}
+  .v2 tr.lvl1 .nm{font-weight:600}
+  .v2 td.g.pos{background:#d8f0df;color:#0f5132}
+  .v2 td.g.neg{background:#f9dcdc;color:#842029}
+
+  /* ---- Option 3: Left-rail Tree (chips) ---- */
+  .v3 table{font-size:12.5px}
+  .v3 td{border-bottom:1px solid #eef0f4}
+  .v3 tr.lvl0 td.name{font-weight:700;box-shadow:inset 4px 0 0 var(--c)}
+  .v3 tr.lvl0 .nm{font-weight:700;font-size:13.5px}
+  .v3 tr.lvl1 td.name{padding-left:26px;box-shadow:inset 4px 0 0 var(--c)}
+  .v3 tr.lvl1 .nm{font-weight:600}
+  .v3 tr.co td.name{padding-left:44px}
+  .v3 tr.co .nmwrap::before{content:'└ ';color:#cbd5e1;font-family:var(--mono)}
+  .v3 td.g .chip{padding:2px 8px;border-radius:10px}
+  .v3 td.g.pos .chip{background:#d8f0df;color:#0f5132}
+  .v3 td.g.neg .chip{background:#f9dcdc;color:#842029}
+
+  /* ---- Option 4: Sectioned Cards ---- */
+  .v4 .card{border:1px solid #dbe3ee;border-radius:10px;margin-bottom:14px;overflow:hidden}
+  .v4 .cardhead{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#eef3f9;border-bottom:1px solid #dbe3ee;box-shadow:inset 4px 0 0 var(--c)}
+  .v4 .cardhead .nm{font-weight:700;font-size:14px}
+  .v4 .cardkpi{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600}
+  .v4 .cardkpi.pos{color:#15803d}.v4 .cardkpi.neg{color:#dc2626}
+  .v4 table{width:100%}
+  .v4 td{border-bottom:1px solid #f1f4f8}
+  .v4 tr.lvl1 .nm{font-weight:600}
+  .v4 tr.co td.name{padding-left:24px}
+  .v4 td.g.pos{color:#15803d}.v4 td.g.neg{color:#dc2626}
+
+  /* ---- Option 5: Editorial Report (arrows + tree) ---- */
+  .v5 td{border-bottom:1px solid #f1f3f7;padding:8px 12px}
+  .v5 tr.lvl0 td{border-top:2px solid #0f172a}
+  .v5 tr.lvl0 .nm{font-weight:700;text-transform:uppercase;letter-spacing:.4px;font-size:12.5px}
+  .v5 tr.lvl0 .tag{color:#0f172a;font-weight:700}
+  .v5 tr.lvl1 .nm{font-weight:600}
+  .v5 tr.lvl1 td.name{padding-left:26px}
+  .v5 tr.co td.name{padding-left:42px}
+  .v5 td.g.pos{color:#15803d}
+  .v5 td.g.neg{color:#dc2626}
+  .v5 td.g.pos .chip::before{content:'▲ ';font-size:9px}
+  .v5 td.g.neg .chip::before{content:'▼ ';font-size:9px}
+</style>
+</head>
+<body>
+  <h1>EMI — choose a design (1–5)</h1>
+  <div class="sub">Same sample data in 5 styles. Look at how each separates <b>Layer › Sub-layer › Company</b>. Reply with a number.</div>
+
+  <div class="opt"><h2>Option 1 — Institutional Clean (FactSet / Capital IQ)</h2>
+    <div class="cap">White, no cell fills. Growth is green/red text. Layers = solid blue header band; sub-layers carry a colored accent edge; companies plain. Calmest, most serious-finance.</div>
+    <div class="demo v1" id="v1"></div></div>
+
+  <div class="opt"><h2>Option 2 — Refined Heat Grid</h2>
+    <div class="cap">Keeps heat fills but with clean gridlines, soft pastels and bold layer bands — a polished conditional-format grid.</div>
+    <div class="demo v2" id="v2"></div></div>
+
+  <div class="opt"><h2>Option 3 — Left-rail Tree (Bloomberg-ish)</h2>
+    <div class="cap">Colored left rail + tree connectors show the hierarchy; compact; growth as small chips (not full-cell fills).</div>
+    <div class="demo v3" id="v3"></div></div>
+
+  <div class="opt"><h2>Option 4 — Sectioned Cards</h2>
+    <div class="cap">Each layer is its own card with whitespace between them — hierarchy by physical separation. Most breathing room.</div>
+    <div class="demo v4" id="v4"></div></div>
+
+  <div class="opt"><h2>Option 5 — Editorial Report (minimal)</h2>
+    <div class="cap">Typography-led; growth as ▲/▼ + number; layers in uppercase with a heavy rule; tree-style indentation. Most "research report" feel.</div>
+    <div class="demo v5" id="v5"></div></div>
+
+<script>
+const rows = [
+  {lvl:0, dot:'#0284c7', tag:'L1', nm:'Foundry & Manufacturing', n:13, v:['$44.0B','$51.4B','$51.2B'], yoy:'+28.7%', qoq:'+4.2%'},
+  {lvl:1, dot:'#0284c7', tag:'1.1', nm:'Pure-play & Specialty Foundry', n:7, v:['$36.2B','$38.9B','$40.6B'], yoy:'+32.5%', qoq:'+6.8%'},
+  {co:1, tk:'2330.TW', nm:'Taiwan Semiconductor', v:['$31.5B','$33.2B','$36.0B'], yoy:'+35.1%', qoq:'+8.4%'},
+  {co:1, tk:'UMC', nm:'United Microelectronics', v:['$1.9B','$2.0B','$1.9B'], yoy:'+5.5%', qoq:'-1.3%'},
+  {lvl:0, dot:'#16a34a', tag:'L3', nm:'Component Manufacturers', n:52, v:['$242.4B','$279.3B','$329.0B'], yoy:'+84.6%', qoq:'+30.0%'},
+  {lvl:1, dot:'#16a34a', tag:'3.2', nm:'Core Compute & Logic', n:12, v:['$99.6B','$115.1B','$126.1B'], yoy:'+22.1%', qoq:'+10.8%'},
+  {co:1, tk:'NVDA', nm:'NVIDIA Corporation', v:['$46.7B','$57.0B','$68.1B'], yoy:'+85.2%', qoq:'+19.5%'},
+  {co:1, tk:'AVGO', nm:'Broadcom Inc.', v:['$16.0B','$18.0B','$19.3B'], yoy:'+29.5%', qoq:'+7.2%'},
+  {co:1, tk:'AMD', nm:'Advanced Micro Devices', v:['$9.2B','$10.3B','$10.3B'], yoy:'+37.9%', qoq:'-0.2%'},
+];
+const cls = x => x && x[0] === '-' ? 'neg' : 'pos';
+function rowHTML(r){
+  const klass = r.co ? 'row co' : 'row grp lvl' + r.lvl;
+  const style = r.dot ? `style="--c:${r.dot}"` : '';
+  const name = r.co
+    ? `<td class="name"><span class="nmwrap"><span class="tk">${r.tk}</span> <span class="conm">${r.nm}</span></span></td>`
+    : `<td class="name"><span class="dot"></span><span class="tag">${r.tag}</span> <span class="nm">${r.nm}</span><span class="n">${r.n}</span></td>`;
+  const vs = r.v.map(x => `<td class="v">${x}</td>`).join('');
+  const g = x => `<td class="g ${cls(x)}"><span class="chip">${x}</span></td>`;
+  return `<tr class="${klass}" ${style}>${name}${vs}${g(r.yoy)}${g(r.qoq)}</tr>`;
+}
+const head = `<thead><tr><th class="l">Layer / Company</th><th>Q3 '25</th><th>Q4 '25</th><th>Q1 '26</th><th>YoY</th><th>QoQ</th></tr></thead>`;
+function tableHTML(){ return `<table>${head}<tbody>${rows.map(rowHTML).join('')}</tbody></table>`; }
+['v1','v2','v3','v5'].forEach(id => document.getElementById(id).innerHTML = tableHTML());
+
+// Option 4: cards grouped by layer
+(function(){
+  let h = '', open = false;
+  for (const r of rows){
+    if (!r.co && r.lvl === 0){
+      if (open) h += '</tbody></table></div>';
+      h += `<div class="card"><div class="cardhead" style="--c:${r.dot}"><span class="dot"></span><span class="tag">${r.tag}</span> <span class="nm">${r.nm}</span> <span class="n">${r.n}</span><span class="cardkpi ${cls(r.yoy)}">YoY ${r.yoy}</span></div><table><tbody>`;
+      open = true;
+    } else { h += rowHTML(r); }
+  }
+  if (open) h += '</tbody></table></div>';
+  document.getElementById('v4').innerHTML = h;
+})();
+</script>
+</body>
+</html>
