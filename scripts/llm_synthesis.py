@@ -79,7 +79,7 @@ def synth(tid, model):
     if len(series) >= 2:
         base = sum(series[:-1]) / (len(series) - 1) or 1
         mom = round((series[-1] - base) / (base + 1) * 100)
-    reads_txt = "\n".join(f"- {n} [{f}] demand={ds} supply={ss}: {w}" for n, f, ds, ss, w in rows)
+    reads_txt = "\n".join(f"- {n} [{f}] demand={ds} supply={ss}: {w}" for n, f, ds, ss, w in rows[:28])   # cap fed reads to bound cost
     user = (f"Topic: {LEAVES[tid]} ({KIND.get(tid)}). Period {PERIOD}. Mention trend per company (oldest->newest): "
             f"{series}; latest {now}x, momentum {mom}% vs trailing average.\n\nCompany reads this quarter:\n{reads_txt}")
     payload = {"model": model, "reasoning_effort": "medium",

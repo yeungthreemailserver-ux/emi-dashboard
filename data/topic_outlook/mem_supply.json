@@ -1,49 +1,46 @@
 {
  "topic": "mem_supply",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "stabilizing",
-  "headline": "Memory supply stays tight, with little near-term relief",
-  "summary": "Reads remain uniformly tight on memory supply, and the bottlenecks cited are structural rather than transient: Micron points to cleanroom, node and packaging limits, while TSMC still sees severe undersupply against AI demand. That supports pricing and utilization for capacity holders and memory suppliers, but keeps OEMs and channel customers in a buffering posture, as seen at Avnet and Arrow. The main watchpoint is whether the slight cooling in mention momentum means tightness is no longer worsening, rather than actually easing.",
+  "direction": "improving",
+  "headline": "Memory supply stays tight as capacity additions lag demand",
+  "summary": "Memory supply looks set to remain constrained through 2026Q1–Q2: TSMC and Micron point to severe undersupply and node/packaging limits, while Avnet and Arrow are still describing thin channel availability. That supports pricing and utilization for suppliers, but keeps pressure on PC/mobile/handset-exposed names; the latest mention trend is still elevated at 0.6x, 14% above trailing average, so tightness is still very much in focus. Watch whether new capacity ramps start to ease the bottleneck, or whether allocation persists longer than expected.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Capacity expansion remains constrained",
-   "detail": "Micron cites cleanroom, node migration and packaging limits as capping supply growth, which argues against meaningful easing over the next 1-2 quarters.",
-   "polarity": "neg",
+   "label": "AI-led undersupply and bit-growth constraints",
+   "detail": "Severe undersupply from AI demand plus cleanroom, node and packaging limits are keeping supply below demand.",
+   "polarity": "pos",
    "companies": [
+    "TSMC",
     "Micron"
    ]
   },
   {
-   "label": "AI demand is still outrunning available supply",
-   "detail": "TSMC describes severe undersupply alongside strong AI demand, reinforcing that end-demand is absorbing available memory-related capacity.",
-   "polarity": "neg",
+   "label": "Channel inventories remain thin",
+   "detail": "Avnet is adding memory inventory to support customer programs and Arrow says on-prem supply is becoming thin, both consistent with allocation-like conditions.",
+   "polarity": "pos",
    "companies": [
-    "TSMC"
-   ]
-  },
-  {
-   "label": "Channel is carrying buffer inventory, not clearing excess",
-   "detail": "Avnet says inventories were being added to support customer programs, consistent with customers protecting against shortages rather than working through a glut.",
-   "polarity": "neg",
-   "companies": [
-    "Avnet"
-   ]
-  },
-  {
-   "label": "Spot/on-prem availability is thinning",
-   "detail": "Arrow notes on-prem memory supply is becoming thin, indicating near-term availability remains constrained and customers may need alternative sourcing paths.",
-   "polarity": "neg",
-   "companies": [
+    "Avnet",
     "Arrow Electronics"
+   ]
+  },
+  {
+   "label": "Multiple bottlenecks still visible across the chain",
+   "detail": "Tester shortages, DRAM capacity constraints, and locked-up supply all point to continued scarcity rather than normalization.",
+   "polarity": "pos",
+   "companies": [
+    "Teradyne",
+    "FormFactor",
+    "Alpha & Omega Semi",
+    "SanDisk"
    ]
   }
  ],
  "risks": [
-  "Packaging or node-transition bottlenecks improve faster than expected, allowing supply to loosen sooner.",
-  "AI-driven demand moderates enough to reduce the severity of undersupply even without major capacity additions.",
-  "The softer mention trend persists, signaling supply tightness is plateauing rather than intensifying."
+  "New DRAM/NAND capacity and packaging ramps could ease shortages faster than expected.",
+  "Shortage-driven demand destruction in PCs, mobile and handsets could soften downstream pull.",
+  "Customer inventory rebuilds could fade if programs slow, reducing the need for buffering."
  ]
 }

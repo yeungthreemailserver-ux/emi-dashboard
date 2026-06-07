@@ -230,6 +230,947 @@
     "https://www.marketbeat.com/earnings/reports/2025-7-31-kla-co-stock/",
     "https://www.marketbeat.com/earnings/reports/2025-4-30-kla-co-stock/"
    ]
+  },
+  {
+   "ticker": "GFS",
+   "name": "GlobalFoundries",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/GFS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-globalfoundries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-11-globalfoundries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-12-globalfoundries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-globalfoundries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-6-globalfoundries-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "SKYT",
+   "name": "SkyWater Technology",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SKYT",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-20-skywater-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-25-skywater-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-skywater-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-26-skywater-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2024-11-7-skywater-technology-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "AMKR",
+   "name": "Amkor Technology",
+   "layer": "L1",
+   "sublayer": "1.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AMKR",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-27-amkor-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-9-amkor-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-27-amkor-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-28-amkor-technology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-28-amkor-technology-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "TER",
+   "name": "Teradyne",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/TER",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-teradyne-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-3-teradyne-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-teradyne-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-29-teradyne-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-28-teradyne-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ONTO",
+   "name": "Onto Innovation",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ONTO",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-onto-innovation-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-19-onto-innovation-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-onto-innovation-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-onto-innovation-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-onto-innovation-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ACMR",
+   "name": "ACM Research",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ACMR",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-acm-research-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-acm-research-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-acm-research-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-26-acm-research-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2024-11-7-acm-research-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "UCTT",
+   "name": "Ultra Clean Holdings",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/UCTT",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-28-ultra-clean-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-23-ultra-clean-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-28-ultra-clean-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-28-ultra-clean-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-28-ultra-clean-holdings-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ICHR",
+   "name": "Ichor Holdings",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ICHR",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-4-ichor-holdings-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-ichor-holdings-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-4-ichor-holdings-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-5-ichor-holdings-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-4-ichor-holdings-ltd-stock/"
+   ]
+  },
+  {
+   "ticker": "MKSI",
+   "name": "MKS Instruments",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MKSI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-mks-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-17-mks-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-mks-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-mks-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-mks-instruments-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "AEIS",
+   "name": "Advanced Energy",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AEIS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-4-advanced-energy-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-advanced-energy-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-advanced-energy-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-advanced-energy-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-advanced-energy-industries-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "FORM",
+   "name": "FormFactor",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/FORM",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-formfactor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-formfactor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-formfactor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-formfactor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-5-formfactor-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "COHU",
+   "name": "Cohu",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/COHU",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-cohu-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-12-cohu-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-cohu-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-cohu-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-1-cohu-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "VECO",
+   "name": "Veeco Instruments",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/VECO",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-veeco-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-veeco-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-veeco-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-veeco-instruments-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-12-veeco-instruments-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "KLIC",
+   "name": "Kulicke & Soffa",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/KLIC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-kulicke-and-soffa-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-kulicke-and-soffa-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-20-kulicke-and-soffa-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-kulicke-and-soffa-industries-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-6-kulicke-and-soffa-industries-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ENTG",
+   "name": "Entegris",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ENTG",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-entegris-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-entegris-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-30-entegris-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-entegris-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-entegris-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "APD",
+   "name": "Air Products",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/APD",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-air-products-and-chemicals-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-30-air-products-and-chemicals-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-air-products-and-chemicals-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-air-products-and-chemicals-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-1-air-products-and-chemicals-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "LIN",
+   "name": "Linde",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/LIN",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-1-linde-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-linde-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-31-linde-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-1-linde-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-1-linde-plc-stock/"
+   ]
+  },
+  {
+   "ticker": "DD",
+   "name": "DuPont",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/DD",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-dupont-de-nemours-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-dupont-de-nemours-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-dupont-de-nemours-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-dupont-de-nemours-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-2-dupont-de-nemours-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ESI",
+   "name": "Element Solutions",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ESI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-28-element-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-17-element-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-28-element-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-element-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-element-solutions-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "CBT",
+   "name": "Cabot",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CBT",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-cabot-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-3-cabot-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-cabot-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-4-cabot-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-5-cabot-co-stock/"
+   ]
+  },
+  {
+   "ticker": "CDNS",
+   "name": "Cadence Design Systems",
+   "layer": "L2",
+   "sublayer": "2.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CDNS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-27-cadence-design-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-17-cadence-design-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-27-cadence-design-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-28-cadence-design-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-28-cadence-design-systems-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "SNPS",
+   "name": "Synopsys",
+   "layer": "L2",
+   "sublayer": "2.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SNPS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-27-synopsys-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-25-synopsys-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-10-synopsys-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-9-9-synopsys-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-28-synopsys-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "CEVA",
+   "name": "CEVA",
+   "layer": "L2",
+   "sublayer": "2.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CEVA",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-11-ceva-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-17-ceva-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-10-ceva-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-11-ceva-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-ceva-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "MCHP",
+   "name": "Microchip Technology",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MCHP",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-microchip-technology-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-microchip-technology-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-microchip-technology-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-microchip-technology-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-microchip-technology-incorporated-stock/"
+   ]
+  },
+  {
+   "ticker": "ON",
+   "name": "ON Semiconductor",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ON",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-4-on-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-9-on-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-on-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-4-on-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-5-on-semiconductor-co-stock/"
+   ]
+  },
+  {
+   "ticker": "VSH",
+   "name": "Vishay Intertechnology",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/VSH",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-13-vishay-intertechnology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-vishay-intertechnology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-vishay-intertechnology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-vishay-intertechnology-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-vishay-intertechnology-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "DIOD",
+   "name": "Diodes Incorporated",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/DIOD",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-diodes-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-diodes-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-diodes-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-diodes-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-diodes-incorporated-stock/"
+   ]
+  },
+  {
+   "ticker": "POWI",
+   "name": "Power Integrations",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/POWI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-power-integrations-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-power-integrations-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-power-integrations-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-power-integrations-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-12-power-integrations-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "MPWR",
+   "name": "Monolithic Power Systems",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MPWR",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-monolithic-power-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-monolithic-power-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-30-monolithic-power-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-monolithic-power-systems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-1-monolithic-power-systems-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "ALGM",
+   "name": "Allegro MicroSystems",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ALGM",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-allegro-microsystems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-29-allegro-microsystems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-30-allegro-microsystems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-31-allegro-microsystems-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-allegro-microsystems-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "WOLF",
+   "name": "Wolfspeed",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/WOLF",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-wolfspeed-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-28-wolfspeed-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-wolfspeed-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-wolfspeed-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-1-29-wolfspeed-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "NVTS",
+   "name": "Navitas Semiconductor",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/NVTS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-navitas-semiconductor-corp-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-24-navitas-semiconductor-corp-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-navitas-semiconductor-corp-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-4-navitas-semiconductor-corp-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-5-navitas-semiconductor-corp-stock/"
+   ]
+  },
+  {
+   "ticker": "SLAB",
+   "name": "Silicon Laboratories",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SLAB",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-silicon-laboratories-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-silicon-laboratories-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-silicon-laboratories-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-silicon-laboratories-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-13-silicon-laboratories-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "SMTC",
+   "name": "Semtech",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SMTC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-26-semtech-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-3-16-semtech-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-24-semtech-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-27-semtech-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-3-13-semtech-co-stock/"
+   ]
+  },
+  {
+   "ticker": "MXL",
+   "name": "MaxLinear",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MXL",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-23-maxlinear-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-29-maxlinear-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-23-maxlinear-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-23-maxlinear-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-maxlinear-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "LSCC",
+   "name": "Lattice Semiconductor",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/LSCC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-4-lattice-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-lattice-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-lattice-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-4-lattice-semiconductor-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-5-lattice-semiconductor-co-stock/"
+   ]
+  },
+  {
+   "ticker": "CRUS",
+   "name": "Cirrus Logic",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CRUS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-cirrus-logic-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-3-cirrus-logic-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-cirrus-logic-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-cirrus-logic-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-6-cirrus-logic-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "SYNA",
+   "name": "Synaptics",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SYNA",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-synaptics-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-synaptics-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-synaptics-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-synaptics-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-synaptics-incorporated-stock/"
+   ]
+  },
+  {
+   "ticker": "SWKS",
+   "name": "Skyworks Solutions",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SWKS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-skyworks-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-3-skyworks-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-skyworks-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-28-skyworks-solutions-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-skyworks-solutions-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "QRVO",
+   "name": "Qorvo",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/QRVO",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-qorvo-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-27-qorvo-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-3-qorvo-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-29-qorvo-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-29-qorvo-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "MTSI",
+   "name": "MACOM Technology",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MTSI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-macom-technology-solutions-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-macom-technology-solutions-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-macom-technology-solutions-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-macom-technology-solutions-holdings-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-8-macom-technology-solutions-holdings-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "SITM",
+   "name": "SiTime",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SITM",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-sitime-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-sitime-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-sitime-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-sitime-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-sitime-co-stock/"
+   ]
+  },
+  {
+   "ticker": "AOSL",
+   "name": "Alpha & Omega Semi",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AOSL",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-alpha-and-omega-semiconductor-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-5-alpha-and-omega-semiconductor-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-6-alpha-and-omega-semiconductor-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-7-alpha-and-omega-semiconductor-limited-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-2-5-alpha-and-omega-semiconductor-limited-stock/"
+   ]
+  },
+  {
+   "ticker": "INDI",
+   "name": "indie Semiconductor",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/INDI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-7-indie-semiconductor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-19-indie-semiconductor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-indie-semiconductor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-7-indie-semiconductor-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-12-indie-semiconductor-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "INTC",
+   "name": "Intel",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/INTC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-23-intel-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-22-intel-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-23-intel-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-24-intel-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-24-intel-co-stock/"
+   ]
+  },
+  {
+   "ticker": "QCOM",
+   "name": "Qualcomm",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/QCOM",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-qualcomm-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-4-qualcomm-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-qualcomm-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-qualcomm-incorporated-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-qualcomm-incorporated-stock/"
+   ]
+  },
+  {
+   "ticker": "MRVL",
+   "name": "Marvell Technology",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MRVL",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-27-marvell-technology-group-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-3-5-marvell-technology-group-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-2-marvell-technology-group-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-28-marvell-technology-group-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-29-marvell-technology-group-ltd-stock/"
+   ]
+  },
+  {
+   "ticker": "AMBA",
+   "name": "Ambarella",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/AMBA",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-28-ambarella-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-26-ambarella-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-25-ambarella-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-28-ambarella-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-29-ambarella-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "CRDO",
+   "name": "Credo Technology",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CRDO",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-6-1-credo-technology-group-holding-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-3-2-credo-technology-group-holding-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-1-credo-technology-group-holding-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-9-3-credo-technology-group-holding-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-6-2-credo-technology-group-holding-ltd-stock/"
+   ]
+  },
+  {
+   "ticker": "ALAB",
+   "name": "Astera Labs",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/ALAB",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-5-astera-labs-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-astera-labs-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-4-astera-labs-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-8-5-astera-labs-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-5-6-astera-labs-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "RMBS",
+   "name": "Rambus",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/RMBS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-27-rambus-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-2-rambus-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-27-rambus-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2024-7-29-rambus-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "TEL",
+   "name": "TE Connectivity",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/TEL",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-22-te-connectivity-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-21-te-connectivity-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-te-connectivity-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-23-te-connectivity-ltd-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-te-connectivity-ltd-stock/"
+   ]
+  },
+  {
+   "ticker": "APH",
+   "name": "Amphenol",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/APH",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-amphenol-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-28-amphenol-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-22-amphenol-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-23-amphenol-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-23-amphenol-co-stock/"
+   ]
+  },
+  {
+   "ticker": "LFUS",
+   "name": "Littelfuse",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/LFUS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-5-6-littelfuse-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-28-littelfuse-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-29-littelfuse-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-littelfuse-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-29-littelfuse-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "CTS",
+   "name": "CTS Corporation",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/CTS",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-29-cts-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-2-10-cts-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-28-cts-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-24-cts-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-cts-co-stock/"
+   ]
+  },
+  {
+   "ticker": "MEI",
+   "name": "Methode Electronics",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/MEI",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-3-5-methode-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-12-3-methode-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-9-9-methode-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-9-methode-electronics-inc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-3-5-methode-electronics-inc-stock/"
+   ]
+  },
+  {
+   "ticker": "WDC",
+   "name": "Western Digital",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/WDC",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-western-digital-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-29-western-digital-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-30-western-digital-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-30-western-digital-co-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-30-western-digital-co-stock/"
+   ]
+  },
+  {
+   "ticker": "STX",
+   "name": "Seagate Technology",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/STX",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-28-seagate-technology-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-27-seagate-technology-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-7-29-seagate-technology-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-4-29-seagate-technology-plc-stock/",
+    "https://www.marketbeat.com/earnings/reports/2024-10-22-seagate-technology-plc-stock/"
+   ]
+  },
+  {
+   "ticker": "SNDK",
+   "name": "SanDisk",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "marketbeat",
+   "mb": "NASDAQ/SNDK",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-30-4285541-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-29-4285541-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-6-4285541-stock/"
+   ]
   }
  ]
 }

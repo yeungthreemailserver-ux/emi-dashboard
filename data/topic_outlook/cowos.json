@@ -1,60 +1,85 @@
 {
  "topic": "cowos",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "stabilizing",
-  "headline": "Advanced packaging stays tight as AI/HBM demand outruns expansion",
-  "summary": "Into 2026Q1, CoWoS and advanced packaging look set to remain constrained at high utilization rather than meaningfully loosen. TSMC, Applied, Lam, KLA and Micron all point to strong AI/HBM-driven demand and continued packaging investment, but the softer mention momentum and lack of direct tightening commentary from NVIDIA/AMD suggest the next 1-2 quarters are more about sustaining elevated demand than a fresh leg of broadening. Foundry and packaging-equipment suppliers remain the clearest beneficiaries; the key watch is whether incremental capacity additions start narrowing the bottleneck or simply get absorbed by AI demand.",
+  "direction": "mixed",
+  "headline": "Packaging demand stays hot, but mention momentum has eased",
+  "summary": "CoWoS/advanced packaging remains fundamentally strong over the next 1-2 quarters: AI-driven demand is still outrunning supply, with TSMC, Amkor, Onto, KLA, Veeco, Lam, and others all pointing to tight capacity and accelerating spending. That said, the company mention trend has rolled over from 3.6x to 3.3x, suggesting the conversation is still positive but no longer broadening as quickly; watch whether capacity expansions at OSATs and memory/IDM players start to relieve the tightness.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "High-end packaging demand still exceeds available supply",
-   "detail": "TSMC says customers want demand met across front-end and high-end packaging, implying packaging remains a gating item for shipments.",
+   "label": "AI-driven advanced packaging demand remains hot",
+   "detail": "Multiple suppliers and ecosystem names still describe strong AI-led pull for CoWoS/advanced packaging, with demand outrunning current capacity.",
    "polarity": "pos",
    "companies": [
-    "TSMC"
+    "TSMC",
+    "Applied Materials",
+    "Lam Research",
+    "KLA",
+    "Amkor Technology",
+    "Onto Innovation",
+    "ACM Research",
+    "Ultra Clean Holdings",
+    "MKS Instruments",
+    "FormFactor",
+    "Veeco Instruments",
+    "Kulicke & Soffa",
+    "Element Solutions",
+    "Cadence Design Systems",
+    "Synopsys"
    ]
   },
   {
-   "label": "AI-driven packaging capex is still accelerating",
-   "detail": "Applied sees advanced packaging spending accelerating into its strongest product areas, while Lam expects advanced packaging growth above 50%, supporting another solid quarter or two for packaging tools.",
+   "label": "Supply remains tight across the packaging chain",
+   "detail": "TSMC, Texas Instruments, Amkor, Onto, and others describe constrained packaging/assembly capacity, which supports pricing and utilization for suppliers but limits near-term volume relief.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Texas Instruments",
+    "Amkor Technology",
+    "Onto Innovation",
+    "Micron",
+    "Element Solutions",
+    "Veeco Instruments",
+    "Kulicke & Soffa"
+   ]
+  },
+  {
+   "label": "Packaging capex and tool demand are still accelerating",
+   "detail": "Applied, Lam, KLA, ACM, and Veeco all point to strong revenue growth or share gains in advanced packaging-related equipment and materials.",
    "polarity": "pos",
    "companies": [
     "Applied Materials",
-    "Lam Research"
+    "Lam Research",
+    "KLA",
+    "ACM Research",
+    "Veeco Instruments",
+    "MKS Instruments",
+    "FormFactor"
    ]
   },
   {
-   "label": "HBM keeps pulling packaging capacity higher",
-   "detail": "Micron is expanding advanced packaging capacity because HBM demand is strong and future supply needs are rising, which argues the bottleneck persists even as capacity is added.",
-   "polarity": "pos",
-   "companies": [
-    "Micron"
-   ]
+   "label": "Mention momentum has softened",
+   "detail": "The topic's mention trend has slipped to 3.3x from a 3.6x peak, indicating the narrative is still active but has lost some breadth versus recent weeks.",
+   "polarity": "neg",
+   "companies": []
   },
   {
-   "label": "Packaging process control demand remains robust",
-   "detail": "KLA cites meaningful advanced packaging revenue growth and share gains, consistent with sustained customer investment in complex packaging flows.",
-   "polarity": "pos",
-   "companies": [
-    "KLA"
-   ]
-  },
-  {
-   "label": "Signal is strong in the supply chain, but less explicit at end customers",
-   "detail": "NVIDIA, AMD and ADI did not provide direct demand or capacity commentary on packaging, arguing against calling for a broad new upswing despite bullish supplier reads.",
+   "label": "Customer-side timing looks less explicit in some names",
+   "detail": "NVIDIA, AMD, ADI, and Microchip do not provide direct packaging demand or capacity signals in the quoted reads, limiting the breadth of new confirmations this quarter.",
    "polarity": "neg",
    "companies": [
     "NVIDIA",
     "AMD",
-    "Analog Devices"
+    "Analog Devices",
+    "Microchip Technology"
    ]
   }
  ],
  "risks": [
-  "Capacity additions at TSMC and Micron could begin easing tightness faster than expected if AI/HBM order growth pauses.",
-  "Mention momentum is down 9% versus the trailing average; another step-down would suggest packaging is moving from acute bottleneck to normalized execution issue.",
-  "If end-customer commentary stays muted, supplier optimism may prove more supply-chain specific than truly broad-based demand expansion."
+  "Packaging capacity additions at Amkor, Micron, and TI could ease the tightness faster than expected.",
+  "If AI/HPC build schedules pause, mentions from equipment and materials vendors could roll over further.",
+  "A continued decline in mention trend could signal that the theme is maturing despite still-bullish fundamentals."
  ]
 }

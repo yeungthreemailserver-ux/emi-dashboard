@@ -1,41 +1,60 @@
 {
  "topic": "sovereign_ai",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Sovereign AI demand is real, but broadening remains early",
-  "summary": "Sovereign AI looks set to improve over the next 1-2 quarters as NVIDIA and AMD both describe it as an incremental accelerator demand channel, with NVIDIA already seeing meaningful revenue contribution. ADI adds a second leg via sovereignty-driven A&D spending, suggesting the theme is extending beyond core GPUs, but the softer mention momentum implies adoption is still concentrated rather than yet becoming a broad sector-wide demand driver. Watch for more evidence that sovereign projects convert from isolated wins into sustained multi-vendor volume.",
+  "headline": "Sovereign AI demand is broadening across the stack",
+  "summary": "Sovereign AI is emerging as a real incremental demand channel rather than a one-off policy theme, with bullish reads across accelerators, connectivity, storage, and analog. NVIDIA, AMD, and Qualcomm point to expanding customer adoption, while Astera Labs and Seagate suggest the build-out is still early enough to sustain demand into the next 1-2 quarters. Watch whether these early sovereign projects convert into repeatable deployments, since mention levels remain modest even as the tone turns more constructive.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Sovereign AI is becoming a meaningful accelerator demand channel",
-   "detail": "NVIDIA says sovereign revenue is growing strongly and has become a meaningful new source of demand, indicating near-term spending is moving from concept to revenue.",
+   "label": "New sovereign revenue channel for accelerators",
+   "detail": "Sovereign AI is described as a meaningful and growing demand source for GPUs and accelerators.",
    "polarity": "pos",
    "companies": [
-    "NVIDIA"
-   ]
-  },
-  {
-   "label": "AMD is gaining sovereign accelerator adoption",
-   "detail": "AMD cites Instinct adoption across sovereign customers, supporting a broader accelerator spend pool rather than a single-vendor phenomenon.",
-   "polarity": "pos",
-   "companies": [
+    "NVIDIA",
     "AMD"
    ]
   },
   {
-   "label": "National sovereignty concerns are accelerating public-sector and A&D spending",
-   "detail": "ADI sees sovereignty concerns speeding an already strong multiyear aerospace and defense growth path, reinforcing sovereign demand beyond pure AI compute.",
+   "label": "Broader infrastructure pull-through",
+   "detail": "Sovereign AI is cited alongside other AI infrastructure workloads, supporting demand for networking and interconnect.",
+   "polarity": "pos",
+   "companies": [
+    "Credo Technology",
+    "Astera Labs"
+   ]
+  },
+  {
+   "label": "Early-stage build-out supports runway",
+   "detail": "Sovereign entities are still in the early phases of deployment, implying continued demand growth rather than a near-term pause.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs",
+    "Seagate Technology"
+   ]
+  },
+  {
+   "label": "Policy-driven demand in analog and defense-related areas",
+   "detail": "National sovereignty concerns are accelerating an already strong multiyear growth path in aerospace and defense exposure.",
    "polarity": "pos",
    "companies": [
     "Analog Devices"
    ]
+  },
+  {
+   "label": "Expanding partner and project activity",
+   "detail": "Multiple opportunities with sovereign AI projects and global partners suggest the demand base is widening beyond a few flagship deals.",
+   "polarity": "pos",
+   "companies": [
+    "Qualcomm"
+   ]
   }
  ],
  "risks": [
-  "Mention momentum is slightly negative versus the trailing average, so the theme may remain important but not yet broaden materially across the sector next quarter.",
-  "Demand is currently evidenced by only a small set of companies, raising the risk that sovereign AI remains concentrated in accelerators and defense-exposed names.",
-  "Key watch-item is conversion pace: strong sovereign interest must continue translating into recognized revenue, not just pipeline and design activity."
+  "Sovereign AI remains early and project-based, so conversions to revenue may be uneven quarter to quarter.",
+  "Mention trend is still low at 0.2x, so broad market excitement may lag the positive company reads.",
+  "Any delays in large sovereign deployments could push out the demand step-up rather than reduce it."
  ]
 }

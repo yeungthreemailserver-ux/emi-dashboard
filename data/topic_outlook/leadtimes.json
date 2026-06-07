@@ -1,34 +1,52 @@
 {
  "topic": "leadtimes",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Lead-time extension is broadening, but remains orderly",
-  "summary": "Into 2026Q1, lead times look set to extend modestly as demand increasingly runs ahead of supply in wafer fab equipment, compute and broadline distribution rather than in just one pocket. That is supportive for suppliers leveraged to tight markets and backlog visibility—especially Lam, KLA, Micron, Broadcom, Avnet and Arrow—while the benefit is less pronounced where supply is still controlled, such as Analog Devices, and Applied offers no clear read. Mentions are running 2.1x and 6% above the trailing average, which supports a re-tightening thesis, but the tone is still more 'manageable extension' than acute shortage.",
-  "confidence": "medium"
+  "headline": "Lead times are stretching again across most of the supply chain",
+  "summary": "The latest mention trend is back up to 1.2x, about 11% above the trailing average, and the company reads are overwhelmingly pointing to lead times lengthening rather than easing. The tightest reads are concentrated in tools, test, distribution, and selected semis—benefiting suppliers with backlog and pricing leverage—while only a few names still describe balanced or weak conditions. Watch whether the current extension broadens further or starts to level off, especially in the more balanced analog and materials pockets.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "WFE demand is pushing tool lead times longer",
-   "detail": "Lam and KLA both describe extended lead times and tight components as a function of strong demand outstripping available supply for tools.",
+   "label": "Broad-based lead-time extension",
+   "detail": "Multiple companies said lead times are stretching or extending, signaling demand is running ahead of supply rather than inventory normalization.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
-    "KLA"
+    "Micron",
+    "Avnet",
+    "Broadcom",
+    "Texas Instruments",
+    "KLA",
+    "Teradyne",
+    "Onto Innovation",
+    "Microchip Technology",
+    "ON Semiconductor",
+    "Vishay Intertechnology",
+    "Lattice Semiconductor",
+    "Skyworks Solutions",
+    "Rambus",
+    "TE Connectivity"
    ]
   },
   {
-   "label": "Supply growth remains constrained in tight markets",
-   "detail": "Micron sees long lead times as evidence that supply growth is constrained, while Broadcom says customers need more lead time to secure compute capacity.",
+   "label": "Tight supply persists in tools and test",
+   "detail": "Equipment and test names continue to describe tight supply and backlog support, suggesting the constraint is not isolated to one node.",
    "polarity": "pos",
    "companies": [
-    "Micron",
-    "Broadcom"
+    "Lam Research",
+    "KLA",
+    "Teradyne",
+    "Veeco Instruments",
+    "Cohu",
+    "Onto Innovation",
+    "Applied Materials"
    ]
   },
   {
-   "label": "Tightening is broadening across distribution channels",
-   "detail": "Avnet says lead times are stretching across more products, and Arrow sees gradual increases that point to tighter supply even if conditions are still manageable.",
+   "label": "Distribution channel remains tighter",
+   "detail": "Lead times are gradually increasing across distribution, indicating the channel is still absorbing stronger demand without yet showing shortage-like stress.",
    "polarity": "pos",
    "companies": [
     "Avnet",
@@ -36,25 +54,21 @@
    ]
   },
   {
-   "label": "Early extensions are emerging even where lead times were kept short",
-   "detail": "Texas Instruments notes lead times had been short and stable, so any extension is a sign demand is beginning to outrun supply.",
-   "polarity": "pos",
-   "companies": [
-    "Texas Instruments"
-   ]
-  },
-  {
-   "label": "Analog supply remains under control",
-   "detail": "Analog Devices says lead times are in pretty good shape, suggesting not all end markets are seeing real supply stress yet.",
+   "label": "Soft pockets remain but are limited",
+   "detail": "A few companies still described balanced, ample, or weak conditions, which tempers the breadth of the tightening but does not reverse it.",
    "polarity": "neg",
    "companies": [
-    "Analog Devices"
+    "Analog Devices",
+    "Amphenol",
+    "FormFactor",
+    "Applied Materials",
+    "Element Solutions"
    ]
   }
  ],
  "risks": [
-  "Arrow's 'manageable' increases may fail to progress into broader constraint, limiting upside from here.",
-  "Analog lead times staying balanced could keep the tightening cycle concentrated in tools, compute and selected channels rather than sector-wide.",
-  "Applied Materials' neutral commentary suggests some of the longer lead-time discussion may reflect planning/investment timing rather than a clean near-term supply squeeze."
+  "Lead times flatten at current levels if the 1.2x trend reflects a temporary pull-forward rather than sustained constraint.",
+  "Inventory build or stockpiling could mask underlying demand if supply catches up faster than expected.",
+  "Balanced/weak pockets at Analog Devices and FormFactor could signal that tightening is not uniform across end markets."
  ]
 }

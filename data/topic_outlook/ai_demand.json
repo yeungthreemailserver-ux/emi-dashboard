@@ -1,61 +1,80 @@
 {
  "topic": "ai_demand",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "AI demand broadens beyond GPUs; capacity remains the key constraint",
-  "summary": "AI/datacenter demand looks set to improve again into 2026Q1, with bullish reads spanning foundry, wafer-fab equipment, GPUs, memory, distribution, and analog/power rather than just a single bottlenecked node. Mentions rose to 40.9x, up 21% versus the trailing average, reinforcing that AI is becoming more central across the sector. The main limiter is fulfillment, not demand: tight supply and extending lead times at TSMC, ASML, KLA, NVIDIA, and Avnet should keep capex, mix, and tool intensity strong, while memory and broader datacenter attach opportunities benefit Lam, Micron, AMD, Broadcom, ADI, TI, Applied, and Renesas.",
+  "headline": "AI/datacenter demand keeps broadening and remains supply-constrained",
+  "summary": "The reads point to another step-up in AI/datacenter demand into 2026Q1: mention frequency rose from 22.5x/22.6x to 31.5x, or 20% above the trailing average. Demand is no longer just a hyperscaler story; it is broadening across frontier labs, enterprises, memory, equipment, test, and packaging, while tight supply and extended lead times at several names suggest the build remains under-served. Watch whether current hyperscaler pull-ins and capacity ramps stay orderly or start to normalize.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Hyperscaler and frontier-lab buildouts are still widening the demand base",
-   "detail": "Demand is expanding beyond a narrow set of customers, with hyperscaler pull-ins, AI factory buildouts, frontier labs, and enterprise adoption all cited as ongoing demand drivers.",
+   "label": "Hyperscaler and frontier-lab capex is still expanding",
+   "detail": "Multiple reads describe ongoing AI factory build-outs and rising compute demand across hyperscalers, frontier labs, and enterprises, supporting near-term order momentum.",
    "polarity": "pos",
    "companies": [
     "NVIDIA",
     "Broadcom",
+    "AMD",
     "Arrow Electronics",
-    "AMD"
+    "GlobalFoundries",
+    "Ultra Clean Holdings",
+    "Ichor Holdings"
    ]
   },
   {
-   "label": "Undersupply is sustaining capacity ramps across the manufacturing chain",
-   "detail": "Severe undersupply and under-served AI demand are driving capacity additions and downstream equipment demand, supporting foundry utilization and process-control / lithography intensity into the next quarter.",
+   "label": "Supply remains tight in key AI/compute nodes",
+   "detail": "Severe undersupply, tight supply, and extended lead times imply demand is still running ahead of available capacity, which should keep the sector in a favorable demand backdrop.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "ASML",
     "KLA",
-    "NVIDIA",
+    "Onto Innovation",
     "Avnet"
    ]
   },
   {
-   "label": "Memory content and datacenter bits are outgrowing legacy compute end-markets",
-   "detail": "AI servers are pulling memory demand faster than PC/mobile, keeping datacenter memory and related equipment demand on a stronger trajectory.",
+   "label": "AI/datacenter memory demand is accelerating",
+   "detail": "Datacenter bits are growing faster than PC/mobile and AI infrastructure is broadening memory demand, a positive read-through for memory and memory-adjacent exposure.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
-    "Micron"
+    "Micron",
+    "Entegris"
    ]
   },
   {
-   "label": "AI attach is broadening into power, analog, and mixed-signal content",
-   "detail": "AI/datacenter demand is increasingly benefiting adjacent semiconductor content—power efficiency, accelerator support, and broader platform design wins—rather than only core compute silicon.",
+   "label": "Broadening benefit across the value chain",
+   "detail": "Equipment, process control, test, packaging, and power suppliers all describe stronger AI/datacenter pull, showing the demand cycle is widening beyond the GPU/wafer-fab core.",
    "polarity": "pos",
    "companies": [
+    "ASML",
     "Applied Materials",
-    "Analog Devices",
-    "Texas Instruments",
+    "Teradyne",
+    "Amkor Technology",
+    "FormFactor",
+    "Cohu",
+    "Veeco Instruments",
+    "Kulicke & Soffa",
+    "Advanced Energy",
+    "MKS Instruments",
+    "ACM Research"
+   ]
+  },
+  {
+   "label": "AI/data center is a durable growth vector for analog/mixed-signal",
+   "detail": "Companies with exposure to data center power, mix improvement, and share gains are seeing AI reinforce end-demand rather than offset it.",
+   "polarity": "pos",
+   "companies": [
     "Renesas",
-    "AMD"
+    "Texas Instruments",
+    "Analog Devices"
    ]
   }
  ],
  "risks": [
-  "Persistent tight supply and extending lead times could cap near-term shipments even if end-demand stays very strong.",
-  "AI demand is still being led by hyperscalers and frontier labs in several reads; any pause in pull-ins would be felt quickly across the chain.",
-  "Watch whether datacenter/memory strength continues to outgrow PC/mobile, since that relative outperformance is a key support for Lam and Micron."
+  "Hyperscaler pull-ins could turn into near-term digestion if capacity ramps overshoot.",
+  "Lead times and tight supply could ease faster than expected as foundry and equipment capacity comes online.",
+  "Demand breadth beyond hyperscalers/AI leaders needs to keep expanding; otherwise growth stays concentrated."
  ]
 }

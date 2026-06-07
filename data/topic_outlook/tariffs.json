@@ -1,42 +1,66 @@
 {
  "topic": "tariffs",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Tariff drag is fading, no longer a key semiconductor macro swing factor",
-  "summary": "Tariff/trade policy looks set to be a smaller sector headwind in 2026Q1, with both Analog Devices and KLA framing tariff effects as easing rather than worsening. The sharp drop in mentions supports that this issue is moving out of the critical path, which is modestly positive for margins and reduces the risk of demand distortion from pull-ins; the main watchpoint is whether policy changes reintroduce volatility after companies have largely de-emphasized it.",
+  "headline": "Tariff headwinds are easing, though pockets of margin pressure remain",
+  "summary": "The read-through is improving: mention frequency has collapsed and most commentary frames tariffs as manageable, easing, or neutralized rather than worsening. KLA, FormFactor, Analog Devices and DuPont suggest the trade-policy drag is fading over the next 1-2 quarters, while MKS and Amphenol show pass-through can keep the impact contained. The main laggards are Advanced Energy, TE Connectivity, Vishay and CTS, where costs and timing effects are still pressuring margins.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Tariff headwinds are easing",
-   "detail": "KLA explicitly expects tariff pressure to ease through the year, improving the setup for margins over the next 1-2 quarters.",
+   "label": "Tariff pressure easing or rates coming down",
+   "detail": "Several companies said the issue is less severe now, with lower tariff rates and possible refunds improving the setup.",
    "polarity": "pos",
    "companies": [
-    "KLA"
-   ]
-  },
-  {
-   "label": "Prior pull-in distortion appears largely behind",
-   "detail": "Analog Devices described tariff-related pull-ins as a past issue, implying less risk of near-term order noise from customers accelerating purchases ahead of policy changes.",
-   "polarity": "pos",
-   "companies": [
+    "FormFactor",
+    "KLA",
     "Analog Devices"
    ]
   },
   {
-   "label": "Management attention to tariffs has collapsed",
-   "detail": "Topic mentions fell to 0.3x, down 79% versus the trailing average, indicating tariffs are becoming less relevant to current operating discussions and likely less disruptive near term.",
+   "label": "Offsetting mechanisms are working",
+   "detail": "Pass-through, volume shifting, and cost neutralization are limiting the net damage from tariffs.",
    "polarity": "pos",
    "companies": [
-    "Analog Devices",
-    "KLA"
+    "MKS Instruments",
+    "Amphenol",
+    "DuPont"
+   ]
+  },
+  {
+   "label": "Lingering but not worsening dislocations",
+   "detail": "Order and timing disruptions are still present, but the tone is more contained than escalating.",
+   "polarity": "pos",
+   "companies": [
+    "Entegris",
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Residual margin headwinds in select names",
+   "detail": "Some companies still called out ongoing tariff expenses, Section 232 changes, and inflation as active drags.",
+   "polarity": "neg",
+   "companies": [
+    "Advanced Energy",
+    "TE Connectivity",
+    "CTS Corporation",
+    "Vishay Intertechnology"
+   ]
+  },
+  {
+   "label": "Policy fluidity still creates uncertainty",
+   "detail": "The macro backdrop has not fully normalized, so abrupt policy shifts remain a risk.",
+   "polarity": "neg",
+   "companies": [
+    "Credo Technology",
+    "Entegris"
    ]
   }
  ],
  "risks": [
-  "Any new tariff actions or trade-policy shifts could quickly revive customer pull-ins or demand pauses.",
-  "If easing tariffs do not translate into cleaner margins at KLA, it would suggest other cost or mix pressures matter more.",
-  "Low mention levels may reflect reduced visibility rather than resolved risk, given only limited company coverage this quarter."
+  "Tariff policy becomes more fluid or escalates again, reversing the easing trend.",
+  "Expected refunds or rate reductions fail to materialize, leaving the headwind in place.",
+  "Input-cost inflation and Section 232-related changes keep margins under pressure at the more exposed names."
  ]
 }

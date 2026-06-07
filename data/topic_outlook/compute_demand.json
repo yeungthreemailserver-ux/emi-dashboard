@@ -1,49 +1,77 @@
 {
  "topic": "compute_demand",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "improving",
-  "headline": "Compute demand remains hot as adoption broadens beyond early AI buyers",
-  "summary": "Forward demand still looks positive for the next 1-2 quarters: all four reads are bullish, with AMD and Applied both pointing to accelerating demand and a widening customer set rather than a narrow replacement cycle. Broadcom adds that LLM customers still need substantial compute capacity, while Lam suggests memory demand should stay supported as part of accelerated compute builds. The main watch-item is that topic mentions have cooled from prior highs, so the debate is less about whether demand is strong and more about how fast broadening demand converts into incremental orders.",
+  "direction": "stabilizing",
+  "headline": "Compute demand stays strong, but momentum is cooling",
+  "summary": "The sector still reads as firmly healthy over the next 1-2 quarters: multiple companies cited hot AI/accelerated-compute demand, broader customer engagement, and expanding use cases from LLM capacity to CPU, ASIC, accelerator, and edge workloads. The main nuance is that the mention trend has eased slightly and is now below its recent average, suggesting demand is holding at a high level rather than accelerating from here. Broadcom, AMD, Applied Materials, Cadence, Onto, and Monolithic Power look best positioned; the key watch is whether recent customer ramps convert into sustained order growth.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Broader customer adoption",
-   "detail": "Applied says compute demand is growing very quickly across a broader base, indicating demand is spreading beyond the earliest buyers.",
+   "label": "Broad AI/accelerated-compute demand remains strong",
+   "detail": "Multiple reads described demand as hot or insatiable across LLM capacity, accelerated compute, and AI/HPC workloads.",
    "polarity": "pos",
    "companies": [
-    "Applied Materials"
+    "Applied Materials",
+    "Broadcom",
+    "Onto Innovation",
+    "Cadence Design Systems",
+    "Monolithic Power Systems",
+    "Ambarella",
+    "Teradyne"
    ]
   },
   {
-   "label": "Forecasts running above plan",
-   "detail": "AMD says lead forecasts exceed plans and new large-scale customers are engaging, pointing to near-term upside in compute demand.",
+   "label": "Large-scale customer engagement is deepening",
+   "detail": "AMD said lead forecasts exceed plans and new large-scale customers are engaging, signaling ongoing compute buildout.",
    "polarity": "pos",
    "companies": [
     "AMD"
    ]
   },
   {
-   "label": "LLM capacity build-out",
-   "detail": "Broadcom sees huge demand for compute capacity from LLM players, supporting continued infrastructure spending.",
+   "label": "Demand is broadening beyond a single workload type",
+   "detail": "Customer mix is shifting toward CPU, ASICs, and accelerators, and compute is being tied to broader advanced-logic growth.",
    "polarity": "pos",
    "companies": [
-    "Broadcom"
+    "Cohu",
+    "Entegris"
    ]
   },
   {
-   "label": "Memory tied to accelerated compute",
-   "detail": "Lam frames memory as critical to accelerated compute architectures, implying compute demand is strong enough to pull adjacent memory investment with it.",
+   "label": "Compute is still supportive for adjacent infrastructure",
+   "detail": "Memory is described as critical to accelerated compute architectures, keeping the supply chain constructive.",
    "polarity": "pos",
    "companies": [
     "Lam Research"
    ]
+  },
+  {
+   "label": "Mentions have softened modestly",
+   "detail": "The mention trend rolled from 0.5x to 0.3x with momentum slightly below trailing average, implying less incremental intensity.",
+   "polarity": "neg",
+   "companies": [
+    "Applied Materials",
+    "Lam Research",
+    "AMD",
+    "Broadcom",
+    "Teradyne",
+    "Onto Innovation",
+    "Cohu",
+    "Entegris",
+    "Cadence Design Systems",
+    "Monolithic Power Systems",
+    "Wolfspeed",
+    "Ambarella",
+    "Ichor Holdings",
+    "Synopsys"
+   ]
   }
  ],
  "risks": [
-  "Mention intensity has fallen from earlier peaks, which could signal normalization in enthusiasm even if demand stays healthy.",
-  "AMD's upside depends on lead forecasts and new large-scale engagements converting into sustained shipments.",
-  "Broadcom's demand read is tied to LLM-driven capacity needs, leaving the outlook somewhat dependent on a concentrated buyer group."
+  "If the mention trend keeps easing, demand may be normalizing rather than inflecting higher.",
+  "Large customer ramps at AMD/Broadcom could be timing-sensitive if deployments slip.",
+  "A demand mix concentrated in AI/accelerator use cases could leave broader compute still uneven."
  ]
 }

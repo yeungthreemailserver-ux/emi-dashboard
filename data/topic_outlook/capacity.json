@@ -1,65 +1,81 @@
 {
  "topic": "capacity",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Tight supply endures as AI and leading-edge ramps outpace capacity",
-  "summary": "Capacity should remain a sector tailwind in 2026Q1: supply mentions accelerated to 17.4x and every company read was bullish on tightness. AI compute, DRAM and leading-edge logic are pulling capacity faster than fabs, clean rooms and tool output can be added, supporting utilization and pricing for TSMC, the AI compute stack, and wafer-fab equipment vendors. Watch whether incremental output and planned expansions at ASML, TSMC, Micron, TI and ADI start easing bottlenecks by late quarter or are simply absorbed by another leg of demand.",
+  "headline": "Capacity tightness is broadening into a sector-wide tailwind",
+  "summary": "Mentions accelerated to 10.5x, and the read-through is clearly constructive: nearly every company cites tight supply, high utilization, or customers pulling forward capacity additions. The tightest pockets are in AI/leading-edge, DRAM, and packaging/test, which should keep pricing, lead times, and supplier leverage favorable over the next 1-2 quarters. Watch for any evidence that new capacity comes online faster than demand or that bottlenecks simply shift downstream.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI compute demand is still outrunning available supply",
-   "detail": "NVIDIA, AMD and Broadcom all describe supply-constrained AI/compute demand, including frontier-model deployments, while Arrow sees AI hardware constraints supporting momentum and pull-through; near-term capacity additions are likely to be absorbed rather than create slack.",
+   "label": "AI-led demand is outrunning available capacity",
+   "detail": "Frontier-model and high-performance compute demand is forcing customers to add supply, with sold-out capacity and long lead times supporting the entire chain.",
    "polarity": "pos",
    "companies": [
     "NVIDIA",
-    "AMD",
     "Broadcom",
-    "Arrow Electronics"
-   ]
-  },
-  {
-   "label": "DRAM and leading-edge capacity additions remain aggressive",
-   "detail": "Applied Materials says customers are adding capacity aggressively in DRAM and leading-edge nodes, Micron is planning additions to secure supply, and TSMC remains at high utilization, indicating tightness where the spending is highest.",
-   "polarity": "pos",
-   "companies": [
+    "AMD",
+    "TSMC",
+    "ASML",
+    "KLA",
     "Applied Materials",
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Customers are still adding fab and equipment capacity aggressively",
+   "detail": "Foundry, DRAM, and leading-edge customers are expanding output, which keeps current supply tight and supports utilization for vendors into 2026Q1.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
     "Micron",
-    "TSMC"
+    "Applied Materials",
+    "Renesas",
+    "Advanced Energy",
+    "MKS Instruments",
+    "Cohu",
+    "Veeco Instruments",
+    "Kulicke & Soffa"
    ]
   },
   {
-   "label": "Physical bottlenecks keep relief gradual",
-   "detail": "Lam cites greenfield investment alongside constrained fabs and clean rooms, and KLA says customers are asking it to enable more capacity, suggesting physical infrastructure is still a limiter over the next 1-2 quarters.",
+   "label": "Downstream packaging and test remain constrained",
+   "detail": "Packaging, assembly, and test capacity is still tight, extending the supply squeeze beyond wafer fabs and supporting suppliers tied to backend throughput.",
    "polarity": "pos",
    "companies": [
-    "Lam Research",
-    "KLA"
+    "Onto Innovation",
+    "Amkor Technology",
+    "FormFactor",
+    "Ultra Clean Holdings",
+    "Ichor Holdings",
+    "Teradyne"
    ]
   },
   {
-   "label": "Tool shipment demand is rising with customer urgency",
-   "detail": "ASML is seeing requests for more shipments and is expanding output, reinforcing that customers still need more capacity than the ecosystem can currently supply.",
+   "label": "Tight supply is enabling customer prebuys and queue priority",
+   "detail": "Several reads point to customers paying up, prepaying, or using distributors to secure supply, which reinforces near-term scarcity.",
    "polarity": "pos",
    "companies": [
-    "ASML"
-   ]
-  },
-  {
-   "label": "Tighter supply is broadening into channel management and share gains",
-   "detail": "Avnet says customers are relying on it to manage constraints, while TI and ADI highlight available or flexible capacity to support customers, implying tightness is creating downstream service and share opportunities rather than signaling broad oversupply.",
-   "polarity": "pos",
-   "companies": [
+    "GlobalFoundries",
     "Avnet",
-    "Texas Instruments",
-    "Analog Devices"
+    "Arrow Electronics",
+    "Analog Devices",
+    "Texas Instruments"
+   ]
+  },
+  {
+   "label": "A small set of logistics constraints can still cap realized supply",
+   "detail": "Transport/liquefaction or other non-fab bottlenecks can delay shipment conversion even where demand is strong.",
+   "polarity": "neg",
+   "companies": [
+    "Air Products"
    ]
   }
  ],
  "risks": [
-  "ASML output expansion and customer capacity adds at TSMC, Micron, TI and ADI could ease lead times faster than expected and soften the tight-supply tailwind.",
-  "If frontier-model or AI compute buildouts slow, the most acute constraints at NVIDIA, AMD and Broadcom could normalize quickly.",
-  "Greenfield, fab or clean-room execution delays could defer customer ramps even if underlying demand stays strong."
+  "Capacity additions at DRAM, foundry, or packaging nodes ramp faster than expected, easing shortages.",
+  "AI demand normalizes and queue pressure at suppliers like NVIDIA, Broadcom, and AMD starts to fade.",
+  "Non-fab bottlenecks, such as logistics or liquefaction constraints, limit how much of the demand converts into shipments."
  ]
 }

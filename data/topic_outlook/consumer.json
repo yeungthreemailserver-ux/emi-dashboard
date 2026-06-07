@@ -1,57 +1,84 @@
 {
  "topic": "consumer",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "mixed",
-  "headline": "Memory inflation caps consumer demand despite selective PC-chain improvement",
-  "summary": "Consumer smartphone and PC demand looks mixed into 2026Q1: multiple companies flag higher memory and system pricing as a real drag on price-sensitive units, especially in PCs, gaming, and mainstream handsets. Offsetting that, KLA sees a notable PC-related semi systems rebound and Broadcom/Micron point to AI-driven content growth, but that support is more component/content-led than evidence of a broad-based unit recovery. The key watch is whether price pressure eases enough for resilient commentary from TI/ADI/Avnet to turn into firmer sell-through rather than just stabilization.",
+  "headline": "Memory inflation keeps consumer demand soft; premium pockets only partly offset",
+  "summary": "Consumer smartphone/PC demand is still soft into 2026Q1, and the 4.4x mention trend has slipped 2% versus the trailing average, consistent with cooling attention. The biggest drag is higher memory and system pricing, which is pressuring low/mid-end smartphones and PCs for names like AMD, NVIDIA, TSMC, and Microchip, while only premium handset pockets and select design-win suppliers such as Diodes and Kulicke & Soffa are seeing improvement. Watch whether memory costs ease; otherwise the softness should linger over the next 1-2 quarters.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Memory and system cost inflation is pressuring end demand",
-   "detail": "Higher memory prices are repeatedly cited as hurting price-sensitive consumer purchases, with risk of lower PC and smartphone units and softer gaming demand.",
+   "label": "Higher memory and system prices are suppressing unit demand",
+   "detail": "Multiple reads point to price sensitivity and memory cost inflation weighing on smartphone and PC purchases, with some companies explicitly calling out demand destruction risk.",
    "polarity": "neg",
    "companies": [
     "TSMC",
     "NVIDIA",
-    "Micron",
     "AMD",
-    "Texas Instruments"
+    "Texas Instruments",
+    "MKS Instruments",
+    "Entegris",
+    "Cabot",
+    "Micron"
    ]
   },
   {
-   "label": "Consumer remains secondary to AI/data-center demand",
-   "detail": "Several reads imply mobile/PC is not the strongest demand engine right now, with enterprise and data center activity clearly stronger than consumer.",
+   "label": "Smartphone demand is soft outside the premium tier",
+   "detail": "Low- and mid-end handset demand is weakening, and one read expects high-single-digit smartphone unit declines even if share gains cushion the impact.",
    "polarity": "neg",
    "companies": [
+    "GlobalFoundries",
+    "Microchip Technology",
+    "CEVA",
+    "Element Solutions",
+    "Cabot",
+    "TSMC",
+    "Amkor Technology",
+    "Power Integrations"
+   ]
+  },
+  {
+   "label": "Premium smartphone pockets are improving modestly",
+   "detail": "A few suppliers are seeing better traction in premium phones and related consumer wins, but the improvement is narrow rather than broad-based.",
+   "polarity": "pos",
+   "companies": [
+    "Kulicke & Soffa",
+    "Diodes Incorporated",
+    "Amkor Technology",
+    "CEVA"
+   ]
+  },
+  {
+   "label": "PC demand remains muted and uneven",
+   "detail": "PC-related commentary is mostly soft or steady, with only isolated pockets of strength rather than a clear sector inflection.",
+   "polarity": "neg",
+   "companies": [
+    "AMD",
+    "Microchip Technology",
+    "FormFactor",
     "Lam Research",
-    "ASML",
-    "Avnet",
     "Analog Devices"
    ]
   },
   {
-   "label": "AI content growth supports consumer semiconductor dollars",
-   "detail": "AI usage and richer memory content are lifting semiconductor demand tied to consumer devices, even if that does not yet imply strong unit growth.",
-   "polarity": "pos",
+   "label": "Broad consumer strength is not showing up yet",
+   "detail": "Several companies describe consumer as resilient or long-term supportive, but not as an accelerating near-term driver, reinforcing a mixed setup.",
+   "polarity": "neg",
    "companies": [
-    "Micron",
-    "Broadcom"
-   ]
-  },
-  {
-   "label": "PC-related semi equipment demand is improving",
-   "detail": "KLA's expectation for more than 20% growth in semi PC systems suggests better upstream spending and some normalization in the PC-related supply chain.",
-   "polarity": "pos",
-   "companies": [
+    "ASML",
+    "Avnet",
+    "Arrow Electronics",
+    "Vishay Intertechnology",
+    "Linde",
+    "Broadcom",
     "KLA"
    ]
   }
  ],
  "risks": [
-  "Additional DRAM/NAND price increases could trigger sharper demand destruction in low- and mid-range smartphones and PCs.",
-  "The PC-chain rebound seen upstream could reflect restocking or equipment timing rather than sustained end-market sell-through.",
-  "AI-driven content gains may benefit chip and memory suppliers more than OEM unit volumes, limiting any broad consumer recovery."
+  "Memory pricing stays elevated and extends demand destruction into PC and smartphone channels.",
+  "Premium smartphone strength fails to broaden beyond the top end.",
+  "Further unit cuts from low/mid-end consumer OEMs or channel partners pressure supplier outlooks."
  ]
 }

@@ -1,57 +1,64 @@
 {
  "topic": "custom_asic",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "mixed",
-  "headline": "Hyperscaler ASIC momentum persists, but broad adoption is not accelerating",
-  "summary": "Into 2026Q1, custom silicon/ASIC looks supported by expanding hyperscaler programs and new design starts, but the upside remains concentrated rather than broadening across data centers. Broadcom and KLA point to hot demand tied to TPU/ASIC investment and faster time-to-market needs, while NVIDIA still sees many customers preferring full systems over semi-custom approaches. With mention intensity falling to 0.6x and below its trailing average, watch whether current hyperscaler projects translate into wider deployments or stay limited to a few large programs.",
-  "confidence": "medium"
+  "direction": "improving",
+  "headline": "ASIC demand stays hot as hyperscaler programs expand",
+  "summary": "Custom silicon demand is still broadening, with hyperscaler AI programs driving stronger design activity, more sign-off usage, and higher pull-through in test, foundry, and IP. The latest mention trend remains elevated at 0.8x and sits slightly above the trailing average, pointing to a constructive 2026Q1 setup despite a few company-specific execution risks.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Anthropic and Google TPU expansion",
-   "detail": "Broadcom says key hyperscaler/custom AI programs are expanding, supporting near-term ASIC demand even if economics are not pristine.",
+   "label": "Hyperscaler AI/custom-chip expansion",
+   "detail": "Major customer programs are scaling, supporting stronger ASIC pipelines and shipment ramps.",
    "polarity": "pos",
    "companies": [
-    "Broadcom"
+    "Broadcom",
+    "Cadence Design Systems",
+    "Intel",
+    "Qualcomm",
+    "Marvell Technology",
+    "Rambus"
    ]
   },
   {
-   "label": "More hyperscaler design starts",
-   "detail": "KLA sees custom-chip investment driving additional design activity, which supports the ASIC pipeline over the next 1-2 quarters.",
+   "label": "Broader ecosystem pull-through",
+   "detail": "Custom silicon demand is creating more starts and higher utilization across design, manufacturing, test, and interface IP.",
    "polarity": "pos",
    "companies": [
-    "KLA"
+    "KLA",
+    "GlobalFoundries",
+    "FormFactor",
+    "Cohu",
+    "Rambus",
+    "Synaptics"
    ]
   },
   {
-   "label": "Performance and time-to-market urgency",
-   "detail": "KLA highlights stronger demand tied to performance requirements and faster execution, reinforcing continued custom-silicon development.",
+   "label": "New design wins and launches",
+   "detail": "Recent wins and engagements suggest custom ASIC activity is still converting into concrete opportunities.",
    "polarity": "pos",
    "companies": [
-    "KLA"
+    "FormFactor",
+    "Ambarella",
+    "Astera Labs",
+    "Qualcomm"
    ]
   },
   {
-   "label": "Preference for full systems over semi-custom chips",
-   "detail": "NVIDIA says many data centers still favor systems rather than semi-custom designs, limiting a broader ASIC shift.",
-   "polarity": "neg",
+   "label": "Healthy compute-ramp demand",
+   "detail": "ASIC demand is being cited as part of the broader AI/compute ramp rather than a one-off program.",
+   "polarity": "pos",
    "companies": [
-    "NVIDIA"
-   ]
-  },
-  {
-   "label": "ASIC margin pressure",
-   "detail": "Broadcom notes margin pressure on ASIC programs, a sign that growth may come with less attractive economics.",
-   "polarity": "neg",
-   "companies": [
-    "Broadcom"
+    "Cohu",
+    "Marvell Technology",
+    "Intel"
    ]
   }
  ],
  "risks": [
-  "Hyperscaler ASIC demand remains concentrated in a small number of TPU/custom programs rather than broadening.",
-  "Data center buyers continue to favor integrated systems, capping wider semi-custom adoption.",
-  "Falling mention momentum may signal that enthusiasm is cooling unless new design wins convert into visible deployments."
+  "NVIDIA's view that many data centers prefer systems over semi-custom chips could limit upside for pure ASIC demand.",
+  "Program concentration and ASIC design-ramp issues at Teradyne could create lumpier near-term execution.",
+  "Broadcom flagged margin pressure on ASICs, so mix and pricing remain watch items even as demand stays hot."
  ]
 }

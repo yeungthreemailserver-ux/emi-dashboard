@@ -1011,11 +1011,11 @@ function topicInspectorHTML(it, S, q) {
     <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><span class="lockchip ${locked ? 'on' : ''}">${locked ? '📌 Locked' : '👁 Preview'}</span><button class="unpin" data-unpin="1" title="${locked ? 'Release lock' : 'Close'}">✕</button>
       <div class="insp-sub"><span style="color:${domColor};font-weight:700">${pathStr}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
     ${toutExecHTML(it, S, q)}
-    ${toutLLMReadHTML(it, S)}
     <div class="insp-sec"><h5>Mention &amp; breadth trend</h5><div class="insp-charts"><div class="insp-ch"><div class="chlbl">Avg mentions per company</div><div class="chart-xs" id="tspk_m"></div></div><div class="insp-ch"><div class="chlbl">Companies mentioning it</div><div class="chart-xs" id="tspk_c"></div></div></div></div>
     ${toutHiloHTML(it, S)}
     ${toutCompaniesHTML(it, S, q)}
     ${toutSpeakerHTML(it, S, q)}
+    ${toutLLMReadHTML(it, S)}
     ${toutConceptsHTML(it, S)}
   </div>`;
 }

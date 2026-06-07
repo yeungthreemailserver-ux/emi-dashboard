@@ -1,52 +1,73 @@
 {
  "topic": "dram",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "stabilizing",
-  "headline": "DRAM stays tight, but incremental upside is moderating",
-  "summary": "Into 2026Q1, DRAM looks set to remain fundamentally strong rather than re-accelerate: Micron still sees AI-driven pull against constrained supply growth, while Applied, Lam, and ASML all point to healthy spending around next-node and advanced patterning ramps. The key watch is whether AI/HBM tightness continues to pull broader DRAM pricing and capex higher, because mention momentum has cooled and KLA still flags DRAM cost as a downstream margin headwind even as memory-related opportunities remain intact.",
+  "direction": "mixed",
+  "headline": "AI keeps DRAM tight, but momentum is easing",
+  "summary": "Fundamentals still read strong: AI-driven DRAM spend, HBM mix, and next-node transitions are keeping supply tight and supporting tools, test, and memory vendors like Micron, Applied Materials, Lam Research, FormFactor, and MKS. But the mention trend has cooled from a recent peak to 2.5x, and a few reads are only neutral or pass-through, suggesting the narrative is still positive but no longer accelerating. Watch whether tight supply and AI pull continue to offset any pushback from high prices or DRAM reductions in downstream devices.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "AI-led DRAM demand remains strong",
-   "detail": "AI/AI-compute demand is still the core support for DRAM, with Micron citing strong pull and Applied calling DRAM spending hot.",
+   "label": "AI-driven DRAM demand remains strong",
+   "detail": "Multiple companies cited hot DRAM demand tied to AI/AI compute and data-center needs, supporting continued spending.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Micron",
+    "Teradyne",
+    "Microchip Technology",
+    "FormFactor",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Supply stays constrained by node and capacity limits",
+   "detail": "Reads point to tight supply, HBM mix, and limited capacity growth, keeping the market favorable for suppliers.",
    "polarity": "pos",
    "companies": [
     "Micron",
-    "Applied Materials"
+    "MKS Instruments",
+    "FormFactor",
+    "SanDisk",
+    "Microchip Technology",
+    "Veeco Instruments"
    ]
   },
   {
-   "label": "Supply growth is constrained",
-   "detail": "HBM mix plus node and capacity limits are restricting supply growth, helping keep DRAM conditions tight.",
+   "label": "Next-node transitions are still ramping",
+   "detail": "1C, DDR5, LPDDR5, and HBM/advanced-memory adoption are driving more tool and content demand.",
    "polarity": "pos",
    "companies": [
-    "Micron"
-   ]
-  },
-  {
-   "label": "Next-node transitions are sustaining equipment intensity",
-   "detail": "1C, DDR5, LPDDR5, EUV, and immersion adoption all indicate customers are still investing through technology transitions rather than pausing.",
-   "polarity": "pos",
-   "companies": [
+    "Lam Research",
     "ASML",
-    "Applied Materials",
-    "Lam Research"
+    "Onto Innovation",
+    "Rambus",
+    "Cadence Design Systems",
+    "Advanced Energy"
    ]
   },
   {
-   "label": "Downstream cost pressure caps broadening",
-   "detail": "Higher DRAM cost is still a gross-margin headwind for some customers, suggesting the benefit is strongest upstream and may not broaden evenly across semis.",
+   "label": "Mention momentum has cooled from the recent peak",
+   "detail": "Company mention frequency is still elevated at 2.5x, but down ~10% versus the trailing average, implying less incremental excitement near-term.",
    "polarity": "neg",
    "companies": [
-    "KLA"
+    "all companies"
+   ]
+  },
+  {
+   "label": "High DRAM prices are starting to pressure some end uses",
+   "detail": "At least one read framed shortages and expensive DRAM as forcing customers to reduce DRAM usage rather than expand it.",
+   "polarity": "neg",
+   "companies": [
+    "Ambarella",
+    "indie Semiconductor"
    ]
   }
  ],
  "risks": [
-  "If 1C/EUV and DDR5/LPDDR5 ramps slip, current spending strength could fade faster than expected.",
-  "If supply growth improves quicker than Micron expects through mix, node, or capacity gains, tightness could ease.",
-  "If DRAM cost pressure worsens for end customers, broader semiconductor demand could absorb less of the current memory strength."
+  "DRAM prices/supply tightness ease faster than expected, reducing urgency in supplier reads.",
+  "Downstream customers begin redesigning around DRAM scarcity, limiting unit growth.",
+  "The mention trend continues to fade, signaling the AI/DRAM story is losing incremental momentum."
  ]
 }

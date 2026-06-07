@@ -1,59 +1,75 @@
 {
  "topic": "nodes",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "N2 demand stays ahead of supply, lifting leading-edge tool intensity",
-  "summary": "Advanced-node momentum looks set to improve into 2026Q1 despite a modest cooling in mentions: TSMC is still seeing hot N2 demand, ASML is seeing 2nm capacity builds for AI, and KLA highlights that 2nm carries higher process-control intensity than 3nm. The clearest beneficiaries are TSMC and leading-edge equipment names like ASML, KLA and Applied Materials, while the main near-term friction is TSMC’s initial ramp margin dilution and the tight node-migration constraints flagged by TSMC and Micron. Watch whether leading-edge strength continues to outweigh the broader spending softness Lam called out.",
+  "headline": "Advanced-node demand is broadening into N2 and 18A",
+  "summary": "Advanced-node activity looks to be strengthening over the next 1-2 quarters, with 2nm/N2 ramps, 18A yield progress, and broader capacity builds showing up across foundry, equipment, EDA, and materials. The biggest beneficiaries are ASML, KLA, Cadence, Entegris, TSMC, and Intel, while the main laggards are names exposed to softer mature-node spend like Lam and Veeco. The mention trend is also supportive at 1.7x vs trailing average with +5% momentum, suggesting attention is still building rather than fading.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Hot N2 demand supporting continued ramp",
-   "detail": "TSMC is seeing strong N2 demand and planning multi-year capacity, indicating the node is still in a buildout phase rather than peaking.",
-   "polarity": "pos",
-   "companies": [
-    "TSMC"
-   ]
-  },
-  {
-   "label": "AI-driven 2nm capacity additions",
-   "detail": "ASML says customers are building capacity across advanced nodes and ramping 2nm for AI, supporting forward tool demand at the leading edge.",
-   "polarity": "pos",
-   "companies": [
-    "ASML"
-   ]
-  },
-  {
-   "label": "Higher 2nm process intensity boosts tool content",
-   "detail": "KLA notes 2nm is more process-control intensive than 3nm, and Applied points to multi-node co-innovation and design wins, implying richer content per wafer as N2 ramps.",
-   "polarity": "pos",
-   "companies": [
-    "KLA",
-    "Applied Materials"
-   ]
-  },
-  {
-   "label": "Tight supply and constrained migrations keep the ramp disciplined",
-   "detail": "TSMC and Micron both point to tight supply or constrained node migrations, which supports supplier demand and technology value even if it limits near-term output.",
+   "label": "N2/2nm ramps are actively pulling demand",
+   "detail": "Customers are building capacity across 2nm/N2 and related leading-edge nodes, supporting near-term tool, material, and design spend.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "Micron"
+    "ASML",
+    "KLA",
+    "Cadence Design Systems",
+    "Marvell Technology",
+    "Ambarella",
+    "Advanced Energy",
+    "ACM Research"
    ]
   },
   {
-   "label": "Early-ramp economics remain a drag at the foundry level",
-   "detail": "TSMC explicitly says the initial N2 ramp dilutes margins, so the node can stay strategically strong even while near-term profitability lags.",
+   "label": "Tight supply and higher complexity increase content per wafer",
+   "detail": "Sub-2nm and GAA ramps are described as tight or supply-constrained, which typically lifts demand for process-control, materials, and equipment content.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "KLA",
+    "Entegris",
+    "ACM Research",
+    "Microchip Technology",
+    "Allegro MicroSystems"
+   ]
+  },
+  {
+   "label": "Design activity remains strong at advanced nodes",
+   "detail": "AI-driven tapeouts, new node wins, and first-to-market IP point to continued adoption of advanced-node solutions.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems",
+    "Synopsys",
+    "Marvell Technology",
+    "Ambarella"
+   ]
+  },
+  {
+   "label": "Execution is improving at the leading edge",
+   "detail": "Better 18A yields and ongoing N2 ramp progress suggest the node transition is becoming more credible, even if ramp costs remain a drag.",
+   "polarity": "pos",
+   "companies": [
+    "Intel",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Mature-node softness is the main offset",
+   "detail": "Comments around softer or flattish mature-node spending indicate the improvement is not uniform across the broader semiconductor stack.",
    "polarity": "neg",
    "companies": [
-    "TSMC"
+    "Lam Research",
+    "Veeco Instruments",
+    "GlobalFoundries"
    ]
   }
  ],
  "risks": [
-  "TSMC's N2 margin dilution lasts longer than expected, tempering enthusiasm around the ramp.",
-  "Tight supply and node-migration constraints cap wafer availability, delaying revenue conversion despite strong demand.",
-  "Leading-edge strength fails to fully offset the flatter broader spending backdrop Lam described, limiting how far the upcycle broadens."
+  "2nm/18A ramp costs or yield issues could slow adoption and delay spending.",
+  "A softer mature-node or China spending backdrop could cap upside for select equipment suppliers.",
+  "If AI-related design wins fail to convert into wafer starts, the current demand broadening could stall."
  ]
 }

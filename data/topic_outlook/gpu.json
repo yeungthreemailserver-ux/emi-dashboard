@@ -1,53 +1,64 @@
 {
  "topic": "gpu",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "improving",
-  "headline": "Accelerator demand stays red-hot, with bottlenecks shifting to execution",
-  "summary": "For 2026Q1, GPU/accelerator fundamentals still look stronger, not weaker: demand remains hot across foundry, GPU, memory, equipment, networking and analog reads, with next-gen platforms pulling more content and broader rack-scale infrastructure. The upside is broadening beyond merchant GPUs into custom XPUs and cluster buildouts, benefiting TSMC, NVIDIA, AMD, Micron, Broadcom, Applied Materials and ADI; the main constraint is execution around NVIDIA supply and advanced packaging capacity, while the softer mention trend looks more like normalization from a high base than a demand rollover.",
+  "direction": "stabilizing",
+  "headline": "Accelerator demand stays hot, but momentum is leveling off",
+  "summary": "GPU/accelerator demand remains broadly strong across the stack, led by NVIDIA’s fastest-ever Blackwell ramp, TSMC’s expected AI accelerator revenue growth, and rising HBM/DRAM content at Micron. The near-term benefit still accrues to the core platform and ecosystem suppliers, but the 2.5x mention rate is 5% below trend, signaling demand is still elevated rather than accelerating further.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Blackwell and rack-scale AI deployments are sustaining compute demand",
-   "detail": "NVIDIA cites its fastest-ever Blackwell ramp with strong demand from frontier labs and hyperscalers, while AMD points to broad cloud AI growth and rack-scale traction; TSMC also expects strong AI accelerator revenue growth.",
+   "label": "Blackwell / next-gen GPU ramp",
+   "detail": "Frontier labs and hyperscalers are still pulling hard on the newest accelerator cycle, keeping platform demand hot.",
    "polarity": "pos",
    "companies": [
     "NVIDIA",
+    "TSMC",
     "AMD",
-    "TSMC"
-   ]
-  },
-  {
-   "label": "Content per accelerator platform is rising sharply",
-   "detail": "Micron sees next-gen GPU/XPU platforms consuming much more DRAM/HBM, and ADI describes accelerator demand as hyper-growth with expanding TAM, implying more silicon and supporting components per system.",
-   "polarity": "pos",
-   "companies": [
-    "Micron",
-    "Analog Devices"
-   ]
-  },
-  {
-   "label": "Demand is broadening into custom accelerators and cluster infrastructure",
-   "detail": "Broadcom highlights XPU/AI accelerator development for large LLM customers and the importance of networking to cluster buildouts, indicating demand is expanding beyond a single vendor model.",
-   "polarity": "pos",
-   "companies": [
     "Broadcom"
    ]
   },
   {
-   "label": "Supply-chain scaling is becoming the gating factor",
-   "detail": "NVIDIA is still working the supply chain to support Blackwell demand, and Applied is expanding panel-level technologies for AI accelerators, pointing to packaging/manufacturing readiness as the near-term limiter rather than end-demand.",
-   "polarity": "neg",
+   "label": "Rising memory content per accelerator",
+   "detail": "Next-gen GPU/XPU platforms are consuming materially more DRAM/HBM, supporting demand for memory content per system.",
+   "polarity": "pos",
    "companies": [
-    "NVIDIA",
-    "Applied Materials"
+    "Micron"
+   ]
+  },
+  {
+   "label": "Tight downstream capacity in test, packaging, and power",
+   "detail": "Order flow and qualification activity point to continued capacity pressure and strong pull-through for enablement suppliers.",
+   "polarity": "pos",
+   "companies": [
+    "Teradyne",
+    "Veeco Instruments",
+    "FormFactor",
+    "Element Solutions",
+    "ON Semiconductor",
+    "Monolithic Power Systems",
+    "SiTime",
+    "Qualcomm"
+   ]
+  },
+  {
+   "label": "Inference and rack-scale deployments broaden the market",
+   "detail": "Demand is no longer just training-led; inference and larger system deployments are expanding the accelerator addressable market.",
+   "polarity": "pos",
+   "companies": [
+    "AMD",
+    "Cohu",
+    "Qualcomm",
+    "Broadcom",
+    "CEVA",
+    "MaxLinear"
    ]
   }
  ],
  "risks": [
-  "Blackwell supply-chain and advanced packaging execution could cap shipments even if end-demand stays strong.",
-  "Watch whether panel-level and related manufacturing expansions translate into real accelerator throughput in 2026Q1.",
-  "The -11% mention momentum could signal digestion from an extreme base; if customer commentary cools further, it would be an early sign broad enthusiasm is peaking."
+  "Hyperscaler and large-customer shipment timing could slip, especially where visibility is still limited later in the year.",
+  "If supply constraints ease faster than expected, the tightness that is supporting suppliers could fade.",
+  "The slight decline in mention momentum versus trend suggests sentiment is strong but not re-accelerating; watch for further cooling."
  ]
 }

@@ -1,64 +1,78 @@
 {
  "topic": "inventory",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "stabilizing",
-  "headline": "Inventories look healthy; tightness stays selective in AI and memory",
-  "summary": "For 2026Q1, inventory reads argue for a broadly normalized supply backdrop over the next 1-2 quarters, not a renewed correction: most companies describe lean-to-balanced inventories, better turns, and rational customer ordering. Incremental builds are largely strategic and demand-backed around AI and leading-edge nodes rather than signs of excess, while true tightness remains concentrated in DRAM and parts of the AI supply chain. That should favor Micron, NVIDIA, Broadcom and TSMC more than broadline distribution or general-purpose analog, where inventory looks supportive but not scarce.",
-  "confidence": "high"
+  "headline": "Inventory stays generally healthy, with restocking offsetting isolated build risk",
+  "summary": "Inventory conditions look broadly balanced to lean into 2026Q1: customers/distributors are normalizing or restocking at Lam Research, Arrow, GlobalFoundries, Teradyne, Microchip and Renesas, while Micron, Broadcom and MKS point to tight supply. At the same time, a few names are building inventory to secure supply or support growth — notably TSMC, NVIDIA and Applied Materials — so the near-term read is healthier than bloated, but not without pockets of buildup. Watch whether demand stays firm enough to absorb those strategic builds without reviving oversupply concerns.",
+  "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Lean channels and better turns",
-   "detail": "Customer and channel inventories are described as lean, disciplined, or improving, which supports healthier replenishment without signaling a glut.",
+   "label": "Lean customer and channel inventories are normalizing",
+   "detail": "Multiple reads point to healthy inventory positions rather than broad destocking or glut, supporting supply discipline.",
    "polarity": "pos",
    "companies": [
-    "Applied Materials",
     "Lam Research",
-    "Renesas",
     "Arrow Electronics",
-    "Analog Devices",
-    "Avnet"
+    "GlobalFoundries",
+    "Teradyne",
+    "Microchip Technology",
+    "Renesas"
    ]
   },
   {
-   "label": "Strategic builds tied to real demand",
-   "detail": "Higher inventories are mostly being built to support 2 nm/3 nm ramps, AI demand, and customer service levels rather than to absorb weak sell-through.",
+   "label": "Restocking is underway in select end markets",
+   "detail": "Customers are rebuilding inventory after burn-down, which should support shipments over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "Microchip Technology",
+    "MKS Instruments",
+    "Renesas",
+    "CEVA"
+   ]
+  },
+  {
+   "label": "Strategic inventory builds are being used to secure supply",
+   "detail": "Higher inventory at several suppliers reflects proactive buffering for demand, not evidence of excess stock.",
    "polarity": "pos",
    "companies": [
     "TSMC",
     "NVIDIA",
     "Broadcom",
-    "Texas Instruments",
-    "Analog Devices",
+    "Ultra Clean Holdings",
+    "Ichor Holdings",
     "Applied Materials"
    ]
   },
   {
-   "label": "Selective tightness in memory and AI supply",
-   "detail": "Low DRAM inventory and supply-security actions around accelerating AI demand keep parts of the supply chain tight and constructive for exposed suppliers.",
+   "label": "Supply remains tight in key areas",
+   "detail": "Low inventories and tight supply commentary suggest the market is still short in pockets, which keeps the backdrop constructive.",
    "polarity": "pos",
    "companies": [
     "Micron",
     "Broadcom",
-    "Renesas"
+    "Renesas",
+    "Element Solutions"
    ]
   },
   {
-   "label": "Normal inventory levels cap scarcity upside elsewhere",
-   "detail": "Several companies point to normal or flat inventory positions, suggesting broad supply is balanced and limiting any sector-wide shortage dynamic.",
+   "label": "Isolated oversupply pockets still exist",
+   "detail": "A few companies flag excess or mixed inventory, limiting the case for a fully bullish read.",
    "polarity": "neg",
    "companies": [
+    "Cabot",
+    "ACM Research",
     "Avnet",
-    "Arrow Electronics",
-    "AMD",
-    "TSMC"
+    "Advanced Energy",
+    "Veeco Instruments",
+    "Entegris"
    ]
   }
  ],
  "risks": [
-  "AI and leading-edge inventory builds at TSMC, NVIDIA, Broadcom or Applied could become digestion risk if demand conversion slips.",
-  "DRAM tightness could intensify and start constraining downstream shipments beyond Micron's current favorable setup.",
-  "Distributor and industrial inventory progress could stall if current rational order patterns weaken at Avnet or Arrow."
+  "Strategic builds at NVIDIA, TSMC or Applied could overshoot if demand softens.",
+  "Cabot-like excess inventory ahead of duties or channel distortion could spill into broader pricing pressure.",
+  "If restocking stalls, currently lean inventories could quickly revert to destocking behavior."
  ]
 }

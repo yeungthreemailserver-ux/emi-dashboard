@@ -1,34 +1,42 @@
 {
  "topic": "mem_demand",
- "source": "gpt-5.4-synth",
+ "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "AI keeps memory demand hot, but client elasticity is the watchpoint",
-  "summary": "Memory demand should keep improving into 2026Q1 as AI continues to add incremental pull across DRAM, HBM and increasingly NAND, with both equipment suppliers and Micron describing conditions as hot and, in advanced memory, still supply-constrained. The main limitation is downstream price sensitivity: AMD expects higher memory prices to pressure PC and gaming demand, though TI is not yet seeing broader consumer demand destruction. Watch whether AI-led strength broadens beyond data center without a sharper client slowdown.",
-  "confidence": "medium"
+  "headline": "AI is broadening memory demand, with DRAM/HBM leading",
+  "summary": "Memory demand looks set to improve over the next 1-2 quarters as AI-driven DRAM/HBM pull remains strong and NAND demand is also inflecting higher. The breadth is notable: suppliers and equipment vendors see hot demand and tighter conditions, while only PC/gaming-exposed names flag some demand pressure from higher memory prices. Watch whether consumer softness stays contained or starts to spill into broader end markets.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI-driven DRAM/HBM demand acceleration",
-   "detail": "AI is adding incremental memory pull, with demand rising broadly across DRAM and HBM and bit demand accelerating in data center and other end markets.",
+   "label": "AI-led DRAM/HBM acceleration",
+   "detail": "AI data center buildout is lifting DRAM and HBM demand across the chain, with multiple companies calling out stronger bit demand and rising test/probe activity.",
    "polarity": "pos",
    "companies": [
+    "Micron",
     "Applied Materials",
-    "Micron"
+    "Teradyne",
+    "FormFactor",
+    "Rambus",
+    "Qualcomm",
+    "Astera Labs",
+    "Kulicke & Soffa"
    ]
   },
   {
-   "label": "NAND demand strengthening with AI",
-   "detail": "AI is now supporting NAND bit demand as well, driving greenfield investment and demand for higher layer-count memory manufacturing.",
+   "label": "NAND demand improving on AI storage needs",
+   "detail": "AI is increasing NAND bit demand and persistent storage needs, supporting a better forward demand picture for NAND after a softer backdrop.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
-    "Micron"
+    "Micron",
+    "Entegris",
+    "Seagate Technology"
    ]
   },
   {
-   "label": "Advanced memory demand outstripping supply",
-   "detail": "Advanced memory demand remains strong enough that supply is expected to lag demand for the foreseeable future, reinforcing near-term ordering urgency across the memory ecosystem.",
+   "label": "Supply lag remains supportive",
+   "detail": "Advanced memory supply is still expected to lag demand, which reinforces tightness and sustains the positive demand signal into the next quarters.",
    "polarity": "pos",
    "companies": [
     "ASML",
@@ -36,25 +44,28 @@
    ]
   },
   {
-   "label": "Client-market price elasticity",
-   "detail": "Higher memory prices are expected to hurt PC and gaming demand, creating a potential offset to AI-led strength if pricing continues to rise.",
+   "label": "Consumer PC/gaming demand pressure from higher memory prices",
+   "detail": "Higher memory pricing is starting to weigh on PC and gaming demand, creating a pocket of weakness outside AI-linked use cases.",
    "polarity": "neg",
    "companies": [
-    "AMD"
+    "AMD",
+    "Alpha & Omega Semi"
    ]
   },
   {
-   "label": "Consumer demand holding up better than feared",
-   "detail": "Despite concern around memory costs, there is not yet clear evidence of broad consumer demand destruction in current results and guidance.",
+   "label": "Asia and auto demand strengthening",
+   "detail": "Broader end-market improvement outside pure data center is showing up in accelerating DRAM consumption and stronger regional demand.",
    "polarity": "pos",
    "companies": [
-    "Texas Instruments"
+    "Entegris",
+    "Micron",
+    "MKS Instruments"
    ]
   }
  ],
  "risks": [
-  "Memory price increases could begin to suppress PC and gaming units more broadly than TI currently sees.",
-  "AI-driven demand may remain concentrated in data center/HBM and not fully offset weaker client memory consumption.",
-  "If advanced-memory supply stays too tight, pricing could become a larger downstream demand headwind rather than a pure supplier tailwind."
+  "Memory price increases could further suppress PC/gaming demand if elasticity worsens.",
+  "AI demand could prove too concentrated in data center, limiting spillover to consumer and industrial end markets.",
+  "Any unexpected easing in supply tightness would reduce the demand-backed urgency across the memory chain."
  ]
 }
