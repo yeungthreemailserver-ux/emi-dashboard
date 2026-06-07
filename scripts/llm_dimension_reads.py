@@ -22,26 +22,29 @@ MODEL = "gpt-5.4-mini"
 PRICE = {"gpt-5.4-mini": (0.75, 4.50), "gpt-5.4-nano": (0.20, 1.25), "gpt-4.1-mini": (0.40, 1.60)}  # $/1M (in,out)
 KEY = (ROOT / "openai_key.txt").read_text(encoding="utf-8").strip()
 TREE = json.loads((ROOT / "data" / "topic_tree.json").read_text(encoding="utf-8"))
-# judge demand/supply only at FAMILY level (parent is an internal node, e.g. HBM/DRAM/NAND/GPU) —
-# generation children (HBM4, DDR5, QLC …) are Capability detail and inherit the family's market read.
-PRODUCT_LEAVES = {tid: lf["label"] for tid, lf in TREE["leaves"].items()
-                  if lf.get("kind") == "product" and lf["parent"] in TREE["nodes"]}
-LABEL2ID = {label: tid for tid, label in PRODUCT_LEAVES.items()}
+# judge ALL family-level topics (parent is an internal node). products get demand+supply; every topic gets a
+# company-relative favorability. generation children (HBM4, DDR5, QLC …) are excluded (inherit the family).
+LEAVES = {tid: lf["label"] for tid, lf in TREE["leaves"].items() if lf["parent"] in TREE["nodes"]}
+KIND = {tid: TREE["leaves"][tid].get("kind", "topic") for tid in LEAVES}
+LABEL2ID = {label: tid for tid, label in LEAVES.items()}
 _MF = json.loads((ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
 NAMES = {c["ticker"]: c["name"] for c in _MF["companies"]}
 PERIOD = PERIODS[-1]
 
 SYS = (
-    "You are a sell-side semiconductor analyst. For each PRODUCT a company discusses, read the quoted "
-    "sentences and judge two dimensions FROM THE COMPANY'S OWN PERSPECTIVE.\n"
-    "DEMAND — how strong is end-demand for this product? state: hot/solid/soft/weak/na. "
-    "favorable: bullish if strong/accelerating, bearish if weak/declining.\n"
-    "SUPPLY — how tight is supply? state: tight/balanced/ample/oversupply/na. "
-    "favorable: bullish when tight BECAUSE demand outruns supply (pricing power / sold out for a supplier); "
-    "bearish on oversupply/glut, OR when the company itself is the bottleneck and loses sales.\n"
-    "Decouple tone from meaning: 'constrained / sold out / can't make enough' for a supplier is BULLISH "
-    "(demand > supply), not bearish. Use 'na' for a dimension the sentences do not address. "
-    "'why' = one terse sentence citing the evidence. Judge ONLY the topics provided; return one read per topic."
+    "You are a sell-side semiconductor analyst. For each TOPIC a company discusses, read the quoted sentences "
+    "and judge — FROM THE COMPANY'S OWN PERSPECTIVE — whether it is favorable (bullish), neutral, or unfavorable "
+    "(bearish), with one terse 'why'. Favorability rules by topic type:\n"
+    "- demand (end-markets, AI, compute): bullish if demand strong/accelerating, bearish if weak/declining.\n"
+    "- supply / capacity / inventory / capex: bullish when tight BECAUSE demand outruns supply (pricing power / "
+    "sold out) or lean/healthy; bearish on oversupply/glut/destocking, or being supply-constrained and losing "
+    "sales. capex: for equipment vendors, customers raising capex = bullish.\n"
+    "- price (memory pricing, long-term agreements): bullish if prices rising / contracts locking in seller "
+    "power, bearish if falling.\n"
+    "- macro (China, tariffs): bullish if the headwind is easing, bearish if worsening.\n"
+    "- product (HBM, GPU, nodes…): ALSO set demand_state and supply_state (bullish supply = tight-by-demand).\n"
+    "Decouple tone from meaning: 'constrained / sold out' for a supplier is BULLISH (demand>supply), not bearish. "
+    "Set demand_state/supply_state to 'na' on NON-product topics or when not addressed. One read per topic; only the topics provided."
 )
 
 SCHEMA = {
@@ -50,13 +53,14 @@ SCHEMA = {
         "type": "object", "additionalProperties": False,
         "properties": {
             "topic": {"type": "string"},
+            "favorable": {"type": "string", "enum": ["bullish", "neutral", "bearish"]},
             "demand_state": {"type": "string", "enum": ["hot", "solid", "soft", "weak", "na"]},
-            "demand_favorable": {"type": "string", "enum": ["bullish", "neutral", "bearish"]},
+            "demand_favorable": {"type": "string", "enum": ["bullish", "neutral", "bearish", "na"]},
             "supply_state": {"type": "string", "enum": ["tight", "balanced", "ample", "oversupply", "na"]},
-            "supply_favorable": {"type": "string", "enum": ["bullish", "neutral", "bearish"]},
+            "supply_favorable": {"type": "string", "enum": ["bullish", "neutral", "bearish", "na"]},
             "why": {"type": "string"},
         },
-        "required": ["topic", "demand_state", "demand_favorable", "supply_state", "supply_favorable", "why"],
+        "required": ["topic", "favorable", "demand_state", "demand_favorable", "supply_state", "supply_favorable", "why"],
     }}},
     "required": ["reads"],
 }
@@ -73,7 +77,7 @@ def sentences_for(tk):
         return None, "no transcript"
     sents = [s.strip() for s in _SENT.split(text) if len(s.strip()) > 25]
     out = {}
-    for tid, label in PRODUCT_LEAVES.items():
+    for tid, label in LEAVES.items():
         hits = [s for s in sents if any(rx.search(s) for rx in _COMPILED[tid])]
         if hits:
             out[tid] = sorted(hits, key=len, reverse=True)[:6]
@@ -81,7 +85,7 @@ def sentences_for(tk):
 
 
 def call_llm(name, tk, topics, model):
-    blocks = "\n\n".join(f"[TOPIC: {PRODUCT_LEAVES[t]}]\n" + "\n".join("- " + s[:280] for s in topics[t]) for t in topics)
+    blocks = "\n\n".join(f"[TOPIC: {LEAVES[t]} · {KIND.get(t, 'topic')}]\n" + "\n".join("- " + s[:280] for s in topics[t]) for t in topics)
     user = f"Company: {name} ({tk}), {PERIOD} earnings call. Judge demand & supply for each topic.\n\n{blocks}"
     payload = {
         "model": model,
@@ -144,7 +148,7 @@ def main():
         tot_in += pin; tot_out += pout
         print(f"  {tk}: {len(reads)} reads · {pin}+{pout} tok")
         for t in reads:
-            print(f"      {t['topic']:<22} D:{t['demand_state']}/{t['demand_favorable']:<7} S:{t['supply_state']}/{t['supply_favorable']:<7} — {t['why'][:90]}")
+            print(f"      {t['topic']:<22} {t['favorable']:<8} D:{t['demand_state']}/{t['supply_state']} — {t['why'][:80]}")
     pin, pout = PRICE.get(model, (0.75, 4.50))
     cost = tot_in / 1e6 * pin + tot_out / 1e6 * pout
     print(f"\nTOTAL {tot_in}+{tot_out} tok  (~${cost:.3f} at {model})  · wrote data/dimension_reads.json" if out else "\nno output")

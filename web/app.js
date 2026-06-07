@@ -21,7 +21,7 @@ let STATE = { view: 'signals', metric: 'revenue', mode: 'value', search: '', exp
   exSubs: new Set(), exOpen: false,
   sigView: 'topics', sigMetric: 'tonecmp', topicLayers: [], topicLabels: 'auto', topicSeg: 'all',
   topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false,
-  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false };
+  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false, drawerW: 440 };
 const charts = [];
 let TOPIC_PLAY = null;
 
@@ -964,6 +964,13 @@ function toutHiloHTML(it, S) {
     <div class="exec-hl-grid"><div class="hl-col"><h6 class="hl-up">Highlights</h6>${hi}</div><div class="hl-col"><h6 class="hl-dn">Lowlights &amp; risks</h6>${lo}</div></div></div>`;
 }
 function toutConceptsHTML(it, S) { const qh = topicQuotes(it, S, 6); return qh ? `<div class="insp-sec"><h5>Key concepts from the calls</h5>${qh}</div>` : ''; }
+/* LLM company-by-company stance (favorability + why) — works for ANY enriched topic */
+function toutLLMReadHTML(it, S) {
+  const T = S.topics, rows = topicLLMRows(it.id, T); if (!rows.length) return '';
+  const agg = topicLLMFav(it.id, T), c = f => f === 'bullish' ? '#16a34a' : f === 'bearish' ? '#dc2626' : '#d97706';
+  const list = rows.map(r => `<div class="llm-row"><span class="llm-co">${r.co}</span><span class="llm-fav" style="color:${c(r.fav)}">${r.fav}</span><span class="llm-why" title="${(r.why || '').replace(/"/g, '&quot;')}">${r.why || ''}</span></div>`).join('');
+  return `<div class="insp-sec"><h5>LLM stance — by company <span class="dim">net ${agg.net >= 0 ? '+' : ''}${agg.net.toFixed(2)} · ${rows.length} cos · gpt-5.4-mini</span></h5>${list}</div>`;
+}
 /* full pinned inspector — works for ANY topic (outlook sections skipped when no synthesis exists) */
 function topicInspectorHTML(it, S, q) {
   const T = S.topics, cat = (T.categories || []).find(c => c.id === it.cat) || {};
@@ -976,11 +983,31 @@ function topicInspectorHTML(it, S, q) {
     <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><button class="unpin" data-unpin="1" title="Unpin — then hover bubbles to browse">✕</button>
       <div class="insp-sub"><span style="color:${domColor};font-weight:700">${pathStr}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
     ${toutExecHTML(it, S, q)}
+    ${toutLLMReadHTML(it, S)}
     <div class="insp-sec"><h5>Mention &amp; breadth trend</h5><div class="insp-charts"><div class="insp-ch"><div class="chlbl">Avg mentions per company</div><div class="chart-xs" id="tspk_m"></div></div><div class="insp-ch"><div class="chlbl">Companies mentioning it</div><div class="chart-xs" id="tspk_c"></div></div></div></div>
     ${toutHiloHTML(it, S)}
     ${toutCompaniesHTML(it, S, q)}
     ${toutSpeakerHTML(it, S, q)}
     ${toutConceptsHTML(it, S)}
+  </div>`;
+}
+/* idle drawer content (nothing selected): a compact quarter summary so the panel is always useful */
+function topicIdleSummaryHTML(S) {
+  const T = S.topics, q = topicAsOf(T), bi = topicBubbleItems(T, S).items;
+  const pct = m => (m >= 0 ? '+' : '') + Math.round((m || 0) * 100) + '%';
+  const mom = it => topicMomentum(it.series, q, momSmooth(T));
+  const dot = it => `<span class="tdot" style="background:${sentDotColor(topicSent(it, S, topicSeg(), q))}"></span>`;
+  const row = (it, extra) => `<div class="isum-row" data-goto="${it.id}">${dot(it)}<span class="isum-lab">${it.label}</span>${extra}</div>`;
+  const hottest = bi.slice(0, 6).map(it => row(it, `<span class="ov-x">${(+it.series[q]).toFixed(1)}×</span>`)).join('');
+  const ranked = bi.map(it => ({ it, m: mom(it) })).filter(r => r.m != null).sort((a, b) => b.m - a.m);
+  const accel = ranked.filter(r => r.m > 0.02).slice(0, 4).map(r => row(r.it, `<span class="tmom up">${pct(r.m)}</span>`)).join('') || '<div class="dim" style="font-size:12px">—</div>';
+  const cool = ranked.filter(r => r.m < -0.02).slice(-3).reverse().map(r => row(r.it, `<span class="tmom down">${pct(r.m)}</span>`)).join('') || '<div class="dim" style="font-size:12px">—</div>';
+  return `<div class="insp">
+    <div class="insp-banner"><b>This quarter — ${qLabel(T.periods[q])}</b><div class="insp-sub">${bi.length} topics shown · hover a bubble to preview · click to lock</div></div>
+    <div class="insp-sec"><h5>🔥 Hottest</h5>${hottest}</div>
+    <div class="insp-sec"><h5>🚀 Accelerating</h5>${accel}</div>
+    <div class="insp-sec"><h5>❄️ Cooling</h5>${cool}</div>
+    <div class="dim" style="font-size:11px;padding:2px 2px 10px">Counts are token-free (regex over transcripts). Click any row or bubble for its full outlook.</div>
   </div>`;
 }
 function miniTrendChart(id, series, color, name, type, T) {
@@ -997,8 +1024,9 @@ function miniTrendChart(id, series, color, name, type, T) {
 function renderTopicInspector(S) {
   const dp = document.getElementById('topicdetail'); if (!dp) return false;
   const T = S.topics, q = topicAsOf(T), pin = topicPinId(S);
-  if (!pin) { dp.innerHTML = ''; return false; }   // idle → empty drawer (hidden); chart uses full width
-  const it = (T.items || []).find(x => x.id === pin); if (!it) { dp.innerHTML = ''; return false; }
+  const idle = () => { dp.innerHTML = topicIdleSummaryHTML(S); dp.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.topicLock = b.dataset.goto; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); }); };
+  if (!pin) { idle(); return false; }   // nothing selected → quarter summary
+  const it = (T.items || []).find(x => x.id === pin); if (!it) { idle(); return false; }
   dp.innerHTML = topicInspectorHTML(it, S, q);
   const eff = topicEffSeries(it, S), cat = (T.categories || []).find(c => c.id === it.cat) || {};
   miniTrendChart('tspk_m', eff.ser, cat.color, 'per co.', 'bar', T);
@@ -1152,6 +1180,17 @@ function topicAggDim(subjId, facet, T) {  // mean favorability of the subject's 
   rows.sort((a, b) => ({ bullish: 0, neutral: 1, bearish: 2 }[a.fav] - { bullish: 0, neutral: 1, bearish: 2 }[b.fav]));
   return { net: n ? sum / n : null, n, rows };
 }
+/* per-topic LLM favorability aggregated across companies (any topic, not just products) */
+function topicLLMFav(tid, T) {
+  const reads = topicDimReads(T); let sum = 0, n = 0;
+  Object.keys(reads).forEach(co => { const r = (reads[co] || {})[tid]; if (r && r.favorable) { sum += r.favorable === 'bullish' ? 1 : r.favorable === 'bearish' ? -1 : 0; n++; } });
+  return n ? { net: sum / n, n } : null;
+}
+function topicLLMRows(tid, T) {
+  const reads = topicDimReads(T), rows = [], ord = { bullish: 0, neutral: 1, bearish: 2 };
+  Object.keys(reads).forEach(co => { const r = (reads[co] || {})[tid]; if (r && r.favorable) rows.push({ co: topicCoName(co), fav: r.favorable, ds: r.demand_state, ss: r.supply_state, why: r.why }); });
+  return rows.sort((a, b) => ord[a.fav] - ord[b.fav]);
+}
 function sigTreeBody(S) {
   const T = S.topics; if (!T || !topicTree(T)) return `<div class="panel"><div class="dim">No topic tree in bundle — re-run scripts/load_transcripts.py</div></div>`;
   const q = topicAsOf(T), nLeaves = topicItemsForLayer(T).length, h = Math.max(640, nLeaves * 26 + 40);
@@ -1251,7 +1290,7 @@ function sigTopicsBody(S) {
     ${topicFilterBar(S, { search: true, labels: true, play: true })}
     ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="seglbl">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by mention count · hover = preview · <b>click = lock</b> · click empty space = close</span></div>`; })()}
     <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious).</div>
-    <div class="topicwrap2"><div class="chart" id="topicchart" style="height:600px"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
+    <div class="topicwrap2" style="--drawer-w:${STATE.drawerW || 440}px"><div class="chart" id="topicchart" style="height:600px"></div><div class="topic-split" id="topicsplit" title="Drag to resize"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
     <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
     <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Colour = sentiment</span>${colorKey}</div>
     <div class="tcols">
@@ -1280,7 +1319,7 @@ function sigTopicsChart(S) {
   const catOf = id => T.categories.find(c => c.id === id) || {};
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
-    const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), color = sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
+    const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), llm = topicLLMFav(it.id, T), color = llm ? favColor(llm.net) : sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
     const brd = (it.breadth && it.breadth[q] != null) ? it.breadth[q] : 5;  // # companies that raised it
     const mv = m == null ? 0 : m, quad = heat >= med ? (mv >= 0 ? 'Hot &amp; accelerating' : 'Still hot · losing steam') : (mv >= 0 ? 'Emerging' : 'Fading');
     // "related" cluster for hover-highlight = the SUBJECT (L2 node: Memory/Processor/…/AI&DC) when one
@@ -1377,6 +1416,15 @@ function sigTopicsChart(S) {
     if (near) return;
     cancelRestore(); STATE.topicLock = null; STATE.topicPin = null; curHL = null; paint(null); renderTopicInspector(S);
   });
+  // resizable splitter: drag the divider to change the chart ↔ drawer ratio
+  const split = document.getElementById('topicsplit'), wrap = split && split.parentElement;
+  if (split && wrap) split.onmousedown = e => {
+    e.preventDefault(); split.classList.add('dragging');
+    const startX = e.clientX, startW = STATE.drawerW || 440, rect = wrap.getBoundingClientRect();
+    const onMove = ev => { const w = Math.max(300, Math.min(rect.width - 340, startW - (ev.clientX - startX))); STATE.drawerW = Math.round(w); wrap.style.setProperty('--drawer-w', STATE.drawerW + 'px'); ch.resize(); };
+    const onUp = () => { split.classList.remove('dragging'); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
+  };
 }
 /* Lens — Optimism − Discount = Net, by signal × company (your formula) */
 function sigMatrixBody(S) {
