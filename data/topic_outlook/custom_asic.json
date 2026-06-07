@@ -3,62 +3,66 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "ASIC demand stays hot as hyperscaler programs expand",
-  "summary": "Custom silicon demand is still broadening, with hyperscaler AI programs driving stronger design activity, more sign-off usage, and higher pull-through in test, foundry, and IP. The latest mention trend remains elevated at 0.8x and sits slightly above the trailing average, pointing to a constructive 2026Q1 setup despite a few company-specific execution risks.",
+  "headline": "ASIC demand broadens beyond design into buildout and test",
+  "summary": "Custom silicon demand looks to be improving over the next 1-2 quarters, with hyperscaler AI programs driving more design starts, launches, and follow-on demand across EDA, foundry, IP, and test. The strongest reads are at Cadence, Marvell, Qualcomm, Intel, Synaptics, and Ambarella, while Broadcom also sees solid TPU/ASIC demand; the main offset is that some of the value chain is seeing margin pressure and ramp timing risk rather than demand weakness.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Hyperscaler AI/custom-chip expansion",
-   "detail": "Major customer programs are scaling, supporting stronger ASIC pipelines and shipment ramps.",
+   "label": "Hyperscaler AI custom chip investment is accelerating design activity",
+   "detail": "More design starts, marquee customer engagement, and performance/time-to-market requirements are lifting ASIC demand across the ecosystem.",
    "polarity": "pos",
    "companies": [
-    "Broadcom",
+    "KLA",
     "Cadence Design Systems",
-    "Intel",
-    "Qualcomm",
-    "Marvell Technology",
     "Rambus"
    ]
   },
   {
-   "label": "Broader ecosystem pull-through",
-   "detail": "Custom silicon demand is creating more starts and higher utilization across design, manufacturing, test, and interface IP.",
+   "label": "Broadening demand into major custom-silicon vendors",
+   "detail": "Strong pipeline growth, initial shipments, and named hyperscaler ramps point to continued customer pull for custom silicon programs.",
    "polarity": "pos",
    "companies": [
-    "KLA",
-    "GlobalFoundries",
-    "FormFactor",
-    "Cohu",
-    "Rambus",
+    "Marvell Technology",
+    "Qualcomm",
+    "Intel",
+    "Ambarella",
     "Synaptics"
    ]
   },
   {
-   "label": "New design wins and launches",
-   "detail": "Recent wins and engagements suggest custom ASIC activity is still converting into concrete opportunities.",
+   "label": "Downstream manufacturing/test activity is ramping",
+   "detail": "Healthy ASIC/compute ramps are showing up in test and subsystem-related reads, indicating the demand wave is moving beyond tape-out.",
    "polarity": "pos",
    "companies": [
+    "Teradyne",
     "FormFactor",
-    "Ambarella",
-    "Astera Labs",
-    "Qualcomm"
+    "Cohu",
+    "MACOM Technology",
+    "Astera Labs"
    ]
   },
   {
-   "label": "Healthy compute-ramp demand",
-   "detail": "ASIC demand is being cited as part of the broader AI/compute ramp rather than a one-off program.",
+   "label": "Custom silicon remains a growth vector for foundry capacity",
+   "detail": "Custom silicon solutions are expected to drive incremental growth over time, reinforcing the buildout phase of the cycle.",
    "polarity": "pos",
    "companies": [
-    "Cohu",
-    "Marvell Technology",
-    "Intel"
+    "GlobalFoundries"
+   ]
+  },
+  {
+   "label": "Some product-level softness is tied to system preference and margins",
+   "detail": "NVIDIA noted customers often want full systems rather than semi-custom chips, and Broadcom flagged lower margins/margin pressure even with solid ASIC demand.",
+   "polarity": "neg",
+   "companies": [
+    "NVIDIA",
+    "Broadcom"
    ]
   }
  ],
  "risks": [
-  "NVIDIA's view that many data centers prefer systems over semi-custom chips could limit upside for pure ASIC demand.",
-  "Program concentration and ASIC design-ramp issues at Teradyne could create lumpier near-term execution.",
-  "Broadcom flagged margin pressure on ASICs, so mix and pricing remain watch items even as demand stays hot."
+  "Hyperscaler programs may favor full-system deals over semi-custom ASICs, limiting addressable chip demand in some cases.",
+  "First-silicon issues and ramp timing could delay revenue recognition for test and launch-dependent suppliers like Teradyne.",
+  "Margin pressure at high-volume ASIC suppliers could temper the perceived quality of the demand rebound."
  ]
 }

@@ -3,67 +3,75 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Hyperscaler capex remains broadening into 2026Q1",
-  "summary": "Company reads are overwhelmingly bullish, with strength spanning AI compute, networking, test, and data-center infrastructure; the mention trend is still elevated at 2.2x and running 11% above the trailing average despite easing from the 2.5x peak. Beneficiaries are the suppliers closest to hyperscaler buildouts and AI silicon ramps, while the only notable lag is Microchip’s neutral read; watch whether current engagement keeps converting into actual hardware pull-through.",
+  "headline": "Hyperscaler capex stays strong and broadens across the stack",
+  "summary": "Hyperscaler capex still looks like a strong demand tailwind into 2026Q1, with the mention trend elevated at 2.2x and only modestly below the recent 2.5x peaks. The broadest beneficiaries are AI compute, interconnect, WFE, power, and buildout suppliers such as NVIDIA, Broadcom, AMD, Marvell, KLA, Synopsys, ON Semiconductor, Navitas, and Linde; the main watchpoint is whether spending remains lumpy or timing shifts, as Teradyne flagged.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI infrastructure spending stays very strong",
-   "detail": "Hyperscaler adoption and capacity expansion remain strong, supporting continued demand across compute and custom silicon exposure.",
+   "label": "AI infrastructure spend remains hot",
+   "detail": "Multiple suppliers cite hyperscaler capacity expansion, fast Blackwell adoption, and ongoing AI build-outs as evidence of sustained customer capex.",
    "polarity": "pos",
    "companies": [
     "NVIDIA",
-    "AMD",
+    "Arrow Electronics",
     "Broadcom",
     "GlobalFoundries",
-    "Qualcomm"
-   ]
-  },
-  {
-   "label": "Build activity is still accelerating",
-   "detail": "Multiple reads point to ongoing and accelerating hyperscaler build-outs that are feeding hardware sales, services, and facility-related demand.",
-   "polarity": "pos",
-   "companies": [
-    "Avnet",
-    "Arrow Electronics",
     "Ultra Clean Holdings",
-    "Linde",
-    "Element Solutions",
-    "Cabot"
+    "Synopsys",
+    "Semtech"
    ]
   },
   {
-   "label": "Custom silicon, optics, and rack-content ramps",
-   "detail": "Engagement across major hyperscalers is translating into wins in interconnect, verification, power, and networking content, implying durable capex intensity.",
+   "label": "Customer spend is spreading into networking, power, and interconnect",
+   "detail": "Reads point to continued investment in AI fabric, data-center power infrastructure, optical modules, and 800V HVDC ramps.",
    "polarity": "pos",
    "companies": [
-    "Synopsys",
-    "Marvell Technology",
-    "Semtech",
-    "SiTime",
-    "Navitas Semiconductor",
-    "MACOM Technology",
-    "Power Integrations",
-    "Allegro MicroSystems",
+    "Broadcom",
     "ON Semiconductor",
+    "Power Integrations",
+    "Navitas Semiconductor",
+    "SiTime",
+    "Marvell Technology",
     "Skyworks Solutions",
-    "MaxLinear"
+    "MACOM Technology"
    ]
   },
   {
-   "label": "Test and wafer-fab demand still outruns supply",
-   "detail": "Hyperscaler capex is continuing to drive WFE and test demand faster than the industry can add capacity.",
+   "label": "Hyperscaler engagement is broadening across product cycles",
+   "detail": "Multi-generation engagements, new design wins, and shipping across multiple hyperscaler platforms imply durable capex programs rather than one-off demand.",
+   "polarity": "pos",
+   "companies": [
+    "AMD",
+    "FormFactor",
+    "Allegro MicroSystems",
+    "Qualcomm",
+    "MACOM Technology",
+    "Cadence Design Systems"
+   ]
+  },
+  {
+   "label": "Supply constraints support the supplier opportunity",
+   "detail": "KLA and Element Solutions both suggest demand remains strong enough that industry supply is still under-serving hyperscaler-driven needs.",
    "polarity": "pos",
    "companies": [
     "KLA",
+    "Element Solutions",
+    "Power Integrations"
+   ]
+  },
+  {
+   "label": "Execution timing can still make demand look uneven",
+   "detail": "Teradyne highlighted lumpiness and acceptance timing, which can blur the underlying strength in hyperscaler activity.",
+   "polarity": "neg",
+   "companies": [
     "Teradyne"
    ]
   }
  ],
  "risks": [
-  "Latest mention intensity has slipped from the 2.5x peak, so watch for a near-term fade in hyperscaler momentum.",
-  "Conversion from engagement/design wins to volume shipments could slow in custom AI, optics, and power platforms.",
-  "Any easing of equipment supply constraints could reduce urgency in WFE and test demand pull-through."
+  "Capex phasing slips or acceptance timing causes near-term order lumpiness, as seen at Teradyne.",
+  "The latest mention trend cooled from the 2.5x peak to 2.2x; a further fade would suggest breadth is peaking.",
+  "Any pause in a few large hyperscaler programs could matter because the bullish reads are concentrated in major AI customers."
  ]
 }

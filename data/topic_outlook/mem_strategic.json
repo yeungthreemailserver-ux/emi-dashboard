@@ -3,65 +3,71 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Long-term pricing deals keep broadening across the semiconductor chain",
-  "summary": "The read-through is still getting better: the mention trend has climbed sharply to 4.5x, and the latest quarter remains well above the trailing average despite a slight pullback from 4.7x. Momentum is being driven by tighter supply, AI/capacity buildouts, and customers seeking multi-year visibility, which is translating into more locked-in volumes and better pricing stability for suppliers. The main watch-out is that a handful of names still show only generic or weak contract commentary, so breadth is improving but not yet universal.",
-  "confidence": "high"
+  "headline": "LTA pricing is broadening, led by tight supply and AI commitments",
+  "summary": "Long-term agreement pricing is improving into 2026Q1 as more suppliers cite multi-year demand visibility and customers accept committed volume in exchange for allocation certainty. The strongest pricing read-through is in tight-supply or strategically critical chains—Micron, Air Products, Linde, Entegris, and several AI-linked names—while Arrow’s contract charge shows isolated weakness rather than a sector-wide break. What to watch is whether AI and industrial demand stays firm enough to keep renewals and new LTAs near current levels instead of simply pushing timing out.",
+  "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Tighter supply is forcing longer commitments",
-   "detail": "Extremely tight supply and excess molecules are helping suppliers secure multi-year agreements and firmer pricing/volumes.",
+   "label": "Tight supply supports firmer terms",
+   "detail": "Customers are signing multi-year deals to secure visibility and supply, which improves pricing discipline where capacity is constrained.",
    "polarity": "pos",
    "companies": [
     "Micron",
-    "Linde",
     "Air Products",
-    "GlobalFoundries"
+    "Linde",
+    "Entegris"
    ]
   },
   {
-   "label": "AI and capacity expansion are locking in demand",
-   "detail": "Large compute and fab buildouts are extending customer visibility and supporting longer-term commitments.",
+   "label": "AI and strategic capacity commitments are locking in demand",
+   "detail": "Multi-year partnerships, capacity planning, and deployment commitments are extending the horizon for pricing and revenue visibility.",
    "polarity": "pos",
    "companies": [
     "TSMC",
     "NVIDIA",
     "AMD",
+    "Broadcom",
     "Applied Materials",
     "Lam Research",
-    "Ultra Clean Holdings"
-   ]
-  },
-  {
-   "label": "More strategic, sticky customer relationships",
-   "detail": "Platform-of-record wins, partnerships, and multi-generation supply deals are making agreements more durable and visible.",
-   "polarity": "pos",
-   "companies": [
-    "Broadcom",
+    "Ultra Clean Holdings",
     "Cohu",
     "Veeco Instruments",
-    "Entegris",
-    "KLA",
+    "ACM Research",
     "Onto Innovation"
    ]
   },
   {
-   "label": "Some pockets still lack incremental pricing power",
-   "detail": "Several companies only discussed partnerships or prior agreements, while one contract read was explicitly weak, limiting breadth.",
+   "label": "Strategic partnerships are improving seller leverage",
+   "detail": "Underutilization payments, production-support purchases, and long-term volume/pricing agreements point to better revenue quality and firmer negotiations.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Entegris",
+    "ACM Research",
+    "Cohu"
+   ]
+  },
+  {
+   "label": "Pockets of contract weakness remain",
+   "detail": "A charge on an underperforming multi-year contract and several timing-only comments suggest pricing power is not uniform across the sector.",
    "polarity": "neg",
    "companies": [
-    "ASML",
+    "Arrow Electronics",
     "Texas Instruments",
+    "Analog Devices",
     "Teradyne",
     "Avnet",
-    "Analog Devices",
-    "Arrow Electronics"
+    "Kulicke & Soffa",
+    "Ichor Holdings",
+    "Advanced Energy",
+    "FormFactor"
    ]
   }
  ],
  "risks": [
-  "Supply conditions ease faster than expected, reducing the need for multi-year commitments and price support.",
-  "AI/capacity ramp timing slips, which would weaken demand visibility for equipment and infrastructure suppliers.",
-  "Weak contract execution at a few names turns into broader caution on long-term agreement quality."
+  "AI or industrial demand softens, reducing willingness to lock in multi-year pricing.",
+  "Renewals at timing-sensitive names could lag, limiting near-term upside to contract prices.",
+  "Additional underperforming contract charges, like Arrow’s, would signal more uneven pricing discipline."
  ]
 }

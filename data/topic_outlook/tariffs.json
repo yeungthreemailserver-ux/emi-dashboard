@@ -2,65 +2,65 @@
  "topic": "tariffs",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "improving",
-  "headline": "Tariff headwinds are easing, though pockets of margin pressure remain",
-  "summary": "The read-through is improving: mention frequency has collapsed and most commentary frames tariffs as manageable, easing, or neutralized rather than worsening. KLA, FormFactor, Analog Devices and DuPont suggest the trade-policy drag is fading over the next 1-2 quarters, while MKS and Amphenol show pass-through can keep the impact contained. The main laggards are Advanced Energy, TE Connectivity, Vishay and CTS, where costs and timing effects are still pressuring margins.",
+  "direction": "stabilizing",
+  "headline": "Tariff headwinds are easing, but impacts remain company-specific",
+  "summary": "Tariffs look less like a broadening sector issue and more like a manageable, uneven cost item: mention activity has dropped sharply, and several companies now describe relief, neutralization, or mitigation. Still, a meaningful subset is seeing ongoing margin pressure or timing delays, so the next 1-2 quarters should be defined by winners that can pass through or reroute costs versus losers still exposed to inflation and policy noise.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Tariff pressure easing or rates coming down",
-   "detail": "Several companies said the issue is less severe now, with lower tariff rates and possible refunds improving the setup.",
+   "label": "Easing tariff burden",
+   "detail": "Several companies say the headwind is moderating, with rates down, headwind easing through the year, or pull-ins fading as conditions normalize.",
    "polarity": "pos",
    "companies": [
-    "FormFactor",
     "KLA",
-    "Analog Devices"
+    "FormFactor",
+    "Power Integrations"
    ]
   },
   {
-   "label": "Offsetting mechanisms are working",
-   "detail": "Pass-through, volume shifting, and cost neutralization are limiting the net damage from tariffs.",
+   "label": "Cost neutralization / pass-through",
+   "detail": "Tariff costs are being offset or neutralized dollar-for-dollar, limiting incremental damage to margins and making the policy backdrop less adverse.",
    "polarity": "pos",
    "companies": [
     "MKS Instruments",
-    "Amphenol",
-    "DuPont"
+    "Amphenol"
    ]
   },
   {
-   "label": "Lingering but not worsening dislocations",
-   "detail": "Order and timing disruptions are still present, but the tone is more contained than escalating.",
+   "label": "Mitigation via supply-chain/geographic flexibility",
+   "detail": "Companies with broader footprints are rerouting volume or using geography as an advantage, reducing the net tariff impact.",
    "polarity": "pos",
    "companies": [
-    "Entegris",
-    "Analog Devices"
+    "DuPont",
+    "Element Solutions"
    ]
   },
   {
-   "label": "Residual margin headwinds in select names",
-   "detail": "Some companies still called out ongoing tariff expenses, Section 232 changes, and inflation as active drags.",
+   "label": "Lingering direct cost pressure",
+   "detail": "Some names still cite tariffs as an active margin headwind, with inflation or expenses weighing on execution and pricing.",
    "polarity": "neg",
    "companies": [
     "Advanced Energy",
     "TE Connectivity",
-    "CTS Corporation",
-    "Vishay Intertechnology"
+    "CTS Corporation"
    ]
   },
   {
-   "label": "Policy fluidity still creates uncertainty",
-   "detail": "The macro backdrop has not fully normalized, so abrupt policy shifts remain a risk.",
+   "label": "Timing and demand distortion",
+   "detail": "Tariff-related pull-ins or policy uncertainty are still delaying targets and keeping order patterns distorted in the near term.",
    "polarity": "neg",
    "companies": [
+    "Analog Devices",
+    "Vishay Intertechnology",
     "Credo Technology",
     "Entegris"
    ]
   }
  ],
  "risks": [
-  "Tariff policy becomes more fluid or escalates again, reversing the easing trend.",
-  "Expected refunds or rate reductions fail to materialize, leaving the headwind in place.",
-  "Input-cost inflation and Section 232-related changes keep margins under pressure at the more exposed names."
+  "Tariff policy remains fluid and could re-accelerate cost pressure if rates or enforcement shift.",
+  "Pass-through may lag in slower-demand names, leaving margins exposed despite easing headlines.",
+  "If pull-ins unwind more abruptly than expected, near-term order volatility could mask underlying demand."
  ]
 }

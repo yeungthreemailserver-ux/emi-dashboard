@@ -69,6 +69,14 @@ TOPIC_LEXICON = {
     "lpddr":         [r"LPDDR", r"LPCAMM", r"\bGDDR"],
     "qlc":           [r"\bQLC\b", r"\bTLC\b"],
 }
+# merge AUTO-PROMOTED emergent topics (data/emergent_lexicon.json, written by auto_topics.py) so the
+# token-free counter tracks the latest hot themes too — keeps the taxonomy self-updating.
+try:
+    from emi.config import ROOT as _ROOT
+    for _tid, _kw in json.loads((_ROOT / "data" / "emergent_lexicon.json").read_text(encoding="utf-8")).items():
+        TOPIC_LEXICON.setdefault(_tid, _kw)
+except Exception:  # noqa: BLE001 — no emergent lexicon yet
+    pass
 _COMPILED = {k: [re.compile(p, re.IGNORECASE) for p in pats] for k, pats in TOPIC_LEXICON.items()}
 
 # end-of-transcript boilerplate markers — cut everything after the first one we find

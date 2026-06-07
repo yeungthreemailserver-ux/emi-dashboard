@@ -1,0 +1,436 @@
+{
+ "clusters": [
+  {
+   "name": "Optical interconnect / silicon photonics / CPO",
+   "companies": 36,
+   "is_new": true,
+   "examples": [
+    "co-packaged optics (cpo)",
+    "silicon photonics",
+    "1.6t pluggable optical modules",
+    "near-package optics and cpo"
+   ]
+  },
+  {
+   "name": "AI datacenter power delivery / power semiconductors",
+   "companies": 36,
+   "is_new": true,
+   "examples": [
+    "800v data center architectures",
+    "ai data center power delivery",
+    "ai server power delivery",
+    "800v hvdc data center architectures"
+   ]
+  },
+  {
+   "name": "CoWoS / packaging",
+   "companies": 30,
+   "is_new": false,
+   "examples": [
+    "advanced packaging",
+    "panel-level packaging",
+    "advanced packaging for hbm and 3d chiplet stacking",
+    "advanced packaging capacity constraints"
+   ]
+  },
+  {
+   "name": "Test / ATE / probe cards",
+   "companies": 30,
+   "is_new": true,
+   "examples": [
+    "tester shortages",
+    "ai-related ate demand",
+    "hbm probe cards",
+    "ai data center test handlers"
+   ]
+  },
+  {
+   "name": "Automotive",
+   "companies": 28,
+   "is_new": false,
+   "examples": [
+    "automotive r-car gen 4 ramp",
+    "automotive adas content gains",
+    "connected car infotainment",
+    "adas and autonomous driving"
+   ]
+  },
+  {
+   "name": "AI networking / ethernet / fabric",
+   "companies": 28,
+   "is_new": true,
+   "examples": [
+    "spectrum-x ethernet platform",
+    "infiniband xdr networking",
+    "51.2t and 100t ethernet switching",
+    "ualink-based ai fabrics"
+   ]
+  },
+  {
+   "name": "Materials / specialty gases / chemicals",
+   "companies": 28,
+   "is_new": true,
+   "examples": [
+    "china/middle east chemicals and gas supply risk",
+    "electronic specialty gas systems for advanced fabs",
+    "helium supply shortages",
+    "microelectronics water filtration"
+   ]
+  },
+  {
+   "name": "EDA / IP / chiplet design",
+   "companies": 26,
+   "is_new": true,
+   "examples": [
+    "advanced node eda",
+    "ucie die-to-die ip",
+    "3d ic and chiplet design",
+    "agentic ai design automation"
+   ]
+  },
+  {
+   "name": "SiC / GaN power semiconductors",
+   "companies": 24,
+   "is_new": true,
+   "examples": [
+    "silicon carbide mosfets",
+    "gan solutions funnel",
+    "300mm gan power devices",
+    "2.3kv and 3.3kv sic modules"
+   ]
+  },
+  {
+   "name": "Inventory",
+   "companies": 22,
+   "is_new": false,
+   "examples": [
+    "inventory replenishment",
+    "channel inventory buildup",
+    "inventory days reduction",
+    "distribution channel restocking"
+   ]
+  },
+  {
+   "name": "Manufacturing footprint / regionalization",
+   "companies": 20,
+   "is_new": true,
+   "examples": [
+    "malaysia manufacturing expansion",
+    "onshoring manufacturing footprint",
+    "backend manufacturing expansion in malaysia",
+    "mexico facility transformation"
+   ]
+  },
+  {
+   "name": "AI storage / HDD / SSD",
+   "companies": 20,
+   "is_new": true,
+   "examples": [
+    "ai inference storage growth",
+    "cloud nearline hdd demand",
+    "hamr mozaic ramp",
+    "enterprise ssd portfolio"
+   ]
+  },
+  {
+   "name": "AI / datacenter demand",
+   "companies": 18,
+   "is_new": false,
+   "examples": [
+    "ai infrastructure buildout",
+    "ai factory build-out",
+    "data center and ai demand",
+    "record data center revenue"
+   ]
+  },
+  {
+   "name": "Advanced nodes (N2/A16)",
+   "companies": 18,
+   "is_new": false,
+   "examples": [
+    "leading-edge foundry logic",
+    "2 nm node ramp",
+    "3 nm capacity expansion",
+    "intel 18a yield ramp"
+   ]
+  },
+  {
+   "name": "China / export controls",
+   "companies": 15,
+   "is_new": false,
+   "examples": [
+    "china export controls",
+    "china h200 export controls",
+    "china revenue exposure and export controls",
+    "china export controls / trade and geopolitical risks"
+   ]
+  },
+  {
+   "name": "Consumer (smartphone/PC)",
+   "companies": 15,
+   "is_new": false,
+   "examples": [
+    "client-side ai demand",
+    "mainstream and ai-enabled pcs",
+    "foldable smartphone design wins",
+    "china smartphone demand softness"
+   ]
+  },
+  {
+   "name": "Capex / WFE",
+   "companies": 13,
+   "is_new": false,
+   "examples": [
+    "wafer fab equipment spending mix",
+    "ai-driven wfe growth",
+    "wfe spending rebound",
+    "ai-driven capex"
+   ]
+  },
+  {
+   "name": "Process control / inspection / metrology",
+   "companies": 12,
+   "is_new": true,
+   "examples": [
+    "mask inspection",
+    "electron beam inspection",
+    "tsv metrology",
+    "neon hbm inspection platform"
+   ]
+  },
+  {
+   "name": "Long-term agreements",
+   "companies": 12,
+   "is_new": false,
+   "examples": [
+    "strategic customer agreements (scas)",
+    "long-term data center agreements (ltas)",
+    "hyperscaler long-term supply agreements",
+    "firm supply commitments"
+   ]
+  },
+  {
+   "name": "Agentic & inference AI",
+   "companies": 10,
+   "is_new": false,
+   "examples": [
+    "agentic ai inference workloads",
+    "ai inference and agentic ai workloads",
+    "agentic ai edge workloads",
+    "agentic ai workloads"
+   ]
+  },
+  {
+   "name": "Custom silicon / ASIC",
+   "companies": 10,
+   "is_new": false,
+   "examples": [
+    "custom silicon/hyperscaler asics",
+    "hyperscaler custom ai silicon",
+    "data center custom silicon",
+    "semi-custom ai asics"
+   ]
+  },
+  {
+   "name": "Capacity",
+   "companies": 10,
+   "is_new": false,
+   "examples": [
+    "clean room capacity constraints",
+    "clean-room capacity expansion",
+    "wafer capacity expansion",
+    "internal capacity expansion"
+   ]
+  },
+  {
+   "name": "HBM",
+   "companies": 8,
+   "is_new": false,
+   "examples": [
+    "hbm investments",
+    "high-bandwidth memory",
+    "hbm capacity expansion",
+    "wafer and hbm supply"
+   ]
+  },
+  {
+   "name": "EUV lithography",
+   "companies": 8,
+   "is_new": true,
+   "examples": [
+    "euv equipment supply constraints",
+    "euv adoption",
+    "euv throughput upgrades",
+    "euv pellicles"
+   ]
+  },
+  {
+   "name": "Memory production",
+   "companies": 8,
+   "is_new": false,
+   "examples": [
+    "dram 1c-node migration",
+    "3d nand layer-count conversion",
+    "nand >200-layer conversion spending",
+    "dram capital investments"
+   ]
+  },
+  {
+   "name": "Industrial",
+   "companies": 8,
+   "is_new": false,
+   "examples": [
+    "industrial recovery",
+    "industrial medical bookings recovery",
+    "industrial robotics sensing",
+    "industrial oem and distribution recovery"
+   ]
+  },
+  {
+   "name": "GPU / accelerators",
+   "companies": 7,
+   "is_new": false,
+   "examples": [
+    "blackwell systems ramp",
+    "gb300 and nvl72",
+    "instinct gpu production ramp",
+    "hyperscaler capex migration to gpu compute"
+   ]
+  },
+  {
+   "name": "Memory supply",
+   "companies": 7,
+   "is_new": false,
+   "examples": [
+    "advanced memory supply constraints",
+    "dram and nand supply constraints",
+    "memory supply constraints",
+    "memory availability constraints"
+   ]
+  },
+  {
+   "name": "NAND",
+   "companies": 7,
+   "is_new": false,
+   "examples": [
+    "data center nand demand",
+    "data center ssd demand and gen6 pcie ssds",
+    "enterprise ssd portfolio",
+    "bics8 nand transition"
+   ]
+  },
+  {
+   "name": "Lead times",
+   "companies": 6,
+   "is_new": false,
+   "examples": [
+    "component lead time extensions",
+    "lead time extension",
+    "lead-time expansion",
+    "shorter lead times and supply assurance"
+   ]
+  },
+  {
+   "name": "HBM4",
+   "companies": 5,
+   "is_new": false,
+   "examples": [
+    "hbm4e development and 1-gamma dram",
+    "hbm4 volume shipments",
+    "hbm4 smartmatrix full-wafer contactor",
+    "hbm4e controller"
+   ]
+  },
+  {
+   "name": "CPU",
+   "companies": 5,
+   "is_new": false,
+   "examples": [
+    "epyc cpu ramp",
+    "server cpu tam expansion",
+    "xeon server cpu demand",
+    "ai data center cpu ramp"
+   ]
+  },
+  {
+   "name": "DRAM",
+   "companies": 5,
+   "is_new": false,
+   "examples": [
+    "dram 1c-node migration",
+    "dram next-generation development",
+    "dram capacity additions at 6f² nodes",
+    "1-gamma dram"
+   ]
+  },
+  {
+   "name": "DDR5 / DDR",
+   "companies": 4,
+   "is_new": false,
+   "examples": [
+    "ddr5 rdimm and mrdimm chipsets",
+    "storage-side ddr5/hdd/ssd demand",
+    "dd5 high-speed interface products",
+    "ddr probe cards"
+   ]
+  },
+  {
+   "name": "LPDDR / GDDR",
+   "companies": 4,
+   "is_new": false,
+   "examples": [
+    "lpddr5x/lpcamm2 for ai pcs",
+    "automotive g9 nand and automotive lpddr5",
+    "lpddr5x socamm2 server module chipset",
+    "lpddr6 socamm2 roadmap"
+   ]
+  },
+  {
+   "name": "Tariffs / trade policy",
+   "companies": 3,
+   "is_new": false,
+   "examples": [
+    "tariffs and tariff refunds",
+    "section 232 steel and aluminum tariffs",
+    "anti-dumping measures in europe"
+   ]
+  },
+  {
+   "name": "GAA / backside power",
+   "companies": 3,
+   "is_new": false,
+   "examples": [
+    "a14 nanosheet transistor",
+    "gate-all-around transistor process equipment",
+    "gate-all-around logic ramps"
+   ]
+  },
+  {
+   "name": "Hyperscaler capex",
+   "companies": 2,
+   "is_new": false,
+   "examples": [
+    "hyperscaler capex migration to gpu compute",
+    "high-performance computing capex"
+   ]
+  },
+  {
+   "name": "Memory pricing",
+   "companies": 2,
+   "is_new": false,
+   "examples": [
+    "memory price increases",
+    "dram chip cost inflation"
+   ]
+  },
+  {
+   "name": "High-NA EUV",
+   "companies": 1,
+   "is_new": false,
+   "examples": [
+    "high na euv mask count reduction"
+   ]
+  }
+ ],
+ "unique_phrases": 832
+}

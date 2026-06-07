@@ -2,64 +2,70 @@
  "topic": "industrial",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "mixed",
-  "headline": "Industrial demand is recovering, but not uniformly",
-  "summary": "Industrial demand looks better over the next 1-2 quarters, led by analog, distribution, and industrial-adjacent suppliers calling out broad-based growth, sequential recovery, and healthy pipelines. But a few names still see softness or only normalization, and the latest mention trend has eased slightly, so this reads more like an uneven rebound than a clean breakout.",
+  "direction": "improving",
+  "headline": "Industrial demand is recovering, led by broad semiconductor and distribution strength",
+  "summary": "Most reads point to a firmer industrial backdrop over the next 1-2 quarters, with distributors, analog names, and test/capex suppliers describing sequential growth, healthier utilization, and customers restarting spending. The recovery is not uniform: industrial chemicals/materials remains weak in places, and the slightly softer mention trend (6.5x, -2% vs trailing average) argues for gradual improvement rather than a sharp re-acceleration.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Broad-based recovery at distributors and analog suppliers",
-   "detail": "Avnet, Arrow, Texas Instruments, Analog Devices, Amkor, and Microchip all point to stronger industrial orders, with double-digit sequential growth in some cases and TI/ADI describing especially strong momentum.",
+   "label": "Broad-based industrial order recovery",
+   "detail": "Multiple companies cited sequential growth, stronger lead indicators, and a market that is 'waking up again,' signaling that industrial demand is moving off the bottom.",
    "polarity": "pos",
    "companies": [
     "Avnet",
     "Arrow Electronics",
     "Texas Instruments",
     "Analog Devices",
+    "Microchip Technology",
     "Amkor Technology",
-    "Microchip Technology"
+    "AMD"
    ]
   },
   {
-   "label": "Industrial design wins and pipeline building",
-   "detail": "AMD, Advanced Energy, DuPont, CEVA, and Cadence describe new wins, improving bookings, and a building pipeline across industrial-related use cases, supporting further near-term demand.",
+   "label": "Capex and test spending is re-engaging",
+   "detail": "Customers are again investing in test capital and broader spending is improving, which supports a healthier industrial demand cycle for semiconductor equipment and test suppliers.",
    "polarity": "pos",
    "companies": [
-    "AMD",
+    "Cohu",
+    "Kulicke & Soffa",
+    "KLA",
+    "Onto Innovation",
+    "MKS Instruments"
+   ]
+  },
+  {
+   "label": "Industrial AI/robotics adds a new demand leg",
+   "detail": "Industrial AI, robotics, and industrial IoT were framed as large growth pools, helping extend the demand recovery beyond traditional cyclical end markets.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA",
+    "CEVA"
+   ]
+  },
+  {
+   "label": "Backlog and bookings are improving in adjacent industrial exposures",
+   "detail": "Recovering bookings/backlog and stable-to-improving industrial/medical demand suggest the next couple of quarters should stay constructive even without explosive growth.",
+   "polarity": "pos",
+   "companies": [
     "Advanced Energy",
     "DuPont",
-    "CEVA",
-    "Cadence Design Systems"
+    "Air Products"
    ]
   },
   {
-   "label": "Healthy specialty industrial/capital-equipment backdrop",
-   "detail": "MKS Instruments, Air Products, KLA, and Ultra Clean Holdings all cite steady or broad-based activity, healthy backlog, and sustained investment, which helps keep industrial demand constructive.",
-   "polarity": "pos",
-   "companies": [
-    "MKS Instruments",
-    "Air Products",
-    "KLA",
-    "Ultra Clean Holdings"
-   ]
-  },
-  {
-   "label": "Residual pockets of weakness and normalization",
-   "detail": "Linde, Element Solutions, Renesas, GlobalFoundries, and Teradyne still describe weaker demand, flat industrial solutions, inventory buildup, or a rebound that has not fully arrived, limiting the pace of improvement.",
+   "label": "Weakness persists in industrial chemicals/materials",
+   "detail": "A few reads still point to softer industrial demand, especially in chemicals and EMEA, which caps the breadth of the recovery.",
    "polarity": "neg",
    "companies": [
     "Linde",
-    "Element Solutions",
-    "Renesas",
-    "GlobalFoundries",
-    "Teradyne"
+    "Element Solutions"
    ]
   }
  ],
  "risks": [
-  "Industrial strength stays concentrated in a few suppliers and does not broaden into weaker names like Renesas, Teradyne, or Element Solutions.",
-  "EMEA or other regional weakness persists, especially where Linde flagged a softer industrial and chemicals environment.",
-  "Inventory normalization stalls or reverses before distributor and OEM order momentum fully converts into end-demand."
+  "Regional industrial weakness, especially in EMEA, keeps broad recovery uneven.",
+  "If mention momentum stays below the trailing average, the demand inflection could prove slower than expected.",
+  "Inventory normalization could delay end-demand improvement at some suppliers and distributors."
  ]
 }

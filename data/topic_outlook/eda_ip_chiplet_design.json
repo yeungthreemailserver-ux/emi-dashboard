@@ -1,0 +1,58 @@
+{
+ "topic": "eda_ip_chiplet_design",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Agentic EDA and chiplet design demand are broadening",
+  "summary": "The next 1-2 quarters look stronger for EDA/IP and chiplet-oriented design tools as mention momentum stays elevated at 0.9x, above the trailing average, and all three reads are bullish. Cadence and Synopsys appear best positioned from hot demand, tight supply, and growing traction in agentic EDA and bundled EDA/IP offerings, while ACM points to adjacent demand in 3D IC and AI packaging that should reinforce chiplet-related workflows.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Agentic EDA adoption",
+   "detail": "Super agents are expected to materially expand EDA consumption, lifting tool usage and engagement.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems"
+   ]
+  },
+  {
+   "label": "EDA/IP bundle traction",
+   "detail": "Expanding opportunity and traction in conjoined EDA/IP offerings suggests stronger pull through the product stack.",
+   "polarity": "pos",
+   "companies": [
+    "Synopsys"
+   ]
+  },
+  {
+   "label": "Chiplet-oriented packaging demand",
+   "detail": "3D IC and AI packaging commentary points to rising demand for chiplet-oriented packaging solutions.",
+   "polarity": "pos",
+   "companies": [
+    "ACM Research"
+   ]
+  },
+  {
+   "label": "R&D spending acceleration",
+   "detail": "Accelerating R&D spend supports higher near-term EDA demand and broader product usage.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems"
+   ]
+  },
+  {
+   "label": "Tight supply backdrop",
+   "detail": "Tight supply cited for key EDA vendors supports favorable pricing/pull-through conditions.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems",
+    "Synopsys"
+   ]
+  }
+ ],
+ "risks": [
+  "Agentic EDA adoption could be slower to translate into actual consumption than expected.",
+  "Current strength may remain concentrated in Cadence and Synopsys rather than broadening across the sector.",
+  "Chiplet/3D IC packaging demand could stay adjacent to core EDA/IP spending if AI packaging momentum softens."
+ ]
+}

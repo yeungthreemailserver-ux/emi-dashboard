@@ -1,0 +1,70 @@
+{
+ "topic": "optical_interconnect_sil",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Silicon photonics demand is broadening and still accelerating",
+  "summary": "Mentions are rising quickly, and the company reads point to a real product inflection: AI-driven optical interconnect demand is moving from interest to volume, with multiple suppliers citing hot demand, tight supply, and active ramping of photonics, CPO, and test solutions. Broadcom’s “de facto standard” framing, plus ramp signals from GlobalFoundries, Onto, FormFactor, Veeco, Marvell, Credo, and Astera, suggest the next 1-2 quarters should be characterized by broadening adoption rather than isolated wins.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI-driven demand is turning into volume",
+   "detail": "Multiple companies described hot demand and early volumes, indicating the market is moving from evaluation to actual deployment.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Onto Innovation",
+    "FormFactor",
+    "Veeco Instruments",
+    "Semtech",
+    "MaxLinear",
+    "MACOM Technology",
+    "Marvell Technology",
+    "Credo Technology",
+    "Astera Labs",
+    "TE Connectivity",
+    "Amphenol"
+   ]
+  },
+  {
+   "label": "CPO/silicon photonics is becoming a standard architecture",
+   "detail": "Broadcom said it is the de facto standard and that optics/CPO revenue is becoming meaningful, supporting broader adoption.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "Supply is tightening in key parts of the chain",
+   "detail": "Tight supply at several suppliers implies backlog and near-term demand pull, reinforcing the strength of the ramp.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Semtech",
+    "MaxLinear",
+    "MACOM Technology",
+    "Marvell Technology",
+    "Credo Technology",
+    "Astera Labs"
+   ]
+  },
+  {
+   "label": "Ecosystem is moving from design activity to shipping solutions",
+   "detail": "Companies cited tape-outs, multi-unit orders, shipment-to-revenue focus, and production/test ramping, which points to commercialization momentum.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Cohu",
+    "FormFactor",
+    "Astera Labs",
+    "Marvell Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "Qualification and production ramps could still slip at new CPO/silicon photonics programs.",
+  "Tight supply in lasers, wafers, or test capacity could delay shipment timing even if demand stays strong.",
+  "Adoption could remain uneven if a few large AI programs dominate near-term volumes."
+ ]
+}

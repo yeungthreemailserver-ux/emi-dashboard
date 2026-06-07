@@ -1,0 +1,68 @@
+{
+ "topic": "sic_gan_power_semiconduc",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "Broad demand remains, but near-term momentum is fading",
+  "summary": "SiC/GaN still has clear pull from 800V AI rack power, EV/industrial design wins, and ongoing product ramps, with several suppliers also citing tight supply or fab conversion that signals confidence in demand. But the company mention trend has softened to 0.7x, and Ichor’s ‘pretty light’ SiC demand shows the recovery is not yet uniform, so the next 1-2 quarters look more like selective strength than a clean sector inflection.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "800V AI data-center adoption is lifting GaN demand",
+   "detail": "Rack-scale power architectures are creating a new pull-through for GaN content and related power systems.",
+   "polarity": "pos",
+   "companies": [
+    "Cohu",
+    "Navitas Semiconductor"
+   ]
+  },
+  {
+   "label": "EV, industrial, and automotive SiC ramps are still winning designs",
+   "detail": "Multiple companies point to active product ramps and traction in power applications, suggesting end-market demand is broadening beyond a single use case.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor",
+    "Diodes Incorporated",
+    "Allegro MicroSystems",
+    "Vishay Intertechnology"
+   ]
+  },
+  {
+   "label": "Product and technology transitions remain constructive",
+   "detail": "New SiC/GaN launches, advanced dielectric layers, and ecosystem momentum imply continued investment and customer engagement across the stack.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "Veeco Instruments",
+    "Wolfspeed",
+    "Power Integrations",
+    "MACOM Technology"
+   ]
+  },
+  {
+   "label": "Tight supply and fab actions suggest healthy pull",
+   "detail": "Fab conversion, secured substrate supply, and tight supply conditions indicate suppliers are still seeing enough demand to justify capacity actions.",
+   "polarity": "pos",
+   "companies": [
+    "Vishay Intertechnology",
+    "Diodes Incorporated",
+    "Power Integrations",
+    "MACOM Technology"
+   ]
+  },
+  {
+   "label": "Some SiC demand is still not recovered",
+   "detail": "Management commentary points to demand that remains light in parts of the chain, limiting how quickly the broad base can reaccelerate.",
+   "polarity": "neg",
+   "companies": [
+    "Ichor Holdings"
+   ]
+  }
+ ],
+ "risks": [
+  "SiC pricing pressure could offset volume gains, especially where demand is strong but competitive intensity remains high.",
+  "800V AI rack-scale deployments or EV/industrial design-win conversions could prove slower than expected, delaying the broader demand inflection.",
+  "The recent slide in mention momentum may signal that enthusiasm is outrunning near-term shipment timing."
+ ]
+}

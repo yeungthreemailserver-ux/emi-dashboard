@@ -1,0 +1,53 @@
+{
+ "topic": "euv_lithography",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "EUV demand broadens as tight supply and High-NA prep persist",
+  "summary": "The next 1-2 quarters look better for EUV lithography as the bullish read is broadening across the stack: ASML still sees hot demand for its core platform across multiple nodes, Micron points to higher EUV adoption helping keep supply constrained, and Veeco sees broader adoption plus High-NA prep lifting enabling demand. The main beneficiaries are the EUV tool and enablement ecosystem, while the key thing to watch is whether this tight-supply, adoption-led momentum stays intact as High-NA work advances.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Broader EUV adoption",
+   "detail": "More EUV penetration is supporting demand across multiple companies rather than a single end-market.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Micron",
+    "Veeco Instruments"
+   ]
+  },
+  {
+   "label": "Tight supply remains constructive",
+   "detail": "Constrained supply is still part of the setup, supporting demand for tools and signaling continued need for EUV capacity.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Micron",
+    "Veeco Instruments"
+   ]
+  },
+  {
+   "label": "ASML core platform strength across nodes",
+   "detail": "Leadership in EUV across multiple nodes keeps demand for the core toolset hot.",
+   "polarity": "pos",
+   "companies": [
+    "ASML"
+   ]
+  },
+  {
+   "label": "High-NA preparation lifts enablers",
+   "detail": "High-NA prep is creating incremental demand for mask blank and pellicle technologies.",
+   "polarity": "pos",
+   "companies": [
+    "Veeco Instruments"
+   ]
+  }
+ ],
+ "risks": [
+  "Tight supply could ease faster than expected, reducing the near-term bullish setup.",
+  "A slower-than-expected High-NA transition would temper incremental demand for enablement products.",
+  "If EUV adoption broadens more slowly than implied, the current momentum could stall."
+ ]
+}

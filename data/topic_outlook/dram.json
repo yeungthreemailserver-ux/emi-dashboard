@@ -2,62 +2,65 @@
  "topic": "dram",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "mixed",
-  "headline": "AI keeps DRAM tight, but momentum is easing",
-  "summary": "Fundamentals still read strong: AI-driven DRAM spend, HBM mix, and next-node transitions are keeping supply tight and supporting tools, test, and memory vendors like Micron, Applied Materials, Lam Research, FormFactor, and MKS. But the mention trend has cooled from a recent peak to 2.5x, and a few reads are only neutral or pass-through, suggesting the narrative is still positive but no longer accelerating. Watch whether tight supply and AI pull continue to offset any pushback from high prices or DRAM reductions in downstream devices.",
-  "confidence": "medium"
+  "direction": "stabilizing",
+  "headline": "DRAM demand remains hot, but momentum is cooling slightly",
+  "summary": "DRAM is still seeing strong AI, HBM, and next-node spending, with tight supply keeping the backdrop favorable for Micron and the equipment/test ecosystem. But mention momentum is running below the trailing average, so the near-term setup looks more like sustained strength than a fresh acceleration. Watch whether cost pressure and DRAM-scarcity workarounds start to cap content growth outside the AI server segment.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI-driven DRAM demand remains strong",
-   "detail": "Multiple companies cited hot DRAM demand tied to AI/AI compute and data-center needs, supporting continued spending.",
-   "polarity": "pos",
-   "companies": [
-    "Applied Materials",
-    "Micron",
-    "Teradyne",
-    "Microchip Technology",
-    "FormFactor",
-    "Entegris"
-   ]
-  },
-  {
-   "label": "Supply stays constrained by node and capacity limits",
-   "detail": "Reads point to tight supply, HBM mix, and limited capacity growth, keeping the market favorable for suppliers.",
+   "label": "AI and data-center demand remains strong",
+   "detail": "Multiple reads point to hot DRAM demand tied to AI servers, HBM, DDR5/LPDDR, and broader data-center buildouts.",
    "polarity": "pos",
    "companies": [
     "Micron",
-    "MKS Instruments",
     "FormFactor",
-    "SanDisk",
-    "Microchip Technology",
-    "Veeco Instruments"
-   ]
-  },
-  {
-   "label": "Next-node transitions are still ramping",
-   "detail": "1C, DDR5, LPDDR5, and HBM/advanced-memory adoption are driving more tool and content demand.",
-   "polarity": "pos",
-   "companies": [
-    "Lam Research",
-    "ASML",
-    "Onto Innovation",
     "Rambus",
-    "Cadence Design Systems",
-    "Advanced Energy"
+    "Monolithic Power Systems",
+    "Cadence Design Systems"
    ]
   },
   {
-   "label": "Mention momentum has cooled from the recent peak",
-   "detail": "Company mention frequency is still elevated at 2.5x, but down ~10% versus the trailing average, implying less incremental excitement near-term.",
-   "polarity": "neg",
+   "label": "Next-gen node and HBM transition continues",
+   "detail": "Customers are pushing 1C, 1-gamma, EUV, and 4F-squared/advanced-node investments, supporting continued DRAM capex and tool spending.",
+   "polarity": "pos",
    "companies": [
-    "all companies"
+    "ASML",
+    "Applied Materials",
+    "Lam Research",
+    "MKS Instruments",
+    "Veeco Instruments",
+    "Onto Innovation",
+    "Entegris",
+    "Micron"
    ]
   },
   {
-   "label": "High DRAM prices are starting to pressure some end uses",
-   "detail": "At least one read framed shortages and expensive DRAM as forcing customers to reduce DRAM usage rather than expand it.",
+   "label": "Supply remains tight",
+   "detail": "Reads repeatedly describe constrained DRAM capacity or tight supply, which keeps the market favorable and supports pricing/activity.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "FormFactor",
+    "Microchip Technology",
+    "MKS Instruments",
+    "Entegris",
+    "SanDisk",
+    "ASML"
+   ]
+  },
+  {
+   "label": "DRAM pricing and test demand stay elevated",
+   "detail": "Elevated DRAM pricing and robust test activity suggest the cycle is still healthy even if not accelerating.",
+   "polarity": "pos",
+   "companies": [
+    "KLA",
+    "Teradyne"
+   ]
+  },
+  {
+   "label": "Customers are optimizing away from DRAM",
+   "detail": "Some designs are trying to reduce DRAM usage or adopt DRAM-less solutions because it is expensive and hard to source.",
    "polarity": "neg",
    "companies": [
     "Ambarella",
@@ -66,8 +69,8 @@
   }
  ],
  "risks": [
-  "DRAM prices/supply tightness ease faster than expected, reducing urgency in supplier reads.",
-  "Downstream customers begin redesigning around DRAM scarcity, limiting unit growth.",
-  "The mention trend continues to fade, signaling the AI/DRAM story is losing incremental momentum."
+  "A quicker-than-expected supply ramp could ease tightness and pressure pricing.",
+  "If AI/server demand pauses, the strongest incremental DRAM driver could slow quickly.",
+  "DRAM-cost optimization could reduce content growth in non-AI end markets."
  ]
 }

@@ -1,0 +1,50 @@
+{
+ "topic": "process_control_inspecti",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "KLA and Onto stay tight; Applied remains a share loser",
+  "summary": "Process control demand looks healthy, but the next 1-2 quarters still screen as company-divergent rather than uniformly strong. KLA and Onto point to rising relevance, tight supply, and strong visibility, while Applied Materials’ declining share keeps the mix from broadening cleanly; mention traffic is only 0.5x with slight 2% momentum, so the story is steady, not accelerating.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Rising process-control intensity",
+   "detail": "KLA says process control relevance is rising across all segments and expects to outperform, implying stronger inspection/metrology content and demand.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Tight supply / execution capacity",
+   "detail": "KLA and Onto both cite tight supply, which supports pricing, utilization, and near-term shipment discipline.",
+   "polarity": "pos",
+   "companies": [
+    "KLA",
+    "Onto Innovation"
+   ]
+  },
+  {
+   "label": "Visible backlog and new wins",
+   "detail": "Onto’s record backlog and new wins point to solid demand conversion over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "Onto Innovation"
+   ]
+  },
+  {
+   "label": "Share pressure at Applied",
+   "detail": "Applied Materials’ declining market share is a relative headwind for this topic and suggests weaker competitive positioning.",
+   "polarity": "neg",
+   "companies": [
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "Applied’s share losses broaden beyond one company and weigh on the sector narrative.",
+  "Tight supply eases faster than demand, reducing the benefit of current backlog and lead times.",
+  "Mentions stay flat rather than improving, signaling the theme is not broadening further."
+ ]
+}

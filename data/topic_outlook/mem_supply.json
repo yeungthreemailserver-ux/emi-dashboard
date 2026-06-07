@@ -2,45 +2,68 @@
  "topic": "mem_supply",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "improving",
-  "headline": "Memory supply stays tight as capacity additions lag demand",
-  "summary": "Memory supply looks set to remain constrained through 2026Q1–Q2: TSMC and Micron point to severe undersupply and node/packaging limits, while Avnet and Arrow are still describing thin channel availability. That supports pricing and utilization for suppliers, but keeps pressure on PC/mobile/handset-exposed names; the latest mention trend is still elevated at 0.6x, 14% above trailing average, so tightness is still very much in focus. Watch whether new capacity ramps start to ease the bottleneck, or whether allocation persists longer than expected.",
+  "direction": "stabilizing",
+  "headline": "Memory supply stays tight, though shortage pressure is no longer accelerating",
+  "summary": "Mentions surged earlier and are still above baseline, but the latest 0.6x reading and +14% vs trailing average suggest tightness is settling in rather than intensifying further. Supply remains constrained by AI pull, lead-time/bit-capacity bottlenecks, and thin availability, which favors suppliers and substitution/pricing names like Micron, Arrow, FormFactor, MaxLinear, and AOSL; by contrast, memory-heavy downstream players are still seeing shipment friction or weaker demand. Watch whether new capacity ramps or inventory build at distributors starts to loosen the market in 2026Q1.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI-led undersupply and bit-growth constraints",
-   "detail": "Severe undersupply from AI demand plus cleanroom, node and packaging limits are keeping supply below demand.",
+   "label": "AI demand is absorbing available memory supply",
+   "detail": "Severe undersupply and AI-driven pull are keeping supply short, with capacity expansion limited by how fast supply can come on.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "Micron"
+    "Qualcomm"
    ]
   },
   {
-   "label": "Channel inventories remain thin",
-   "detail": "Avnet is adding memory inventory to support customer programs and Arrow says on-prem supply is becoming thin, both consistent with allocation-like conditions.",
+   "label": "Bit growth remains constrained by manufacturing bottlenecks",
+   "detail": "Cleanroom, lead-time and mix constraints are still limiting DRAM/NAND bit growth and keeping availability tight.",
    "polarity": "pos",
    "companies": [
-    "Avnet",
-    "Arrow Electronics"
+    "Micron",
+    "FormFactor"
    ]
   },
   {
-   "label": "Multiple bottlenecks still visible across the chain",
-   "detail": "Tester shortages, DRAM capacity constraints, and locked-up supply all point to continued scarcity rather than normalization.",
+   "label": "Thin supply is supporting pricing and substitution",
+   "detail": "Customers are substituting around shortages and suppliers are retaining leverage on pricing/value proposition.",
    "polarity": "pos",
    "companies": [
-    "Teradyne",
-    "FormFactor",
+    "Arrow Electronics",
+    "MaxLinear",
     "Alpha & Omega Semi",
+    "indie Semiconductor",
     "SanDisk"
+   ]
+  },
+  {
+   "label": "Near-term capacity additions are beginning to ease the shortage",
+   "detail": "Some reads point to new memory capacity and higher inventory, suggesting the squeeze is less acute than earlier.",
+   "polarity": "neg",
+   "companies": [
+    "Entegris",
+    "Avnet"
+   ]
+  },
+  {
+   "label": "Downstream demand is still being hit by memory constraints",
+   "detail": "Shortages are constraining notebooks, PCs and other customer shipments, which can mute visible demand even when supply is tight.",
+   "polarity": "neg",
+   "companies": [
+    "Diodes Incorporated",
+    "Cirrus Logic",
+    "Ambarella",
+    "Synaptics",
+    "CEVA",
+    "Monolithic Power Systems"
    ]
   }
  ],
  "risks": [
-  "New DRAM/NAND capacity and packaging ramps could ease shortages faster than expected.",
-  "Shortage-driven demand destruction in PCs, mobile and handsets could soften downstream pull.",
-  "Customer inventory rebuilds could fade if programs slow, reducing the need for buffering."
+  "Faster-than-expected DRAM/NAND capacity ramps or yield gains could loosen supply sooner than expected.",
+  "Distributor/OEM inventory normalization could reduce urgency and soften the tight-supply signal.",
+  "Weaker end-demand in PC, mobile or consumer devices could curb pull-through even if supply stays constrained."
  ]
 }

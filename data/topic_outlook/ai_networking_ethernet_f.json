@@ -1,0 +1,49 @@
+{
+ "topic": "ai_networking_ethernet_f",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI networking demand is broadening across fabric layers",
+  "summary": "Reads point to stronger near-term AI networking demand, with NVIDIA’s InfiniBand and Spectrum-X scaling rapidly, Broadcom framing AI networking as a high-margin growth line tied to multi-generation TPU deals, and Cohu saying photonics switches are becoming core to cloud and AI Ethernet fabric. The caveat is that mention momentum is still soft, so the setup is improving on fundamentals before it is fully reflected in broader discussion.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Rapid InfiniBand / Spectrum-X scaling",
+   "detail": "NVIDIA said both AI networking lines are scaling rapidly, signaling tight demand for high-speed fabric.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "AI networking tied to multi-generation TPU wins",
+   "detail": "Broadcom described AI networking as a high-margin growth area supported by multi-generation TPU deals.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "Photonics switch adoption in AI Ethernet fabric",
+   "detail": "Cohu flagged photonics switches as becoming core to cloud and AI Ethernet fabric, implying widening pull-through across the stack.",
+   "polarity": "pos",
+   "companies": [
+    "Cohu"
+   ]
+  },
+  {
+   "label": "Tight supply implies demand > supply",
+   "detail": "NVIDIA’s tight supply backdrop suggests AI networking demand is still outrunning capacity.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention trend remains weak at 0.1x and -4% vs trailing average, so breadth in discussion is still limited.",
+  "Watch for slower-than-expected ramp in Spectrum-X, InfiniBand, or TPU-related networking demand.",
+  "Photonics switch content may take longer to convert into visible orders than expected."
+ ]
+}

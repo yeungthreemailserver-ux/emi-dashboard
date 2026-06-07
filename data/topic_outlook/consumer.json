@@ -3,82 +3,68 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "mixed",
-  "headline": "Memory inflation keeps consumer demand soft; premium pockets only partly offset",
-  "summary": "Consumer smartphone/PC demand is still soft into 2026Q1, and the 4.4x mention trend has slipped 2% versus the trailing average, consistent with cooling attention. The biggest drag is higher memory and system pricing, which is pressuring low/mid-end smartphones and PCs for names like AMD, NVIDIA, TSMC, and Microchip, while only premium handset pockets and select design-win suppliers such as Diodes and Kulicke & Soffa are seeing improvement. Watch whether memory costs ease; otherwise the softness should linger over the next 1-2 quarters.",
+  "headline": "Premium demand holds, but low-end PC/smartphone demand stays pressured",
+  "summary": "Mentions are still elevated at 4.4x, but the slight momentum fade and company reads point to a split consumer backdrop rather than a clean recovery. Premium smartphones, AI-driven content and select design wins are holding up, while low- and mid-end phones/PCs are being squeezed by higher memory and system prices; suppliers tied to flagship content should fare better than those exposed to mass-market units.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Higher memory and system prices are suppressing unit demand",
-   "detail": "Multiple reads point to price sensitivity and memory cost inflation weighing on smartphone and PC purchases, with some companies explicitly calling out demand destruction risk.",
+   "label": "Premium smartphone resilience",
+   "detail": "Flagship/premium handset demand is still healthy and showing improvement in some channels.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Amkor Technology",
+    "Kulicke & Soffa",
+    "Diodes Incorporated",
+    "KLA",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Memory and component inflation pressuring demand",
+   "detail": "Higher memory prices and broader component cost inflation are reducing consumer affordability and weighing on unit demand.",
    "polarity": "neg",
    "companies": [
     "TSMC",
     "NVIDIA",
     "AMD",
     "Texas Instruments",
-    "MKS Instruments",
     "Entegris",
-    "Cabot",
-    "Micron"
+    "MKS Instruments",
+    "Power Integrations",
+    "Microchip Technology"
    ]
   },
   {
-   "label": "Smartphone demand is soft outside the premium tier",
-   "detail": "Low- and mid-end handset demand is weakening, and one read expects high-single-digit smartphone unit declines even if share gains cushion the impact.",
+   "label": "Low-end smartphone and PC weakness",
+   "detail": "Reads point to muted PC demand, challenged smartphone shipments, and weaker low-/mid-end consumer electronics demand.",
    "polarity": "neg",
    "companies": [
     "GlobalFoundries",
     "Microchip Technology",
+    "Lam Research",
     "CEVA",
     "Element Solutions",
-    "Cabot",
-    "TSMC",
-    "Amkor Technology",
-    "Power Integrations"
+    "Teradyne",
+    "Amkor Technology"
    ]
   },
   {
-   "label": "Premium smartphone pockets are improving modestly",
-   "detail": "A few suppliers are seeing better traction in premium phones and related consumer wins, but the improvement is narrow rather than broad-based.",
+   "label": "Consumer AI content/design wins broadening",
+   "detail": "AI adoption and new design wins are creating incremental demand pockets in PCs, smartphones and tablets.",
    "polarity": "pos",
    "companies": [
-    "Kulicke & Soffa",
-    "Diodes Incorporated",
-    "Amkor Technology",
-    "CEVA"
-   ]
-  },
-  {
-   "label": "PC demand remains muted and uneven",
-   "detail": "PC-related commentary is mostly soft or steady, with only isolated pockets of strength rather than a clear sector inflection.",
-   "polarity": "neg",
-   "companies": [
-    "AMD",
-    "Microchip Technology",
-    "FormFactor",
-    "Lam Research",
-    "Analog Devices"
-   ]
-  },
-  {
-   "label": "Broad consumer strength is not showing up yet",
-   "detail": "Several companies describe consumer as resilient or long-term supportive, but not as an accelerating near-term driver, reinforcing a mixed setup.",
-   "polarity": "neg",
-   "companies": [
-    "ASML",
-    "Avnet",
-    "Arrow Electronics",
-    "Vishay Intertechnology",
-    "Linde",
     "Broadcom",
+    "Diodes Incorporated",
+    "AMD",
     "KLA"
    ]
   }
  ],
  "risks": [
-  "Memory pricing stays elevated and extends demand destruction into PC and smartphone channels.",
-  "Premium smartphone strength fails to broaden beyond the top end.",
-  "Further unit cuts from low/mid-end consumer OEMs or channel partners pressure supplier outlooks."
+  "Memory pricing or availability tightens further, deepening consumer unit pressure.",
+  "Premium smartphone strength fails to offset ongoing PC and gaming softness.",
+  "High-single-digit smartphone shipment declines prove worse than expected."
  ]
 }

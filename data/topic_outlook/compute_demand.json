@@ -2,76 +2,65 @@
  "topic": "compute_demand",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "stabilizing",
-  "headline": "Compute demand stays strong, but momentum is cooling",
-  "summary": "The sector still reads as firmly healthy over the next 1-2 quarters: multiple companies cited hot AI/accelerated-compute demand, broader customer engagement, and expanding use cases from LLM capacity to CPU, ASIC, accelerator, and edge workloads. The main nuance is that the mention trend has eased slightly and is now below its recent average, suggesting demand is holding at a high level rather than accelerating from here. Broadcom, AMD, Applied Materials, Cadence, Onto, and Monolithic Power look best positioned; the key watch is whether recent customer ramps convert into sustained order growth.",
-  "confidence": "medium"
+  "direction": "improving",
+  "headline": "Compute demand stays hot as AI breadth keeps widening",
+  "summary": "The underlying read for 2026Q1 is still clearly positive: compute demand is described as hot, strong, and broadening across customers, with multiple vendors citing acceleration in AI, LLM, and leading-edge compute activity. The main nuance is that mention momentum has eased from its peak, so the next 1-2 quarters look more like sustained strength with selective broadening than a new upside spike; beneficiaries are the AI infrastructure suppliers while the only real soft spot is non-core compute pockets like SiC.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Broad AI/accelerated-compute demand remains strong",
-   "detail": "Multiple reads described demand as hot or insatiable across LLM capacity, accelerated compute, and AI/HPC workloads.",
+   "label": "Broad-based AI/compute spending remains very strong",
+   "detail": "Multiple companies describe compute demand as hot, strong, or insatiable, suggesting the core AI buildout is still intact.",
    "polarity": "pos",
    "companies": [
     "Applied Materials",
     "Broadcom",
     "Onto Innovation",
-    "Cadence Design Systems",
-    "Monolithic Power Systems",
-    "Ambarella",
+    "Synopsys",
     "Teradyne"
    ]
   },
   {
-   "label": "Large-scale customer engagement is deepening",
-   "detail": "AMD said lead forecasts exceed plans and new large-scale customers are engaging, signaling ongoing compute buildout.",
+   "label": "Demand is broadening beyond GPUs",
+   "detail": "Reads point to CPU, ASIC, accelerators, and large-scale opportunities expanding, which implies the demand base is widening rather than narrowing to one chip class.",
    "polarity": "pos",
    "companies": [
-    "AMD"
-   ]
-  },
-  {
-   "label": "Demand is broadening beyond a single workload type",
-   "detail": "Customer mix is shifting toward CPU, ASICs, and accelerators, and compute is being tied to broader advanced-logic growth.",
-   "polarity": "pos",
-   "companies": [
+    "AMD",
     "Cohu",
-    "Entegris"
+    "Broadcom",
+    "Monolithic Power Systems"
    ]
   },
   {
-   "label": "Compute is still supportive for adjacent infrastructure",
-   "detail": "Memory is described as critical to accelerated compute architectures, keeping the supply chain constructive.",
+   "label": "Leading-edge and memory demand are still pulling through",
+   "detail": "Accelerated compute architectures are supporting both leading-edge tool demand and memory demand, which keeps the ecosystem healthy.",
    "polarity": "pos",
    "companies": [
-    "Lam Research"
+    "Lam Research",
+    "Entegris",
+    "Cadence Design Systems"
    ]
   },
   {
-   "label": "Mentions have softened modestly",
-   "detail": "The mention trend rolled from 0.5x to 0.3x with momentum slightly below trailing average, implying less incremental intensity.",
+   "label": "AI productization is driving capacity needs",
+   "detail": "LLM productization is explicitly called out as creating huge and growing compute capacity demand, supporting near-term infrastructure build.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "A small area of weakness outside compute",
+   "detail": "The only bearish read is weak SiC demand, highlighting that softness is still present in adjacent, non-compute end markets.",
    "polarity": "neg",
    "companies": [
-    "Applied Materials",
-    "Lam Research",
-    "AMD",
-    "Broadcom",
-    "Teradyne",
-    "Onto Innovation",
-    "Cohu",
-    "Entegris",
-    "Cadence Design Systems",
-    "Monolithic Power Systems",
-    "Wolfspeed",
-    "Ambarella",
-    "Ichor Holdings",
-    "Synopsys"
+    "Ichor Holdings"
    ]
   }
  ],
  "risks": [
-  "If the mention trend keeps easing, demand may be normalizing rather than inflecting higher.",
-  "Large customer ramps at AMD/Broadcom could be timing-sensitive if deployments slip.",
-  "A demand mix concentrated in AI/accelerator use cases could leave broader compute still uneven."
+  "Lead-customer forecasts could be revised if large-scale AI deployments pause or digest.",
+  "The current broadening could stall if demand remains concentrated in a few hyperscale programs.",
+  "The softer mention trend may signal near-term normalization after a hot run, even if fundamentals stay strong."
  ]
 }

@@ -1,0 +1,50 @@
+{
+ "topic": "datacenter_power_deliver",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "AI power delivery stays constructive, but breadth is still thin",
+  "summary": "Texas Instruments’ read on GPU power-delivery sockets as complex and high-level points to continued strong AI/datacenter demand and supports content growth for power semis. But the signal is not yet broad: ON Semiconductor only asked for architecture clarification, and mention activity is flat with slightly negative momentum versus trend, so the next 1-2 quarters look supportive but not clearly accelerating.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "GPU power-delivery complexity signals strong AI demand",
+   "detail": "Texas Instruments described GPU power-delivery sockets as complex and high-level, implying more silicon/content intensity in datacenter power.",
+   "polarity": "pos",
+   "companies": [
+    "Texas Instruments"
+   ]
+  },
+  {
+   "label": "Datacenter power-semiconductor demand remains healthy",
+   "detail": "Texas Instruments’ bullish framing suggests the AI/datacenter buildout is still pulling on power-delivery components.",
+   "polarity": "pos",
+   "companies": [
+    "Texas Instruments"
+   ]
+  },
+  {
+   "label": "Limited confirmation from peers",
+   "detail": "ON Semiconductor’s latest discussion was only a product-architecture clarification, with no direct demand or supply read to broaden the bullish signal.",
+   "polarity": "neg",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Mention trend is flat to slightly down",
+   "detail": "Company mentions were essentially unchanged at 0.0x, with momentum -2% versus the trailing average, indicating no clear broadening yet.",
+   "polarity": "neg",
+   "companies": [
+    "Texas Instruments",
+    "ON Semiconductor"
+   ]
+  }
+ ],
+ "risks": [
+  "More suppliers may continue to offer only technical clarification rather than demand validation.",
+  "If mention intensity stays flat, the AI power-delivery thesis may remain company-specific instead of sector-wide.",
+  "Any change in GPU power architecture could alter the mix of beneficiaries within power semis."
+ ]
+}

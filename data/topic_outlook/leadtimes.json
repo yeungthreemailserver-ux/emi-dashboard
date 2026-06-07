@@ -3,23 +3,20 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Lead times are stretching again across most of the supply chain",
-  "summary": "The latest mention trend is back up to 1.2x, about 11% above the trailing average, and the company reads are overwhelmingly pointing to lead times lengthening rather than easing. The tightest reads are concentrated in tools, test, distribution, and selected semis—benefiting suppliers with backlog and pricing leverage—while only a few names still describe balanced or weak conditions. Watch whether the current extension broadens further or starts to level off, especially in the more balanced analog and materials pockets.",
+  "headline": "Lead times are tightening again across more of the supply chain",
+  "summary": "The latest mention trend has rebounded to 1.2x, and most company reads still point to lead times stretching because demand is outrunning supply. The tightening is broadest in tools, materials, and components (Lam, KLA, Micron, Broadcom, Microchip, ON, Vishay, TE), while ADI, FormFactor, and Amphenol remain more balanced and keep this from looking like a universal shortage.",
   "confidence": "high"
  },
  "drivers": [
   {
    "label": "Broad-based lead-time extension",
-   "detail": "Multiple companies said lead times are stretching or extending, signaling demand is running ahead of supply rather than inventory normalization.",
+   "detail": "More companies are citing longer lead times or tighter delivery windows, indicating the supply backdrop is still tightening into 2026Q1.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
-    "Micron",
     "Avnet",
-    "Broadcom",
-    "Texas Instruments",
+    "Arrow Electronics",
     "KLA",
-    "Teradyne",
     "Onto Innovation",
     "Microchip Technology",
     "ON Semiconductor",
@@ -27,48 +24,57 @@
     "Lattice Semiconductor",
     "Skyworks Solutions",
     "Rambus",
-    "TE Connectivity"
+    "TE Connectivity",
+    "Cohu",
+    "Veeco Instruments",
+    "Entegris",
+    "Diodes Incorporated",
+    "Semtech",
+    "MaxLinear"
    ]
   },
   {
-   "label": "Tight supply persists in tools and test",
-   "detail": "Equipment and test names continue to describe tight supply and backlog support, suggesting the constraint is not isolated to one node.",
+   "label": "Demand is still outrunning supply at key suppliers",
+   "detail": "Several reads explicitly tie longer lead times to strong order momentum and backlog, which supports continued tightness next quarter.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
+    "Broadcom",
     "KLA",
-    "Teradyne",
-    "Veeco Instruments",
     "Cohu",
-    "Onto Innovation",
-    "Applied Materials"
+    "Microchip Technology",
+    "ON Semiconductor",
+    "Vishay Intertechnology",
+    "Veeco Instruments"
    ]
   },
   {
-   "label": "Distribution channel remains tighter",
-   "detail": "Lead times are gradually increasing across distribution, indicating the channel is still absorbing stronger demand without yet showing shortage-like stress.",
+   "label": "Capacity and component constraints remain binding",
+   "detail": "Construction, cleanroom, and component bottlenecks are still limiting supply growth, especially where expansion cannot immediately catch demand.",
    "polarity": "pos",
    "companies": [
-    "Avnet",
-    "Arrow Electronics"
+    "Micron",
+    "Advanced Energy",
+    "Entegris",
+    "Onto Innovation",
+    "KLA"
    ]
   },
   {
-   "label": "Soft pockets remain but are limited",
-   "detail": "A few companies still described balanced, ample, or weak conditions, which tempers the breadth of the tightening but does not reverse it.",
+   "label": "Not every pocket is tight",
+   "detail": "A few names still look balanced or ample, suggesting the tightening is broad but not yet uniform across the sector.",
    "polarity": "neg",
    "companies": [
     "Analog Devices",
-    "Amphenol",
     "FormFactor",
-    "Applied Materials",
-    "Element Solutions"
+    "Amphenol",
+    "Applied Materials"
    ]
   }
  ],
  "risks": [
-  "Lead times flatten at current levels if the 1.2x trend reflects a temporary pull-forward rather than sustained constraint.",
-  "Inventory build or stockpiling could mask underlying demand if supply catches up faster than expected.",
-  "Balanced/weak pockets at Analog Devices and FormFactor could signal that tightening is not uniform across end markets."
+  "The 1.2x mention trend could flatten if supply additions or backlog burn-down ease delivery pressure.",
+  "Balanced/ample pockets at ADI, FormFactor, and Amphenol could limit how far the tightening broadens.",
+  "If Applied Materials' long lead times prove mainly planning-related, the demand signal may be overstated."
  ]
 }

@@ -2,84 +2,82 @@
  "topic": "cowos",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "mixed",
-  "headline": "Packaging demand stays hot, but mention momentum has eased",
-  "summary": "CoWoS/advanced packaging remains fundamentally strong over the next 1-2 quarters: AI-driven demand is still outrunning supply, with TSMC, Amkor, Onto, KLA, Veeco, Lam, and others all pointing to tight capacity and accelerating spending. That said, the company mention trend has rolled over from 3.6x to 3.3x, suggesting the conversation is still positive but no longer broadening as quickly; watch whether capacity expansions at OSATs and memory/IDM players start to relieve the tightness.",
-  "confidence": "medium"
+  "direction": "stabilizing",
+  "headline": "Advanced packaging stays hot, but momentum is easing",
+  "summary": "AI-driven advanced packaging demand remains hot across TSMC, packaging equipment, and OSAT/materials suppliers, with many reads still pointing to tight supply and accelerating revenue or investment. But mentions have slipped from a 3.6x peak to 3.3x, and several companies are adding capacity, so the next 1-2 quarters look steady at elevated levels rather than re-accelerating. Watch whether new capacity from TSMC, OSATs, and HBM packaging starts to relieve bottlenecks enough to soften urgency and pricing.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI-driven advanced packaging demand remains hot",
-   "detail": "Multiple suppliers and ecosystem names still describe strong AI-led pull for CoWoS/advanced packaging, with demand outrunning current capacity.",
+   "label": "AI-driven advanced packaging demand",
+   "detail": "Multiple names said AI is shifting spend into advanced packaging, with strong or accelerating demand/revenue across the ecosystem.",
    "polarity": "pos",
    "companies": [
     "TSMC",
     "Applied Materials",
     "Lam Research",
     "KLA",
-    "Amkor Technology",
     "Onto Innovation",
     "ACM Research",
-    "Ultra Clean Holdings",
-    "MKS Instruments",
     "FormFactor",
     "Veeco Instruments",
     "Kulicke & Soffa",
     "Element Solutions",
     "Cadence Design Systems",
-    "Synopsys"
+    "Synopsys",
+    "MKS Instruments",
+    "Amkor Technology"
    ]
   },
   {
-   "label": "Supply remains tight across the packaging chain",
-   "detail": "TSMC, Texas Instruments, Amkor, Onto, and others describe constrained packaging/assembly capacity, which supports pricing and utilization for suppliers but limits near-term volume relief.",
+   "label": "Tight supply keeps customers moving",
+   "detail": "Several reads cited tight packaging supply or constrained external assembly/test capacity, supporting urgency and favorability for suppliers.",
    "polarity": "pos",
    "companies": [
     "TSMC",
     "Texas Instruments",
     "Amkor Technology",
     "Onto Innovation",
-    "Micron",
-    "Element Solutions",
-    "Veeco Instruments",
-    "Kulicke & Soffa"
-   ]
-  },
-  {
-   "label": "Packaging capex and tool demand are still accelerating",
-   "detail": "Applied, Lam, KLA, ACM, and Veeco all point to strong revenue growth or share gains in advanced packaging-related equipment and materials.",
-   "polarity": "pos",
-   "companies": [
-    "Applied Materials",
-    "Lam Research",
     "KLA",
     "ACM Research",
     "Veeco Instruments",
-    "MKS Instruments",
-    "FormFactor"
+    "Kulicke & Soffa",
+    "FormFactor",
+    "Element Solutions",
+    "Micron"
    ]
   },
   {
-   "label": "Mention momentum has softened",
-   "detail": "The topic's mention trend has slipped to 3.3x from a 3.6x peak, indicating the narrative is still active but has lost some breadth versus recent weeks.",
-   "polarity": "neg",
-   "companies": []
-  },
-  {
-   "label": "Customer-side timing looks less explicit in some names",
-   "detail": "NVIDIA, AMD, ADI, and Microchip do not provide direct packaging demand or capacity signals in the quoted reads, limiting the breadth of new confirmations this quarter.",
+   "label": "Capacity expansion confirms strength, but caps scarcity upside",
+   "detail": "New or expanding advanced packaging capacity shows the cycle is strong enough to justify investment, but it also points to gradual relief ahead.",
    "polarity": "neg",
    "companies": [
-    "NVIDIA",
-    "AMD",
-    "Analog Devices",
-    "Microchip Technology"
+    "Micron",
+    "GlobalFoundries",
+    "Veeco Instruments",
+    "Kulicke & Soffa",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Mention momentum has cooled modestly",
+   "detail": "Topic mentions are still elevated at 3.3x, but the trend is slightly below the trailing average and down from the 3.6x peak, implying a high but no longer accelerating narrative.",
+   "polarity": "neg",
+   "companies": [
+    "TSMC",
+    "Applied Materials",
+    "Lam Research",
+    "KLA",
+    "Onto Innovation",
+    "Veeco Instruments",
+    "Kulicke & Soffa",
+    "Amkor Technology"
    ]
   }
  ],
  "risks": [
-  "Packaging capacity additions at Amkor, Micron, and TI could ease the tightness faster than expected.",
-  "If AI/HPC build schedules pause, mentions from equipment and materials vendors could roll over further.",
-  "A continued decline in mention trend could signal that the theme is maturing despite still-bullish fundamentals."
+  "If new CoWoS/advanced packaging capacity ramps faster than AI demand, the tight-supply benefit could fade.",
+  "A slowdown in AI capex would hit the strongest demand reads first: TSMC, KLA, Onto, Lam, Veeco, and K&S.",
+  "Rising packaging or wafer costs could pressure margins and dampen customer urgency outside the AI buildout."
  ]
 }

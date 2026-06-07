@@ -3,70 +3,66 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Capacity tightness is broadening into a sector-wide tailwind",
-  "summary": "Mentions accelerated to 10.5x, and the read-through is clearly constructive: nearly every company cites tight supply, high utilization, or customers pulling forward capacity additions. The tightest pockets are in AI/leading-edge, DRAM, and packaging/test, which should keep pricing, lead times, and supplier leverage favorable over the next 1-2 quarters. Watch for any evidence that new capacity comes online faster than demand or that bottlenecks simply shift downstream.",
+  "headline": "Supply tightness is broadening, not easing, into 2026Q1",
+  "summary": "Capacity constraints are showing up across foundry, memory, packaging, and test, and the mention trend is accelerating sharply, signaling tighter supply is becoming a wider-sector theme. The biggest beneficiaries are equipment, materials, and outsourced manufacturing names as customers keep adding capacity; the main risk is that if these ramps arrive faster than demand, the tightness could stabilize sooner than expected.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI-led demand is outrunning available capacity",
-   "detail": "Frontier-model and high-performance compute demand is forcing customers to add supply, with sold-out capacity and long lead times supporting the entire chain.",
+   "label": "AI and customer demand are still pulling capacity higher",
+   "detail": "Customers are adding capacity aggressively and supply remains constrained, supporting new fab and tool investment.",
    "polarity": "pos",
    "companies": [
+    "ASML",
+    "Applied Materials",
     "NVIDIA",
     "Broadcom",
-    "AMD",
-    "TSMC",
-    "ASML",
     "KLA",
-    "Applied Materials",
-    "Lam Research"
+    "Ultra Clean Holdings"
    ]
   },
   {
-   "label": "Customers are still adding fab and equipment capacity aggressively",
-   "detail": "Foundry, DRAM, and leading-edge customers are expanding output, which keeps current supply tight and supports utilization for vendors into 2026Q1.",
+   "label": "Foundry and wafer capacity remain tight",
+   "detail": "Higher utilization, capacity optimization, and constrained core corridors indicate supply is still lagging demand at leading-edge and specialty nodes.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "Micron",
-    "Applied Materials",
-    "Renesas",
-    "Advanced Energy",
-    "MKS Instruments",
-    "Cohu",
-    "Veeco Instruments",
-    "Kulicke & Soffa"
-   ]
-  },
-  {
-   "label": "Downstream packaging and test remain constrained",
-   "detail": "Packaging, assembly, and test capacity is still tight, extending the supply squeeze beyond wafer fabs and supporting suppliers tied to backend throughput.",
-   "polarity": "pos",
-   "companies": [
-    "Onto Innovation",
-    "Amkor Technology",
-    "FormFactor",
-    "Ultra Clean Holdings",
-    "Ichor Holdings",
-    "Teradyne"
-   ]
-  },
-  {
-   "label": "Tight supply is enabling customer prebuys and queue priority",
-   "detail": "Several reads point to customers paying up, prepaying, or using distributors to secure supply, which reinforces near-term scarcity.",
-   "polarity": "pos",
-   "companies": [
     "GlobalFoundries",
-    "Avnet",
-    "Arrow Electronics",
-    "Analog Devices",
+    "AMD",
+    "Renesas",
     "Texas Instruments"
    ]
   },
   {
-   "label": "A small set of logistics constraints can still cap realized supply",
-   "detail": "Transport/liquefaction or other non-fab bottlenecks can delay shipment conversion even where demand is strong.",
+   "label": "Packaging and test bottlenecks are persisting",
+   "detail": "Industry packaging capacity is constrained while multiple vendors are expanding footprint, implying near-term tightness remains.",
+   "polarity": "pos",
+   "companies": [
+    "Amkor Technology",
+    "Onto Innovation",
+    "Cohu",
+    "Teradyne",
+    "FormFactor",
+    "Kulicke & Soffa",
+    "Veeco Instruments"
+   ]
+  },
+  {
+   "label": "Customers are seeking supply assurance and queue position",
+   "detail": "Multiple companies noted customers pushing for added capacity, prepayments, or supply protection, which reinforces the tight environment.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Avnet",
+    "Arrow Electronics",
+    "Analog Devices",
+    "MKS Instruments",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "One isolated logistics bottleneck remains company-specific",
+   "detail": "Air Products cited internal logistics and liquefaction constraints, but this looks idiosyncratic rather than sector-wide.",
    "polarity": "neg",
    "companies": [
     "Air Products"
@@ -74,8 +70,8 @@
   }
  ],
  "risks": [
-  "Capacity additions at DRAM, foundry, or packaging nodes ramp faster than expected, easing shortages.",
-  "AI demand normalizes and queue pressure at suppliers like NVIDIA, Broadcom, and AMD starts to fade.",
-  "Non-fab bottlenecks, such as logistics or liquefaction constraints, limit how much of the demand converts into shipments."
+  "Customer capex timing slips could delay capacity ramps and soften the tightness signal.",
+  "If new fabs or packaging lines ramp faster than demand, supply constraints could begin to normalize in late 2026Q1/2026Q2.",
+  "Monitor whether the current surge in mentions persists or plateaus after this quarter's sharp jump."
  ]
 }

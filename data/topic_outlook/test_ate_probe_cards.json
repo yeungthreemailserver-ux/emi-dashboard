@@ -1,0 +1,49 @@
+{
+ "topic": "test_ate_probe_cards",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI demand keeps test supply tight and pricing favorable",
+  "summary": "ATE and probe-card supply remains tight into the next 1-2 quarters, with AI-driven infrastructure spend still pushing demand to new highs. Teradyne’s tester shortages and FormFactor’s HBM/networking strength suggest the tightness is broadening beyond one end market, while Analog Devices confirms the broader ATE backdrop is still strong. The main watch is whether the softer mention trend signals digestion after this run or just a quieter setup for another leg of demand.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI infrastructure spending",
+   "detail": "Strong AI-driven infrastructure investment is still lifting ATE-related demand and supporting new highs.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Tester shortages / tight ATE supply",
+   "detail": "Broad-based ATE demand and explicit tester shortages point to continued supply tightness.",
+   "polarity": "pos",
+   "companies": [
+    "Teradyne"
+   ]
+  },
+  {
+   "label": "HBM and networking probe-card demand",
+   "detail": "Probe card revenue is growing strongly, helped by HBM and networking exposure.",
+   "polarity": "pos",
+   "companies": [
+    "FormFactor"
+   ]
+  },
+  {
+   "label": "Higher-throughput product mix",
+   "detail": "Higher-throughput probe card products are gaining traction, supporting utilization and pricing.",
+   "polarity": "pos",
+   "companies": [
+    "FormFactor"
+   ]
+  }
+ ],
+ "risks": [
+  "AI-related capex could pause or slow, easing test demand faster than expected.",
+  "Tester shortages could normalize, reducing the supply-tightness benefit for Teradyne.",
+  "The latest weaker mention trend (0.4x, -11% vs trailing average) may signal near-term digestion after recent strength."
+ ]
+}

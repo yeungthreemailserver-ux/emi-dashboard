@@ -3,55 +3,55 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "mixed",
-  "headline": "High-NA EUV is progressing, but adoption remains uneven",
-  "summary": "High-NA EUV is clearly moving forward, with ASML saying customers are testing it on real product and seeing strong readiness across multiple nodes. The upside is concentrated in the most advanced-node and enabling-materials names like Intel, Micron, and Veeco, while several other companies remain neutral and TSMC still flags EUV supply as a bottleneck, so breadth should improve only gradually over the next 1-2 quarters.",
+  "headline": "High-NA EUV adoption advances, but not yet broad-based",
+  "summary": "High-NA EUV looks constructive into 2026Q1, with ASML, Veeco, Micron, MKS and Intel all pointing to ongoing testing, better node readiness and healthy lithography-related demand. But the picture is still uneven: KLA sees no change to its forecast, TSMC is only flagging supply issues, and several names have no clear read-through, while mention momentum is slightly negative versus trend.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "Real-product testing and multi-node readiness",
-   "detail": "ASML says High-NA is progressing well, with customers testing it on real product and showing strong readiness across multiple nodes.",
+   "label": "Customer testing and multi-node readiness",
+   "detail": "ASML says High-NA progress, customer testing, and readiness for multiple nodes point to stronger adoption.",
    "polarity": "pos",
    "companies": [
     "ASML"
    ]
   },
   {
-   "label": "Advanced-node ramps pulling more EUV content",
-   "detail": "Intel points to higher EUV wafer mix and 18A growth, implying stronger near-term demand for High-NA-related tools.",
-   "polarity": "pos",
-   "companies": [
-    "Intel"
-   ]
-  },
-  {
-   "label": "Scaling efficiency benefits for future nodes",
-   "detail": "Micron says more advanced EUV should improve efficiency and enable tighter future node scaling.",
+   "label": "Advanced-node manufacturing efficiency gains",
+   "detail": "Micron sees more advanced EUV tools improving manufacturing efficiency and supporting tighter future node ramps.",
    "polarity": "pos",
    "companies": [
     "Micron"
    ]
   },
   {
-   "label": "Enabling materials demand improving",
-   "detail": "Veeco sees rising High-NA adoption supporting demand for EUV mask blanks and other enabling materials.",
+   "label": "Lithography/metrology shipment demand remains healthy",
+   "detail": "MKS cites broad-based shipments into lithography, metrology and inspection tied to advanced logic.",
+   "polarity": "pos",
+   "companies": [
+    "MKS Instruments"
+   ]
+  },
+  {
+   "label": "Adoption expanding toward High-NA in mask ecosystem",
+   "detail": "Veeco says leadership in EUV mask blanks and pellicles is benefiting as adoption expands toward High-NA.",
    "polarity": "pos",
    "companies": [
     "Veeco Instruments"
    ]
   },
   {
-   "label": "Supply bottlenecks still limit breadth",
-   "detail": "TSMC cites EUV supply as an issue, and the topic’s mention trend is slightly below average, suggesting adoption remains constrained.",
+   "label": "Forecast not stepping up everywhere",
+   "detail": "KLA says there is no change to the High-NA forecast, suggesting mixed puts and takes rather than an inflection higher.",
    "polarity": "neg",
    "companies": [
-    "TSMC"
+    "KLA"
    ]
   }
  ],
  "risks": [
-  "High-NA stays at the testing stage and fails to convert into broader volume orders.",
-  "Persistent EUV supply constraints could delay shipments and slow adoption timing.",
-  "Neutral coverage remains dominant outside the key bullish names, limiting breadth despite positive leader commentary."
+  "Customer testing slips or fails to convert into orders across multiple nodes",
+  "Supply constraints at TSMC remain a bottleneck without translating into broader High-NA demand",
+  "Sustained neutral commentary from KLA and other read-through names could cap near-term momentum"
  ]
 }

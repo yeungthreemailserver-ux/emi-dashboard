@@ -1,0 +1,54 @@
+{
+ "topic": "ai_storage_hdd_ssd",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI storage demand is broadening across HDDs and enterprise SSDs",
+  "summary": "Demand for AI storage looks set to improve over the next 1-2 quarters, with cloud-led HDD capacity demand and enterprise SSD pull both described as hot by the key suppliers. Seagate and Western Digital see tight supply and customer-driven HAMR/Mozaic ramps, while SanDisk points to enormous enterprise SSD demand as AI architectures scale; Micron is more neutral, so the main watch is whether the strength stays broad rather than HDD-only.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Cloud-driven HDD capacity demand",
+   "detail": "AI-driven demand for higher-capacity HDDs is supporting customer investment and exabyte growth.",
+   "polarity": "pos",
+   "companies": [
+    "Veeco Instruments",
+    "Western Digital",
+    "Seagate Technology"
+   ]
+  },
+  {
+   "label": "HAMR / next-gen HDD ramp",
+   "detail": "Roadmap progress, qualification, and Mozaic/HAMR shipments are being pulled by customers, indicating durable demand into the next quarters.",
+   "polarity": "pos",
+   "companies": [
+    "Western Digital",
+    "Seagate Technology"
+   ]
+  },
+  {
+   "label": "Enterprise SSD pull from AI deployments",
+   "detail": "Enterprise SSD demand is described as enormous as AI architectures deploy at scale.",
+   "polarity": "pos",
+   "companies": [
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Tight supply backdrop",
+   "detail": "Tight supply is reinforcing shipment momentum and points to continued demand absorption.",
+   "polarity": "pos",
+   "companies": [
+    "Western Digital",
+    "Seagate Technology",
+    "SanDisk"
+   ]
+  }
+ ],
+ "risks": [
+  "HAMR qualification or ramp timing slips at the HDD suppliers",
+  "Enterprise SSD demand normalizes after the current AI deployment wave",
+  "Micron’s more neutral read suggests SSD demand breadth is not yet fully confirmed"
+ ]
+}

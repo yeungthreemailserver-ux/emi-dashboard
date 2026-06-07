@@ -3,58 +3,57 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Sovereign AI demand is broadening across the stack",
-  "summary": "Sovereign AI is emerging as a real incremental demand channel rather than a one-off policy theme, with bullish reads across accelerators, connectivity, storage, and analog. NVIDIA, AMD, and Qualcomm point to expanding customer adoption, while Astera Labs and Seagate suggest the build-out is still early enough to sustain demand into the next 1-2 quarters. Watch whether these early sovereign projects convert into repeatable deployments, since mention levels remain modest even as the tone turns more constructive.",
-  "confidence": "medium"
+  "headline": "Sovereign AI demand is broadening from early-stage to meaningful",
+  "summary": "Sovereign AI demand looks to be improving over the next 1-2 quarters: all reads are bullish, and multiple companies point to expanding customer breadth beyond a single vendor or node in the stack. NVIDIA says sovereign revenue is growing very fast and becoming meaningful, while AMD, Qualcomm, Astera Labs, Credo, ADI, and Seagate all describe widening opportunity pipelines or incremental demand from sovereign and neo-cloud builds. Mentions are still relatively low, but the recent uptick to 0.2x and slight momentum above trend suggest the theme is early but building.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "New sovereign revenue channel for accelerators",
-   "detail": "Sovereign AI is described as a meaningful and growing demand source for GPUs and accelerators.",
+   "label": "Sovereign demand becoming meaningful",
+   "detail": "Sovereign revenue is growing very fast and is now a meaningful demand vector.",
    "polarity": "pos",
    "companies": [
-    "NVIDIA",
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "Broader accelerator adoption",
+   "detail": "Accelerator adoption is expanding across sovereign customers, increasing demand breadth.",
+   "polarity": "pos",
+   "companies": [
     "AMD"
    ]
   },
   {
-   "label": "Broader infrastructure pull-through",
-   "detail": "Sovereign AI is cited alongside other AI infrastructure workloads, supporting demand for networking and interconnect.",
-   "polarity": "pos",
-   "companies": [
-    "Credo Technology",
-    "Astera Labs"
-   ]
-  },
-  {
-   "label": "Early-stage build-out supports runway",
-   "detail": "Sovereign entities are still in the early phases of deployment, implying continued demand growth rather than a near-term pause.",
-   "polarity": "pos",
-   "companies": [
-    "Astera Labs",
-    "Seagate Technology"
-   ]
-  },
-  {
-   "label": "Policy-driven demand in analog and defense-related areas",
-   "detail": "National sovereignty concerns are accelerating an already strong multiyear growth path in aerospace and defense exposure.",
+   "label": "Security and sovereignty concerns",
+   "detail": "National sovereignty concerns are accelerating an already strong growth path.",
    "polarity": "pos",
    "companies": [
     "Analog Devices"
    ]
   },
   {
-   "label": "Expanding partner and project activity",
-   "detail": "Multiple opportunities with sovereign AI projects and global partners suggest the demand base is widening beyond a few flagship deals.",
+   "label": "Pipeline expansion in sovereign AI",
+   "detail": "Multiple sovereign AI opportunities point to an expanding demand pipeline.",
    "polarity": "pos",
    "companies": [
     "Qualcomm"
    ]
+  },
+  {
+   "label": "Early build-out plus neo-cloud pull",
+   "detail": "Sovereign entities are still early in build-out and are signaling continued AI infrastructure demand, including from neo-clouds.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs",
+    "Credo Technology",
+    "Seagate Technology"
+   ]
   }
  ],
  "risks": [
-  "Sovereign AI remains early and project-based, so conversions to revenue may be uneven quarter to quarter.",
-  "Mention trend is still low at 0.2x, so broad market excitement may lag the positive company reads.",
-  "Any delays in large sovereign deployments could push out the demand step-up rather than reduce it."
+  "Mentions are still low, so demand may remain early-stage despite the uptick.",
+  "Sovereign build-outs may take longer to convert into large near-term revenue than the bullish commentary implies.",
+  "If the current momentum fades, the theme could revert from broadening to merely incremental."
  ]
 }

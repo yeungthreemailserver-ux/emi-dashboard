@@ -1,0 +1,95 @@
+{
+ "optical_interconnect_sil": [
+  "\\bco[- ]?packaged optics\\b",
+  "\\bCPO\\b",
+  "\\bsilicon photonics\\b",
+  "\\boptical interconnects?\\b",
+  "\\b1\\.6T\\s+pluggable\\b",
+  "\\b800G\\s+optics\\b"
+ ],
+ "datacenter_power_deliver": [
+  "\\bdata\\s*cent(?:er|re) power delivery\\b",
+  "\\bAI (?:server|data\\s*cent(?:er|re)) power delivery\\b",
+  "\\b800V data\\s*cent(?:er|re)\\b",
+  "\\b48V rack\\b",
+  "\\b(?:voltage regulator modules?|VRMs?)\\b",
+  "\\bpower shelf\\b"
+ ],
+ "test_ate_probe_cards": [
+  "\\bATE\\b",
+  "\\bautomated test equipment\\b",
+  "\\btester shortages?\\b",
+  "\\bprobe cards?\\b",
+  "\\bHBM probe cards?\\b",
+  "\\bwafer sort\\b"
+ ],
+ "ai_networking_ethernet_f": [
+  "\\bAI networking\\b",
+  "\\bSpectrum-?X\\b",
+  "\\bInfiniBand(?:\\s+XDR)?\\b",
+  "\\bEthernet fabric\\b",
+  "\\b51\\.2T\\b",
+  "\\b100T\\b",
+  "\\bswitching silicon\\b"
+ ],
+ "materials_specialty_gase": [
+  "\\bspecialty gases?\\b",
+  "\\belectronic specialty gases?\\b",
+  "\\belectronic chemicals?\\b",
+  "\\bwet chemicals?\\b",
+  "\\bhelium supply\\b",
+  "\\bphotoresist\\b"
+ ],
+ "eda_ip_chiplet_design": [
+  "\\bEDA\\b",
+  "\\belectronic design automation\\b",
+  "\\bdesign IP\\b",
+  "\\bUCIe\\b",
+  "\\bdie-to-die IP\\b",
+  "\\bchiplet design\\b",
+  "\\b3D IC\\b"
+ ],
+ "sic_gan_power_semiconduc": [
+  "\\bsilicon carbide\\b",
+  "\\bSiC MOSFETs?\\b",
+  "\\bGaN power\\b",
+  "\\bgallium nitride\\b",
+  "\\bGaN HEMTs?\\b",
+  "\\b300mm GaN\\b"
+ ],
+ "manufacturing_footprint_": [
+  "\\bmanufacturing footprint\\b",
+  "\\bregionali[sz]ation\\b",
+  "\\bonshor(?:e|ing)\\b",
+  "\\breshor(?:e|ing)\\b",
+  "\\bMalaysia(?:n)? manufacturing expansion\\b",
+  "\\bbackend manufacturing\\b",
+  "\\blocali[sz]ation\\b"
+ ],
+ "ai_storage_hdd_ssd": [
+  "\\bAI storage\\b",
+  "\\binference storage\\b",
+  "\\bnearline HDDs?\\b",
+  "\\benterprise SSDs?\\b",
+  "\\bHAMR\\b",
+  "\\bMozaic\\b",
+  "\\bcloud storage demand\\b"
+ ],
+ "process_control_inspecti": [
+  "\\bprocess control\\b",
+  "\\bmask inspection\\b",
+  "\\be[- ]?beam inspection\\b",
+  "\\boverlay metrology\\b",
+  "\\bTSV metrology\\b",
+  "\\bdefect inspection\\b"
+ ],
+ "euv_lithography": [
+  "\\bEUV lithography\\b",
+  "\\bextreme ultraviolet\\b",
+  "\\bEUV scanners?\\b",
+  "\\bNXE:?\\d+\\b",
+  "\\bEUV throughput\\b",
+  "\\bEUV adoption\\b",
+  "\\bEUV pellicles?\\b"
+ ]
+}

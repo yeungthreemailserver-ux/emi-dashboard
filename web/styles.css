@@ -144,9 +144,9 @@ button { font-family: inherit; cursor: pointer; }
 .mkbar.tight:last-child { margin-bottom: 0; }
 .topiccap { font-size: 11px; margin: 7px 0 8px; line-height: 1.45; }
 .ctl-collapsed { font-size: 12px; padding: 6px 0; cursor: pointer; border-bottom: 1px solid var(--border-soft); }
-.topicwrap2 { display: flex; gap: 0; align-items: stretch; --drawer-w: 440px; }
+.topicwrap2 { display: flex; gap: 0; align-items: stretch; }
 .topicwrap2 .chart { flex: 1; min-width: 260px; }
-.topicdetail { flex: 0 0 var(--drawer-w); width: var(--drawer-w); min-width: 0; height: 600px; overflow-y: auto; border: 1px solid var(--border); border-radius: 12px; padding: 0; background: linear-gradient(180deg,#ffffff,#fbfdff); }
+.topicdetail { flex: 0 0 var(--drawer-w, 40%); width: var(--drawer-w, 40%); min-width: 0; height: 600px; overflow-y: auto; border: 1px solid var(--border); border-radius: 12px; padding: 0; background: linear-gradient(180deg,#ffffff,#fbfdff); }
 /* draggable splitter between chart and drawer */
 .topic-split { flex: 0 0 12px; align-self: stretch; cursor: col-resize; position: relative; }
 .topic-split::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 2px; background: var(--border); border-radius: 2px; transition: background .12s; }

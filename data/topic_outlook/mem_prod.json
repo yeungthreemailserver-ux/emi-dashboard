@@ -2,55 +2,61 @@
  "topic": "mem_prod",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "improving",
-  "headline": "Memory supply stays tight, but capacity buildout is starting to catch up",
-  "summary": "Memory production remains supply-constrained, but the next 1-2 quarters should show gradual improvement as Micron, TSMC, and related suppliers accelerate clean-room and fab expansion to meet strong demand and higher wafer starts. Tight DRAM/NAND conditions still support the equipment and materials chain, while Intel is the main loser from pricier constrained inputs; watch whether new capacity actually converts into output fast enough to ease bottlenecks.",
-  "confidence": "medium"
+  "direction": "stabilizing",
+  "headline": "Memory supply stays tight as buildouts only slowly add capacity",
+  "summary": "Mentions are still running above the trailing average (0.8x, +7%), and the reads point to steady tightness rather than a fresh shortage spike. TSMC, Micron, Applied Materials, Lam, Ultra Clean, Advanced Energy, Semtech, FormFactor and SanDisk all cite clean-room/tool bottlenecks or constrained DRAM output, while Entegris suggests meaningful wafer-start relief is more of a 2H26/2027 story; KLA and Amkor are neutral, and Intel is the lone bearish outlier on cost pressure.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Accelerated clean-room and fab buildouts",
-   "detail": "Producers are speeding capacity additions to relieve bottlenecks and support more wafer starts.",
+   "label": "Clean-room and tool constraints keep output tight",
+   "detail": "Multiple companies say clean-room space, tool buildout, or utilization is still the pacing factor for memory production.",
    "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Applied Materials",
+    "Lam Research",
+    "Ultra Clean Holdings",
+    "Advanced Energy",
+    "Semtech",
+    "SanDisk",
+    "Ichor Holdings"
+   ]
+  },
+  {
+   "label": "Capacity additions are underway but mostly not immediate",
+   "detail": "New fabs, expansions, and added space should eventually lift supply, but the reads imply most of that relief is still ahead rather than in the next quarter.",
+   "polarity": "neg",
    "companies": [
     "TSMC",
     "Micron",
     "Ultra Clean Holdings",
-    "Advanced Energy"
+    "Advanced Energy",
+    "Ichor Holdings",
+    "Entegris"
    ]
   },
   {
-   "label": "Memory remains supply constrained",
-   "detail": "DRAM and NAND commentary points to constrained output, keeping pricing and utilization elevated near term.",
-   "polarity": "pos",
-   "companies": [
-    "FormFactor",
-    "Lam Research",
-    "SanDisk"
-   ]
-  },
-  {
-   "label": "Rising utilization and wafer starts",
-   "detail": "Higher wafer starts and utilization imply production is ramping, but from a tight starting point rather than an oversupplied one.",
+   "label": "Current usage remains strong",
+   "detail": "Rising wafer volumes and higher utilization keep the supply chain constrained near term.",
    "polarity": "pos",
    "companies": [
     "Ultra Clean Holdings",
-    "Semtech",
-    "Micron"
+    "TSMC"
    ]
   },
   {
-   "label": "Disciplined bit growth/limited greenfield capacity",
-   "detail": "Node-driven growth and limited new greenfield supply suggest the market stays disciplined instead of flooding.",
+   "label": "DRAM remains structurally constrained",
+   "detail": "Management commentary points to supply-constrained DRAM and customer mix shifts to maximize opportunity.",
    "polarity": "pos",
    "companies": [
-    "SanDisk"
+    "FormFactor"
    ]
   }
  ],
  "risks": [
-  "New clean-room space ramps faster than expected, easing tightness sooner and weakening the scarcity narrative.",
-  "Balanced reads from KLA, Amkor, and Ichor could imply more available capacity than the bullish supply-tight signals suggest.",
-  "If memory inputs stay expensive, demand-sensitive buyers could pull back and slow the need for incremental production."
+  "Clean-room/fab commissioning accelerates faster than expected, easing tightness sooner.",
+  "Utilization or wafer-volume growth stalls, reducing the supply constraint signal.",
+  "Customer capex delays or demand softening push out the buildout cycle."
  ]
 }

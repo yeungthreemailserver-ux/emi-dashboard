@@ -3,80 +3,67 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "CPU demand is broadening from AI novelty to infrastructure necessity",
-  "summary": "CPU commentary turned sharply more positive this quarter, with the mention trend accelerating to 2.6x and broad-based reads from AI, cloud, and server names. The strongest demand is coming from agentic/inference workloads and rising datacenter CPU content, while tightness at FormFactor and stronger build signals at AMD, Intel, and Amkor suggest demand is outrunning near-term supply in parts of the chain. Watch whether this remains a real order-driven step-up versus just incremental AI-stack exposure, and whether the current enthusiasm extends beyond a few lead customers.",
+  "headline": "CPU demand is broadening from AI into the wider stack",
+  "summary": "The CPU read is accelerating sharply, with mentions up to 2.6x and 87% above the trailing average, and the quarter’s company reads are overwhelmingly positive. AI infrastructure, agentic workloads, and server ramps are expanding CPU demand beyond a single end-market, while attach/content gains in memory, power, and connectivity widen the beneficiary set. Watch whether this stays concentrated in data-center AI or continues to spill into broader server and enterprise refresh activity.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "AI/agentic workloads lifting CPU relevance",
-   "detail": "Multiple companies said agentic AI and inference are adding incremental CPU demand, making CPUs more central to AI infrastructure.",
+   "label": "AI and agentic workloads are adding incremental CPU demand",
+   "detail": "Multiple companies said AI infrastructure and agentic inference are lifting CPU relevance rather than displacing it.",
    "polarity": "pos",
    "companies": [
     "TSMC",
     "Applied Materials",
-    "Micron",
+    "AMD",
     "Microchip Technology",
-    "Alpha & Omega Semi",
-    "Qualcomm",
-    "NVIDIA"
+    "Rambus",
+    "NVIDIA",
+    "Astera Labs"
    ]
   },
   {
-   "label": "Datacenter and cloud CPU ramps broadening",
-   "detail": "Managements described new server CPU SKUs, resurgent demand, and more CPU demand from major cloud and enterprise customers.",
+   "label": "Server and cloud ramps are broadening end-market demand",
+   "detail": "Reads pointed to rising server CPU demand across cloud and enterprise customers, plus new server CPU SKUs and production ramps.",
    "polarity": "pos",
    "companies": [
     "AMD",
     "Intel",
-    "Amkor Technology",
-    "Cohu",
-    "Astera Labs",
     "ON Semiconductor",
-    "Lattice Semiconductor"
+    "Qualcomm",
+    "Cohu",
+    "Monolithic Power Systems"
    ]
   },
   {
-   "label": "Higher content per socket / attach opportunities",
-   "detail": "AI-era CPUs are pulling in more memory and adjacent content, supporting demand for memory, interconnect, and attach suppliers.",
+   "label": "Attach/content per CPU is rising",
+   "detail": "Higher memory content, more CPU cores in XPUs, and stronger power/connectivity demand imply richer content per unit.",
    "polarity": "pos",
    "companies": [
     "Micron",
-    "Astera Labs",
-    "Rambus",
+    "Broadcom",
+    "Navitas Semiconductor",
+    "Credo Technology",
+    "CEVA",
     "Marvell Technology",
-    "CEVA"
+    "Analog Devices"
    ]
   },
   {
-   "label": "Supply tightness in parts of the ecosystem",
-   "detail": "Some CPU-related test/capacity commentary points to demand running ahead of supply, reinforcing a tighter near-term setup.",
+   "label": "Supply tightness and capacity constraints support the near-term setup",
+   "detail": "Several suppliers described tight supply or unexpected demand, signaling demand is outrunning available capacity in parts of the chain.",
    "polarity": "pos",
    "companies": [
-    "FormFactor",
-    "Intel",
-    "KLA"
-   ]
-  },
-  {
-   "label": "Mentions are accelerating across the sector",
-   "detail": "Company mention frequency rose to 2.6x with strong momentum versus the trailing average, signaling broader investor and management focus on CPU demand.",
-   "polarity": "pos",
-   "companies": [
-    "TSMC",
-    "Applied Materials",
-    "NVIDIA",
-    "AMD",
-    "Intel",
     "Amkor Technology",
     "FormFactor",
-    "Astera Labs"
+    "Intel",
+    "Qualcomm"
    ]
   }
  ],
  "risks": [
-  "If AI/server build plans slip, the current CPU demand surge could prove timing-driven rather than durable.",
-  "A few comments are still qualitative or adjacent to CPU rather than direct standalone demand confirmation.",
-  "Broadening must hold beyond a handful of hyperscalers and lead customers to sustain the upgrade cycle."
+  "Demand could remain concentrated in AI/data-center builds rather than broadening to a wider CPU cycle.",
+  "Supply normalization could ease the tightness that is currently supporting the read-through for suppliers.",
+  "If GPU migration or platform changes slow CPU attach gains, incremental content growth could moderate."
  ]
 }

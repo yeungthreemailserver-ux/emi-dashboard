@@ -3,86 +3,83 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Agentic and inference demand is broadening fast into 2026Q1",
-  "summary": "The read-through is clearly accelerating: mention momentum rose to 3.8x latest from a 1.7x starting point, and every company cited agentic/inference AI as a positive this quarter. Demand is no longer confined to GPUs and custom silicon; it is spreading into servers, memory, networking, EDA, test, storage, and edge devices, with several suppliers also noting tight or secured supply that supports near-term upside. ",
+  "headline": "Agentic AI demand is broadening and still accelerating",
+  "summary": "The 2026Q1 reads show a clear step-up in agentic and inference AI demand, with mention trend rising to 3.8x and momentum running well above the trailing average. This is no longer just a compute story: demand is broadening across CPUs, GPUs, memory, networking, EDA, timing, storage, and edge devices, with the strongest near-term pull still showing up in NVIDIA, Broadcom, Astera Labs, Lattice, Micron, and TSMC-linked infrastructure.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Inference/agentic workload inflection",
-   "detail": "Multiple companies said inference and agentic AI are inflecting faster and becoming a larger share of AI activity, lifting demand across compute platforms and adjacent silicon.",
+   "label": "Higher workload intensity is lifting compute and content per system",
+   "detail": "Companies describe agentic AI as driving more token consumption, higher throughput, and more CPU/memory demand, which supports stronger near-term build plans.",
    "polarity": "pos",
    "companies": [
+    "TSMC",
     "NVIDIA",
     "AMD",
-    "Broadcom",
-    "Intel",
-    "Qualcomm",
-    "Marvell Technology",
-    "Cohuo",
-    "Credo Technology",
-    "Astera Labs",
-    "CEVA",
-    "Ambarella"
-   ]
-  },
-  {
-   "label": "Broader content per system",
-   "detail": "The shift is increasing silicon content in memory, timing, power, probes, and CPU importance, which expands demand intensity beyond the accelerator itself.",
-   "polarity": "pos",
-   "companies": [
     "Micron",
     "SiTime",
-    "FormFactor",
     "Rambus",
-    "Alpha & Omega Semi",
-    "TSMC",
-    "Cohu",
-    "Microchip Technology"
+    "Intel",
+    "Alpha & Omega Semi"
    ]
   },
   {
-   "label": "Data center and manufacturing pull-through",
-   "detail": "Agentic AI is translating into real build activity in wafers, equipment, and supporting infrastructure, signaling that demand is already moving from interest to orders and ramps.",
+   "label": "Demand is broadening from cloud into edge and end devices",
+   "detail": "Use cases are expanding into assistants, robotics, voice, wireless, and smartphones/PCs, extending the demand runway beyond the data center.",
    "polarity": "pos",
    "companies": [
-    "Applied Materials",
-    "TSMC",
-    "Ultra Clean Holdings",
-    "Western Digital",
+    "Qualcomm",
+    "CEVA",
+    "Synaptics",
+    "Ambarella",
+    "Skyworks Solutions",
+    "Cirrus Logic",
+    "Microchip Technology",
+    "Western Digital"
+   ]
+  },
+  {
+   "label": "Networking and infrastructure attach is rising",
+   "detail": "Inference growth is pulling more networking, connectivity, and infrastructure spend, with some suppliers saying the constraint is power/infrastructure rather than component weakness.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom",
+    "Marvell Technology",
+    "Credo Technology",
+    "Astera Labs",
     "NVIDIA"
    ]
   },
   {
-   "label": "Use-case expansion beyond cloud",
-   "detail": "Inference is reaching consumers, enterprises, robotics, voice, and edge devices, widening the demand base and reducing reliance on a single hyperscale cycle.",
-   "polarity": "pos",
-   "companies": [
-    "Broadcom",
-    "Synaptics",
-    "Cirrus Logic",
-    "Skyworks Solutions",
-    "Ambarella",
-    "CEVA",
-    "Qualcomm",
-    "Microchip Technology"
-   ]
-  },
-  {
-   "label": "Supply tightness validating upside",
-   "detail": "Where companies called out tight supply or secured supply, it reinforces that demand is running ahead of available capacity in the near term.",
+   "label": "Supply remains tight in select AI-adjacent areas",
+   "detail": "Tight supply at several names suggests demand is still outpacing available capacity, reinforcing urgency and supporting continued ordering momentum.",
    "polarity": "pos",
    "companies": [
     "NVIDIA",
+    "Broadcom",
     "Lattice Semiconductor",
-    "Intel",
-    "Western Digital"
+    "Astera Labs"
+   ]
+  },
+  {
+   "label": "AI agents are creating new TAM and product pull",
+   "detail": "EDA and IP vendors are seeing more customer evaluation and new product opportunities tied to agentic AI, signaling demand is still in the early broadening phase.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems",
+    "Synopsys",
+    "CEVA",
+    "Applied Materials",
+    "Teradyne",
+    "Ultra Clean Holdings",
+    "FormFactor",
+    "Cohu"
    ]
   }
  ],
  "risks": [
-  "A faster-than-expected normalization in supply could cap the pace of near-term upside despite strong demand.",
-  "If enterprise and consumer agentic deployments take longer to scale, the demand broadening could stay concentrated in early adopters.",
-  "Any pause in data-center build plans would quickly show up in wafers, memory, networking, and test orders."
+  "Power and infrastructure limits could slow deployments even if demand stays strong, especially where Broadcom sees the bottleneck outside components.",
+  "Watch whether customer interest in AI agents converts from evaluation to production at scale, particularly for EDA/IP and tool vendors like Synopsys and Cadence.",
+  "If tight-supply pockets ease too quickly, near-term urgency and order pull-forward could normalize faster than expected at several AI suppliers."
  ]
 }

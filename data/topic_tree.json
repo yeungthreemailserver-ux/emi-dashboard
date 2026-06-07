@@ -1,87 +1,528 @@
 {
-  "_doc": "Multi-dimension taxonomy. A SUBJECT (Memory, Processor, Process Technology) branches into DIMENSIONS (Demand / Supply / Pricing / Capability), and the measured topics (leaves) attach to a (subject, dimension) cell. Relationships are many-to-many and imperfect on purpose — the tree is for AUDIENCE LEGIBILITY, not a strict ontology. nodes = internal groupings (parent pointer => arbitrary depth); leaves = the measured topics (ids match count_topics.py). kind+reads on leaves; facet on nodes. rules = how each kind maps a state to favorable (+/-).",
-
-  "nodes": {
-    "products":   { "label": "Products",            "parent": null,        "facet": "product" },
-
-    "memory":     { "label": "Memory",              "parent": "products",  "facet": "product" },
-    "mem_dem":    { "label": "Demand",              "parent": "memory",    "facet": "demand" },
-    "mem_sup":    { "label": "Supply",              "parent": "memory",    "facet": "supply" },
-    "mem_pri":    { "label": "Pricing",             "parent": "memory",    "facet": "price" },
-    "mem_cap":    { "label": "Capability",          "parent": "memory",    "facet": "product" },
-    "mem_prd":    { "label": "Production",           "parent": "memory",    "facet": "supply" },
-
-    "processor":  { "label": "Processor",           "parent": "products",  "facet": "product" },
-    "proc_dem":   { "label": "Demand",              "parent": "processor", "facet": "demand" },
-    "proc_sup":   { "label": "Supply",              "parent": "processor", "facet": "supply" },
-    "proc_cap":   { "label": "Capability",          "parent": "processor", "facet": "product" },
-
-    "proctech":   { "label": "Process Technology",  "parent": "products",  "facet": "product" },
-    "pt_dem":     { "label": "Demand",              "parent": "proctech",  "facet": "demand" },
-    "pt_sup":     { "label": "Supply",              "parent": "proctech",  "facet": "supply" },
-    "pt_cap":     { "label": "Capability",          "parent": "proctech",  "facet": "product" },
-
-    "endmkt":     { "label": "End Markets",         "parent": null,        "facet": "demand" },
-    "ai_dc":      { "label": "AI & Datacenter",     "parent": "endmkt",    "facet": "demand" },
-
-    "ops":        { "label": "Supply & Operations", "parent": null,        "facet": "supply" },
-    "macro":      { "label": "Macro / Risk",        "parent": null,        "facet": "risk" }
+ "_doc": "Multi-dimension taxonomy. A SUBJECT (Memory, Processor, Process Technology) branches into DIMENSIONS (Demand / Supply / Pricing / Capability), and the measured topics (leaves) attach to a (subject, dimension) cell. Relationships are many-to-many and imperfect on purpose — the tree is for AUDIENCE LEGIBILITY, not a strict ontology. nodes = internal groupings (parent pointer => arbitrary depth); leaves = the measured topics (ids match count_topics.py). kind+reads on leaves; facet on nodes. rules = how each kind maps a state to favorable (+/-).",
+ "nodes": {
+  "products": {
+   "label": "Products",
+   "parent": null,
+   "facet": "product"
   },
-
-  "leaves": {
-    "mem_demand":    { "label": "Memory demand",          "parent": "mem_dem", "kind": "demand",  "reads": ["demand"] },
-    "mem_supply":    { "label": "Memory supply",          "parent": "mem_sup", "kind": "supply",  "reads": ["supply"] },
-    "mem_prod":      { "label": "Memory production",      "parent": "mem_prd", "kind": "supply",  "reads": ["supply"] },
-    "mem_pricing":   { "label": "Memory pricing",         "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
-    "mem_strategic": { "label": "Long-term agreements",   "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
-    "dram":          { "label": "DRAM",                   "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "ddr5":          { "label": "DDR5 / DDR",             "parent": "dram",    "kind": "product", "reads": ["demand", "supply"] },
-    "lpddr":         { "label": "LPDDR / GDDR",           "parent": "dram",    "kind": "product", "reads": ["demand", "supply"] },
-    "hbm":           { "label": "HBM",                    "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "hbm3e":         { "label": "HBM3E",                  "parent": "hbm",     "kind": "product", "reads": ["demand", "supply"] },
-    "hbm4":          { "label": "HBM4",                   "parent": "hbm",     "kind": "product", "reads": ["demand", "supply"] },
-    "nand_qlc":      { "label": "NAND",                   "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "qlc":           { "label": "QLC / TLC",              "parent": "nand_qlc","kind": "product", "reads": ["demand", "supply"] },
-
-    "compute_demand":{ "label": "Compute demand",         "parent": "proc_dem", "kind": "demand", "reads": ["demand"] },
-    "gpu":           { "label": "GPU / accelerators",     "parent": "proc_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "cpu":           { "label": "CPU",                    "parent": "proc_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "custom_asic":   { "label": "Custom silicon / ASIC",  "parent": "proc_cap", "kind": "product", "reads": ["demand", "supply"] },
-
-    "nodes":         { "label": "Advanced nodes (N2/A16)","parent": "pt_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "cowos":         { "label": "CoWoS / packaging",      "parent": "pt_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "highna":        { "label": "High-NA EUV",            "parent": "pt_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "gaa":           { "label": "GAA / backside power",   "parent": "pt_cap", "kind": "product", "reads": ["demand", "supply"] },
-
-    "ai_demand":     { "label": "AI / datacenter demand", "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
-    "agentic_ai":    { "label": "Agentic & inference AI", "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
-    "sovereign_ai":  { "label": "Sovereign AI",           "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
-    "hyperscaler_capex": { "label": "Hyperscaler capex",  "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
-    "auto":          { "label": "Automotive",             "parent": "endmkt", "kind": "demand",  "reads": ["demand"] },
-    "industrial":    { "label": "Industrial",             "parent": "endmkt", "kind": "demand",  "reads": ["demand"] },
-    "consumer":      { "label": "Consumer (smartphone/PC)","parent": "endmkt","kind": "demand",  "reads": ["demand"] },
-
-    "capacity":      { "label": "Capacity",               "parent": "ops",    "kind": "supply",  "reads": ["supply"] },
-    "leadtimes":     { "label": "Lead times",             "parent": "ops",    "kind": "supply",  "reads": ["supply"] },
-    "inventory":     { "label": "Inventory",              "parent": "ops",    "kind": "supply",  "reads": ["supply"] },
-    "capex":         { "label": "Capex / WFE",            "parent": "ops",    "kind": "supply",  "reads": ["supply"], "role_flip": "equipment=demand" },
-
-    "china":         { "label": "China / export controls","parent": "macro",  "kind": "macro",   "reads": ["headwind"] },
-    "tariffs":       { "label": "Tariffs / trade policy", "parent": "macro",  "kind": "macro",   "reads": ["headwind"] }
+  "memory": {
+   "label": "Memory",
+   "parent": "products",
+   "facet": "product"
   },
-
-  "rules": {
-    "demand":  { "axis": "weak <-> hot", "favorable": "hot",
-                 "why": "strong end-demand for what the company sells = more revenue" },
-    "supply":  { "axis": "ample/oversupplied <-> tight/sold-out", "favorable": "tight-by-demand",
-                 "why": "tight because demand outruns supply = pricing power (good for the seller); ample/oversupply = weak demand (bad); BUT if the company is itself the bottleneck and loses sales, tight = bad. capex: for equipment vendors customer capex up = THEIR demand up (good)." },
-    "product": { "reads": ["demand", "supply"],
-                 "demand_axis": "weak <-> hot", "demand_favorable": "hot",
-                 "supply_axis": "ample <-> tight", "supply_favorable": "tight-by-demand",
-                 "signal": "demand - supply gap: demand>supply => shortage / rising price (bullish); supply>demand => glut / falling price (bearish)" },
-    "price":   { "axis": "falling <-> rising", "favorable": "rising",
-                 "why": "rising price = demand >= supply = pricing power for the seller" },
-    "macro":   { "axis": "easing <-> worsening", "favorable": "easing",
-                 "why": "external headwind (China export controls / tariffs); worsening = bad" }
+  "mem_dem": {
+   "label": "Demand",
+   "parent": "memory",
+   "facet": "demand"
+  },
+  "mem_sup": {
+   "label": "Supply",
+   "parent": "memory",
+   "facet": "supply"
+  },
+  "mem_pri": {
+   "label": "Pricing",
+   "parent": "memory",
+   "facet": "price"
+  },
+  "mem_cap": {
+   "label": "Capability",
+   "parent": "memory",
+   "facet": "product"
+  },
+  "mem_prd": {
+   "label": "Production",
+   "parent": "memory",
+   "facet": "supply"
+  },
+  "processor": {
+   "label": "Processor",
+   "parent": "products",
+   "facet": "product"
+  },
+  "proc_dem": {
+   "label": "Demand",
+   "parent": "processor",
+   "facet": "demand"
+  },
+  "proc_sup": {
+   "label": "Supply",
+   "parent": "processor",
+   "facet": "supply"
+  },
+  "proc_cap": {
+   "label": "Capability",
+   "parent": "processor",
+   "facet": "product"
+  },
+  "proctech": {
+   "label": "Process Technology",
+   "parent": "products",
+   "facet": "product"
+  },
+  "pt_dem": {
+   "label": "Demand",
+   "parent": "proctech",
+   "facet": "demand"
+  },
+  "pt_sup": {
+   "label": "Supply",
+   "parent": "proctech",
+   "facet": "supply"
+  },
+  "pt_cap": {
+   "label": "Capability",
+   "parent": "proctech",
+   "facet": "product"
+  },
+  "endmkt": {
+   "label": "End Markets",
+   "parent": null,
+   "facet": "demand"
+  },
+  "ai_dc": {
+   "label": "AI & Datacenter",
+   "parent": "endmkt",
+   "facet": "demand"
+  },
+  "ops": {
+   "label": "Supply & Operations",
+   "parent": null,
+   "facet": "supply"
+  },
+  "macro": {
+   "label": "Macro / Risk",
+   "parent": null,
+   "facet": "risk"
   }
+ },
+ "leaves": {
+  "mem_demand": {
+   "label": "Memory demand",
+   "parent": "mem_dem",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "mem_supply": {
+   "label": "Memory supply",
+   "parent": "mem_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "mem_prod": {
+   "label": "Memory production",
+   "parent": "mem_prd",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "mem_pricing": {
+   "label": "Memory pricing",
+   "parent": "mem_pri",
+   "kind": "price",
+   "reads": [
+    "price"
+   ]
+  },
+  "mem_strategic": {
+   "label": "Long-term agreements",
+   "parent": "mem_pri",
+   "kind": "price",
+   "reads": [
+    "price"
+   ]
+  },
+  "dram": {
+   "label": "DRAM",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "ddr5": {
+   "label": "DDR5 / DDR",
+   "parent": "dram",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "lpddr": {
+   "label": "LPDDR / GDDR",
+   "parent": "dram",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "hbm": {
+   "label": "HBM",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "hbm3e": {
+   "label": "HBM3E",
+   "parent": "hbm",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "hbm4": {
+   "label": "HBM4",
+   "parent": "hbm",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "nand_qlc": {
+   "label": "NAND",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "qlc": {
+   "label": "QLC / TLC",
+   "parent": "nand_qlc",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "compute_demand": {
+   "label": "Compute demand",
+   "parent": "proc_dem",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "gpu": {
+   "label": "GPU / accelerators",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "cpu": {
+   "label": "CPU",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "custom_asic": {
+   "label": "Custom silicon / ASIC",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "nodes": {
+   "label": "Advanced nodes (N2/A16)",
+   "parent": "pt_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "cowos": {
+   "label": "CoWoS / packaging",
+   "parent": "pt_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "highna": {
+   "label": "High-NA EUV",
+   "parent": "pt_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "gaa": {
+   "label": "GAA / backside power",
+   "parent": "pt_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "ai_demand": {
+   "label": "AI / datacenter demand",
+   "parent": "ai_dc",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "agentic_ai": {
+   "label": "Agentic & inference AI",
+   "parent": "ai_dc",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "sovereign_ai": {
+   "label": "Sovereign AI",
+   "parent": "ai_dc",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "hyperscaler_capex": {
+   "label": "Hyperscaler capex",
+   "parent": "ai_dc",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "auto": {
+   "label": "Automotive",
+   "parent": "endmkt",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "industrial": {
+   "label": "Industrial",
+   "parent": "endmkt",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "consumer": {
+   "label": "Consumer (smartphone/PC)",
+   "parent": "endmkt",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "capacity": {
+   "label": "Capacity",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "leadtimes": {
+   "label": "Lead times",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "inventory": {
+   "label": "Inventory",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "capex": {
+   "label": "Capex / WFE",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "role_flip": "equipment=demand"
+  },
+  "china": {
+   "label": "China / export controls",
+   "parent": "macro",
+   "kind": "macro",
+   "reads": [
+    "headwind"
+   ]
+  },
+  "tariffs": {
+   "label": "Tariffs / trade policy",
+   "parent": "macro",
+   "kind": "macro",
+   "reads": [
+    "headwind"
+   ]
+  },
+  "optical_interconnect_sil": {
+   "label": "Optical interconnect / silicon photonics",
+   "parent": "products",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "datacenter_power_deliver": {
+   "label": "Datacenter power delivery / power semiconductors",
+   "parent": "products",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "test_ate_probe_cards": {
+   "label": "Test / ATE / probe cards",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_networking_ethernet_f": {
+   "label": "AI networking / Ethernet / fabric",
+   "parent": "products",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "materials_specialty_gase": {
+   "label": "Materials / specialty gases / chemicals",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "eda_ip_chiplet_design": {
+   "label": "EDA / IP / chiplet design",
+   "parent": "products",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "sic_gan_power_semiconduc": {
+   "label": "SiC / GaN power semiconductors",
+   "parent": "products",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "manufacturing_footprint_": {
+   "label": "Manufacturing footprint / regionalization",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_storage_hdd_ssd": {
+   "label": "AI storage / HDD / SSD",
+   "parent": "ai_dc",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ],
+   "emergent": true
+  },
+  "process_control_inspecti": {
+   "label": "Process control / inspection / metrology",
+   "parent": "pt_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "euv_lithography": {
+   "label": "EUV lithography",
+   "parent": "proctech",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  }
+ },
+ "rules": {
+  "demand": {
+   "axis": "weak <-> hot",
+   "favorable": "hot",
+   "why": "strong end-demand for what the company sells = more revenue"
+  },
+  "supply": {
+   "axis": "ample/oversupplied <-> tight/sold-out",
+   "favorable": "tight-by-demand",
+   "why": "tight because demand outruns supply = pricing power (good for the seller); ample/oversupply = weak demand (bad); BUT if the company is itself the bottleneck and loses sales, tight = bad. capex: for equipment vendors customer capex up = THEIR demand up (good)."
+  },
+  "product": {
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "demand_axis": "weak <-> hot",
+   "demand_favorable": "hot",
+   "supply_axis": "ample <-> tight",
+   "supply_favorable": "tight-by-demand",
+   "signal": "demand - supply gap: demand>supply => shortage / rising price (bullish); supply>demand => glut / falling price (bearish)"
+  },
+  "price": {
+   "axis": "falling <-> rising",
+   "favorable": "rising",
+   "why": "rising price = demand >= supply = pricing power for the seller"
+  },
+  "macro": {
+   "axis": "easing <-> worsening",
+   "favorable": "easing",
+   "why": "external headwind (China export controls / tariffs); worsening = bad"
+  }
+ }
 }

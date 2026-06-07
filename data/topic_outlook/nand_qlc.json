@@ -3,14 +3,14 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "AI-driven NAND recovery broadens despite softer mention momentum",
-  "summary": "Company reads skew clearly positive: AI data-center demand, higher-layer QLC adoption, and tight supply are pulling NAND into an early recovery phase. The improvement looks broadest for Micron, SanDisk, Lam, MKS, and the equipment vendors seeing upgrades, while neutral names suggest the cycle is not yet uniformly strong. The main caveat is that mention intensity has rolled over from 2.2x to 1.6x, so the next 1-2 quarters depend on whether current demand converts into sustained orders rather than a short-lived burst.",
+  "headline": "NAND recovery improves, though demand is still upgrade-led",
+  "summary": "The next 1-2 quarters still point to an improving NAND backdrop: AI/data-center demand is hot, supply remains tight, and multiple vendors are seeing early recovery or upgrade-led spending. The nuance is that much of the near-term lift is still being met by upgrades rather than new wafer starts, and mention momentum has faded, so watch for whether this recovery broadens into stronger pricing and volume growth.",
   "confidence": "medium"
  },
  "drivers": [
   {
-   "label": "AI data-center NAND demand accelerating",
-   "detail": "AI is increasing NAND's role in the memory hierarchy and lifting data-center demand for high-capacity parts.",
+   "label": "AI/data-center demand",
+   "detail": "Hot demand from data centers and AI is lifting NAND bit demand and supporting higher inventory commitments.",
    "polarity": "pos",
    "companies": [
     "Lam Research",
@@ -19,51 +19,40 @@
    ]
   },
   {
-   "label": "QLC mix shift and higher-layer content",
-   "detail": "Rising demand for higher-layer QLC is improving the product mix and supporting supplier exposure.",
-   "polarity": "pos",
-   "companies": [
-    "Lam Research",
-    "SanDisk"
-   ]
-  },
-  {
-   "label": "Supply remains tight",
-   "detail": "Tight supply is keeping the market supported and reinforcing pricing/leverage for vendors and OEMs.",
+   "label": "Tight industry supply",
+   "detail": "Cleanroom limits and committed supply keep the market tight, which supports pricing and utilization.",
    "polarity": "pos",
    "companies": [
     "Micron",
-    "Seagate Technology",
+    "Lam Research",
+    "MKS Instruments",
     "SanDisk",
-    "MKS Instruments"
+    "Seagate Technology"
    ]
   },
   {
-   "label": "Early signs of recovery in equipment demand",
-   "detail": "NAND upgrades and related revenue are starting to pick up, suggesting the cycle is turning up from a low base.",
+   "label": "Early recovery / upgrade-led spending",
+   "detail": "Several reads point to early recovery, but near-term demand is still being met mainly by upgrades rather than new wafer starts.",
    "polarity": "pos",
    "companies": [
     "Applied Materials",
     "Onto Innovation",
-    "MKS Instruments"
+    "MKS Instruments",
+    "Entegris"
    ]
   },
   {
-   "label": "Mention momentum is easing",
-   "detail": "The trend has fallen to 1.6x from 2.2x, indicating the narrative is losing some urgency even as fundamentals improve.",
+   "label": "HDD substitution remains a drag",
+   "detail": "A wider HDD-versus-NAND price gap keeps HDDs the cheaper storage choice, limiting some NAND demand conversion.",
    "polarity": "neg",
    "companies": [
-    "Applied Materials",
-    "Lam Research",
-    "Micron",
-    "Onto Innovation",
-    "SanDisk"
+    "Western Digital"
    ]
   }
  ],
  "risks": [
-  "AI-related demand may not sustain if customer spending pauses after initial build-out.",
-  "If wafer starts or upgrades rise too quickly, tight supply could normalize and slow the recovery.",
-  "The weaker mention trend could foreshadow a near-term lull in incremental positive updates."
+  "Upgrades do not translate into new wafer starts or broader capacity expansion.",
+  "Supply tightness eases faster than expected, pressuring pricing and utilization.",
+  "HDD price advantage continues to cap NAND substitution demand."
  ]
 }

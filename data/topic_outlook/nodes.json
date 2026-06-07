@@ -3,73 +3,76 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Advanced-node demand is broadening into N2 and 18A",
-  "summary": "Advanced-node activity looks to be strengthening over the next 1-2 quarters, with 2nm/N2 ramps, 18A yield progress, and broader capacity builds showing up across foundry, equipment, EDA, and materials. The biggest beneficiaries are ASML, KLA, Cadence, Entegris, TSMC, and Intel, while the main laggards are names exposed to softer mature-node spend like Lam and Veeco. The mention trend is also supportive at 1.7x vs trailing average with +5% momentum, suggesting attention is still building rather than fading.",
+  "headline": "2nm pull is broadening across the stack",
+  "summary": "Advanced-node demand looks set to improve over the next 1-2 quarters, with 2nm/sub-2nm activity now showing up in foundry, tools, EDA, materials, and specialized product reads. TSMC, ASML, KLA, Synopsys, Marvell, and Ambarella all point to hot or tight advanced-node demand, while the 1.7x mention trend running ~5% above trailing average suggests the topic is getting more attention, not less. The main beneficiaries are leading-edge enablers; the clearest offset is continued weakness in mature-node China exposure, as flagged by Veeco.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "N2/2nm ramps are actively pulling demand",
-   "detail": "Customers are building capacity across 2nm/N2 and related leading-edge nodes, supporting near-term tool, material, and design spend.",
+   "label": "2nm/sub-2nm ramp intensity is increasing",
+   "detail": "Multiple reads point to stronger 2nm and sub-2nm adoption, with higher process intensity and more content per wafer.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "ASML",
     "KLA",
-    "Cadence Design Systems",
+    "ASML",
+    "Synopsys",
     "Marvell Technology",
     "Ambarella",
-    "Advanced Energy",
+    "Entegris",
     "ACM Research"
    ]
   },
   {
-   "label": "Tight supply and higher complexity increase content per wafer",
-   "detail": "Sub-2nm and GAA ramps are described as tight or supply-constrained, which typically lifts demand for process-control, materials, and equipment content.",
+   "label": "Advanced-node capacity builds are continuing",
+   "detail": "Customers are still adding capacity across leading-edge nodes, supporting sustained demand for manufacturing equipment and process solutions.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Applied Materials",
+    "Lam Research",
+    "Onto Innovation",
+    "Advanced Energy",
+    "Ultra Clean Holdings"
+   ]
+  },
+  {
+   "label": "Supply remains tight at the leading edge",
+   "detail": "Tight supply/running hot capacity is repeatedly cited, implying strong utilization and support for continued node adoption.",
    "polarity": "pos",
    "companies": [
     "TSMC",
-    "KLA",
     "Entegris",
-    "ACM Research",
     "Microchip Technology",
-    "Allegro MicroSystems"
-   ]
-  },
-  {
-   "label": "Design activity remains strong at advanced nodes",
-   "detail": "AI-driven tapeouts, new node wins, and first-to-market IP point to continued adoption of advanced-node solutions.",
-   "polarity": "pos",
-   "companies": [
+    "Cirrus Logic",
+    "Ambarella",
     "Cadence Design Systems",
-    "Synopsys",
-    "Marvell Technology",
-    "Ambarella"
+    "ACM Research"
    ]
   },
   {
-   "label": "Execution is improving at the leading edge",
-   "detail": "Better 18A yields and ongoing N2 ramp progress suggest the node transition is becoming more credible, even if ramp costs remain a drag.",
+   "label": "AI is accelerating advanced-node pull",
+   "detail": "AI-linked design activity and 2nm platform wins are reinforcing demand for the most advanced nodes and related IP/content.",
    "polarity": "pos",
    "companies": [
-    "Intel",
-    "TSMC"
+    "Synopsys",
+    "ASML",
+    "Marvell Technology",
+    "AMD"
    ]
   },
   {
-   "label": "Mature-node softness is the main offset",
-   "detail": "Comments around softer or flattish mature-node spending indicate the improvement is not uniform across the broader semiconductor stack.",
+   "label": "Mature-node weakness is still a partial offset",
+   "detail": "Declining mature-node China business remains a headwind, but it appears narrower than the broad-based advanced-node strength.",
    "polarity": "neg",
    "companies": [
-    "Lam Research",
-    "Veeco Instruments",
-    "GlobalFoundries"
+    "Veeco Instruments"
    ]
   }
  ],
  "risks": [
-  "2nm/18A ramp costs or yield issues could slow adoption and delay spending.",
-  "A softer mature-node or China spending backdrop could cap upside for select equipment suppliers.",
-  "If AI-related design wins fail to convert into wafer starts, the current demand broadening could stall."
+  "2nm ramp execution or yield issues could delay the expected demand inflection.",
+  "A pullback in AI-related capacity builds would hit tool, EDA, and materials momentum quickly.",
+  "Further deterioration in mature-node China spending could mask or partially offset advanced-node strength."
  ]
 }

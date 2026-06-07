@@ -21,7 +21,7 @@ let STATE = { view: 'signals', metric: 'revenue', mode: 'value', search: '', exp
   exSubs: new Set(), exOpen: false,
   sigView: 'topics', sigMetric: 'tonecmp', topicLayers: [], topicLabels: 'auto', topicSeg: 'all',
   topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false,
-  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false, drawerW: 440 };
+  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false, drawerW: null };
 const charts = [];
 let TOPIC_PLAY = null;
 
@@ -1221,7 +1221,7 @@ function topicLLMRows(tid, T) {
 }
 function sigTreeBody(S) {
   const T = S.topics; if (!T || !topicTree(T)) return `<div class="panel"><div class="dim">No topic tree in bundle — re-run scripts/load_transcripts.py</div></div>`;
-  const q = topicAsOf(T), nLeaves = topicItemsForLayer(T).length, h = Math.max(640, nLeaves * 26 + 40);
+  const q = topicAsOf(T), nLeaves = topicItemsForLayer(T).length, h = Math.max(360, nLeaves * 15 + 24);
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
   const FACET = [['demand', 'Demand'], ['supply', 'Supply'], ['product', 'Product / capability'], ['price', 'Pricing'], ['risk', 'Macro / risk']];
   const facetKey = FACET.map(f => `<span class="tlg"><span class="tdot" style="background:${FACET_COLOR[f[0]]}"></span>${f[1]}</span>`).join('');
@@ -1237,7 +1237,7 @@ function sigTreeChart(S) {
   const T = S.topics; const ch = mk('treechart'); if (!ch || !T || !topicTree(T)) return;
   const q = topicAsOf(T), seg = topicSeg(), nodes = topicTree(T).nodes;
   const items = {}; topicItemsForLayer(T).forEach(it => items[it.id] = it);   // respect the layer filter
-  const sz = v => v == null ? 9 : Math.max(9, Math.min(46, 9 + Math.sqrt(v) * 5.6));
+  const sz = v => v == null ? 6 : Math.max(6, Math.min(26, 6 + Math.sqrt(v) * 4));
   const leafNode = it => {
     const heat = topicEffSeries(it, S).ser[q], sentv = topicSent(it, S, seg, q);
     const node = { name: it.label, value: +(+heat).toFixed(1), symbolSize: sz(heat),
@@ -1251,11 +1251,11 @@ function sigTreeChart(S) {
     const n = nodes[id];
     const leaves = Object.values(items).filter(it => (it.parent || null) === id).map(leafNode);
     const inner = Object.keys(nodes).filter(k => (nodes[k].parent || null) === id).map(innerNode);
-    const node = { name: n.label, symbolSize: 13, label: { color: '#334155', fontWeight: 700 }, children: leaves.concat(inner) };
+    const node = { name: n.label, symbolSize: 9, label: { color: '#334155', fontWeight: 700 }, children: leaves.concat(inner) };
     let col;
     if (n.facet === 'demand' || n.facet === 'supply') {   // product-dimension node → colour by LLM-read favorability
       const agg = topicAggDim(n.parent, n.facet, T);
-      if (agg.n) { col = favColor(agg.net); Object.assign(node, { isDim: n.facet, dimNet: agg.net, dimRows: agg.rows, netLabel: favLabel(agg.net), symbolSize: 13 + Math.min(14, agg.n * 1.4) }); }
+      if (agg.n) { col = favColor(agg.net); Object.assign(node, { isDim: n.facet, dimNet: agg.net, dimRows: agg.rows, netLabel: favLabel(agg.net), symbolSize: 9 + Math.min(9, agg.n * 0.7) }); }
     }
     if (!col) col = FACET_COLOR[n.facet] || '#94a3b8';   // domain/subject nodes (End Markets, Ops…) keep their facet colour
     Object.assign(node, { itemStyle: { color: col, borderColor: '#fff', borderWidth: 1.5 }, lineStyle: { color: cRgba(col, 0.55) } });
@@ -1276,8 +1276,8 @@ function sigTreeChart(S) {
     series: [{ type: 'tree', data, top: '1%', left: '6%', bottom: '1%', right: '21%',
       layout: 'orthogonal', orient: 'LR', edgeShape: 'curve', edgeForkPosition: '55%',
       initialTreeDepth: -1, expandAndCollapse: true, symbol: 'circle', roam: false,
-      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6, formatter: p => { const d = p.data; if (d && d.tid) return `${p.name}  ${p.value}×`; if (d && d.isDim && d.netLabel) return `${p.name}  ${d.netLabel}`; return p.name; } },
-      leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left', formatter: p => `${p.name}  ${p.value}×` } },
+      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 11, distance: 5, formatter: p => { const d = p.data; if (d && d.tid) return `${p.name}  ${p.value}×`; if (d && d.isDim && d.netLabel) return `${p.name}  ${d.netLabel}`; return p.name; } },
+      leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 11, formatter: p => `${p.name}  ${p.value}×` } },
       emphasis: { focus: 'relative', lineStyle: { width: 2 } },
       lineStyle: { color: '#d7dee8', width: 1.2, curveness: 0.45 } }] });
   ch.off('click'); ch.on('click', p => { if (p.data && p.data.tid) { STATE.sigView = 'topics'; STATE.topicPin = p.data.tid; STATE.topicDrill = p.data.dparent || null; STATE.inspScroll = 0; render(); } });
@@ -1318,7 +1318,7 @@ function sigTopicsBody(S) {
     ${topicFilterBar(S, { labels: true, play: true })}
     ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics / companies / layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span><span class="seglbl" style="margin-left:6px">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by count · hover = preview · <b>click = lock</b> · empty space = close</span></div>`; })()}
     <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious).</div>
-    <div class="topicwrap2" style="--drawer-w:${STATE.drawerW || 440}px"><div class="chart" id="topicchart" style="height:600px"></div><div class="topic-split" id="topicsplit" title="Drag to resize"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
+    <div class="topicwrap2"${STATE.drawerW ? ` style="--drawer-w:${STATE.drawerW}px"` : ''}><div class="chart" id="topicchart" style="height:600px"></div><div class="topic-split" id="topicsplit" title="Drag to resize"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
     <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
     <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Colour = sentiment</span>${colorKey}</div>
     <div class="tcols">
@@ -1337,17 +1337,17 @@ function sigTopicsChart(S) {
   const maxH = Math.max(...heats, 1);
   const LMIN = 0.5;
   const sx = v => Math.log10(Math.max(v, LMIN)) - Math.log10(LMIN);   // LOG scale: spreads the dense low-mention cluster
-  const xMax = +(sx(maxH) * 1.06 + 0.06).toFixed(3);
+  const xMax = +(sx(maxH) * 1.02 + 0.04).toFixed(3);
   const med = (a => { const s = a.slice().sort((x, y) => x - y), n = s.length; return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2; })(heats);
   const plotMed = sx(med);
   // auto-fit Y to the actual momentum cloud (keep the 0 line in view, no empty top)
   const moms = items.map(it => { const m = topicMomentum(it.series, q, momSmooth(T)); return m == null ? 0 : m; });
   const yMax = Math.min(1.6, Math.max(0.6, Math.ceil((Math.max(...moms) + 0.12) * 10) / 10));  // cap so one off-a-tiny-base outlier can't blow up the axis
-  const yMin = Math.max(-0.8, Math.min(-0.1, Math.floor((Math.min(...moms) - 0.05) * 10) / 10));
+  const yMin = Math.max(-0.45, Math.min(-0.1, Math.floor((Math.min(...moms) - 0.05) * 10) / 10));
   const catOf = id => T.categories.find(c => c.id === id) || {};
   // AUTO-SIZE: normalise # companies to the current max so bubbles stay bounded (~11–37px) at any roster size
   const maxBrd = Math.max(1, ...items.map(it => (it.breadth && it.breadth[q]) || 0));
-  const sizeOf = b => 11 + Math.sqrt((b || 0) / maxBrd) * 26;
+  const sizeOf = b => 8 + Math.sqrt((b || 0) / maxBrd) * 17;
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
     const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), llm = topicLLMFav(it.id, T), color = llm ? favColor(llm.net) : sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
@@ -1362,9 +1362,9 @@ function sigTopicsChart(S) {
       itemStyle: { color: color, opacity: 0.92, borderWidth: 1, borderColor: cRgba('#0f172a', 0.14) } };
   });
   const series = [{ type: 'scatter', data, z: 5,
-    emphasis: { scale: 1.3, focus: 'none', label: { show: true, fontWeight: 800, color: '#0b1220' }, itemStyle: { opacity: 1 } },
+    emphasis: { scale: 1.3, focus: 'none', label: { show: true, fontWeight: 700, color: '#0b1220' }, itemStyle: { opacity: 1 } },
     labelLayout: { hideOverlap: true },
-    label: { show: true, position: 'right', distance: 7, formatter: p => p.data.lab, fontSize: 11, lineHeight: 13, color: '#0f172a', fontWeight: 700 } }];
+    label: { show: true, position: 'right', distance: 6, formatter: p => p.data.lab, fontSize: 10, lineHeight: 12, color: '#0f172a', fontWeight: 600 } }];
   if (series[0]) {
     series[0].markArea = { silent: true, data: [
       [{ xAxis: plotMed, yAxis: 0, itemStyle: { color: 'transparent' }, label: { show: true, position: 'insideTopRight', distance: 8, color: '#9aa7b8', fontSize: 10, fontWeight: 700, formatter: 'HOT & ACCELERATING' } }, { xAxis: xMax, yAxis: yMax }],
@@ -1376,7 +1376,7 @@ function sigTopicsChart(S) {
   }
   ch.setOption({ animation: false,
     textStyle: { fontFamily: '"Fira Sans", system-ui, sans-serif' },
-    grid: { left: 58, right: 158, top: 26, bottom: 56 },
+    grid: { left: 46, right: 112, top: 18, bottom: 44 },
     legend: { show: false },
     tooltip: { show: false },
     xAxis: { type: 'value', name: 'avg mentions per company →', nameLocation: 'middle', nameGap: 38, nameTextStyle: { color: '#94a3b8', fontSize: 11 }, min: 0, max: xMax,
@@ -1404,7 +1404,7 @@ function sigTopicsChart(S) {
         .sort((a, b) => b.d.cur - a.d.cur)
         .forEach(o => {
           const lines = (o.d.lab || o.d.tname).split('\n'), lw = Math.max(...lines.map(l => l.length));
-          const w = lw * 7 + 10, hh = lines.length * 13 + 6, r = (o.d.symbolSize || 14) / 2 + 6, cx = o.px[0], cy = o.px[1];
+          const w = lw * 6 + 8, hh = lines.length * 12 + 5, r = (o.d.symbolSize || 14) / 2 + 5, cx = o.px[0], cy = o.px[1];
           const cands = [['right', cx + r, cy - hh / 2], ['left', cx - r - w, cy - hh / 2], ['top', cx - w / 2, cy - r - hh], ['bottom', cx - w / 2, cy + r]];
           for (const c of cands) {
             const x0 = c[1], y0 = c[2], x1 = x0 + w, y1 = y0 + hh;
@@ -1456,7 +1456,7 @@ function sigTopicsChart(S) {
   const split = document.getElementById('topicsplit'), wrap = split && split.parentElement;
   if (split && wrap) split.onmousedown = e => {
     e.preventDefault(); split.classList.add('dragging');
-    const startX = e.clientX, startW = STATE.drawerW || 440, rect = wrap.getBoundingClientRect();
+    const dp0 = document.getElementById('topicdetail'); const startX = e.clientX, startW = STATE.drawerW || (dp0 ? dp0.getBoundingClientRect().width : 440), rect = wrap.getBoundingClientRect();
     const onMove = ev => { const w = Math.max(300, Math.min(rect.width - 340, startW - (ev.clientX - startX))); STATE.drawerW = Math.round(w); wrap.style.setProperty('--drawer-w', STATE.drawerW + 'px'); ch.resize(); };
     const onUp = () => { split.classList.remove('dragging'); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
     document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);

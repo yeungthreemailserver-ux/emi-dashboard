@@ -2,56 +2,56 @@
  "topic": "gaa",
  "source": "gpt-5.4-mini-synth",
  "outlook": {
-  "direction": "mixed",
-  "headline": "GAA remains broadly bullish, but mention momentum is cooling",
-  "summary": "The underlying read is still constructive: every company cited GAA as a positive, with Applied Materials seeing expanding adoption and multiple wins, Onto calling the tools critical for process control, ACM seeing strong advanced-node pull, and Ichor benefiting from more process steps. TSMC’s A14 framing also reinforces the long-term need for high-performance, energy-efficient computing. That said, mention intensity has fallen to 0.2x and is down 20% versus trailing average, so the near-term narrative looks more like steady execution than accelerating enthusiasm.",
-  "confidence": "medium"
+  "direction": "stabilizing",
+  "headline": "GAA remains a real tailwind, but momentum is no longer accelerating",
+  "summary": "GAA/backside power is still a constructive product cycle for the next 1-2 quarters: TSMC sees A14 supporting long-term leading-edge demand, while Applied, Onto, ACM, and Ichor all point to more process steps, tighter supply, and rising content. The catch is that mention intensity has faded to 0.2x with negative momentum, suggesting the theme is becoming more execution-driven than fresh-expansion driven. Benefit should stay concentrated in etch, clean, metrology/OCD, and process-content suppliers; watch whether customer pull-through broadens enough to re-accelerate the narrative.",
+  "confidence": "high"
  },
  "drivers": [
   {
-   "label": "GAA adoption expanding across the supply chain",
-   "detail": "Adoption is broadening and generating multiple product wins, indicating healthier near-term demand for enabling equipment.",
+   "label": "Leading-edge node demand remains constructive",
+   "detail": "TSMC says A14 is positioned to address high-performance, energy-efficient computing needs, supporting long-term leading-edge demand.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC"
+   ]
+  },
+  {
+   "label": "GAA expands the addressable equipment market",
+   "detail": "Applied Materials says gate-all-around is expanding the available market and driving fast-growing etch demand.",
    "polarity": "pos",
    "companies": [
     "Applied Materials"
    ]
   },
   {
-   "label": "Tool progress and process-control relevance at customers",
-   "detail": "GAA tools are making good progress and remain critical for process control, supporting continued conversion to production use.",
+   "label": "Customer progress in process control and OCD",
+   "detail": "Onto says Atlas G6 is making good progress at GAA customers and OCD remains critical.",
    "polarity": "pos",
    "companies": [
     "Onto Innovation"
    ]
   },
   {
-   "label": "Advanced-node cleaning demand remains strong",
-   "detail": "GAA is described as a critical application for cleaning technology, pointing to sustained advanced-node pull.",
+   "label": "Cleaning intensity is rising",
+   "detail": "ACM calls GAA devices a critical application for its cleaning technology, implying strong process intensity.",
    "polarity": "pos",
    "companies": [
     "ACM Research"
    ]
   },
   {
-   "label": "Higher process complexity/content",
-   "detail": "More process steps and increased GAA investment are tailwinds for product content and shipment opportunity.",
+   "label": "More process steps lift content per wafer",
+   "detail": "Ichor says additional GAA process steps and investment are a direct tailwind to content and growth.",
    "polarity": "pos",
    "companies": [
     "Ichor Holdings"
    ]
-  },
-  {
-   "label": "High-performance, energy-efficient compute need persists",
-   "detail": "TSMC’s A14 positioning suggests continued structural demand for the most advanced transistor architecture.",
-   "polarity": "pos",
-   "companies": [
-    "TSMC"
-   ]
   }
  ],
  "risks": [
-  "Mention momentum is weakening, which could signal slower broadening into more customer commentary or bookings.",
-  "Watch whether GAA stays the dominant theme or starts to give way to backside power in upcoming reads.",
-  "Customer progress may still be pre-ramp; any delays in qualification or production conversion could flatten the near-term upside."
+  "Mention momentum stays weak if GAA/backside power does not expand beyond the current customer set.",
+  "Any slip in A14 or broader leading-edge ramps would delay near-term equipment pull-through.",
+  "If supply tightness eases faster than expected, the urgency behind etch/clean spend could soften."
  ]
 }

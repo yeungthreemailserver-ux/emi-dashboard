@@ -3,14 +3,36 @@
  "source": "gpt-5.4-mini-synth",
  "outlook": {
   "direction": "improving",
-  "headline": "Memory prices are still rising, and the pace is accelerating",
-  "summary": "The read-through is decisively positive: memory price increases are showing up across Micron, distributors like Avnet and Arrow, and adjacent beneficiaries citing stronger pricing/mix and margin lift. The mention trend is also accelerating sharply, which suggests this is not a one-off but a broadening pricing upcycle into 2026Q1; watch whether higher prices start to bite mobile/consumer demand or simply pull orders forward.",
+  "headline": "Memory pricing momentum is broadening into 2026Q1",
+  "summary": "Memory pricing looks set to stay firm over the next 1-2 quarters, with mention frequency rising to 8.5x and running 56% above the trailing average. The read-through is broadly positive for suppliers and channel players with pricing leverage or inventory exposure, while the main offset remains some end-market sensitivity and a weaker mobile demand signal.",
   "confidence": "high"
  },
  "drivers": [
   {
-   "label": "Broad price increases in memory channels",
-   "detail": "Avnet and Arrow both said memory saw the biggest price increases, with Arrow also seeing customers order ahead to lock supply.",
+   "label": "Prices are already flowing through margins",
+   "detail": "Several companies say higher memory pricing is translating into better realized pricing and margin support, not just talk.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "TSMC",
+    "AMD",
+    "MKS Instruments"
+   ]
+  },
+  {
+   "label": "Tight supply and lead-time stretch support seller discipline",
+   "detail": "Supply remains constrained enough to allow price increases, customer prepayments, and order pull-ins to avoid further hikes.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Avnet",
+    "Arrow Electronics",
+    "GlobalFoundries"
+   ]
+  },
+  {
+   "label": "Channel and customer behavior is reinforcing increases",
+   "detail": "Distributors report multiple rounds of price increases and customers ordering ahead, which can extend near-term pricing strength.",
    "polarity": "pos",
    "companies": [
     "Avnet",
@@ -18,45 +40,30 @@
    ]
   },
   {
-   "label": "Sustained seller pricing power",
-   "detail": "Micron said higher pricing is lifting gross margins, while TSMC described solid pricing trend and warned only against dramatic changes.",
+   "label": "Value-based pricing power is broadening",
+   "detail": "Equipment and materials vendors describe a favorable pricing backdrop, suggesting the memory cycle is supporting a wider pricing uptrend.",
    "polarity": "pos",
    "companies": [
-    "Micron",
-    "TSMC"
-   ]
-  },
-  {
-   "label": "Downstream pricing/mix uplift",
-   "detail": "AMD, Broadcom, and Analog Devices all tied stronger pricing actions to better mix, ASPs, or margin support, reinforcing that higher memory pricing is feeding through the chain.",
-   "polarity": "pos",
-   "companies": [
-    "AMD",
-    "Broadcom",
-    "Analog Devices"
-   ]
-  },
-  {
-   "label": "Expectation of further increases",
-   "detail": "Texas Instruments said prices may go up in 2H, and Amkor expects pricing to increase through the year, indicating the upcycle is still in progress.",
-   "polarity": "pos",
-   "companies": [
-    "Texas Instruments",
+    "Applied Materials",
+    "KLA",
+    "Analog Devices",
     "Amkor Technology"
    ]
   },
   {
-   "label": "Tight supply supports pricing",
-   "detail": "GlobalFoundries pointed to tight supply and capacity constraints as enabling price increases and customer prepayments, a constructive backdrop for pricing discipline.",
-   "polarity": "pos",
+   "label": "End-market sensitivity remains a cap",
+   "detail": "Some companies still flag demand elasticity, especially in consumer/mobile-adjacent areas, which could limit the pace of further increases.",
+   "polarity": "neg",
    "companies": [
-    "GlobalFoundries"
+    "TSMC",
+    "Teradyne",
+    "MKS Instruments"
    ]
   }
  ],
  "risks": [
-  "Mobile/consumer demand could weaken if higher pricing starts to constrain volumes, as hinted by Teradyne's weaker pricing and availability commentary.",
-  "If customers finish pulling in orders to lock supply, near-term pricing momentum could cool.",
-  "Some mentions were neutral or non-committal, so the breadth of the uptrend still needs confirmation in the next quarter."
+  "Customer pre-buying could fade if price increases slow or supply normalizes.",
+  "Mobile and other consumer end-market weakness could blunt further price gains.",
+  "Any easing in tight supply would reduce distributor leverage and shorten the price-up cycle."
  ]
 }

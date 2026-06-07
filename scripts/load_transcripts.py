@@ -411,6 +411,18 @@ def main() -> None:
             return t_series[it["id"]]
         return [_count(e) for e in it["series"]]
     topic_items = [{**it, **_leaf_meta(it["id"]), "series": _series(it), "breadth": (t_breadth or {}).get(it["id"]), "emphasis": it["series"], "layers": _layers(it["who"])} for it in TOPICS]
+    # AUTO-PROMOTED emergent leaves live only in the tree (not the hand-curated TOPICS) → build stub items
+    # so they appear in the bubbles/tree, sized by their real measured counts.
+    _CATX = {"demand": "ai", "supply": "cap", "price": "mem", "product": "tech", "macro": "macro"}
+    _have = {it["id"] for it in topic_items}
+    _nq = len(t_periods)
+    for _tid, _lf in _TREE["leaves"].items():
+        if _tid in _have:
+            continue
+        _ser = (t_series or {}).get(_tid) or [0] * _nq
+        topic_items.append({"id": _tid, "cat": _CATX.get(_lf.get("kind"), "tech"), "stance": "mixed",
+                            "series": _ser, "breadth": (t_breadth or {}).get(_tid), "emphasis": _ser,
+                            "who": "", "note": "", "layers": [], **_leaf_meta(_tid)})
     topics = {"periods": t_periods, "plot_from": t_plotfrom, "categories": TOPIC_CATS, "items": topic_items,
               "source": "real" if real else "estimated", "coverage": (real or {}).get("coverage"),
               "per_company": (real or {}).get("per_company"), "companies": TOPIC_COMPANIES,
