@@ -1311,7 +1311,7 @@ function sigTopicsBody(S) {
   }).join('');
   const _tr = topicTree(T), _roots = _tr ? Object.keys(_tr.nodes).filter(n => !_tr.nodes[n].parent) : [];
   const shapeKey = _roots.map(r => `<span class="tlg">${shapeSVG(DOMAIN_SHAPE[r], '#64748b')} ${_tr.nodes[r].label}</span>`).join('');
-  const colorKey = `<span class="tlg">${shapeSVG('circle', '#15803d')} optimistic</span><span class="tlg">${shapeSVG('circle', '#f59e0b')} neutral</span><span class="tlg">${shapeSVG('circle', '#b91c1c')} cautious</span><span class="dim" style="font-size:11px">— size = # companies (1–9)</span>`;
+  const colorKey = `<span class="tlg">${shapeSVG('circle', '#15803d')} optimistic</span><span class="tlg">${shapeSVG('circle', '#f59e0b')} neutral</span><span class="tlg">${shapeSVG('circle', '#b91c1c')} cautious</span><span class="dim" style="font-size:11px">— size = # companies (relative)</span>`;
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[segMode] || '';
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
       ${topicFilterToggle()}</div>
@@ -1345,6 +1345,9 @@ function sigTopicsChart(S) {
   const yMax = Math.min(1.6, Math.max(0.6, Math.ceil((Math.max(...moms) + 0.12) * 10) / 10));  // cap so one off-a-tiny-base outlier can't blow up the axis
   const yMin = Math.max(-0.8, Math.min(-0.1, Math.floor((Math.min(...moms) - 0.05) * 10) / 10));
   const catOf = id => T.categories.find(c => c.id === id) || {};
+  // AUTO-SIZE: normalise # companies to the current max so bubbles stay bounded (~11–37px) at any roster size
+  const maxBrd = Math.max(1, ...items.map(it => (it.breadth && it.breadth[q]) || 0));
+  const sizeOf = b => 11 + Math.sqrt((b || 0) / maxBrd) * 26;
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
     const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), llm = topicLLMFav(it.id, T), color = llm ? favColor(llm.net) : sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
@@ -1354,7 +1357,7 @@ function sigTopicsChart(S) {
     // exists, else the L1 domain (Supply&Ops, Macro, cyclical End-markets) — broader than the dimension parent.
     const cluster = (it.path && it.path.length >= 3) ? it.path[1] : ((it.path && it.path[0]) || it.parent);
     return { value: [+sx(heat).toFixed(3), +Math.max(yMin, Math.min(yMax, mv)).toFixed(3)],
-      symbol: topicShape(it.id, T), symbolSize: 9 + brd * 2.1,
+      symbol: topicShape(it.id, T), symbolSize: sizeOf(brd),
       tid: it.id, parent: it.parent, cluster: cluster, tname: it.label, lab: wrapLabel(it.label, 18), cur: heat, base: +topicTrailAvg(it.series, q).toFixed(1), mom: mv, sent: sentv, stance: it.stance, who: it.who, brd: brd, ser: it.series, brdser: it.breadth || [], note: it.note || '', quad: quad, cc: color, cn: (cat.label || ''),
       itemStyle: { color: color, opacity: 0.92, borderWidth: 1, borderColor: cRgba('#0f172a', 0.14) } };
   });
@@ -1401,7 +1404,7 @@ function sigTopicsChart(S) {
         .sort((a, b) => b.d.cur - a.d.cur)
         .forEach(o => {
           const lines = (o.d.lab || o.d.tname).split('\n'), lw = Math.max(...lines.map(l => l.length));
-          const w = lw * 7 + 10, hh = lines.length * 13 + 6, r = (9 + (o.d.brd || 5) * 2.1) / 2 + 6, cx = o.px[0], cy = o.px[1];
+          const w = lw * 7 + 10, hh = lines.length * 13 + 6, r = (o.d.symbolSize || 14) / 2 + 6, cx = o.px[0], cy = o.px[1];
           const cands = [['right', cx + r, cy - hh / 2], ['left', cx - r - w, cy - hh / 2], ['top', cx - w / 2, cy - r - hh], ['bottom', cx - w / 2, cy + r]];
           for (const c of cands) {
             const x0 = c[1], y0 = c[2], x1 = x0 + w, y1 = y0 + hh;
