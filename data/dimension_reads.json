@@ -1,0 +1,510 @@
+{
+ "model": "gpt-5.4-mini",
+ "period": "2026Q1",
+ "companies": {
+  "2330.TW": {
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "TSMC says 3nm capacity is being planned to support a 'robust multi-year pipeline' of demand from HPC AI, including HBM-based ASICs."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Management references mid- to high-50s% AI accelerator CAGR expectations and AI revenue explicitly includes AI-centric GPUs and accelerators, indicating very strong demand."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The discussion says CPU is becoming part of AI infrastructure and important in AI data centers, but it does not indicate shortages or excess supply."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "TSMC cites a 'robust multi-year pipeline' for 3nm and discusses 2nm ramp/capacity planning, implying strong demand and constrained leading-edge capacity."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management says it wants to ensure customer demand for front-end and high-end packaging can be met, which implies demand is running ahead of available packaging capacity."
+   },
+   "highna": {
+    "topic": "High-NA EUV",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "The only signal is that 'EUV supply is an issue,' which points to equipment supply being constrained."
+   },
+   "gaa": {
+    "topic": "GAA / backside power",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The sentence only describes the performance/power benefits of A14's nanosheet structure and does not discuss demand or supply."
+   }
+  },
+  "ASML.AS": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "ASML says DRAM customers are continuing to increase adoption of EUV and immersion, which points to healthy end-demand, but no supply constraint is discussed."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The company says customers are building capacity for several advanced nodes and continue to ramp 2nm to address AI products, signaling very strong demand, with no direct supply readout."
+   },
+   "highna": {
+    "topic": "High-NA EUV",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "Customers are starting to test High-NA on real products and the platform is said to be ready for prime time, while ASML cites better availability and more wafer per day/out, suggesting supply is improving rather than tight."
+   }
+  },
+  "AMAT": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "AI compute is driving leading-edge logic, DRAM and HBM, and management cites very strong DRAM demand plus faster-growing DRAM-related businesses."
+   },
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "Management explicitly says there is 'very strong demand' for HBM and calls HBM packaging a huge focus for everyone."
+   },
+   "nand_qlc": {
+    "topic": "NAND",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "They raised NAND bit growth forecasts and said demand for bits has increased, but also noted no expectation of many new wafer starts."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Panel-level technologies are being positioned to enable larger body packages for AI accelerators, implying healthy AI-accelerator demand."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Management said agentic AI is modeling incremental CPU demand and that architectures are becoming more CPU-intensive."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "They describe multi-node co-innovation, GAA transitions and record foundry revenue, all pointing to strong demand for advanced-node spend."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "Advanced packaging revenue is said to be accelerating and spending is shifting into 3D stacking and other packaging leadership areas."
+   },
+   "gaa": {
+    "topic": "GAA / backside power",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Applied says GAA nodes are driving record foundry revenue, expanding TAM, and catalyzing multiple points of market share gain."
+   }
+  },
+  "LRCX": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "Record DRAM revenue, 1C node spending is rising, and AI power/efficiency needs are driving an industry transition to 1C devices."
+   },
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "The company says HBM was “so hot” and that high bandwidth memory investments remained strong, implying demand is outpacing available capacity."
+   },
+   "nand_qlc": {
+    "topic": "NAND",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management links NAND to AI-driven conversion spending, higher-layer QLC adoption, and faster node ramps, indicating healthy demand with meaningful capacity conversion needs."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The only reference is a question about whether tightness was in CPU or AI, without any company commentary on CPU demand or supply."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "The company describes long lead-time customer conversations and sustainable node transitions, while also noting mature-node spending is a bit softer, suggesting steady but not surging demand and no supply constraint mentioned."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Lam says advanced packaging demand is growing, revenue is expected to exceed 50%, and packaging spending is growing 50%, which points to strong demand and a likely capacity-tight environment."
+   }
+  },
+  "NVDA": {
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management called demand for GB300/NVL72 particularly strong, fastest ramp in company history, and said they are working through supply chain constraints to meet the \"incredible demand\" ahead."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "NVIDIA described broad excitement for Vera/CPU in agentic AI and said it has visibility to nearly $20B of CPU revenue, but it did not discuss any supply constraint."
+   },
+   "custom_asic": {
+    "topic": "Custom silicon / ASIC",
+    "demand_state": "soft",
+    "demand_favorable": "bearish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The company said semi-custom chips \"just don't apply\" for many data centers because customers want to buy systems, implying limited demand for ASIC-style solutions in this context."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The quoted sentence is about edge/industrial deployment use cases and does not address CoWoS or packaging demand or capacity."
+   },
+   "highna": {
+    "topic": "High-NA EUV",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The mention of computational lithography libraries is only an application example and does not speak to High-NA EUV demand or supply."
+   }
+  },
+  "MU": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "HBM, LPDDR5, CAMM2 and DDR5 are all ramping, and management says cleanroom constraints, long lead times and higher HBM trade ratio are constraining bit supply growth."
+   },
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They describe multi-year SCA engagements, volume HBM4 shipment for Rubin, and say the market is there for both HBM4 and HBM3E in 2026."
+   },
+   "nand_qlc": {
+    "topic": "NAND",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Micron cites a higher demand outlook, accelerating data center NAND bit demand from AI use cases, and notes NAND supply constraints into 2026."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They say advanced AI accelerator memory requirements have doubled, volume HBM4 is already shipping for NVIDIA Rubin, and engagement is multi-year with GPU/XPU customers."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The 256GB LPCAMM2 example is framed as enabling much higher content per CPU, but the quote does not discuss end-demand or supply tightness for CPUs."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Micron says 1-gamma is ramping faster than any prior node and becoming a majority of DRAM bit mix, while cleanroom and migration constraints are limiting bit supply growth."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "The comments only say the Singapore advanced packaging facility will contribute meaningfully to HBM supply in 2027, indicating capacity buildout but not end-demand."
+   },
+   "highna": {
+    "topic": "High-NA EUV",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The remarks only say advanced EUV tools will improve space efficiency and patterning for 1-delta and beyond, with no explicit demand or supply commentary."
+   }
+  },
+  "6723.T": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The comment only says DRAM is often highlighted and does not describe customer demand or supply conditions."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The company says its solution spans the grid-to-core range including GPU and is covered in a GPU manufacturer’s publication, which suggests some design-in traction but no supply commentary."
+   }
+  },
+  "AMD": {
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "The comment focuses on a very tight wafer environment and using HBM to lift Instinct margins, not on end-demand for HBM itself."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "AMD says AI is driving growth, every major cloud provider is expanding, and demand is increasing for accelerators alongside CPU head nodes."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "The company says it is seeing significantly more CPU demand from every major cloud provider and enterprise customers, but it does not describe a clear CPU supply bottleneck."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The discussion implies growing need for CPU head nodes that use advanced-node silicon, but it gives no direct read on node supply."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The sentence only says AMD is innovating in advanced packaging and architecture, without any comment on demand or packaging supply."
+   }
+  },
+  "AVGO": {
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Broadcom links higher XPU content to “lots of HBM” and is asked about getting incremental wafer/HBM volume, implying strong pull and constrained availability."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Management says it develops AI compute accelerators for “pretty much all LLM developers” and calls XPUs a core part of scalable AI clusters, but gives no direct supply commentary."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The remarks are about embedding CPU cores into XPUs and software support across CPU architectures, not standalone CPU product demand or supply."
+   },
+   "custom_asic": {
+    "topic": "Custom silicon / ASIC",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Anthropic’s multi-gigawatt TPU commitments for 2026 and 2027 show very strong demand, and the large capacity blocks imply supply is allocated/tight."
+   }
+  },
+  "TXN": {
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management did not describe end-demand, but said the external assembly and test environment is \"a little bit of a tighter environment,\" prompting more internalization and incremental AT investments."
+   }
+  },
+  "ADI": {
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "ADI describes the AI accelerator space as \"hyper-growth\" and says it is moving closer to the GPU/XPU core, indicating very strong demand but no explicit supply commentary."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The only mention is a strategic note about moving closer to the CPU/XPU core, with no direct read on demand or supply."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The sentence references \"advanced packaging\" only as part of broader technology capabilities for clinical environments, without any indication of demand strength or packaging supply tightness."
+   }
+  },
+  "KLAC": {
+   "dram": {
+    "topic": "DRAM",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management pointed to memory being a few percent higher this year and cited persistent elevated DRAM chip costs, implying healthy demand and tight supply/pricing."
+   },
+   "hbm": {
+    "topic": "HBM",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They said results were driven by increased investment in leading-edge foundry logic and High-Bandwidth Memory, indicating very strong demand and capacity intensity."
+   },
+   "nand_qlc": {
+    "topic": "NAND",
+    "demand_state": "na",
+    "demand_favorable": "neutral",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "The only reference was memory mix, with NAND accounting for 16% of memory revenue, which does not speak to demand or supply conditions."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They said incremental WFE demand this year is coming from CPU tightness and added CPU capacity is only now coming online, signaling solid demand against constrained supply."
+   },
+   "custom_asic": {
+    "topic": "Custom silicon / ASIC",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "Hyperscalers are increasing investment in custom chips, leading to more higher-value design starts and increased customer demand for performance, volume, and time to market."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "neutral",
+    "why": "KLA said 2 nm has higher intensity than 3 nm and noted more precision/capability is needed as nodes advance, pointing to strong demand for process control."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Management described meaningful revenue increases in CoWoS and emerging packaging, plus 70% year-over-year revenue growth in advanced wafer-level packaging, showing strong demand and an intense need for more tooling."
+   },
+   "highna": {
+    "topic": "High-NA EUV",
+    "demand_state": "solid",
+    "demand_favorable": "neutral",
+    "supply_state": "balanced",
+    "supply_favorable": "neutral",
+    "why": "They said there is no change in the High-NA forecast and that there are puts and takes, which reads as steady but not clearly accelerating demand with no explicit supply constraint."
+   }
+  }
+ }
+}

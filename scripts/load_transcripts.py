@@ -260,6 +260,15 @@ TOPICS = [
      "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "bit output / fab / cleanroom"},
     {"id": "hyperscaler_capex", "label": "Hyperscaler capex", "cat": "ai", "stance": "excited",
      "series": [0, 0, 0, 0, 0, 0, 0], "who": "NVDA · hyperscalers", "note": "cloud / data-center capex (demand leading indicator)"},
+    # memory Capability generations (children of HBM / DRAM / NAND families)
+    {"id": "hbm3e", "label": "HBM3E", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "current-gen HBM (Blackwell)"},
+    {"id": "ddr5", "label": "DDR5 / DDR", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "server / PC DRAM"},
+    {"id": "lpddr", "label": "LPDDR / GDDR", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "mobile / graphics DRAM"},
+    {"id": "qlc", "label": "QLC / TLC", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "NAND cell types"},
 ]
 
 
@@ -270,13 +279,27 @@ TOPICS = [
 _TREE = json.loads((ROOT / "data" / "topic_tree.json").read_text(encoding="utf-8"))
 
 
-def _node_path(nid):
-    """root -> node chain of ids for an internal node id."""
-    chain, nodes = [], _TREE["nodes"]
-    while nid:
-        chain.append(nid)
-        nid = nodes.get(nid, {}).get("parent")
-    return list(reversed(chain))
+# leaf-aware tree walk: a parent may be an internal node OR another leaf (e.g. HBM4's parent is HBM),
+# so a measured topic can itself be a parent. These helpers resolve over both nodes and leaves.
+def _parent_of(i):
+    if i in _TREE["nodes"]:
+        return _TREE["nodes"][i].get("parent")
+    if i in _TREE["leaves"]:
+        return _TREE["leaves"][i].get("parent")
+    return None
+
+
+def _label_of(i):
+    return (_TREE["nodes"].get(i) or _TREE["leaves"].get(i) or {}).get("label", i)
+
+
+def _chain(i):
+    """root -> i id chain (handles leaf-parented leaves)."""
+    out = []
+    while i:
+        out.append(i)
+        i = _parent_of(i)
+    return list(reversed(out))
 
 
 def _leaf_meta(tid):
@@ -284,8 +307,8 @@ def _leaf_meta(tid):
     lf = _TREE["leaves"].get(tid)
     if not lf:
         return {}
-    path = _node_path(lf["parent"]) + [tid]
-    labels = [_TREE["nodes"][n]["label"] for n in path[:-1]] + [lf["label"]]
+    path = _chain(tid)
+    labels = [_label_of(n) for n in path]
     # NEUTRAL topic name: the tree label has no judgement words ("Capacity", not "Capacity tight / sold
     # out"). Override the verbose TOPICS label so every lens shows the neutral subject.
     out = {"label": lf["label"], "parent": lf["parent"], "kind": lf.get("kind"), "reads": lf.get("reads", []),
@@ -409,6 +432,11 @@ def main() -> None:
             except Exception:
                 pass
     topics["outlook"] = outlook
+
+    # LLM demand/supply dimension reads (per company × product) — enrich the tree's Demand/Supply facets
+    dr_path = ROOT / "data" / "dimension_reads.json"
+    if dr_path.exists():
+        topics["dimension_reads"] = json.loads(dr_path.read_text(encoding="utf-8"))
 
     # PROPAGATE the LLM's "excluded" verdicts (keyword false-positives / tangential list mentions):
     # drop those (company, topic) cells from counts + sentiment, and recompute the topic's series/breadth,

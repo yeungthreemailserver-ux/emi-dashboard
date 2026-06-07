@@ -63,6 +63,11 @@ TOPIC_LEXICON = {
     # Memory · Production (capacity build / output) + AI demand-driver: hyperscaler capex
     "mem_prod":      [r"bit output", r"bit growth", r"wafer start", r"clean ?room", r"(?:memory|DRAM|NAND|HBM)[^.]{0,30}(?:capex|fab|wafer|output|node migration|capacity expansion)"],
     "hyperscaler_capex": [r"hyperscaler", r"cloud capex", r"(?:cloud|data ?cent(?:er|re))[^.]{0,22}(?:capex|cap ?ex|spend|investment|build[- ]?out)", r"capex[^.]{0,22}hyperscal"],
+    # Memory Capability generations / sub-types (children of HBM / DRAM / NAND families; parent already covers them)
+    "hbm3e":         [r"HBM3E", r"\bHBM3\b"],
+    "ddr5":          [r"\bDDR[45]\b", r"\bDDR\b"],
+    "lpddr":         [r"LPDDR", r"LPCAMM", r"\bGDDR"],
+    "qlc":           [r"\bQLC\b", r"\bTLC\b"],
 }
 _COMPILED = {k: [re.compile(p, re.IGNORECASE) for p in pats] for k, pats in TOPIC_LEXICON.items()}
 

@@ -3,6 +3,10 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+# API keys — never commit
+openai_key.txt
+*_key.txt
+secrets/
 .ipynb_checkpoints/
 
 # Data artifacts (re-ingestable; keep out of git)

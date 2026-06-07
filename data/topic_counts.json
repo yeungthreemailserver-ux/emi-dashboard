@@ -225,6 +225,34 @@
    3.1,
    2.4,
    2.1
+  ],
+  "hbm3e": [
+   0.3,
+   1.0,
+   0.7,
+   0.8,
+   0.2
+  ],
+  "ddr5": [
+   0.4,
+   0.2,
+   0.1,
+   0.7,
+   0.5
+  ],
+  "lpddr": [
+   0.1,
+   0.1,
+   0.1,
+   0.4,
+   0.6
+  ],
+  "qlc": [
+   0.2,
+   0.6,
+   0.1,
+   0.2,
+   0.4
   ]
  },
  "breadth": {
@@ -437,6 +465,34 @@
    11,
    8,
    6
+  ],
+  "hbm3e": [
+   1,
+   3,
+   1,
+   3,
+   2
+  ],
+  "ddr5": [
+   3,
+   3,
+   2,
+   4,
+   3
+  ],
+  "lpddr": [
+   1,
+   1,
+   1,
+   2,
+   2
+  ],
+  "qlc": [
+   1,
+   2,
+   1,
+   1,
+   2
   ]
  },
  "per_company": {
@@ -1760,6 +1816,182 @@
      1,
      0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "ASML.AS": {
@@ -3040,6 +3272,182 @@
     ]
    },
    "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
     "all": [
      0,
      0,
@@ -4404,6 +4812,182 @@
      0,
      0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     1,
+     0,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     1,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     2,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "LRCX": {
@@ -5725,6 +6309,182 @@
      2,
      0,
      0
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     2,
+     0,
+     1,
+     1
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "a": [
+     0,
+     2,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     2,
+     1,
+     1,
+     1,
+     1
+    ],
+    "prepared": [
+     2,
+     1,
+     1,
+     1,
+     1
+    ],
+    "ceo": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ],
+    "prepared": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     5,
+     0,
+     0,
+     2
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     5,
+     0,
+     0,
+     1
     ]
    }
   },
@@ -7048,6 +7808,182 @@
      3,
      5
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "MU": {
@@ -8370,6 +9306,182 @@
      1,
      0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     4,
+     11,
+     10,
+     9,
+     2
+    ],
+    "prepared": [
+     0,
+     4,
+     2,
+     0,
+     1
+    ],
+    "ceo": [
+     0,
+     4,
+     2,
+     0,
+     1
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     1,
+     2,
+     4,
+     1,
+     0
+    ],
+    "a": [
+     3,
+     5,
+     4,
+     8,
+     1
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     5,
+     5
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     4,
+     3
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     4,
+     3
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     2
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     2,
+     5,
+     7
+    ],
+    "prepared": [
+     0,
+     0,
+     2,
+     5,
+     6
+    ],
+    "ceo": [
+     0,
+     0,
+     2,
+     5,
+     6
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ]
+   },
+   "qlc": {
+    "all": [
+     3,
+     4,
+     1,
+     3,
+     3
+    ],
+    "prepared": [
+     3,
+     4,
+     1,
+     3,
+     2
+    ],
+    "ceo": [
+     3,
+     4,
+     1,
+     3,
+     2
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ]
    }
   },
   "6723.T": {
@@ -8640,6 +9752,42 @@
      0,
      1,
      1,
+     0
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     2,
+     1,
+     0,
+     3,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
      0
     ]
    }
@@ -9964,6 +11112,182 @@
      1,
      1
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "ARW": {
@@ -11285,6 +12609,182 @@
      0,
      0,
      3
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
     ]
    }
   },
@@ -12608,6 +14108,182 @@
      0,
      3
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "AVGO": {
@@ -13930,6 +15606,182 @@
      5,
      0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "TXN": {
@@ -15210,6 +17062,182 @@
     ]
    },
    "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
     "all": [
      0,
      0,
@@ -16574,6 +18602,182 @@
      0,
      0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "KLAC": {
@@ -17895,6 +20099,182 @@
      0,
      1,
      2
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0,
+     1,
+     0,
+     0,
+     1
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     1,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
     ]
    }
   }
@@ -19220,6 +21600,182 @@
      0.0,
      null
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "ASML.AS": {
@@ -20500,6 +23056,182 @@
     ]
    },
    "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
     "all": [
      null,
      null,
@@ -21864,6 +24596,182 @@
      null,
      null
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     0.0,
+     null,
+     0.0,
+     null
+    ],
+    "prepared": [
+     null,
+     0.0,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     1.0,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     1.0,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     1.0,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     1.0,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "LRCX": {
@@ -23185,6 +26093,182 @@
      0.0,
      null,
      null
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     0.0,
+     null,
+     1.0,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "a": [
+     null,
+     0.0,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    "prepared": [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    "ceo": [
+     0.0,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     0.0,
+     1.0,
+     null,
+     null,
+     1.0
+    ],
+    "prepared": [
+     0.0,
+     1.0,
+     null,
+     null,
+     1.0
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     0.0,
+     1.0,
+     null,
+     null,
+     1.0
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     0.0,
+     null,
+     null,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     0.0,
+     null,
+     null,
+     0.0
     ]
    }
   },
@@ -24508,6 +27592,182 @@
      -0.33,
      0.2
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "MU": {
@@ -25830,6 +29090,182 @@
      1.0,
      null
     ]
+   },
+   "hbm3e": {
+    "all": [
+     0.25,
+     0.36,
+     0.2,
+     0.33,
+     0.5
+    ],
+    "prepared": [
+     null,
+     0.5,
+     0.5,
+     null,
+     1.0
+    ],
+    "ceo": [
+     null,
+     0.5,
+     0.5,
+     null,
+     1.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     0.0,
+     0.0,
+     0.25,
+     0.0,
+     null
+    ],
+    "a": [
+     0.33,
+     0.4,
+     0.0,
+     0.38,
+     0.0
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     0.2,
+     0.2
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.5
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     1.0,
+     0.6,
+     0.43
+    ],
+    "prepared": [
+     null,
+     null,
+     1.0,
+     0.6,
+     0.5
+    ],
+    "ceo": [
+     null,
+     null,
+     1.0,
+     0.6,
+     0.5
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ]
+   },
+   "qlc": {
+    "all": [
+     0.33,
+     0.75,
+     1.0,
+     0.33,
+     0.33
+    ],
+    "prepared": [
+     0.33,
+     0.75,
+     1.0,
+     0.33,
+     0.5
+    ],
+    "ceo": [
+     0.33,
+     0.75,
+     1.0,
+     0.33,
+     0.5
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ]
    }
   },
   "6723.T": {
@@ -26100,6 +29536,42 @@
      null,
      0.0,
      1.0,
+     null
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     0.0,
+     0.0,
+     null,
+     0.33,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
      null
     ]
    }
@@ -27424,6 +30896,182 @@
      0.0,
      0.0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "ARW": {
@@ -28745,6 +32393,182 @@
      null,
      null,
      0.67
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
     ]
    }
   },
@@ -30068,6 +33892,182 @@
      null,
      0.33
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "AVGO": {
@@ -31390,6 +35390,182 @@
      -0.2,
      null
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "TXN": {
@@ -32670,6 +36846,182 @@
     ]
    },
    "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
     "all": [
      null,
      null,
@@ -34034,6 +38386,182 @@
      null,
      null
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "KLAC": {
@@ -35356,6 +39884,182 @@
      1.0,
      0.0
     ]
+   },
+   "hbm3e": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "ddr5": {
+    "all": [
+     null,
+     0.0,
+     null,
+     null,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     0.0,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ]
+   },
+   "lpddr": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "qlc": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   }
  },
@@ -35399,6 +40103,7 @@
    "dram": "On top of that, we see both memory customer, DRAM customer, and advanced logic customer continuing to increase their adoption of EUV, but also immersion.",
    "tariffs": "The fourth one, you know, to the extent that other countries would be putting tariffs on, you know, parts or modules that get out of the United States into, for instance, the EU, that could be a fourth category.",
    "hbm": "Memory remains very strong because they also our customer are investing in their latest HBM and DDR product.",
+   "ddr5": "Memory remains very strong because they also our customer are investing in their latest HBM and DDR product.",
    "consumer": "This is creating a strong constraint in the end market from AI to mobile and PC.",
    "capex": "We see our memory and logic customer increasing their capital expenditure and trying to accelerate basically their capacity ramp in 2026 and beyond.",
    "mem_demand": "This translate into a lot of demand for advanced memory, for advanced logic, and we expect, in fact, that the supply will not meet the demand for the foreseeable future."
@@ -35425,8 +40130,10 @@
    "gaa": "This year, etch will be one of our fastest-growing businesses this calendar year, and Applied is number one in conductor etch for leading-edge foundry logic, gate-all-around nodes, and number one in conductor etch for DR",
    "mem_prod": "At least our view is it will still be satisfied by upgrades, so we don't expect a lot of new wafer starts on the NAND side, but we do think the demand forecast for bits has gone up on NAND.",
    "hyperscaler_capex": "AI data center investments translate to strong demand for our most enabling products in leading-edge foundry logic, DRAM, and high-bandwidth memory, along with advanced services that help our customers accelerate ramps a",
+   "ddr5": "In 2025, we expect our revenues from advanced DRAM customers to grow more than 40% as they ramp investments in DDR5 and high-bandwidth memory.",
    "industrial": "In semiconductor systems, the overall demand environment for equipment was largely in line with our expectations, with broad-based customer investments across foundry logic, DRAM, and NAND.",
    "hbm4": "Yeah, the other thing I would add is, you know, I mentioned this earlier, with HBM DRAM, you're starting 3x more wafers, and as you go from HBM3 to HBM4, that goes from 3x to 4x.",
+   "hbm3e": "Yeah, the other thing I would add is, you know, I mentioned this earlier, with HBM DRAM, you're starting 3x more wafers, and as you go from HBM3 to HBM4, that goes from 3x to 4x.",
    "highna": "In leading-edge foundry logic, investment was more oriented toward advanced lithography.",
    "compute_demand": "I can tell you that I'm having constant conversations with customers, and they're looking at 2027, and they're looking at 2028, again, because the compute demand is growing so quickly.",
    "agentic_ai": "Since the beginning of the year, there's been a meaningful increase in agentic applications which layer on top of continued growth in generative AI training and inference workloads.",
@@ -35447,9 +40154,13 @@
    "inventory": "We will be managing our inventory and supply chain to align with the growing demand that we see in front of us.",
    "dram": "A top memory customer is also set to utilize our Equipment Intelligence capabilities in R&D to enable faster ramps of new nodes for NAND and DRAM production.",
    "gaa": "With the industry ramping capacity and adopting new technologies to meet the demands of the AI transformation, Lam's deposition and etch capabilities are proving to be key enablers in the transition to gate-all-around tr",
+   "ddr5": "The profile of spending is also gravitating towards the 1C node and beyond, enabling the ramp of DDR5 and LPDDR5.",
+   "lpddr": "The profile of spending is also gravitating towards the 1C node and beyond, enabling the ramp of DDR5 and LPDDR5.",
    "consumer": "We expect total data center bits this year to be greater than both PC and mobile segments combined, with continuing growth in data center mix into the future.",
    "capacity": "That's the short-term prove out, and I think that long-term, that then has a real benefit because once the value has been seen in this kind of constrained environment, I think that it'll be more likely that new fabs get ",
    "hbm4": "In high bandwidth memory, or HBM, advanced packaging is critical for the transition to HBM4 and 4E, and stacking of up to 16 layers.",
+   "hbm3e": "Investments in high bandwidth memory continued to remain strong, driven by movement to HBM3E and 4.",
+   "qlc": "Token economics are driving changes to the memory hierarchy used in AI data centers, including rising adoption of higher layer count QLC-based NAND devices for SSDs.",
    "mem_pricing": "Our average buyback price was approximately $211 per share.",
    "mem_demand": "In parallel, we expect growth in bit demand will drive greenfield capacity investment, especially considering that overall industry installed wafer capacity is expected to decline more than 20% from prior highs by the en",
    "mem_supply": "Availability of clean room space will likely act as a limiter to the pace of NAND supply growth, but we believe that capacity additions to meet rising bit demand may be needed sooner than previously thought.",
@@ -35485,6 +40196,7 @@
    "mem_pricing": "The right economic metric is not the purchase price of the GPU, it is the lifetime cost of an AI factory producing intelligence, token per watt, tokens per dollar, uptime, utilization, time to production, software durabi",
    "nodes": "You know, as you know, we see ourselves as an AI infrastructure company, and the AI computing infrastructure includes CPUs, GPUs, and we invented NVLink to scale up one computing node into a giant computing rack.",
    "dram": "It's the only data center CPU that supports LPDDR5.",
+   "lpddr": "It's the only data center CPU that supports LPDDR5.",
    "highna": "As you know, NVIDIA has the largest suite of acceleration libraries in the world, from computational lithography, to fluid dynamics, to particle physics, to molecular dynamics, to the list goes on."
   },
   "MU": {
@@ -35511,9 +40223,13 @@
    "dram": "I'll just point out there that that portfolio is about HBM, it's about LP, it's about CAMM2, it's about DDR5, as well as our data center SSDs, which have made tremendous strides in terms of our market share in data cente",
    "gpu": "Vera Rubin, which utilizes, you know, tremendous amount of HBM as well as DRAM and the Nvidia Groq LPX, this LPU based architecture, actually a rack uses 12 TB of DRAM in it as well.",
    "mem_prod": "From our last earnings call estimate, the majority of the increase is driven by clean room facility related CapEx, of which the largest factor is Tongluo, followed by construction spend increase in our U.S.",
+   "hbm3e": "Of course, you know, the market is there for both HBM4 as well as HBM3E in calendar 2026, and we will be supplying both of these products and feel good about our overall position here and our ability to fully manage the ",
+   "qlc": "Micron is well-positioned with our portfolio of SSDs really going across the requirements in terms of capacity as well as performance, you know, across the various customers using TLC as well as QLC, you know, with respe",
    "custom_asic": "We have shared with you in the past that going from about 200-288 GB in GPU accelerators today, as well as in the ASIC-based accelerators, in that range going to higher levels as we go from 8-high to 12-high capacity.",
    "leadtimes": "In DRAM, cleanroom constraints and long construction lead times, higher HBM trade ratio, higher HBM growth rates, and declining bits per wafer growth from node migrations constrained bit supply growth.",
    "hyperscaler_capex": "Turning to our end markets, as the world's leading technology companies advance toward artificial general intelligence and transform the global economy, our customers are committing to an extraordinary multi-year data ce",
+   "lpddr": "We have shipped samples of the industry's first automotive grade 1-gamma LPDDR5 DRAM, and in NAND, we were first in the industry with a G9 based UFS 4.1 automotive solution, further reinforcing our technology leadership ",
+   "ddr5": "I'll just point out there that that portfolio is about HBM, it's about LP, it's about CAMM2, it's about DDR5, as well as our data center SSDs, which have made tremendous strides in terms of our market share in data cente",
    "cpu": "Building on this leadership, we sampled the industry's first 256 GB LPCAMM2 product, which is built using our 1-gamma node and enables a massive 2 TB of capacity per CPU, quadrupling the content from just a year ago."
   },
   "6723.T": {
@@ -35529,6 +40245,7 @@
    "tariffs": "But for automotive, the 15% tariff, given that this conclusion, if this turns positive, now we are seeing slight signs of that, and therefore, the expectations are beginning to increase.",
    "inventory": "Shibata -san said that demand side, including energy cost increases and consumption, were mentioned as concerns, but memory purchasing may also be a difficulty, and for how long inventory will last, there may b e concern",
    "dram": "DRAM is oftentimes highlighted, but not only DRAM.",
+   "ddr5": "For example, on the interface side, SOCAMM is likely to attract attention, along with the transition to DDR5, and on the PMIC, GPU plus , custom ASIC is going to grow.",
    "capacity": "Periodic repairs and maintenance will be done during the Golden Week holiday, and also in preparation for capacity expansion, there will be some inspections done, contributing to an overall increase in costs.",
    "gpu": "Within the grid to core, from grid to core, including GPU, we cover the whole range.",
    "custom_asic": "For example, on the interface side, SOCAMM is likely to attract attention, along with the transition to DDR5, and on the PMIC, GPU plus , custom ASIC is going to grow.",
@@ -35689,7 +40406,8 @@
    "gaa": "That product is well positioned and really critical for gate all around.",
    "gpu": "We believe that our experience reflects the compelling capabilities, cost, and power consumption available with GPU-based compute architectures and is fueling the ongoing HPC infrastructure build-out.",
    "industrial": "As in foundry logic continues to be very broad-based, and legacy is pretty weak this year, I would think that legacy probably has some upside into next year.",
-   "mem_supply": "We're going to be-- you know, our first priority as it relates to memory supply is securing supply to ensure that we can meet our delivery commitments and support our customers."
+   "mem_supply": "We're going to be-- you know, our first priority as it relates to memory supply is securing supply to ensure that we can meet our delivery commitments and support our customers.",
+   "ddr5": "You know, part of that has been the relative pricing on DDR4 versus DDR5, where they're generally, and it depends on what type of memory level, but more or less the same prices."
   }
  },
  "coverage": {

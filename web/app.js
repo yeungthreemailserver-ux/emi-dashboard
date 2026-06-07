@@ -776,11 +776,12 @@ function shapeSVG(sym, c) {  // tiny inline glyph for the legend (matches the bu
   return `<svg width="13" height="13" viewBox="0 0 12 13" style="vertical-align:-2px" fill="${c}">${g}</svg>`;
 }
 function topicTree(T) { T = T || (SIGNALS && SIGNALS.topics) || {}; return (T.tree && T.tree.nodes) ? T.tree : null; }
-function topicRootOf(id, T) {  // walk parent pointers to the L1 root id (works for a node id or a leaf id)
-  const tr = topicTree(T); if (!tr) return null;
-  let pid = tr.nodes[id] ? tr.nodes[id].parent : ((((T || SIGNALS.topics).items) || []).find(x => x.id === id) || {}).parent;
-  let cur = id;
-  while (pid) { cur = pid; pid = (tr.nodes[pid] || {}).parent; }
+function topicRootOf(id, T) {  // walk parent pointers to the L1 root id (handles node ids AND leaf-parented leaves)
+  T = T || SIGNALS.topics; const tr = topicTree(T); if (!tr) return null;
+  const items = T.items || [];
+  const parentOf = i => tr.nodes[i] ? tr.nodes[i].parent : ((items.find(x => x.id === i) || {}).parent || null);
+  let cur = id, pid = parentOf(id);
+  while (pid) { cur = pid; pid = parentOf(pid); }
   return cur;
 }
 function topicNodeColor(id, T) { return TREE_ROOT_COLOR[topicRootOf(id, T)] || '#64748b'; }
@@ -1124,6 +1125,26 @@ function sigCompanyBody(S) {
    Subjects branch into dimensions (Demand/Supply/Pricing/Capability); leaves = measured topics.
    node size = mentions · leaf colour = sentiment · internal-node colour = dimension. */
 const FACET_COLOR = { demand: '#f28e2b', supply: '#76b7b2', product: '#b07aa1', price: '#4e79a7', risk: '#e15759' };
+/* LLM demand/supply reads → aggregate favorability per (subject, dimension), for the tree's Demand/Supply nodes */
+function favColor(net) { if (net == null) return '#cbd5e1'; if (net >= 0.34) return '#15803d'; if (net >= 0.1) return '#22c55e'; if (net > -0.1) return '#f59e0b'; if (net > -0.34) return '#ef4444'; return '#b91c1c'; }
+function favLabel(net) { return net == null ? '' : net >= 0.1 ? '▲ bullish' : net <= -0.1 ? '▼ bearish' : '→ mixed'; }
+function topicDimReads(T) { return (T.dimension_reads && T.dimension_reads.companies) || {}; }
+function topicSubjectProducts(subjId, T) {  // family products (parent is a node) under a subject node
+  const nodes = topicTree(T).nodes;
+  return (T.items || []).filter(it => it.kind === 'product' && it.path && it.path.indexOf(subjId) >= 0 && nodes[it.parent]);
+}
+function topicAggDim(subjId, facet, T) {  // mean favorability of the subject's products on this dimension (skip 'na')
+  const reads = topicDimReads(T), prods = topicSubjectProducts(subjId, T);
+  const sk = facet === 'demand' ? 'demand_state' : 'supply_state', fk = facet === 'demand' ? 'demand_favorable' : 'supply_favorable';
+  let sum = 0, n = 0; const rows = [];
+  Object.keys(reads).forEach(co => prods.forEach(p => {
+    const r = (reads[co] || {})[p.id]; if (!r || r[sk] === 'na') return;
+    sum += r[fk] === 'bullish' ? 1 : r[fk] === 'bearish' ? -1 : 0; n++;
+    rows.push({ co: topicCoName(co), prod: p.label, state: r[sk], fav: r[fk] });
+  }));
+  rows.sort((a, b) => ({ bullish: 0, neutral: 1, bearish: 2 }[a.fav] - { bullish: 0, neutral: 1, bearish: 2 }[b.fav]));
+  return { net: n ? sum / n : null, n, rows };
+}
 function sigTreeBody(S) {
   const T = S.topics; if (!T || !topicTree(T)) return `<div class="panel"><div class="dim">No topic tree in bundle — re-run scripts/load_transcripts.py</div></div>`;
   const q = topicAsOf(T), nLeaves = topicItemsForLayer(T).length, h = Math.max(640, nLeaves * 26 + 40);
@@ -1145,25 +1166,43 @@ function sigTreeChart(S) {
   const sz = v => v == null ? 9 : Math.max(9, Math.min(46, 9 + Math.sqrt(v) * 5.6));
   const leafNode = it => {
     const heat = topicEffSeries(it, S).ser[q], sentv = topicSent(it, S, seg, q);
-    return { name: it.label, value: +(+heat).toFixed(1), symbolSize: sz(heat),
+    const node = { name: it.label, value: +(+heat).toFixed(1), symbolSize: sz(heat),
       itemStyle: { color: sentDotColor(sentv), borderColor: '#fff', borderWidth: 1 },
       label: { color: '#0f172a', fontWeight: 500 }, tid: it.id, dparent: it.parent };
+    const kids = Object.values(items).filter(x => (x.parent || null) === it.id);   // a topic can parent sub-topics (HBM ▸ HBM4)
+    if (kids.length) node.children = kids.map(leafNode);
+    return node;
   };
   const innerNode = id => {
-    const n = nodes[id], col = FACET_COLOR[n.facet] || '#94a3b8';
+    const n = nodes[id];
     const leaves = Object.values(items).filter(it => (it.parent || null) === id).map(leafNode);
     const inner = Object.keys(nodes).filter(k => (nodes[k].parent || null) === id).map(innerNode);
-    return { name: n.label, symbolSize: 13, itemStyle: { color: col, borderColor: '#fff', borderWidth: 1.5 },
-      label: { color: '#334155', fontWeight: 700 }, lineStyle: { color: cRgba(col, 0.55) }, children: leaves.concat(inner) };
+    const node = { name: n.label, symbolSize: 13, label: { color: '#334155', fontWeight: 700 }, children: leaves.concat(inner) };
+    let col;
+    if (n.facet === 'demand' || n.facet === 'supply') {   // product-dimension node → colour by LLM-read favorability
+      const agg = topicAggDim(n.parent, n.facet, T);
+      if (agg.n) { col = favColor(agg.net); Object.assign(node, { isDim: n.facet, dimNet: agg.net, dimRows: agg.rows, netLabel: favLabel(agg.net), symbolSize: 13 + Math.min(14, agg.n * 1.4) }); }
+    }
+    if (!col) col = FACET_COLOR[n.facet] || '#94a3b8';   // domain/subject nodes (End Markets, Ops…) keep their facet colour
+    Object.assign(node, { itemStyle: { color: col, borderColor: '#fff', borderWidth: 1.5 }, lineStyle: { color: cRgba(col, 0.55) } });
+    return node;
   };
   const roots = Object.keys(nodes).filter(n => !nodes[n].parent).map(innerNode);
   const data = [{ name: 'Topics', symbolSize: 7, itemStyle: { color: '#cbd5e1' }, label: { show: false }, children: roots }];
   ch.setOption({ animation: true, animationDuration: 450,
-    tooltip: { trigger: 'item', confine: true, formatter: p => (p.data && p.data.tid) ? `<b>${p.data.name}</b><br/>${p.data.value}× per call` : `<b>${p.data.name}</b>` },
+    tooltip: { trigger: 'item', confine: true, formatter: p => {
+      const d = p.data; if (!d) return '';
+      if (d.isDim) {
+        const head = `<b>${d.name}</b> — ${d.netLabel || 'no LLM reads'}${d.dimNet != null ? ` (net ${d.dimNet >= 0 ? '+' : ''}${d.dimNet.toFixed(2)} · ${d.dimRows.length})` : ''}`;
+        const rows = (d.dimRows || []).slice(0, 14).map(r => { const c = r.fav === 'bullish' ? '#16a34a' : r.fav === 'bearish' ? '#dc2626' : '#d97706'; return `${r.co} · ${r.prod}: <span style="color:${c}">${r.state}/${r.fav}</span>`; }).join('<br/>');
+        return head + (rows ? `<br/>${rows}` : '');
+      }
+      return d.tid ? `<b>${d.name}</b><br/>${d.value}× per call` : `<b>${d.name}</b>`;
+    } },
     series: [{ type: 'tree', data, top: '1%', left: '6%', bottom: '1%', right: '21%',
       layout: 'orthogonal', orient: 'LR', edgeShape: 'curve', edgeForkPosition: '55%',
       initialTreeDepth: -1, expandAndCollapse: true, symbol: 'circle', roam: false,
-      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6, formatter: p => (p.data && p.data.tid) ? `${p.name}  ${p.value}×` : p.name },
+      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6, formatter: p => { const d = p.data; if (d && d.tid) return `${p.name}  ${p.value}×`; if (d && d.isDim && d.netLabel) return `${p.name}  ${d.netLabel}`; return p.name; } },
       leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left', formatter: p => `${p.name}  ${p.value}×` } },
       emphasis: { focus: 'relative', lineStyle: { width: 2 } },
       lineStyle: { color: '#d7dee8', width: 1.2, curveness: 0.45 } }] });

@@ -13,9 +13,12 @@
 
     "processor":  { "label": "Processor",           "parent": "products",  "facet": "product" },
     "proc_dem":   { "label": "Demand",              "parent": "processor", "facet": "demand" },
+    "proc_sup":   { "label": "Supply",              "parent": "processor", "facet": "supply" },
     "proc_cap":   { "label": "Capability",          "parent": "processor", "facet": "product" },
 
     "proctech":   { "label": "Process Technology",  "parent": "products",  "facet": "product" },
+    "pt_dem":     { "label": "Demand",              "parent": "proctech",  "facet": "demand" },
+    "pt_sup":     { "label": "Supply",              "parent": "proctech",  "facet": "supply" },
     "pt_cap":     { "label": "Capability",          "parent": "proctech",  "facet": "product" },
 
     "endmkt":     { "label": "End Markets",         "parent": null,        "facet": "demand" },
@@ -31,10 +34,14 @@
     "mem_prod":      { "label": "Memory production",      "parent": "mem_prd", "kind": "supply",  "reads": ["supply"] },
     "mem_pricing":   { "label": "Memory pricing",         "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
     "mem_strategic": { "label": "Long-term agreements",   "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
+    "dram":          { "label": "DRAM",                   "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
+    "ddr5":          { "label": "DDR5 / DDR",             "parent": "dram",    "kind": "product", "reads": ["demand", "supply"] },
+    "lpddr":         { "label": "LPDDR / GDDR",           "parent": "dram",    "kind": "product", "reads": ["demand", "supply"] },
     "hbm":           { "label": "HBM",                    "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "hbm4":          { "label": "HBM4",                   "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "nand_qlc":      { "label": "NAND / QLC",             "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
-    "dram":          { "label": "DRAM / DDR",             "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
+    "hbm3e":         { "label": "HBM3E",                  "parent": "hbm",     "kind": "product", "reads": ["demand", "supply"] },
+    "hbm4":          { "label": "HBM4",                   "parent": "hbm",     "kind": "product", "reads": ["demand", "supply"] },
+    "nand_qlc":      { "label": "NAND",                   "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
+    "qlc":           { "label": "QLC / TLC",              "parent": "nand_qlc","kind": "product", "reads": ["demand", "supply"] },
 
     "compute_demand":{ "label": "Compute demand",         "parent": "proc_dem", "kind": "demand", "reads": ["demand"] },
     "gpu":           { "label": "GPU / accelerators",     "parent": "proc_cap", "kind": "product", "reads": ["demand", "supply"] },
