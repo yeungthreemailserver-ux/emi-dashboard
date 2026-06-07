@@ -444,7 +444,7 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
      chart never reflows. Narrow (~420px), not the old half-screen reservation. */
   .topicdetail.drawer {
     position: fixed; top: 54px; right: 0; bottom: 0; z-index: 40;
-    width: min(420px, 40vw); min-width: 0; max-width: none; height: auto; flex: none;
+    width: min(520px, 46vw); min-width: 0; max-width: none; height: auto; flex: none;
     border: none; border-left: 1px solid var(--border); border-radius: 0;
     box-shadow: -18px 0 40px -16px rgba(15,23,42,.36);
   }
@@ -482,6 +482,11 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .grp-row:last-child { border-bottom: none; }
 .grp-row:hover { background: #f1f5f9; }
 .grp-lab { flex: 1; font-size: 12.5px; color: var(--text); }
+
+/* top-N bubble count slider */
+.topn-bar { display: flex; align-items: center; gap: 9px; margin: 8px 0 2px; flex-wrap: wrap; }
+.topn-slider { width: 200px; max-width: 40vw; accent-color: var(--blue); cursor: pointer; }
+.topn-val { font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
 .ov-outs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (max-width: 1000px) { .ov-outs { grid-template-columns: 1fr; } }
 .ov-out { border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; cursor: pointer; background: #fff; }

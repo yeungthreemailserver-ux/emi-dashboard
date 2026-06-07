@@ -21,7 +21,7 @@ let STATE = { view: 'signals', metric: 'revenue', mode: 'value', search: '', exp
   exSubs: new Set(), exOpen: false,
   sigView: 'topics', sigMetric: 'tonecmp', topicLayers: [], topicLabels: 'auto', topicSeg: 'all',
   topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false,
-  topicCtlOpen: false, topicDrill: null };
+  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false };
 const charts = [];
 let TOPIC_PLAY = null;
 
@@ -620,6 +620,13 @@ function renderSignals() {
   main.querySelectorAll('[data-co]').forEach(b => b.onclick = () => { STATE.coView = b.dataset.co; render(); });
   main.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.sigView = 'topics'; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
   main.querySelectorAll('[data-tdrill]').forEach(b => b.onclick = () => { topicPlayStop(); STATE.topicDrill = b.dataset.tdrill || null; STATE.topicPin = null; render(); });
+  main.querySelectorAll('[data-topn]').forEach(sl => sl.oninput = () => {
+    STATE.topicTopN = +sl.value;
+    const bi = topicBubbleItems(SIGNALS.topics, SIGNALS), v = main.querySelector('.topn-val');
+    if (v) v.innerHTML = `<b>${bi.items.length}</b> / ${bi.total} topics`;
+    const el = main.querySelector('#topicchart'), ex = el && echarts.getInstanceByDom(el); if (ex) ex.dispose();
+    sigTopicsChart(SIGNALS);
+  });
   main.querySelectorAll('[data-sm]').forEach(b => b.onclick = () => { STATE.sigMetric = b.dataset.sm; render(); });
   main.querySelectorAll('[data-tl]').forEach(b => b.onclick = () => {
     topicPlayStop();
@@ -996,7 +1003,7 @@ function renderTopicInspector(S) {
   const eff = topicEffSeries(it, S), cat = (T.categories || []).find(c => c.id === it.cat) || {};
   miniTrendChart('tspk_m', eff.ser, cat.color, 'per co.', 'bar', T);
   miniTrendChart('tspk_c', eff.brd, '#64748b', 'cos', 'line', T);
-  dp.querySelectorAll('[data-unpin]').forEach(b => b.onclick = () => { STATE.topicPin = null; STATE.inspScroll = 0; renderTopicInspector(S); });
+  dp.querySelectorAll('[data-unpin]').forEach(b => b.onclick = () => { STATE.topicPin = null; STATE.topicLock = false; STATE.inspScroll = 0; render(); });
   dp.querySelectorAll('[data-lgrp]').forEach(b => b.onclick = () => { STATE.inspScroll = dp.scrollTop; const g = b.dataset.lgrp; STATE.topicGroups.has(g) ? STATE.topicGroups.delete(g) : STATE.topicGroups.add(g); renderTopicInspector(S); });
   dp.querySelectorAll('[data-drvall]').forEach(b => b.onclick = () => { STATE.inspScroll = dp.scrollTop; STATE.topicDrvAll = !STATE.topicDrvAll; renderTopicInspector(S); });
   dp.scrollTop = STATE.inspScroll || 0;   // preserve scroll across drawer re-renders
@@ -1208,6 +1215,17 @@ function sigTreeChart(S) {
       lineStyle: { color: '#d7dee8', width: 1.2, curveness: 0.45 } }] });
   ch.off('click'); ch.on('click', p => { if (p.data && p.data.tid) { STATE.sigView = 'topics'; STATE.topicPin = p.data.tid; STATE.topicDrill = p.data.dparent || null; STATE.inspScroll = 0; render(); } });
 }
+/* Topic-map bubbles = the hottest PRIMARY topics (atomic grain: parent is an internal node, so
+   generation sub-leaves like HBM4 are excluded → no parent/child double-count), ranked by mentions,
+   capped to STATE.topicTopN. The slider trims how many show. */
+function topicBubbleItems(T, S) {
+  const tr = topicTree(T), q = topicAsOf(T);
+  let leaves = topicItemsForLayer(T);
+  if (tr) leaves = leaves.filter(it => tr.nodes[it.parent]);   // primary grain only
+  const eff = leaves.map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
+  eff.sort((a, b) => (b.series[q] || 0) - (a.series[q] || 0));
+  return { items: eff.slice(0, Math.max(3, STATE.topicTopN || 30)), total: eff.length };
+}
 function sigTopicsBody(S) {
   const T = S.topics;
   if (!T) return `<div class="panel"><div class="dim">No topic data — re-run scripts/load_transcripts.py</div></div>`;
@@ -1231,8 +1249,8 @@ function sigTopicsBody(S) {
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
       ${topicFilterToggle()}</div>
     ${topicFilterBar(S, { search: true, labels: true, play: true })}
-    ${topicCrumb(T)}
-    <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious). <b>▸ click a group to drill into its sub-topics</b>; hover/click a topic for its full outlook.</div>
+    ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="seglbl">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by mention count · hover = preview · <b>click = lock</b> · click empty space = close</span></div>`; })()}
+    <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious).</div>
     <div class="topicwrap2"><div class="chart" id="topicchart" style="height:600px"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
     <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
     <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Colour = sentiment</span>${colorKey}</div>
@@ -1246,9 +1264,8 @@ function sigTopicsBody(S) {
 function sigTopicsChart(S) {
   const T = S.topics, ch = mk('topicchart'); if (!ch || !T) return;
   const ax = axisStyle(), q = topicAsOf(T);
-  const items = topicDisplayItems(T, S);
-  const leafSent = id => { const lf = (T.items || []).find(x => x.id === id); return lf ? topicSent(lf, S, topicSeg(), q) : null; };
-  const grpSent = ids => { const vs = (ids || []).map(leafSent).filter(v => v != null); return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null; };
+  const items = topicBubbleItems(T, S).items;   // top-N primary topics by mention count
+  if (!items.length) return;
   const heats = items.map(it => it.series[q]);
   const maxH = Math.max(...heats, 1);
   const LMIN = 0.5;
@@ -1263,18 +1280,21 @@ function sigTopicsChart(S) {
   const catOf = id => T.categories.find(c => c.id === id) || {};
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
-    const cat = catOf(it.cat), sentv = it.isGroup ? grpSent(it.leafIds) : topicSent(it, S, topicSeg(), q), color = sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
+    const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), color = sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
     const brd = (it.breadth && it.breadth[q] != null) ? it.breadth[q] : 5;  // # companies that raised it
     const mv = m == null ? 0 : m, quad = heat >= med ? (mv >= 0 ? 'Hot &amp; accelerating' : 'Still hot · losing steam') : (mv >= 0 ? 'Emerging' : 'Fading');
+    // "related" cluster for hover-highlight = the SUBJECT (L2 node: Memory/Processor/…/AI&DC) when one
+    // exists, else the L1 domain (Supply&Ops, Macro, cyclical End-markets) — broader than the dimension parent.
+    const cluster = (it.path && it.path.length >= 3) ? it.path[1] : ((it.path && it.path[0]) || it.parent);
     return { value: [+sx(heat).toFixed(3), +Math.max(yMin, Math.min(yMax, mv)).toFixed(3)],
-      symbol: topicShape(it.id, T), symbolSize: (it.isGroup ? 12 : 9) + brd * 2.1,
-      tid: it.id, isGroup: !!it.isGroup, gref: it, parent: it.parent, tname: it.label, lab: wrapLabel(it.label + (it.isGroup ? ' ▸' : ''), 18), cur: heat, base: +topicTrailAvg(it.series, q).toFixed(1), mom: mv, sent: sentv, stance: it.stance, who: it.who, brd: brd, ser: it.series, brdser: it.breadth || [], note: it.note || '', quad: quad, cc: color, cn: it.isGroup ? (it.childCount + ' topics ▸') : (cat.label || ''),
-      itemStyle: { color: color, opacity: 0.92, borderWidth: it.isGroup ? 2.4 : 1, borderColor: it.isGroup ? cRgba('#0f172a', 0.5) : cRgba('#0f172a', 0.14) } };
+      symbol: topicShape(it.id, T), symbolSize: 9 + brd * 2.1,
+      tid: it.id, parent: it.parent, cluster: cluster, tname: it.label, lab: wrapLabel(it.label, 18), cur: heat, base: +topicTrailAvg(it.series, q).toFixed(1), mom: mv, sent: sentv, stance: it.stance, who: it.who, brd: brd, ser: it.series, brdser: it.breadth || [], note: it.note || '', quad: quad, cc: color, cn: (cat.label || ''),
+      itemStyle: { color: color, opacity: 0.92, borderWidth: 1, borderColor: cRgba('#0f172a', 0.14) } };
   });
-  const series = [{ type: 'scatter', data,
-    emphasis: { scale: 1.3, focus: 'none', label: { show: true, fontWeight: 700, color: '#0f172a' }, itemStyle: { opacity: 1 } },
-    labelLayout: { hideOverlap: false },
-    label: { show: true, position: 'right', distance: 7, formatter: p => p.data.lab, fontSize: 10, lineHeight: 12, color: '#334155', fontWeight: 600 } }];
+  const series = [{ type: 'scatter', data, z: 5,
+    emphasis: { scale: 1.3, focus: 'none', label: { show: true, fontWeight: 800, color: '#0b1220' }, itemStyle: { opacity: 1 } },
+    labelLayout: { hideOverlap: true },
+    label: { show: true, position: 'right', distance: 7, formatter: p => p.data.lab, fontSize: 11, lineHeight: 13, color: '#0f172a', fontWeight: 700 } }];
   if (series[0]) {
     series[0].markArea = { silent: true, data: [
       [{ xAxis: plotMed, yAxis: 0, itemStyle: { color: 'transparent' }, label: { show: true, position: 'insideTopRight', distance: 8, color: '#9aa7b8', fontSize: 10, fontWeight: 700, formatter: 'HOT & ACCELERATING' } }, { xAxis: xMax, yAxis: yMax }],
@@ -1282,7 +1302,7 @@ function sigTopicsChart(S) {
       [{ xAxis: 0, yAxis: 0, itemStyle: { color: 'transparent' }, label: { show: true, position: 'insideTopLeft', distance: 8, color: '#9aa7b8', fontSize: 10, fontWeight: 700, formatter: 'EMERGING' } }, { xAxis: plotMed, yAxis: yMax }],
       [{ xAxis: 0, yAxis: yMin, itemStyle: { color: 'transparent' }, label: { show: true, position: 'insideBottomLeft', distance: 8, color: '#9aa7b8', fontSize: 10, fontWeight: 700, formatter: 'FADING' } }, { xAxis: plotMed, yAxis: 0 }],
     ] };
-    series[0].markLine = { silent: true, symbol: 'none', lineStyle: { color: '#e2e8f0', width: 1.5, type: 'dashed' }, label: { show: false }, data: [{ yAxis: 0 }] };
+    series[0].markLine = { silent: true, symbol: 'none', z: 0, lineStyle: { color: '#eef2f7', width: 1, type: 'dashed' }, label: { show: false }, data: [{ yAxis: 0 }] };
   }
   ch.setOption({ animation: false,
     textStyle: { fontFamily: '"Fira Sans", system-ui, sans-serif' },
@@ -1328,24 +1348,35 @@ function sigTopicsChart(S) {
   // paint(hl): hl=null → default (labels per mode). hl=tid → highlight the hovered topic's TREE FAMILY
   // (same parent branch): only those bubbles stay solid + show labels; everything else dims + hides label.
   const paint = hl => {
-    const pid = hl ? (data.find(d => d.tid === hl) || {}).parent : null;
+    if (hl && !data.some(d => d.tid === hl)) hl = null;   // locked topic filtered out → don't dim everything
+    const cl = hl ? (data.find(d => d.tid === hl) || {}).cluster : null;
     ch.setOption({ graphic: gfx, series: [{ data: data.map((d, i) => {
-      const fam = !hl || d.parent === pid;
+      const fam = !hl || d.cluster === cl;
       return Object.assign({}, d, {
         label: { show: hl ? fam : place[i].show, position: place[i].position, opacity: fam ? 1 : 0 },
         itemStyle: Object.assign({}, d.itemStyle, { opacity: hl ? (fam ? 0.96 : 0.08) : 0.92 }) });
     }) }] });
   };
-  paint(null);
-  // the right drawer always shows the active topic; HOVER a bubble to fill it (click works too, for touch)
-  renderTopicInspector(S);
-  const show = tid => { if (!tid || STATE.topicPin === tid) return; STATE.inspScroll = 0; STATE.topicPin = tid; renderTopicInspector(S); };
+  // Interaction: HOVER always previews · CLICK a bubble LOCKS it (stays when you move away) · click empty / ✕ unlocks.
   let curHL = null, restoreT = null;
+  const lockTid = () => (typeof STATE.topicLock === 'string') ? STATE.topicLock : null;
   const cancelRestore = () => { if (restoreT) { clearTimeout(restoreT); restoreT = null; } };
-  ch.off('mouseover'); ch.on('mouseover', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); if (d.tid !== curHL) { curHL = d.tid; paint(d.tid); } if (d.isGroup) renderGroupInspector(d.gref, S); else show(d.tid); });
-  ch.off('mouseout'); ch.on('mouseout', () => { cancelRestore(); restoreT = setTimeout(() => { curHL = null; paint(null); }, 140); });
-  ch.off('globalout'); ch.on('globalout', () => { cancelRestore(); curHL = null; paint(null); });
-  ch.off('click'); ch.on('click', p => { const d = p.data; if (!d) return; if (d.isGroup) { STATE.topicDrill = d.tid; STATE.topicPin = null; render(); } else show(d.tid); });
+  const showInsp = tid => { STATE.topicPin = tid; renderTopicInspector(S); };
+  const restore = () => { const L = lockTid(); curHL = L; paint(L); showInsp(L); };   // mouse left → revert to the locked topic (or empty)
+  restore();   // initial paint + drawer (shows the locked topic if any, else empty/full-width)
+  ch.off('mouseover'); ch.on('mouseover', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); if (d.tid !== curHL) { curHL = d.tid; paint(d.tid); } showInsp(d.tid); });
+  ch.off('mouseout'); ch.on('mouseout', () => { cancelRestore(); restoreT = setTimeout(restore, 160); });
+  ch.off('globalout'); ch.on('globalout', () => { cancelRestore(); restore(); });
+  ch.off('click'); ch.on('click', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); STATE.inspScroll = 0; STATE.topicLock = d.tid; curHL = d.tid; paint(d.tid); showInsp(d.tid); });
+  // empty-area click → unlock + close. Robust: ignore if a symbol/label was hit (e.target) OR the click
+  // landed near any bubble (geometry) — so clicking a bubble NEVER closes it.
+  const zr = ch.getZr(); zr.off('click'); zr.on('click', e => {
+    if (e.target) return;
+    const x = e.offsetX != null ? e.offsetX : e.zrX, y = e.offsetY != null ? e.offsetY : e.zrY;
+    const near = data.some(d => { const pp = ch.convertToPixel({ seriesIndex: 0 }, d.value); return pp && Math.hypot(pp[0] - x, pp[1] - y) < ((d.symbolSize || 14) / 2 + 12); });
+    if (near) return;
+    cancelRestore(); STATE.topicLock = null; STATE.topicPin = null; curHL = null; paint(null); renderTopicInspector(S);
+  });
 }
 /* Lens — Optimism − Discount = Net, by signal × company (your formula) */
 function sigMatrixBody(S) {
