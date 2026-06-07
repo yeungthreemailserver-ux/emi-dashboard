@@ -439,13 +439,15 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 
 /* ── Topic inspector as a FULL-HEIGHT right DRAWER (wide screens) ──────────── */
 @media (min-width: 1081px) {
+  /* On-demand floating flyout — only shown after the user hovers/clicks a bubble (idle = empty =
+     hidden, so the chart uses the FULL width by default). Floats over the chart's right edge; the
+     chart never reflows. Narrow (~420px), not the old half-screen reservation. */
   .topicdetail.drawer {
     position: fixed; top: 54px; right: 0; bottom: 0; z-index: 40;
-    width: min(46vw, 760px); min-width: 0; max-width: none; height: auto; flex: none;
+    width: min(420px, 40vw); min-width: 0; max-width: none; height: auto; flex: none;
     border: none; border-left: 1px solid var(--border); border-radius: 0;
-    box-shadow: -12px 0 26px -14px rgba(15,23,42,.30);
+    box-shadow: -18px 0 40px -16px rgba(15,23,42,.36);
   }
-  .main.has-drawer { padding-right: calc(min(46vw, 760px) + 22px); }
 }
 
 .topicdetail:empty { display: none; }   /* pop-up closed → hidden, chart uses full width */
@@ -468,6 +470,18 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .ov-x { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
 .ov-b { font-size: 10px; color: var(--text-faint); white-space: nowrap; }
 .ov-row .tmom { font-size: 11px; font-weight: 700; }
+
+/* topic taxonomy drill-down: breadcrumb + group inspector rows */
+.topic-crumb { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin: 8px 0 2px; }
+.topic-crumb .crumb { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+  border: 1px solid var(--border); background: #fff; border-radius: 6px; padding: 3px 9px; cursor: pointer; }
+.topic-crumb .crumb:hover { background: #f1f5f9; color: var(--text); }
+.topic-crumb .crumb.on { color: var(--text); font-weight: 700; border-color: #cbd5e1; background: #f8fafc; }
+.topic-crumb .crumb-sep { color: #cbd5e1; font-size: 12px; }
+.grp-row { display: flex; align-items: center; gap: 7px; padding: 6px 4px; border-bottom: 1px solid var(--border-soft); cursor: pointer; border-radius: 5px; }
+.grp-row:last-child { border-bottom: none; }
+.grp-row:hover { background: #f1f5f9; }
+.grp-lab { flex: 1; font-size: 12.5px; color: var(--text); }
 .ov-outs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (max-width: 1000px) { .ov-outs { grid-template-columns: 1fr; } }
 .ov-out { border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; cursor: pointer; background: #fff; }

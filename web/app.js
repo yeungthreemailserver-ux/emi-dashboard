@@ -20,7 +20,8 @@ let STATE = { view: 'signals', metric: 'revenue', mode: 'value', search: '', exp
   mregion: 'worldwide', mrange: 10,
   exSubs: new Set(), exOpen: false,
   sigView: 'topics', sigMetric: 'tonecmp', topicLayers: [], topicLabels: 'auto', topicSeg: 'all',
-  topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false };
+  topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false,
+  topicCtlOpen: false, topicDrill: null };
 const charts = [];
 let TOPIC_PLAY = null;
 
@@ -596,11 +597,12 @@ function renderSignals() {
   const main = document.getElementById('main');
   if (!SIGNALS) { main.innerHTML = '<div class="loading">transcripts.json not loaded — run scripts/load_transcripts.py</div>'; return; }
   const S = SIGNALS;
-  const subs = [['overview', 'Overview'], ['topics', 'Topics · trends'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
+  const subs = [['overview', 'Overview'], ['topics', 'Topics · trends'], ['tree', 'Topic tree'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
   const tabs = subs.map(([k, l]) => `<button class="seg ${STATE.sigView === k ? 'on' : ''}" data-sv="${k}">${l}</button>`).join('');
   const sparks = [];
   const body = STATE.sigView === 'cycle' ? sigCycleBody(S)
     : STATE.sigView === 'topics' ? sigTopicsBody(S)
+      : STATE.sigView === 'tree' ? sigTreeBody(S)
       : STATE.sigView === 'overview' ? sigOverviewBody(S)
         : STATE.sigView === 'company' ? sigCompanyBody(S)
           : STATE.sigView === 'matrix' ? sigMatrixBody(S)
@@ -617,6 +619,7 @@ function renderSignals() {
   main.querySelectorAll('[data-sv]').forEach(b => b.onclick = () => { STATE.sigView = b.dataset.sv; render(); });
   main.querySelectorAll('[data-co]').forEach(b => b.onclick = () => { STATE.coView = b.dataset.co; render(); });
   main.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.sigView = 'topics'; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
+  main.querySelectorAll('[data-tdrill]').forEach(b => b.onclick = () => { topicPlayStop(); STATE.topicDrill = b.dataset.tdrill || null; STATE.topicPin = null; render(); });
   main.querySelectorAll('[data-sm]').forEach(b => b.onclick = () => { STATE.sigMetric = b.dataset.sm; render(); });
   main.querySelectorAll('[data-tl]').forEach(b => b.onclick = () => {
     topicPlayStop();
@@ -664,6 +667,7 @@ function renderSignals() {
   });
   if (STATE.sigView === 'flow') sigFlowChart(S);
   if (STATE.sigView === 'topics') sigTopicsChart(S);
+  if (STATE.sigView === 'tree') sigTreeChart(S);
 }
 
 /* Lens — Topic trends: a HOT-vs-MOMENTUM map. One bubble per topic, for a chosen as-of quarter.
@@ -747,6 +751,101 @@ function topicPlayToggle() {
     STATE.topicQ = q >= last ? pf : q + 1; render();
   }, 1200);
   render();
+}
+
+/* ── Topic TAXONOMY DRILL-DOWN ─────────────────────────────────────────────────────
+   Variable-depth tree (topics.tree.nodes + leaf items' .parent). The bubble chart shows the
+   CHILDREN of the current drill node (STATE.topicDrill, null = the L1 roots): internal nodes
+   render as aggregated, drillable group bubbles; leaves render as the usual topic bubbles.
+   Group "heat" = MEAN of its descendant leaves' per-company avg (same scale as a leaf), so a
+   group and a leaf are comparable on one axis. */
+const TREE_ROOT_COLOR = { products: '#b07aa1', endmkt: '#f28e2b', ops: '#76b7b2', commercial: '#4e79a7', macro: '#e15759' };
+/* primary topic map encodings: SHAPE = domain (the L1 root), COLOUR = sentiment (green optimistic → red cautious). */
+const DOMAIN_SHAPE = { products: 'circle', endmkt: 'triangle', ops: 'roundRect', commercial: 'diamond', macro: 'pin' };
+function topicShape(id, T) { return DOMAIN_SHAPE[topicRootOf(id, T)] || 'circle'; }
+function sentDotColor(v) {  // diverging optimistic↔cautious scale
+  if (v == null) return '#cbd5e1';
+  if (v >= 0.35) return '#15803d'; if (v >= 0.12) return '#22c55e';
+  if (v > -0.12) return '#f59e0b'; if (v > -0.35) return '#ef4444'; return '#b91c1c';
+}
+function shapeSVG(sym, c) {  // tiny inline glyph for the legend (matches the bubble symbols)
+  c = c || '#64748b';
+  const g = { circle: '<circle cx="6" cy="6" r="5"/>', triangle: '<polygon points="6,1 11,11 1,11"/>',
+    diamond: '<polygon points="6,1 11,6 6,11 1,6"/>', roundRect: '<rect x="1" y="1" width="10" height="10" rx="3"/>',
+    pin: '<path d="M6 0C9 0 11 2 11 5C11 8.5 6 13 6 13C6 13 1 8.5 1 5C1 2 3 0 6 0Z"/>' }[sym] || '<circle cx="6" cy="6" r="5"/>';
+  return `<svg width="13" height="13" viewBox="0 0 12 13" style="vertical-align:-2px" fill="${c}">${g}</svg>`;
+}
+function topicTree(T) { T = T || (SIGNALS && SIGNALS.topics) || {}; return (T.tree && T.tree.nodes) ? T.tree : null; }
+function topicRootOf(id, T) {  // walk parent pointers to the L1 root id (works for a node id or a leaf id)
+  const tr = topicTree(T); if (!tr) return null;
+  let pid = tr.nodes[id] ? tr.nodes[id].parent : ((((T || SIGNALS.topics).items) || []).find(x => x.id === id) || {}).parent;
+  let cur = id;
+  while (pid) { cur = pid; pid = (tr.nodes[pid] || {}).parent; }
+  return cur;
+}
+function topicNodeColor(id, T) { return TREE_ROOT_COLOR[topicRootOf(id, T)] || '#64748b'; }
+function topicChildNodes(parentId, T) {  // direct children of parentId (null = roots): inner node ids + leaf items
+  const tr = topicTree(T), pid = parentId || null;
+  const innerIds = tr ? Object.keys(tr.nodes).filter(n => (tr.nodes[n].parent || null) === pid) : [];
+  const leafItems = (T.items || []).filter(it => (it.parent || null) === pid);
+  return { innerIds, leafItems };
+}
+function topicDescLeaves(nodeId, T) {  // all leaf ids beneath an inner node (recursive)
+  const { innerIds, leafItems } = topicChildNodes(nodeId, T);
+  let out = leafItems.map(it => it.id);
+  innerIds.forEach(n => { out = out.concat(topicDescLeaves(n, T)); });
+  return out;
+}
+function topicGroupItem(nodeId, T, S) {  // aggregate an inner node into a pseudo-topic-item for the chart
+  const node = topicTree(T).nodes[nodeId], leafIds = topicDescLeaves(nodeId, T);
+  const allow = new Set(topicItemsForLayer(T).map(it => it.id));   // respect the layer filter
+  const leaves = (T.items || []).filter(it => leafIds.indexOf(it.id) >= 0 && allow.has(it.id));
+  const effs = leaves.map(it => topicEffSeries(it, S)), n = (T.periods || []).length, ser = [], brd = [];
+  for (let i = 0; i < n; i++) { const vs = effs.map(e => e.ser[i] || 0); ser.push(effs.length ? +Math.max(...vs).toFixed(1) : 0); brd.push(Math.max(0, ...effs.map(e => e.brd[i] || 0))); }   // group heat = its hottest child (so the hottest theme leads)
+  return { id: nodeId, label: node.label, isGroup: true, childCount: leaves.length, parent: node.parent, leafIds: leaves.map(it => it.id), color: topicNodeColor(nodeId, T), series: ser, breadth: brd, who: '', note: leaves.length + ' topics', stance: 'mixed', facet: node.facet };
+}
+function topicChildDisplay(parentId, T, S) {  // the bubbles to show at this drill level (groups + leaves)
+  const { innerIds, leafItems } = topicChildNodes(parentId, T);
+  const allow = new Set(topicItemsForLayer(T).map(it => it.id));
+  const groups = innerIds.map(n => topicGroupItem(n, T, S)).filter(g => g.childCount > 0);
+  const leaves = leafItems.filter(it => allow.has(it.id)).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd, color: topicNodeColor(it.id, T), isGroup: false }); });
+  return groups.concat(leaves);
+}
+function topicDisplayItems(T, S) {  // start at L2 (children of every L1 root); drill a group → its L3
+  if (!topicTree(T)) { return topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd, color: (T.categories.find(c => c.id === it.cat) || {}).color, isGroup: false }); }); }
+  const drill = STATE.topicDrill || null;
+  if (drill) return topicChildDisplay(drill, T, S);
+  const tr = topicTree(T), roots = Object.keys(tr.nodes).filter(n => !tr.nodes[n].parent);   // L2 overview
+  let out = []; roots.forEach(r => { out = out.concat(topicChildDisplay(r, T, S)); });
+  return out;
+}
+function topicCrumb(T) {  // breadcrumb: All ▸ Products ▸ Memory  (each clickable to jump up)
+  if (!topicTree(T)) return '';
+  const nodes = topicTree(T).nodes, chain = []; let id = STATE.topicDrill || null;
+  while (id) { chain.unshift({ id, label: nodes[id].label, color: topicNodeColor(id, T) }); id = nodes[id].parent; }
+  const root = `<button class="crumb ${!chain.length ? 'on' : ''}" data-tdrill="">All domains</button>`;
+  const rest = chain.map((c, i) => `<span class="crumb-sep">▸</span><button class="crumb ${i === chain.length - 1 ? 'on' : ''}" data-tdrill="${c.id}"><span class="lyr-dot" style="background:${c.color}"></span>${c.label}</button>`).join('');
+  return `<div class="topic-crumb">${root}${rest}</div>`;
+}
+/* group inspector (right drawer when hovering/at a group): its children as a clickable drill list */
+function topicGroupInspectorHTML(g, S) {
+  const T = S.topics, q = topicAsOf(T), kids = topicChildDisplay(g.id, T, S);
+  const pct = m => (m >= 0 ? '+' : '') + Math.round((m || 0) * 100) + '%';
+  const rows = kids.slice().sort((a, b) => b.series[q] - a.series[q]).map(k => {
+    const m = topicMomentum(k.series, q, momSmooth(T)), act = k.isGroup ? `data-tdrill="${k.id}"` : `data-goto="${k.id}"`;
+    return `<div class="grp-row" ${act}><span class="tdot" style="background:${k.color}"></span><span class="grp-lab">${k.label}${k.isGroup ? ` <span class="dim">▸ ${k.childCount}</span>` : ''}</span><span class="ov-x">${(+k.series[q]).toFixed(1)}×</span><span class="tmom ${m >= 0 ? 'up' : 'down'}">${pct(m)}</span></div>`;
+  }).join('');
+  return `<div class="insp"><div class="insp-banner"><span class="tddot" style="background:${g.color}"></span><b>${g.label}</b><button class="unpin" data-gclose="1" title="Close">✕</button>
+      <div class="insp-sub">${g.childCount} topics · click to drill in</div></div>
+    <div class="insp-sec"><h5>Inside ${g.label} <span class="dim">— heat × momentum</span></h5>${rows}</div>
+    <div class="dim" style="font-size:11px;margin-top:8px">Click a row or a bubble: ▸ rows drill into a sub-group; the rest open a topic's full outlook.</div></div>`;
+}
+function renderGroupInspector(g, S) {
+  const dp = document.getElementById('topicdetail'); if (!dp) return;
+  dp.innerHTML = topicGroupInspectorHTML(g, S);
+  dp.querySelectorAll('[data-gclose]').forEach(b => b.onclick = () => { dp.innerHTML = ''; });
+  dp.querySelectorAll('[data-tdrill]').forEach(b => b.onclick = () => { STATE.topicDrill = b.dataset.tdrill || null; STATE.topicPin = null; render(); });
+  dp.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
 }
 
 /* ── Topic INSPECTOR: pinned right-panel detail = stats charts + forward outlook ──────
@@ -889,9 +988,8 @@ function miniTrendChart(id, series, color, name, type, T) {
 function renderTopicInspector(S) {
   const dp = document.getElementById('topicdetail'); if (!dp) return false;
   const T = S.topics, q = topicAsOf(T), pin = topicPinId(S);
-  const ph = '<div class="insp-empty dim">Hover a bubble to see its full outlook →<br><span style="font-size:11px">summary · drivers · per-company stance</span></div>';
-  if (!pin) { dp.innerHTML = ph; return false; }
-  const it = (T.items || []).find(x => x.id === pin); if (!it) { dp.innerHTML = ph; return false; }
+  if (!pin) { dp.innerHTML = ''; return false; }   // idle → empty drawer (hidden); chart uses full width
+  const it = (T.items || []).find(x => x.id === pin); if (!it) { dp.innerHTML = ''; return false; }
   dp.innerHTML = topicInspectorHTML(it, S, q);
   const eff = topicEffSeries(it, S), cat = (T.categories || []).find(c => c.id === it.cat) || {};
   miniTrendChart('tspk_m', eff.ser, cat.color, 'per co.', 'bar', T);
@@ -1021,6 +1119,55 @@ function sigCompanyBody(S) {
   </div>`;
 }
 
+/* Lens — TOPIC TREE: the whole taxonomy as a collapsible ECharts tree.
+   Subjects branch into dimensions (Demand/Supply/Pricing/Capability); leaves = measured topics.
+   node size = mentions · leaf colour = sentiment · internal-node colour = dimension. */
+const FACET_COLOR = { demand: '#f28e2b', supply: '#76b7b2', product: '#b07aa1', price: '#4e79a7', risk: '#e15759' };
+function sigTreeBody(S) {
+  const T = S.topics; if (!T || !topicTree(T)) return `<div class="panel"><div class="dim">No topic tree in bundle — re-run scripts/load_transcripts.py</div></div>`;
+  const q = topicAsOf(T), nLeaves = topicItemsForLayer(T).length, h = Math.max(640, nLeaves * 26 + 40);
+  const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
+  const FACET = [['demand', 'Demand'], ['supply', 'Supply'], ['product', 'Product / capability'], ['price', 'Pricing'], ['risk', 'Macro / risk']];
+  const facetKey = FACET.map(f => `<span class="tlg"><span class="tdot" style="background:${FACET_COLOR[f[0]]}"></span>${f[1]}</span>`).join('');
+  return `<div class="panel">
+    <div class="thead-row"><h3>Topic tree — subjects × dimensions <span class="dim" style="font-weight:400;font-size:13px">— ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''} · node size = mentions · colour = sentiment</span></h3>${topicFilterToggle()}</div>
+    ${topicFilterBar(S, {})}
+    <div class="chart" id="treechart" style="height:${h}px"></div>
+    <div class="tlgrow" style="margin-top:6px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Dimension node</span>${facetKey}</div>
+    <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Leaf colour</span>${shapeSVG('circle', '#15803d')} optimistic ${shapeSVG('circle', '#f59e0b')} neutral ${shapeSVG('circle', '#b91c1c')} cautious <span class="dim" style="font-size:11px">· click a branch to collapse/expand · click a leaf to open its outlook</span></div>
+  </div>`;
+}
+function sigTreeChart(S) {
+  const T = S.topics; const ch = mk('treechart'); if (!ch || !T || !topicTree(T)) return;
+  const q = topicAsOf(T), seg = topicSeg(), nodes = topicTree(T).nodes;
+  const items = {}; topicItemsForLayer(T).forEach(it => items[it.id] = it);   // respect the layer filter
+  const sz = v => v == null ? 9 : Math.max(9, Math.min(46, 9 + Math.sqrt(v) * 5.6));
+  const leafNode = it => {
+    const heat = topicEffSeries(it, S).ser[q], sentv = topicSent(it, S, seg, q);
+    return { name: it.label, value: +(+heat).toFixed(1), symbolSize: sz(heat),
+      itemStyle: { color: sentDotColor(sentv), borderColor: '#fff', borderWidth: 1 },
+      label: { color: '#0f172a', fontWeight: 500 }, tid: it.id, dparent: it.parent };
+  };
+  const innerNode = id => {
+    const n = nodes[id], col = FACET_COLOR[n.facet] || '#94a3b8';
+    const leaves = Object.values(items).filter(it => (it.parent || null) === id).map(leafNode);
+    const inner = Object.keys(nodes).filter(k => (nodes[k].parent || null) === id).map(innerNode);
+    return { name: n.label, symbolSize: 13, itemStyle: { color: col, borderColor: '#fff', borderWidth: 1.5 },
+      label: { color: '#334155', fontWeight: 700 }, lineStyle: { color: cRgba(col, 0.55) }, children: leaves.concat(inner) };
+  };
+  const roots = Object.keys(nodes).filter(n => !nodes[n].parent).map(innerNode);
+  const data = [{ name: 'Topics', symbolSize: 7, itemStyle: { color: '#cbd5e1' }, label: { show: false }, children: roots }];
+  ch.setOption({ animation: true, animationDuration: 450,
+    tooltip: { trigger: 'item', confine: true, formatter: p => (p.data && p.data.tid) ? `<b>${p.data.name}</b><br/>${p.data.value}× per call` : `<b>${p.data.name}</b>` },
+    series: [{ type: 'tree', data, top: '1%', left: '6%', bottom: '1%', right: '18%',
+      layout: 'orthogonal', orient: 'LR', edgeShape: 'curve', edgeForkPosition: '55%',
+      initialTreeDepth: -1, expandAndCollapse: true, symbol: 'circle', roam: false,
+      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6 },
+      leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left' } },
+      emphasis: { focus: 'relative', lineStyle: { width: 2 } },
+      lineStyle: { color: '#d7dee8', width: 1.2, curveness: 0.45 } }] });
+  ch.off('click'); ch.on('click', p => { if (p.data && p.data.tid) { STATE.sigView = 'topics'; STATE.topicPin = p.data.tid; STATE.topicDrill = p.data.dparent || null; STATE.inspScroll = 0; render(); } });
+}
 function sigTopicsBody(S) {
   const T = S.topics;
   if (!T) return `<div class="panel"><div class="dim">No topic data — re-run scripts/load_transcripts.py</div></div>`;
@@ -1037,15 +1184,18 @@ function sigTopicsBody(S) {
     const m = topicMomentum(it.series, q, momSmooth(T)), b = (it.breadth || [])[q];
     return `<div class="trow"><span class="tdot" style="background:${catOf(it.cat).color}"></span><span class="tlab"><b>${it.label}</b> <span class="dim">— ${it.note || ''}</span></span><span class="kco">${b != null ? b + ' cos' : ''}</span><span class="tmom ${m >= 0 ? 'up' : 'down'}">${pct(m)}</span></div>`;
   }).join('');
-  const legend = T.categories.map(c => `<span class="tlg"><span class="tdot" style="background:${c.color}"></span>${c.label}</span>`).join('');
+  const _tr = topicTree(T), _roots = _tr ? Object.keys(_tr.nodes).filter(n => !_tr.nodes[n].parent) : [];
+  const shapeKey = _roots.map(r => `<span class="tlg">${shapeSVG(DOMAIN_SHAPE[r], '#64748b')} ${_tr.nodes[r].label}</span>`).join('');
+  const colorKey = `<span class="tlg">${shapeSVG('circle', '#15803d')} optimistic</span><span class="tlg">${shapeSVG('circle', '#f59e0b')} neutral</span><span class="tlg">${shapeSVG('circle', '#b91c1c')} cautious</span><span class="dim" style="font-size:11px">— size = # companies (1–9)</span>`;
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[segMode] || '';
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
       ${topicFilterToggle()}</div>
     ${topicFilterBar(S, { search: true, labels: true, play: true })}
-    <div class="topiccap dim">X = avg mentions/company · Y = momentum vs prior 4Q · size = # companies · colour = category · shape = stance — <b>hover a bubble</b> to see its full outlook on the right.</div>
-    <div class="topicwrap2"><div class="chart" id="topicchart" style="height:560px"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
-    <div class="tlgrow">${legend}</div>
-    <div class="tlgrow" style="margin-top:2px"><span class="tlg">● excited</span><span class="tlg">◆ concern</span><span class="tlg">▢ mixed</span><span class="dim" style="font-size:11px">— shape = stance · size = # companies (1–9)</span></div>
+    ${topicCrumb(T)}
+    <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious). <b>▸ click a group to drill into its sub-topics</b>; hover/click a topic for its full outlook.</div>
+    <div class="topicwrap2"><div class="chart" id="topicchart" style="height:600px"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
+    <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
+    <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Colour = sentiment</span>${colorKey}</div>
     <div class="tcols">
       <div class="tcol"><h4>🔥 Hot &amp; accelerating <span class="dim" style="font-weight:400">— highest momentum</span></h4>${heating}</div>
       <div class="tcol"><h4>❄️ Losing steam <span class="dim" style="font-weight:400">— momentum fading</span></h4>${cooling}</div>
@@ -1056,7 +1206,9 @@ function sigTopicsBody(S) {
 function sigTopicsChart(S) {
   const T = S.topics, ch = mk('topicchart'); if (!ch || !T) return;
   const ax = axisStyle(), q = topicAsOf(T);
-  const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
+  const items = topicDisplayItems(T, S);
+  const leafSent = id => { const lf = (T.items || []).find(x => x.id === id); return lf ? topicSent(lf, S, topicSeg(), q) : null; };
+  const grpSent = ids => { const vs = (ids || []).map(leafSent).filter(v => v != null); return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null; };
   const heats = items.map(it => it.series[q]);
   const maxH = Math.max(...heats, 1);
   const LMIN = 0.5;
@@ -1071,17 +1223,16 @@ function sigTopicsChart(S) {
   const catOf = id => T.categories.find(c => c.id === id) || {};
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
-    const cat = catOf(it.cat), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
+    const cat = catOf(it.cat), sentv = it.isGroup ? grpSent(it.leafIds) : topicSent(it, S, topicSeg(), q), color = sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
     const brd = (it.breadth && it.breadth[q] != null) ? it.breadth[q] : 5;  // # companies that raised it
     const mv = m == null ? 0 : m, quad = heat >= med ? (mv >= 0 ? 'Hot &amp; accelerating' : 'Still hot · losing steam') : (mv >= 0 ? 'Emerging' : 'Fading');
     return { value: [+sx(heat).toFixed(3), +Math.max(yMin, Math.min(yMax, mv)).toFixed(3)],
-      symbol: STANCE_SYMBOL[it.stance] || 'circle', symbolSize: 7 + brd * 2.1,
-      tid: it.id, tname: it.label, lab: wrapLabel(it.label, 18), cur: heat, base: +topicTrailAvg(it.series, q).toFixed(1), mom: mv, stance: it.stance, who: it.who, brd: brd, ser: it.series, brdser: it.breadth || [], note: it.note || '', quad: quad, cc: cat.color, cn: cat.label,
-      itemStyle: { color: cat.color, opacity: 0.82, borderWidth: 0 } };
+      symbol: topicShape(it.id, T), symbolSize: (it.isGroup ? 12 : 9) + brd * 2.1,
+      tid: it.id, isGroup: !!it.isGroup, gref: it, parent: it.parent, tname: it.label, lab: wrapLabel(it.label + (it.isGroup ? ' ▸' : ''), 18), cur: heat, base: +topicTrailAvg(it.series, q).toFixed(1), mom: mv, sent: sentv, stance: it.stance, who: it.who, brd: brd, ser: it.series, brdser: it.breadth || [], note: it.note || '', quad: quad, cc: color, cn: it.isGroup ? (it.childCount + ' topics ▸') : (cat.label || ''),
+      itemStyle: { color: color, opacity: 0.92, borderWidth: it.isGroup ? 2.4 : 1, borderColor: it.isGroup ? cRgba('#0f172a', 0.5) : cRgba('#0f172a', 0.14) } };
   });
   const series = [{ type: 'scatter', data,
-    emphasis: { scale: 1.35, focus: 'self', label: { show: true, fontWeight: 700, color: '#0f172a' }, itemStyle: { opacity: 1 } },
-    blur: { itemStyle: { opacity: 0.18 }, label: { opacity: 0.1 } },
+    emphasis: { scale: 1.3, focus: 'none', label: { show: true, fontWeight: 700, color: '#0f172a' }, itemStyle: { opacity: 1 } },
     labelLayout: { hideOverlap: false },
     label: { show: true, position: 'right', distance: 7, formatter: p => p.data.lab, fontSize: 10, lineHeight: 12, color: '#334155', fontWeight: 600 } }];
   if (series[0]) {
@@ -1134,12 +1285,27 @@ function sigTopicsChart(S) {
         });
     } catch (e) { /* not ready */ }
   }
-  ch.setOption({ graphic: gfx, series: [{ data: data.map((d, i) => Object.assign({}, d, { label: { show: place[i].show, position: place[i].position } })) }] });
+  // paint(hl): hl=null → default (labels per mode). hl=tid → highlight the hovered topic's TREE FAMILY
+  // (same parent branch): only those bubbles stay solid + show labels; everything else dims + hides label.
+  const paint = hl => {
+    const pid = hl ? (data.find(d => d.tid === hl) || {}).parent : null;
+    ch.setOption({ graphic: gfx, series: [{ data: data.map((d, i) => {
+      const fam = !hl || d.parent === pid;
+      return Object.assign({}, d, {
+        label: { show: hl ? fam : place[i].show, position: place[i].position, opacity: fam ? 1 : 0 },
+        itemStyle: Object.assign({}, d.itemStyle, { opacity: hl ? (fam ? 0.96 : 0.08) : 0.92 }) });
+    }) }] });
+  };
+  paint(null);
   // the right drawer always shows the active topic; HOVER a bubble to fill it (click works too, for touch)
   renderTopicInspector(S);
   const show = tid => { if (!tid || STATE.topicPin === tid) return; STATE.inspScroll = 0; STATE.topicPin = tid; renderTopicInspector(S); };
-  ch.off('mouseover'); ch.on('mouseover', p => show(p.data && p.data.tid));
-  ch.off('click'); ch.on('click', p => show(p.data && p.data.tid));
+  let curHL = null, restoreT = null;
+  const cancelRestore = () => { if (restoreT) { clearTimeout(restoreT); restoreT = null; } };
+  ch.off('mouseover'); ch.on('mouseover', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); if (d.tid !== curHL) { curHL = d.tid; paint(d.tid); } if (d.isGroup) renderGroupInspector(d.gref, S); else show(d.tid); });
+  ch.off('mouseout'); ch.on('mouseout', () => { cancelRestore(); restoreT = setTimeout(() => { curHL = null; paint(null); }, 140); });
+  ch.off('globalout'); ch.on('globalout', () => { cancelRestore(); curHL = null; paint(null); });
+  ch.off('click'); ch.on('click', p => { const d = p.data; if (!d) return; if (d.isGroup) { STATE.topicDrill = d.tid; STATE.topicPin = null; render(); } else show(d.tid); });
 }
 /* Lens — Optimism − Discount = Net, by signal × company (your formula) */
 function sigMatrixBody(S) {

@@ -47,6 +47,19 @@ TOPIC_LEXICON = {
     "china":         [r"\bChina\b", r"export control", r"geopolit"],
     "tariffs":       [r"\btariff", r"trade policy", r"trade war"],
     "inventory":     [r"inventor", r"channel invent", r"days of supply", r"weeks of supply"],
+    # ── expanded topics for the multi-dimension tree (Subject × Dimension) ──
+    # Memory · Demand / Supply (proximity co-occurrence within a sentence)
+    "mem_demand":    [r"bit demand", r"(?:memory|DRAM|HBM|NAND)[^.]{0,28}demand", r"demand[^.]{0,28}(?:memory|DRAM|HBM|NAND)"],
+    "mem_supply":    [r"bit supply", r"undersupply", r"(?:memory|DRAM|HBM|NAND|bit)[^.]{0,28}(?:supply|shortage|constrain|sold[- ]out)"],
+    # Memory · Capability (product family beyond HBM/NAND)
+    "dram":          [r"\bDRAM\b", r"\bDDR[0-9]", r"LPDDR", r"GDDR", r"LPCAMM", r"\bDIMM\b"],
+    # Processor · Capability + Demand
+    "gpu":           [r"\bGPU\b", r"\baccelerator", r"Blackwell", r"\bRubin\b", r"Hopper", r"GB200", r"\bH100\b", r"\bH200\b", r"\bMI3\d0"],
+    "cpu":           [r"\bCPU\b", r"\bXeon\b", r"\bEPYC\b", r"server processor", r"central processing"],
+    "custom_asic":   [r"custom silicon", r"\bASIC\b", r"\bTPU\b", r"custom accelerator", r"custom chip", r"in[- ]house chip"],
+    "compute_demand":[r"(?:GPU|accelerator|compute|silicon)[^.]{0,28}demand", r"demand[^.]{0,28}(?:GPU|accelerator|compute)", r"compute demand"],
+    # Process Technology · Capability (transistor architecture)
+    "gaa":           [r"\bGAA\b", r"gate[- ]all[- ]around", r"nanosheet", r"backside power", r"back[- ]side power", r"super power rail"],
 }
 _COMPILED = {k: [re.compile(p, re.IGNORECASE) for p in pats] for k, pats in TOPIC_LEXICON.items()}
 

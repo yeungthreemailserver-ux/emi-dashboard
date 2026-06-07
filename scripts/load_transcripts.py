@@ -239,7 +239,57 @@ TOPICS = [
      "series": [1, 1, 3, 5, 4, 3, 3], "who": "Avnet · Arrow", "note": "spiked in 2025; pass-through mechanics still vague"},
     {"id": "inventory", "label": "Inventory correction / double-ordering", "cat": "macro", "stance": "concern",
      "series": [6, 6, 5, 4, 4, 3, 3], "who": "Avnet · Arrow · Renesas", "note": "channel normalizing; double-ordering the new watch-item"},
+    # ── expanded topics for the multi-dimension tree (real counts from topic_counts.json override series) ──
+    {"id": "mem_demand", "label": "Memory demand", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "AI-driven bit demand"},
+    {"id": "mem_supply", "label": "Memory supply", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "bit supply constrained vs demand"},
+    {"id": "dram", "label": "DRAM / DDR", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "DDR5 / LPDDR / GDDR family"},
+    {"id": "compute_demand", "label": "Compute demand", "cat": "ai", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "NVDA · TSMC", "note": "GPU / accelerator compute demand"},
+    {"id": "gpu", "label": "GPU / accelerators", "cat": "tech", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "NVDA", "note": "Blackwell / Rubin / accelerators"},
+    {"id": "cpu", "label": "CPU", "cat": "tech", "stance": "mixed",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "NVDA", "note": "server / client CPU"},
+    {"id": "custom_asic", "label": "Custom silicon / ASIC", "cat": "tech", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "TSMC · NVDA", "note": "hyperscaler custom accelerators"},
+    {"id": "gaa", "label": "GAA / backside power", "cat": "tech", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "TSMC · ASML", "note": "gate-all-around + backside power"},
 ]
+
+
+# ── TOPIC TAXONOMY TREE (data/topic_tree.json) ───────────────────────────────
+# Variable-depth tree: nodes (internal groupings, parent pointer) + leaves (the 20 topics, with
+# kind/reads/favorable). We merge each leaf's path/kind/reads onto its topic item so the front-end
+# can roll up (leaf -> ... -> L1) and drill down, and ship nodes+rules in the bundle.
+_TREE = json.loads((ROOT / "data" / "topic_tree.json").read_text(encoding="utf-8"))
+
+
+def _node_path(nid):
+    """root -> node chain of ids for an internal node id."""
+    chain, nodes = [], _TREE["nodes"]
+    while nid:
+        chain.append(nid)
+        nid = nodes.get(nid, {}).get("parent")
+    return list(reversed(chain))
+
+
+def _leaf_meta(tid):
+    """tree metadata for a leaf topic id: parent chain + kind + reads + facet + labels."""
+    lf = _TREE["leaves"].get(tid)
+    if not lf:
+        return {}
+    path = _node_path(lf["parent"]) + [tid]
+    labels = [_TREE["nodes"][n]["label"] for n in path[:-1]] + [lf["label"]]
+    # NEUTRAL topic name: the tree label has no judgement words ("Capacity", not "Capacity tight / sold
+    # out"). Override the verbose TOPICS label so every lens shows the neutral subject.
+    out = {"label": lf["label"], "parent": lf["parent"], "kind": lf.get("kind"), "reads": lf.get("reads", []),
+           "facet": _TREE["nodes"].get(lf["parent"], {}).get("facet"),
+           "tlabel": lf["label"], "path": path, "path_labels": labels}
+    if lf.get("role_flip"):
+        out["role_flip"] = lf["role_flip"]
+    return out
 
 
 def main() -> None:
@@ -333,12 +383,13 @@ def main() -> None:
         if t_series and it["id"] in t_series:
             return t_series[it["id"]]
         return [_count(e) for e in it["series"]]
-    topic_items = [{**it, "series": _series(it), "breadth": (t_breadth or {}).get(it["id"]), "emphasis": it["series"], "layers": _layers(it["who"])} for it in TOPICS]
+    topic_items = [{**it, **_leaf_meta(it["id"]), "series": _series(it), "breadth": (t_breadth or {}).get(it["id"]), "emphasis": it["series"], "layers": _layers(it["who"])} for it in TOPICS]
     topics = {"periods": t_periods, "plot_from": t_plotfrom, "categories": TOPIC_CATS, "items": topic_items,
               "source": "real" if real else "estimated", "coverage": (real or {}).get("coverage"),
               "per_company": (real or {}).get("per_company"), "companies": TOPIC_COMPANIES,
               "sentiment": (real or {}).get("sentiment"), "quotes": (real or {}).get("quotes"),
               "segments": (real or {}).get("segments", ["all"]),
+              "tree": {"nodes": _TREE["nodes"], "rules": _TREE["rules"]},
               "unit": (real or {}).get("unit", "count"), "mom_smooth": 4 if real else 20}
 
     # topic OUTLOOK syntheses (Haiku-judged forward call + drivers + per-segment matrix + evidence)
