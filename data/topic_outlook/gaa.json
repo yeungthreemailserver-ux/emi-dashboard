@@ -1,0 +1,41 @@
+{
+ "topic": "gaa",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "GAA demand is real; backside power still lacks corroboration",
+  "summary": "Into 2026Q1, the near-term setup looks positive where the signal is actually present: TSMC is framing A14 around a clear need for high-performance, energy-efficient computing, and Applied Materials says GAA adoption is expanding its served market and driving multiple wins. But the topic’s mention rate has cooled materially, and this quarter’s reads do not add fresh evidence on backside power, so upside looks concentrated in leading-edge foundry and enabling equipment rather than broad-based across semis. Watch whether TSMC’s A14 pull translates into broader customer ramps and whether Applied’s tight supply starts to constrain deployment timing.",
+  "confidence": "low"
+ },
+ "drivers": [
+  {
+   "label": "A14 compute-efficiency demand",
+   "detail": "TSMC sees A14 aligned with essential demand for high-performance, energy-efficient computing, supporting continued leading-edge adoption.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC"
+   ]
+  },
+  {
+   "label": "GAA expands equipment content",
+   "detail": "Applied Materials says GAA adoption is enlarging the market opportunity and generating multiple product wins, a direct tailwind for process-enablement spend.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Tight tool supply supports supplier pricing/pull",
+   "detail": "Applied Materials flagged tight supply alongside solid demand, which is favorable for the supplier near term even if it can limit industrywide ramp speed.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "Backside power remains unsubstantiated in this quarter’s company reads, leaving that part of the thesis vulnerable to delay.",
+  "Topic mentions are down versus the trailing average, suggesting enthusiasm is not yet broadening across the sector.",
+  "Tight supply at enabling equipment vendors could push out installation timing even with healthy customer intent."
+ ]
+}

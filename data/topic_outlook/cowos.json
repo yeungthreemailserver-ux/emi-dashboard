@@ -1,0 +1,60 @@
+{
+ "topic": "cowos",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "Advanced packaging stays tight as AI/HBM demand outruns expansion",
+  "summary": "Into 2026Q1, CoWoS and advanced packaging look set to remain constrained at high utilization rather than meaningfully loosen. TSMC, Applied, Lam, KLA and Micron all point to strong AI/HBM-driven demand and continued packaging investment, but the softer mention momentum and lack of direct tightening commentary from NVIDIA/AMD suggest the next 1-2 quarters are more about sustaining elevated demand than a fresh leg of broadening. Foundry and packaging-equipment suppliers remain the clearest beneficiaries; the key watch is whether incremental capacity additions start narrowing the bottleneck or simply get absorbed by AI demand.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "High-end packaging demand still exceeds available supply",
+   "detail": "TSMC says customers want demand met across front-end and high-end packaging, implying packaging remains a gating item for shipments.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC"
+   ]
+  },
+  {
+   "label": "AI-driven packaging capex is still accelerating",
+   "detail": "Applied sees advanced packaging spending accelerating into its strongest product areas, while Lam expects advanced packaging growth above 50%, supporting another solid quarter or two for packaging tools.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "HBM keeps pulling packaging capacity higher",
+   "detail": "Micron is expanding advanced packaging capacity because HBM demand is strong and future supply needs are rising, which argues the bottleneck persists even as capacity is added.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Packaging process control demand remains robust",
+   "detail": "KLA cites meaningful advanced packaging revenue growth and share gains, consistent with sustained customer investment in complex packaging flows.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Signal is strong in the supply chain, but less explicit at end customers",
+   "detail": "NVIDIA, AMD and ADI did not provide direct demand or capacity commentary on packaging, arguing against calling for a broad new upswing despite bullish supplier reads.",
+   "polarity": "neg",
+   "companies": [
+    "NVIDIA",
+    "AMD",
+    "Analog Devices"
+   ]
+  }
+ ],
+ "risks": [
+  "Capacity additions at TSMC and Micron could begin easing tightness faster than expected if AI/HBM order growth pauses.",
+  "Mention momentum is down 9% versus the trailing average; another step-down would suggest packaging is moving from acute bottleneck to normalized execution issue.",
+  "If end-customer commentary stays muted, supplier optimism may prove more supply-chain specific than truly broad-based demand expansion."
+ ]
+}

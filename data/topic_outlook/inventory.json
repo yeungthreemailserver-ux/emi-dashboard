@@ -1,0 +1,64 @@
+{
+ "topic": "inventory",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "Inventories look healthy; tightness stays selective in AI and memory",
+  "summary": "For 2026Q1, inventory reads argue for a broadly normalized supply backdrop over the next 1-2 quarters, not a renewed correction: most companies describe lean-to-balanced inventories, better turns, and rational customer ordering. Incremental builds are largely strategic and demand-backed around AI and leading-edge nodes rather than signs of excess, while true tightness remains concentrated in DRAM and parts of the AI supply chain. That should favor Micron, NVIDIA, Broadcom and TSMC more than broadline distribution or general-purpose analog, where inventory looks supportive but not scarce.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Lean channels and better turns",
+   "detail": "Customer and channel inventories are described as lean, disciplined, or improving, which supports healthier replenishment without signaling a glut.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Lam Research",
+    "Renesas",
+    "Arrow Electronics",
+    "Analog Devices",
+    "Avnet"
+   ]
+  },
+  {
+   "label": "Strategic builds tied to real demand",
+   "detail": "Higher inventories are mostly being built to support 2 nm/3 nm ramps, AI demand, and customer service levels rather than to absorb weak sell-through.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "NVIDIA",
+    "Broadcom",
+    "Texas Instruments",
+    "Analog Devices",
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Selective tightness in memory and AI supply",
+   "detail": "Low DRAM inventory and supply-security actions around accelerating AI demand keep parts of the supply chain tight and constructive for exposed suppliers.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Broadcom",
+    "Renesas"
+   ]
+  },
+  {
+   "label": "Normal inventory levels cap scarcity upside elsewhere",
+   "detail": "Several companies point to normal or flat inventory positions, suggesting broad supply is balanced and limiting any sector-wide shortage dynamic.",
+   "polarity": "neg",
+   "companies": [
+    "Avnet",
+    "Arrow Electronics",
+    "AMD",
+    "TSMC"
+   ]
+  }
+ ],
+ "risks": [
+  "AI and leading-edge inventory builds at TSMC, NVIDIA, Broadcom or Applied could become digestion risk if demand conversion slips.",
+  "DRAM tightness could intensify and start constraining downstream shipments beyond Micron's current favorable setup.",
+  "Distributor and industrial inventory progress could stall if current rational order patterns weaken at Avnet or Arrow."
+ ]
+}

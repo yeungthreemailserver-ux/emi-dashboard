@@ -1,0 +1,62 @@
+{
+ "topic": "mem_strategic",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Multi-year pricing commitments are spreading, led by AI and tight supply",
+  "summary": "Long-term agreement momentum looks set to improve into 2026Q1 as tight supply and AI-capacity buildouts push customers to secure multi-year access, giving suppliers better demand visibility and more stable pricing. The biggest beneficiaries are Micron, TSMC, Broadcom, NVIDIA and AMD, with Applied Materials and Lam also helped by customers seeking longer planning horizons; the weak spot is distributors and older contract structures, where Arrow's underperforming deal shows execution and economics can still disappoint. Watch whether elevated discussion turns into explicit price/term gains at neutral names like TI, ASML, ADI and Avnet.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Tight supply is forcing longer customer commitments",
+   "detail": "Micron explicitly ties multi-year commitments to extremely tight supply, supporting visibility and pricing stability; this dynamic also reinforces durable commitments where capacity planning matters.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "AI and hyperscale buildouts are locking in multi-year demand",
+   "detail": "Strategic compute-capacity partnerships and long-term supply deals are securing future deployments across AI infrastructure, supporting multi-generation revenue visibility.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA",
+    "AMD",
+    "Broadcom",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Customers want longer planning horizons across wafer-fab equipment",
+   "detail": "Applied Materials and Lam both point to rising demand and customer preference for longer visibility, implying more willingness to use LTAs and pricing arrangements to secure supply and roadmap support.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Contract quality is not uniformly improving",
+   "detail": "Arrow's underperforming multi-year contract shows that not all long-term agreements carry attractive pricing or healthy economics, especially in channels without clear supply leverage.",
+   "polarity": "neg",
+   "companies": [
+    "Arrow Electronics"
+   ]
+  },
+  {
+   "label": "Service relationships are becoming more strategic and sticky",
+   "detail": "KLA's longer service lifetimes and higher customer expectations make recurring relationships more embedded, increasing the odds of longer-duration commercial commitments.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  }
+ ],
+ "risks": [
+  "If supply tightness eases, customers may resist locked-in pricing and shift back toward shorter commitments.",
+  "Several neutral reads cited strategy or prior agreements but not clear current pricing power, so elevated mentions may overstate actual term/pricing improvement.",
+  "Arrow's weak contract suggests execution and contract structure remain a real risk even when duration is longer."
+ ]
+}

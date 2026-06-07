@@ -1,0 +1,53 @@
+{
+ "topic": "mem_prod",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Memory supply loosens gradually as clean-room additions begin to matter",
+  "summary": "Into 2026Q1, memory production looks set to improve modestly rather than snap back: multiple companies still describe tight clean-room and fab capacity, but they also point to accelerated build-outs and incremental productivity gains that should start lifting wafer starts. The clearest beneficiaries are equipment and process suppliers tied to memory capacity adds, while the main limiter remains how quickly new clean-room space and tools convert into usable output, especially in NAND. Watch whether the current tightness broadens into visible shipment constraints or instead eases as planned capacity comes online.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Accelerating clean-room and fab expansion",
+   "detail": "TSMC and Micron both describe stepped-up clean-room/fab build-outs in response to capacity bottlenecks, supporting a gradual increase in memory output over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Micron"
+   ]
+  },
+  {
+   "label": "More capacity coming online for wafer starts",
+   "detail": "Applied Materials says clean-room space and fab capacity are the pacing constraint, but also notes new capacity is coming online to support additional wafer starts.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Productivity upside within constrained NAND footprint",
+   "detail": "Lam highlights constrained clean-room space and NAND capacity, but sees incremental productivity as a way to unlock output even before major new footprint is fully available.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Near-term physical space remains the bottleneck",
+   "detail": "Across TSMC, Applied, Lam, and Micron, tight clean-room space and fab capacity still cap how fast supply can improve, implying easing will likely be incremental rather than broad-based.",
+   "polarity": "neg",
+   "companies": [
+    "TSMC",
+    "Applied Materials",
+    "Lam Research",
+    "Micron"
+   ]
+  }
+ ],
+ "risks": [
+  "Clean-room or tool-install timing slips delay conversion of announced build-outs into real wafer output.",
+  "NAND remains the most exposed subsegment if productivity gains fail to offset constrained capacity.",
+  "KLA's neutral read may signal supply tightness is not yet uniformly visible across the ecosystem, limiting the breadth of the recovery."
+ ]
+}

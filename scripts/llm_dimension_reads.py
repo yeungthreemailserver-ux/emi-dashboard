@@ -10,7 +10,7 @@ Key is read from openai_key.txt (gitignored); never printed. Output -> data/dime
     ...\python.exe scripts\llm_dimension_reads.py            # all companies
 """
 from __future__ import annotations
-import argparse, json, sys, time, urllib.request, urllib.error
+import argparse, json, re, sys, time, urllib.request, urllib.error
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -27,6 +27,17 @@ TREE = json.loads((ROOT / "data" / "topic_tree.json").read_text(encoding="utf-8"
 LEAVES = {tid: lf["label"] for tid, lf in TREE["leaves"].items() if lf["parent"] in TREE["nodes"]}
 KIND = {tid: TREE["leaves"][tid].get("kind", "topic") for tid in LEAVES}
 LABEL2ID = {label: tid for tid, label in LEAVES.items()}
+_LOWER2ID = {l.lower(): i for l, i in LABEL2ID.items()}
+_SEP = re.compile(r"\s*(?:[·•|(]|�).*$")   # strip any echoed suffix like " · product" / " (type …)"
+
+
+def to_id(s):
+    """Map an LLM-echoed topic name back to its stable id, tolerating appended type/separators."""
+    s = (s or "").strip()
+    if s in LABEL2ID:
+        return LABEL2ID[s]
+    base = _SEP.sub("", s).strip()
+    return LABEL2ID.get(base) or _LOWER2ID.get(base.lower()) or base
 _MF = json.loads((ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
 NAMES = {c["ticker"]: c["name"] for c in _MF["companies"]}
 PERIOD = PERIODS[-1]
@@ -85,7 +96,7 @@ def sentences_for(tk):
 
 
 def call_llm(name, tk, topics, model):
-    blocks = "\n\n".join(f"[TOPIC: {LEAVES[t]} · {KIND.get(t, 'topic')}]\n" + "\n".join("- " + s[:280] for s in topics[t]) for t in topics)
+    blocks = "\n\n".join(f"[TOPIC: {LEAVES[t]}]  (type: {KIND.get(t, 'topic')})\n" + "\n".join("- " + s[:280] for s in topics[t]) for t in topics)
     user = f"Company: {name} ({tk}), {PERIOD} earnings call. Judge demand & supply for each topic.\n\n{blocks}"
     payload = {
         "model": model,
@@ -142,7 +153,7 @@ def main():
         except Exception as e:   # noqa: BLE001 — never let one company abort the batch
             msg = e.read().decode("utf-8", "ignore")[:160] if isinstance(e, urllib.error.HTTPError) else str(e)[:160]
             print(f"  {tk}: FAILED ({type(e).__name__}) {msg}"); continue
-        out[tk] = {LABEL2ID.get(t["topic"], t["topic"]): t for t in reads}   # key by stable topic id
+        out[tk] = {to_id(t["topic"]): t for t in reads}   # key by stable topic id (tolerant of echoed suffixes)
         save()   # persist after every company so a crash never loses progress
         pin, pout = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
         tot_in += pin; tot_out += pout

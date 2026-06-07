@@ -1,0 +1,52 @@
+{
+ "topic": "dram",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "DRAM stays tight, but incremental upside is moderating",
+  "summary": "Into 2026Q1, DRAM looks set to remain fundamentally strong rather than re-accelerate: Micron still sees AI-driven pull against constrained supply growth, while Applied, Lam, and ASML all point to healthy spending around next-node and advanced patterning ramps. The key watch is whether AI/HBM tightness continues to pull broader DRAM pricing and capex higher, because mention momentum has cooled and KLA still flags DRAM cost as a downstream margin headwind even as memory-related opportunities remain intact.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI-led DRAM demand remains strong",
+   "detail": "AI/AI-compute demand is still the core support for DRAM, with Micron citing strong pull and Applied calling DRAM spending hot.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Supply growth is constrained",
+   "detail": "HBM mix plus node and capacity limits are restricting supply growth, helping keep DRAM conditions tight.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Next-node transitions are sustaining equipment intensity",
+   "detail": "1C, DDR5, LPDDR5, EUV, and immersion adoption all indicate customers are still investing through technology transitions rather than pausing.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Applied Materials",
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Downstream cost pressure caps broadening",
+   "detail": "Higher DRAM cost is still a gross-margin headwind for some customers, suggesting the benefit is strongest upstream and may not broaden evenly across semis.",
+   "polarity": "neg",
+   "companies": [
+    "KLA"
+   ]
+  }
+ ],
+ "risks": [
+  "If 1C/EUV and DDR5/LPDDR5 ramps slip, current spending strength could fade faster than expected.",
+  "If supply growth improves quicker than Micron expects through mix, node, or capacity gains, tightness could ease.",
+  "If DRAM cost pressure worsens for end customers, broader semiconductor demand could absorb less of the current memory strength."
+ ]
+}

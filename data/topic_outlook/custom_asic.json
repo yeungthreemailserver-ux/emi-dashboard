@@ -1,0 +1,57 @@
+{
+ "topic": "custom_asic",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "Hyperscaler ASIC momentum persists, but broad adoption is not accelerating",
+  "summary": "Into 2026Q1, custom silicon/ASIC looks supported by expanding hyperscaler programs and new design starts, but the upside remains concentrated rather than broadening across data centers. Broadcom and KLA point to hot demand tied to TPU/ASIC investment and faster time-to-market needs, while NVIDIA still sees many customers preferring full systems over semi-custom approaches. With mention intensity falling to 0.6x and below its trailing average, watch whether current hyperscaler projects translate into wider deployments or stay limited to a few large programs.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Anthropic and Google TPU expansion",
+   "detail": "Broadcom says key hyperscaler/custom AI programs are expanding, supporting near-term ASIC demand even if economics are not pristine.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "More hyperscaler design starts",
+   "detail": "KLA sees custom-chip investment driving additional design activity, which supports the ASIC pipeline over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Performance and time-to-market urgency",
+   "detail": "KLA highlights stronger demand tied to performance requirements and faster execution, reinforcing continued custom-silicon development.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Preference for full systems over semi-custom chips",
+   "detail": "NVIDIA says many data centers still favor systems rather than semi-custom designs, limiting a broader ASIC shift.",
+   "polarity": "neg",
+   "companies": [
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "ASIC margin pressure",
+   "detail": "Broadcom notes margin pressure on ASIC programs, a sign that growth may come with less attractive economics.",
+   "polarity": "neg",
+   "companies": [
+    "Broadcom"
+   ]
+  }
+ ],
+ "risks": [
+  "Hyperscaler ASIC demand remains concentrated in a small number of TPU/custom programs rather than broadening.",
+  "Data center buyers continue to favor integrated systems, capping wider semi-custom adoption.",
+  "Falling mention momentum may signal that enthusiasm is cooling unless new design wins convert into visible deployments."
+ ]
+}

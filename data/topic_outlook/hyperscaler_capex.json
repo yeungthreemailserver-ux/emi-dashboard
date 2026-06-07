@@ -1,0 +1,52 @@
+{
+ "topic": "hyperscaler_capex",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "Hyperscaler AI spend stays high, but pace looks steadier than faster",
+  "summary": "Through 2026Q1, hyperscaler capex demand should remain elevated rather than materially reaccelerate. NVIDIA, AMD and Broadcom still point to strong AI deployments and continued buying, while Arrow and Avnet show that the build-out is broad enough to pull through wider hardware demand; KLA’s tight-capacity read confirms intensity but also flags that supply-chain bottlenecks could shift revenue timing. With mentions still elevated at 2.1x but below the recent peak, the key watch is whether accelerating build activity sustains or settles into a high but steadier run-rate.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI infrastructure expansion remains active across major hyperscalers",
+   "detail": "NVIDIA cites very strong hyperscaler adoption and capacity expansion, AMD reports engagement with every major hyperscaler and continued buying, and Broadcom still sees large hyperscalers as core AI deployment venues.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA",
+    "AMD",
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "Build activity is broadening beyond direct chip vendors",
+   "detail": "Arrow says hyperscaler build activity is accelerating, and Avnet’s sell-through into hyperscalers/data centers implies continued infrastructure build activity supporting hardware demand.",
+   "polarity": "pos",
+   "companies": [
+    "Arrow Electronics",
+    "Avnet"
+   ]
+  },
+  {
+   "label": "Capex is still strong enough to pull upstream equipment demand",
+   "detail": "KLA says hyperscaler capex is translating into WFE demand faster than industry capacity can be added, reinforcing that spending intensity remains high.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Capacity constraints could limit deployment timing",
+   "detail": "KLA’s view that WFE demand is outpacing industry capacity additions suggests bottlenecks could cap near-term conversion of strong capex intent into shipped systems.",
+   "polarity": "neg",
+   "companies": [
+    "KLA"
+   ]
+  }
+ ],
+ "risks": [
+  "Whether Arrow’s accelerating build activity holds into 2026Q1 or normalizes after the recent mention peak.",
+  "Whether WFE/capacity bottlenecks flagged by KLA begin to delay AI infrastructure deployment and push out revenue timing.",
+  "Whether NVIDIA’s currently balanced supply remains sufficient as hyperscaler capacity expansion continues."
+ ]
+}

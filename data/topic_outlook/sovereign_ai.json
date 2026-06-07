@@ -1,0 +1,41 @@
+{
+ "topic": "sovereign_ai",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Sovereign AI demand is real, but broadening remains early",
+  "summary": "Sovereign AI looks set to improve over the next 1-2 quarters as NVIDIA and AMD both describe it as an incremental accelerator demand channel, with NVIDIA already seeing meaningful revenue contribution. ADI adds a second leg via sovereignty-driven A&D spending, suggesting the theme is extending beyond core GPUs, but the softer mention momentum implies adoption is still concentrated rather than yet becoming a broad sector-wide demand driver. Watch for more evidence that sovereign projects convert from isolated wins into sustained multi-vendor volume.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Sovereign AI is becoming a meaningful accelerator demand channel",
+   "detail": "NVIDIA says sovereign revenue is growing strongly and has become a meaningful new source of demand, indicating near-term spending is moving from concept to revenue.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "AMD is gaining sovereign accelerator adoption",
+   "detail": "AMD cites Instinct adoption across sovereign customers, supporting a broader accelerator spend pool rather than a single-vendor phenomenon.",
+   "polarity": "pos",
+   "companies": [
+    "AMD"
+   ]
+  },
+  {
+   "label": "National sovereignty concerns are accelerating public-sector and A&D spending",
+   "detail": "ADI sees sovereignty concerns speeding an already strong multiyear aerospace and defense growth path, reinforcing sovereign demand beyond pure AI compute.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention momentum is slightly negative versus the trailing average, so the theme may remain important but not yet broaden materially across the sector next quarter.",
+  "Demand is currently evidenced by only a small set of companies, raising the risk that sovereign AI remains concentrated in accelerators and defense-exposed names.",
+  "Key watch-item is conversion pace: strong sovereign interest must continue translating into recognized revenue, not just pipeline and design activity."
+ ]
+}

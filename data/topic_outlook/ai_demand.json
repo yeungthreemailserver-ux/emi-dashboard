@@ -1,0 +1,61 @@
+{
+ "topic": "ai_demand",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI demand broadens beyond GPUs; capacity remains the key constraint",
+  "summary": "AI/datacenter demand looks set to improve again into 2026Q1, with bullish reads spanning foundry, wafer-fab equipment, GPUs, memory, distribution, and analog/power rather than just a single bottlenecked node. Mentions rose to 40.9x, up 21% versus the trailing average, reinforcing that AI is becoming more central across the sector. The main limiter is fulfillment, not demand: tight supply and extending lead times at TSMC, ASML, KLA, NVIDIA, and Avnet should keep capex, mix, and tool intensity strong, while memory and broader datacenter attach opportunities benefit Lam, Micron, AMD, Broadcom, ADI, TI, Applied, and Renesas.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Hyperscaler and frontier-lab buildouts are still widening the demand base",
+   "detail": "Demand is expanding beyond a narrow set of customers, with hyperscaler pull-ins, AI factory buildouts, frontier labs, and enterprise adoption all cited as ongoing demand drivers.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA",
+    "Broadcom",
+    "Arrow Electronics",
+    "AMD"
+   ]
+  },
+  {
+   "label": "Undersupply is sustaining capacity ramps across the manufacturing chain",
+   "detail": "Severe undersupply and under-served AI demand are driving capacity additions and downstream equipment demand, supporting foundry utilization and process-control / lithography intensity into the next quarter.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "ASML",
+    "KLA",
+    "NVIDIA",
+    "Avnet"
+   ]
+  },
+  {
+   "label": "Memory content and datacenter bits are outgrowing legacy compute end-markets",
+   "detail": "AI servers are pulling memory demand faster than PC/mobile, keeping datacenter memory and related equipment demand on a stronger trajectory.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "Micron"
+   ]
+  },
+  {
+   "label": "AI attach is broadening into power, analog, and mixed-signal content",
+   "detail": "AI/datacenter demand is increasingly benefiting adjacent semiconductor content—power efficiency, accelerator support, and broader platform design wins—rather than only core compute silicon.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Analog Devices",
+    "Texas Instruments",
+    "Renesas",
+    "AMD"
+   ]
+  }
+ ],
+ "risks": [
+  "Persistent tight supply and extending lead times could cap near-term shipments even if end-demand stays very strong.",
+  "AI demand is still being led by hyperscalers and frontier labs in several reads; any pause in pull-ins would be felt quickly across the chain.",
+  "Watch whether datacenter/memory strength continues to outgrow PC/mobile, since that relative outperformance is a key support for Lam and Micron."
+ ]
+}

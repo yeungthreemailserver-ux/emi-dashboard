@@ -1,0 +1,56 @@
+{
+ "topic": "mem_pricing",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Memory pricing should keep rising, with gains broadening through the channel",
+  "summary": "Memory pricing looks set to remain on an upward path in 2026Q1, supported by unusually strong topic momentum and, more importantly, by consistent company commentary that prices are already moving higher and still have room to go. The clearest beneficiaries are memory-exposed suppliers and distributors such as Micron, KLA, Avnet and Arrow Electronics, while downstream names like AMD, Broadcom and NVIDIA imply customers are still absorbing higher costs. Watch whether current forward-buying to lock supply turns into a temporary pull-forward, because that would likely slow the pace of further hikes rather than reverse the trend outright.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Distributor channel still sees active price hikes",
+   "detail": "Avnet said memory had the biggest price increases and expects more, while Arrow Electronics also cited ongoing increases and customer orders pulled forward to secure supply.",
+   "polarity": "pos",
+   "companies": [
+    "Avnet",
+    "Arrow Electronics"
+   ]
+  },
+  {
+   "label": "Higher memory pricing is already lifting margins",
+   "detail": "Micron said higher pricing is boosting gross margins, and KLA said elevated memory pricing persists; Applied Materials also pointed to a stronger environment and pricing power.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "KLA",
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Downstream customers are absorbing higher costs",
+   "detail": "AMD expects memory price increases to help pricing/mix and gross margin, Broadcom cited rising ASPs on shipping programs, and NVIDIA pointed to higher system and rental pricing.",
+   "polarity": "pos",
+   "companies": [
+    "AMD",
+    "Broadcom",
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "Pricing actions are sticking across semis, but step-ups may moderate",
+   "detail": "Analog Devices said pricing actions are coming through as expected and Texas Instruments said prices may rise further, but TSMC's caution against dramatic changes suggests firmer pricing rather than another sharp spike.",
+   "polarity": "neg",
+   "companies": [
+    "Analog Devices",
+    "Texas Instruments",
+    "TSMC"
+   ]
+  }
+ ],
+ "risks": [
+  "Arrow Electronics' customer pre-buys to lock supply could pull demand forward and reduce urgency for additional increases after Q1.",
+  "Several companies with mentions, including ASML, Lam Research and Renesas, did not provide real pricing evidence, so the mention surge may overstate true breadth.",
+  "TSMC's warning to avoid dramatic changes raises the risk that pricing stays firm but the magnitude of further hikes moderates."
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "topic": "compute_demand",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Compute demand remains hot as adoption broadens beyond early AI buyers",
+  "summary": "Forward demand still looks positive for the next 1-2 quarters: all four reads are bullish, with AMD and Applied both pointing to accelerating demand and a widening customer set rather than a narrow replacement cycle. Broadcom adds that LLM customers still need substantial compute capacity, while Lam suggests memory demand should stay supported as part of accelerated compute builds. The main watch-item is that topic mentions have cooled from prior highs, so the debate is less about whether demand is strong and more about how fast broadening demand converts into incremental orders.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Broader customer adoption",
+   "detail": "Applied says compute demand is growing very quickly across a broader base, indicating demand is spreading beyond the earliest buyers.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Forecasts running above plan",
+   "detail": "AMD says lead forecasts exceed plans and new large-scale customers are engaging, pointing to near-term upside in compute demand.",
+   "polarity": "pos",
+   "companies": [
+    "AMD"
+   ]
+  },
+  {
+   "label": "LLM capacity build-out",
+   "detail": "Broadcom sees huge demand for compute capacity from LLM players, supporting continued infrastructure spending.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "Memory tied to accelerated compute",
+   "detail": "Lam frames memory as critical to accelerated compute architectures, implying compute demand is strong enough to pull adjacent memory investment with it.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention intensity has fallen from earlier peaks, which could signal normalization in enthusiasm even if demand stays healthy.",
+  "AMD's upside depends on lead forecasts and new large-scale engagements converting into sustained shipments.",
+  "Broadcom's demand read is tied to LLM-driven capacity needs, leaving the outlook somewhat dependent on a concentrated buyer group."
+ ]
+}

@@ -1,0 +1,59 @@
+{
+ "topic": "agentic_ai",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Agentic inference demand is broadening beyond GPUs into full-system AI spend",
+  "summary": "The 2026Q1 setup still looks improving: every company read is bullish, with NVIDIA and AMD both calling out a faster inference/agentic inflection, while TSMC and Micron point to higher token intensity and memory/CPU content per deployment. That matters because demand is no longer just a GPU story—Broadcom sees enterprise and consumer inference broadening the buyer base, and Applied Materials is already seeing that pull through into wafer fab equipment. Mentions remain elevated at 4.4x and modestly above the trailing average, so the key watch is whether deployment breadth keeps pace with already-strong expectations.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Higher token intensity lifts compute demand per workload",
+   "detail": "TSMC frames agentic AI as a step-up in token consumption and CPU importance, implying more compute required per deployment rather than just more deployments.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Inference workloads are inflecting faster at the accelerator layer",
+   "detail": "NVIDIA says inference and agentic workloads are inflecting higher, supporting Blackwell ramps now and Rubin demand next.",
+   "polarity": "pos",
+   "companies": [
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "Server CPU TAM expands with agentic AI",
+   "detail": "AMD sees agentic and inference workloads accelerating fast enough to materially raise server CPU TAM, broadening AI spend beyond accelerators.",
+   "polarity": "pos",
+   "companies": [
+    "AMD",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Memory content rises across servers and devices",
+   "detail": "Micron says inference and agentic AI increase memory content and drive more workloads across both devices and servers, adding a second major silicon beneficiary.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Demand is broadening into enterprise, consumer, and upstream capex",
+   "detail": "Broadcom sees inference reaching consumers and enterprises, while Applied Materials cites meaningful growth in agentic applications as a clear WFE tailwind.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom",
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "Blackwell inference ramps need to convert cleanly into sustained deployment demand, not just near-term digestion-resistant stocking.",
+  "Enterprise and consumer inference adoption must continue broadening; if monetization lags, Broadcom's buyer-base expansion thesis could soften.",
+  "The expected uplift in CPU and memory content per agentic workload needs to materialize at scale for AMD, Micron, and TSMC's demand assumptions to hold."
+ ]
+}

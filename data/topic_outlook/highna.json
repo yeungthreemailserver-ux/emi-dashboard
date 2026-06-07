@@ -1,0 +1,58 @@
+{
+ "topic": "highna",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "High-NA adoption is advancing, but tool availability still caps near-term upside",
+  "summary": "The next 1-2 quarters look modestly better for High-NA EUV: ASML is seeing real-product customer testing, strong readiness, and multi-node demand, while Micron highlights the technology’s efficiency and scaling benefits for future nodes. But the ramp is still supply-limited rather than demand-limited, with TSMC pointing to EUV supply bottlenecks and KLA not yet seeing enough ecosystem acceleration to change its outlook. Mention momentum is only slightly positive versus the trailing average, so the setup is constructive but not yet a broad sector inflection.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Real-product customer qualification is progressing",
+   "detail": "ASML says High-NA is being tested on real product, indicating demand is moving beyond evaluation and into practical qualification.",
+   "polarity": "pos",
+   "companies": [
+    "ASML"
+   ]
+  },
+  {
+   "label": "Multi-node demand is forming",
+   "detail": "ASML sees strong readiness and demand across multiple nodes, supporting a broader use case than a single leading-edge insertion.",
+   "polarity": "pos",
+   "companies": [
+    "ASML"
+   ]
+  },
+  {
+   "label": "Future-node efficiency and scaling benefits are becoming clearer",
+   "detail": "Micron views more advanced EUV as a way to improve manufacturing efficiency and enable tighter scaling at future nodes, reinforcing strategic value in memory.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Deployment pace is constrained by EUV tool availability",
+   "detail": "TSMC flags EUV supply as the issue, and ASML also describes supply as tight, suggesting near-term adoption is gated by shipments and installs rather than customer interest.",
+   "polarity": "neg",
+   "companies": [
+    "TSMC",
+    "ASML"
+   ]
+  },
+  {
+   "label": "Broader ecosystem pull-through remains muted",
+   "detail": "KLA kept its forecast unchanged and explicitly cited offsetting puts and takes, implying High-NA is not yet driving a clear next-leg uplift across adjacent process-control demand.",
+   "polarity": "neg",
+   "companies": [
+    "KLA"
+   ]
+  }
+ ],
+ "risks": [
+  "EUV supply constraints persist longer than expected, delaying customer installs and qualification timelines.",
+  "Real-product testing does not translate into meaningful volume-node commitments outside early adopters.",
+  "Adjacent equipment demand remains mixed, limiting evidence of a broader High-NA ecosystem ramp."
+ ]
+}

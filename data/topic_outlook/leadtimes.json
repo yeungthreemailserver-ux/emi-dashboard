@@ -1,0 +1,60 @@
+{
+ "topic": "leadtimes",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Lead-time extension is broadening, but remains orderly",
+  "summary": "Into 2026Q1, lead times look set to extend modestly as demand increasingly runs ahead of supply in wafer fab equipment, compute and broadline distribution rather than in just one pocket. That is supportive for suppliers leveraged to tight markets and backlog visibility—especially Lam, KLA, Micron, Broadcom, Avnet and Arrow—while the benefit is less pronounced where supply is still controlled, such as Analog Devices, and Applied offers no clear read. Mentions are running 2.1x and 6% above the trailing average, which supports a re-tightening thesis, but the tone is still more 'manageable extension' than acute shortage.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "WFE demand is pushing tool lead times longer",
+   "detail": "Lam and KLA both describe extended lead times and tight components as a function of strong demand outstripping available supply for tools.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "KLA"
+   ]
+  },
+  {
+   "label": "Supply growth remains constrained in tight markets",
+   "detail": "Micron sees long lead times as evidence that supply growth is constrained, while Broadcom says customers need more lead time to secure compute capacity.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Broadcom"
+   ]
+  },
+  {
+   "label": "Tightening is broadening across distribution channels",
+   "detail": "Avnet says lead times are stretching across more products, and Arrow sees gradual increases that point to tighter supply even if conditions are still manageable.",
+   "polarity": "pos",
+   "companies": [
+    "Avnet",
+    "Arrow Electronics"
+   ]
+  },
+  {
+   "label": "Early extensions are emerging even where lead times were kept short",
+   "detail": "Texas Instruments notes lead times had been short and stable, so any extension is a sign demand is beginning to outrun supply.",
+   "polarity": "pos",
+   "companies": [
+    "Texas Instruments"
+   ]
+  },
+  {
+   "label": "Analog supply remains under control",
+   "detail": "Analog Devices says lead times are in pretty good shape, suggesting not all end markets are seeing real supply stress yet.",
+   "polarity": "neg",
+   "companies": [
+    "Analog Devices"
+   ]
+  }
+ ],
+ "risks": [
+  "Arrow's 'manageable' increases may fail to progress into broader constraint, limiting upside from here.",
+  "Analog lead times staying balanced could keep the tightening cycle concentrated in tools, compute and selected channels rather than sector-wide.",
+  "Applied Materials' neutral commentary suggests some of the longer lead-time discussion may reflect planning/investment timing rather than a clean near-term supply squeeze."
+ ]
+}

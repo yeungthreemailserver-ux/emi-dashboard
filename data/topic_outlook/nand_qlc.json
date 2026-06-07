@@ -1,0 +1,51 @@
+{
+ "topic": "nand_qlc",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI demand outpaces disciplined NAND supply into early 2026",
+  "summary": "NAND looks set to improve over the next 1-2 quarters as AI-led data-center demand accelerates and pushes NAND higher in the memory hierarchy, with Lam and Micron both calling out stronger demand and Micron highlighting tight supply. Applied’s view that raised bit growth is being met mostly through upgrades rather than new wafer starts suggests supply stays disciplined, supporting Micron and NAND-exposed equipment vendors, though the falling mention trend implies the bullish view is not yet broadening materially.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI data-center NAND demand is accelerating",
+   "detail": "Micron sees data-center NAND demand accelerating, while Lam says AI is increasing NAND’s role in the memory hierarchy.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Higher-layer QLC adoption is rising",
+   "detail": "Lam specifically cites AI-driven demand for higher-layer QLC, pointing to a richer technology mix within NAND.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "Supply discipline remains supportive",
+   "detail": "Applied says new wafer starts are limited and upgrades are meeting demand, while Micron describes supply as tight, a combination that should keep the market constructive rather than oversupplied.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Micron"
+   ]
+  },
+  {
+   "label": "Bit growth is improving without a major capacity surge",
+   "detail": "Applied is raising its NAND bit-growth view, but with balanced supply and limited greenfield starts, implying healthier demand absorption than a broad supply reset.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "If upgrade-led capacity additions meet demand faster than expected, the current tight/balanced setup could soften.",
+  "AI-driven NAND demand may stay concentrated in data-center builds rather than broadening across end markets.",
+  "NAND mention momentum is down versus the trailing average, so sector conviction could lag the bullish company commentary."
+ ]
+}

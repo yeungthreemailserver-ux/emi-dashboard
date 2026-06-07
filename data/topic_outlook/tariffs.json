@@ -1,0 +1,42 @@
+{
+ "topic": "tariffs",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Tariff drag is fading, no longer a key semiconductor macro swing factor",
+  "summary": "Tariff/trade policy looks set to be a smaller sector headwind in 2026Q1, with both Analog Devices and KLA framing tariff effects as easing rather than worsening. The sharp drop in mentions supports that this issue is moving out of the critical path, which is modestly positive for margins and reduces the risk of demand distortion from pull-ins; the main watchpoint is whether policy changes reintroduce volatility after companies have largely de-emphasized it.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Tariff headwinds are easing",
+   "detail": "KLA explicitly expects tariff pressure to ease through the year, improving the setup for margins over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Prior pull-in distortion appears largely behind",
+   "detail": "Analog Devices described tariff-related pull-ins as a past issue, implying less risk of near-term order noise from customers accelerating purchases ahead of policy changes.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Management attention to tariffs has collapsed",
+   "detail": "Topic mentions fell to 0.3x, down 79% versus the trailing average, indicating tariffs are becoming less relevant to current operating discussions and likely less disruptive near term.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices",
+    "KLA"
+   ]
+  }
+ ],
+ "risks": [
+  "Any new tariff actions or trade-policy shifts could quickly revive customer pull-ins or demand pauses.",
+  "If easing tariffs do not translate into cleaner margins at KLA, it would suggest other cost or mix pressures matter more.",
+  "Low mention levels may reflect reduced visibility rather than resolved risk, given only limited company coverage this quarter."
+ ]
+}

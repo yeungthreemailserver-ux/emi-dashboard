@@ -1,0 +1,59 @@
+{
+ "topic": "nodes",
+ "source": "gpt-5.4-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "N2 demand stays ahead of supply, lifting leading-edge tool intensity",
+  "summary": "Advanced-node momentum looks set to improve into 2026Q1 despite a modest cooling in mentions: TSMC is still seeing hot N2 demand, ASML is seeing 2nm capacity builds for AI, and KLA highlights that 2nm carries higher process-control intensity than 3nm. The clearest beneficiaries are TSMC and leading-edge equipment names like ASML, KLA and Applied Materials, while the main near-term friction is TSMC’s initial ramp margin dilution and the tight node-migration constraints flagged by TSMC and Micron. Watch whether leading-edge strength continues to outweigh the broader spending softness Lam called out.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Hot N2 demand supporting continued ramp",
+   "detail": "TSMC is seeing strong N2 demand and planning multi-year capacity, indicating the node is still in a buildout phase rather than peaking.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC"
+   ]
+  },
+  {
+   "label": "AI-driven 2nm capacity additions",
+   "detail": "ASML says customers are building capacity across advanced nodes and ramping 2nm for AI, supporting forward tool demand at the leading edge.",
+   "polarity": "pos",
+   "companies": [
+    "ASML"
+   ]
+  },
+  {
+   "label": "Higher 2nm process intensity boosts tool content",
+   "detail": "KLA notes 2nm is more process-control intensive than 3nm, and Applied points to multi-node co-innovation and design wins, implying richer content per wafer as N2 ramps.",
+   "polarity": "pos",
+   "companies": [
+    "KLA",
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Tight supply and constrained migrations keep the ramp disciplined",
+   "detail": "TSMC and Micron both point to tight supply or constrained node migrations, which supports supplier demand and technology value even if it limits near-term output.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Micron"
+   ]
+  },
+  {
+   "label": "Early-ramp economics remain a drag at the foundry level",
+   "detail": "TSMC explicitly says the initial N2 ramp dilutes margins, so the node can stay strategically strong even while near-term profitability lags.",
+   "polarity": "neg",
+   "companies": [
+    "TSMC"
+   ]
+  }
+ ],
+ "risks": [
+  "TSMC's N2 margin dilution lasts longer than expected, tempering enthusiasm around the ramp.",
+  "Tight supply and node-migration constraints cap wafer availability, delaying revenue conversion despite strong demand.",
+  "Leading-edge strength fails to fully offset the flatter broader spending backdrop Lam described, limiting how far the upcycle broadens."
+ ]
+}
