@@ -200,10 +200,10 @@
   ],
   "compute_demand": [
    0.1,
-   0.6,
-   0.6,
-   0.6,
-   0.6
+   0.8,
+   1.4,
+   0.9,
+   0.7
   ],
   "gaa": [
    1.0,
@@ -211,6 +211,20 @@
    1.0,
    1.1,
    0.6
+  ],
+  "mem_prod": [
+   0.9,
+   0.9,
+   0.9,
+   3.4,
+   2.4
+  ],
+  "hyperscaler_capex": [
+   1.1,
+   1.1,
+   3.1,
+   2.4,
+   2.1
   ]
  },
  "breadth": {
@@ -397,11 +411,11 @@
    3
   ],
   "compute_demand": [
-   1,
+   2,
    5,
-   3,
-   6,
-   3
+   4,
+   7,
+   4
   ],
   "gaa": [
    3,
@@ -409,6 +423,20 @@
    2,
    3,
    2
+  ],
+  "mem_prod": [
+   4,
+   3,
+   5,
+   6,
+   5
+  ],
+  "hyperscaler_capex": [
+   5,
+   4,
+   11,
+   8,
+   6
   ]
  },
  "per_company": {
@@ -1644,6 +1672,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     1,
+     0,
+     0,
+     0,
+     2
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     1,
+     0,
+     0,
+     0,
+     1
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ]
    }
   },
   "ASML.AS": {
@@ -2836,6 +2952,94 @@
     ]
    },
    "gaa": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
     "all": [
      0,
      0,
@@ -4112,6 +4316,94 @@
      2,
      2
     ]
+   },
+   "mem_prod": {
+    "all": [
+     1,
+     5,
+     1,
+     19,
+     10
+    ],
+    "prepared": [
+     0,
+     5,
+     0,
+     4,
+     3
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     4,
+     1
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     2
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     4,
+     2
+    ],
+    "a": [
+     1,
+     0,
+     1,
+     11,
+     5
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     3,
+     1,
+     2,
+     0,
+     0
+    ],
+    "prepared": [
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "ceo": [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "a": [
+     2,
+     0,
+     0,
+     0,
+     0
+    ]
    }
   },
   "LRCX": {
@@ -5265,7 +5557,7 @@
      0,
      0,
      1,
-     0
+     1
     ],
     "prepared": [
      0,
@@ -5300,7 +5592,7 @@
      0,
      0,
      0,
-     0
+     1
     ]
    },
    "gaa": {
@@ -5344,6 +5636,94 @@
      4,
      3,
      4,
+     0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     4,
+     14,
+     12
+    ],
+    "prepared": [
+     0,
+     0,
+     1,
+     3,
+     1
+    ],
+    "ceo": [
+     0,
+     0,
+     1,
+     2,
+     1
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     3,
+     1,
+     5
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     10,
+     6
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     6,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     2,
+     0,
      0
     ]
    }
@@ -6495,31 +6875,31 @@
    },
    "compute_demand": {
     "all": [
-     0,
      1,
-     0,
-     3,
+     4,
+     10,
+     6,
      0
     ],
     "prepared": [
-     0,
      1,
-     0,
-     2,
+     4,
+     6,
+     4,
      0
     ],
     "ceo": [
      0,
      0,
-     0,
+     3,
      1,
      0
     ],
     "cfo": [
-     0,
-     0,
-     0,
      1,
+     0,
+     3,
+     3,
      0
     ],
     "q": [
@@ -6532,8 +6912,8 @@
     "a": [
      0,
      0,
-     0,
-     1,
+     4,
+     2,
      0
     ]
    },
@@ -6579,6 +6959,94 @@
      0,
      0,
      0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     1,
+     1,
+     10,
+     13,
+     11
+    ],
+    "prepared": [
+     1,
+     1,
+     5,
+     4,
+     3
+    ],
+    "ceo": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    "cfo": [
+     1,
+     0,
+     3,
+     4,
+     3
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     6,
+     3
+    ],
+    "a": [
+     0,
+     0,
+     5,
+     3,
+     5
     ]
    }
   },
@@ -7814,6 +8282,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     9,
+     6,
+     5,
+     10,
+     9
+    ],
+    "prepared": [
+     7,
+     5,
+     1,
+     5,
+     9
+    ],
+    "ceo": [
+     7,
+     5,
+     1,
+     5,
+     8
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "q": [
+     0,
+     0,
+     2,
+     2,
+     0
+    ],
+    "a": [
+     2,
+     1,
+     2,
+     3,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     4,
+     4,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     3,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     3,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     3,
+     1,
+     0
+    ]
    }
   },
   "6723.T": {
@@ -8066,6 +8622,24 @@
      0,
      0,
      0,
+     0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     1,
+     1,
      0
     ]
    }
@@ -9302,6 +9876,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     5,
+     1,
+     1
+    ],
+    "prepared": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     4,
+     1,
+     1
+    ]
    }
   },
   "ARW": {
@@ -10535,6 +11197,94 @@
      0,
      0,
      0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     3,
+     0,
+     6
+    ],
+    "prepared": [
+     0,
+     0,
+     3,
+     0,
+     2
+    ],
+    "ceo": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     1,
+     0,
+     2
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     3
     ]
    }
   },
@@ -11770,6 +12520,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     3,
+     8,
+     6,
+     4,
+     4
+    ],
+    "prepared": [
+     3,
+     8,
+     5,
+     4,
+     0
+    ],
+    "ceo": [
+     3,
+     0,
+     5,
+     4,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "a": [
+     0,
+     0,
+     1,
+     0,
+     3
+    ]
    }
   },
   "AVGO": {
@@ -13004,6 +13842,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     5,
+     5,
+     2,
+     9,
+     2
+    ],
+    "prepared": [
+     1,
+     0,
+     0,
+     1,
+     1
+    ],
+    "ceo": [
+     1,
+     0,
+     0,
+     1,
+     1
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     1,
+     0,
+     0,
+     3,
+     1
+    ],
+    "a": [
+     3,
+     5,
+     2,
+     5,
+     0
+    ]
    }
   },
   "TXN": {
@@ -14156,6 +15082,50 @@
      0,
      0,
      0,
+     1,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "gaa": {
+    "all": [
+     0,
+     0,
+     0,
      0,
      0
     ],
@@ -14195,7 +15165,51 @@
      0
     ]
    },
-   "gaa": {
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     2,
+     2,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     1,
+     2,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
     "all": [
      0,
      0,
@@ -15472,6 +16486,94 @@
      0,
      0
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0,
+     0,
+     3,
+     0,
+     0
+    ],
+    "prepared": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "a": [
+     0,
+     0,
+     2,
+     0,
+     0
+    ]
    }
   },
   "KLAC": {
@@ -16705,6 +17807,94 @@
      0,
      0,
      0
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     2,
+     1,
+     1,
+     1,
+     1
+    ],
+    "prepared": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "q": [
+     0,
+     0,
+     1,
+     1,
+     1
+    ],
+    "a": [
+     2,
+     1,
+     0,
+     0,
+     0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     3,
+     0,
+     1,
+     1,
+     6
+    ],
+    "prepared": [
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    "ceo": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "cfo": [
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    "q": [
+     0,
+     0,
+     0,
+     0,
+     3
+    ],
+    "a": [
+     3,
+     0,
+     0,
+     1,
+     2
     ]
    }
   }
@@ -17942,6 +19132,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0.0,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     0.0,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ]
    }
   },
   "ASML.AS": {
@@ -19134,6 +20412,94 @@
     ]
    },
    "gaa": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
     "all": [
      null,
      null,
@@ -20410,6 +21776,94 @@
      0.5,
      0.5
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0.0,
+     0.4,
+     0.0,
+     0.37,
+     0.6
+    ],
+    "prepared": [
+     null,
+     0.4,
+     null,
+     0.5,
+     0.33
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     0.5,
+     0.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     0.5
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     0.25,
+     1.0
+    ],
+    "a": [
+     0.0,
+     null,
+     0.0,
+     0.36,
+     0.6
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0.0,
+     0.0,
+     0.5,
+     null,
+     null
+    ],
+    "prepared": [
+     0.0,
+     0.0,
+     1.0,
+     null,
+     null
+    ],
+    "ceo": [
+     0.0,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "a": [
+     0.0,
+     null,
+     null,
+     null,
+     null
+    ]
    }
   },
   "LRCX": {
@@ -21563,7 +23017,7 @@
      null,
      null,
      0.0,
-     null
+     1.0
     ],
     "prepared": [
      null,
@@ -21598,7 +23052,7 @@
      null,
      null,
      null,
-     null
+     1.0
     ]
    },
    "gaa": {
@@ -21642,6 +23096,94 @@
      0.0,
      0.33,
      0.0,
+     null
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     0.75,
+     0.21,
+     0.42
+    ],
+    "prepared": [
+     null,
+     null,
+     1.0,
+     0.33,
+     0.0
+    ],
+    "ceo": [
+     null,
+     null,
+     1.0,
+     0.5,
+     0.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.67,
+     0.0,
+     0.4
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     0.2,
+     0.5
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     0.0,
+     null,
      null
     ]
    }
@@ -22793,31 +24335,31 @@
    },
    "compute_demand": {
     "all": [
-     null,
      1.0,
-     null,
-     0.0,
+     0.83,
+     0.8,
+     0.5,
      null
     ],
     "prepared": [
-     null,
      1.0,
-     null,
-     0.0,
+     0.83,
+     0.67,
+     0.5,
      null
     ],
     "ceo": [
      null,
      null,
-     null,
+     0.67,
      0.0,
      null
     ],
     "cfo": [
+     1.0,
      null,
-     null,
-     null,
-     0.0,
+     0.67,
+     0.67,
      null
     ],
     "q": [
@@ -22830,8 +24372,8 @@
     "a": [
      null,
      null,
-     null,
-     0.0,
+     1.0,
+     0.5,
      null
     ]
    },
@@ -22877,6 +24419,94 @@
      null,
      null,
      null
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     1.0,
+     0.0,
+     0.0,
+     0.23,
+     0.55
+    ],
+    "prepared": [
+     1.0,
+     0.0,
+     0.0,
+     0.5,
+     0.67
+    ],
+    "ceo": [
+     null,
+     null,
+     -0.5,
+     null,
+     null
+    ],
+    "cfo": [
+     1.0,
+     null,
+     0.33,
+     0.5,
+     0.67
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     0.33,
+     1.0
+    ],
+    "a": [
+     null,
+     null,
+     0.0,
+     -0.33,
+     0.2
     ]
    }
   },
@@ -24112,6 +25742,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0.33,
+     0.5,
+     0.0,
+     0.43,
+     0.3
+    ],
+    "prepared": [
+     0.14,
+     0.4,
+     0.0,
+     0.6,
+     0.3
+    ],
+    "ceo": [
+     0.14,
+     0.4,
+     0.0,
+     0.6,
+     0.21
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     1.0
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     0.0,
+     null
+    ],
+    "a": [
+     1.0,
+     1.0,
+     0.0,
+     0.44,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.5,
+     0.25,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     0.0,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     0.67,
+     1.0,
+     null
+    ]
    }
   },
   "6723.T": {
@@ -24364,6 +26082,24 @@
      null,
      null,
      null,
+     null
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.0,
+     1.0,
      null
     ]
    }
@@ -25600,6 +27336,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     0.0,
+     0.0,
+     0.0
+    ]
    }
   },
   "ARW": {
@@ -26833,6 +28657,94 @@
      null,
      null,
      null
+    ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.0,
+     null,
+     0.67
+    ],
+    "prepared": [
+     null,
+     null,
+     0.0,
+     null,
+     1.0
+    ],
+    "ceo": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     0.0,
+     null,
+     1.0
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     0.67
     ]
    }
   },
@@ -28068,6 +29980,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     1.0,
+     0.25,
+     0.67,
+     0.75,
+     0.25
+    ],
+    "prepared": [
+     1.0,
+     0.25,
+     0.6,
+     0.75,
+     null
+    ],
+    "ceo": [
+     1.0,
+     null,
+     0.6,
+     0.75,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "a": [
+     null,
+     null,
+     1.0,
+     null,
+     0.33
+    ]
    }
   },
   "AVGO": {
@@ -29302,6 +31302,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     0.2,
+     0.0,
+     0.5,
+     0.0,
+     0.0
+    ],
+    "prepared": [
+     0.0,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "ceo": [
+     0.0,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     0.0,
+     null,
+     null,
+     0.33,
+     0.0
+    ],
+    "a": [
+     0.33,
+     0.0,
+     0.5,
+     -0.2,
+     null
+    ]
    }
   },
   "TXN": {
@@ -30454,6 +32542,50 @@
      null,
      null,
      null,
+     1.0,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     1.0,
+     null
+    ]
+   },
+   "gaa": {
+    "all": [
+     null,
+     null,
+     null,
      null,
      null
     ],
@@ -30493,7 +32625,51 @@
      null
     ]
    },
-   "gaa": {
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     0.0,
+     0.0,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     0.0,
+     0.0,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
     "all": [
      null,
      null,
@@ -31770,6 +33946,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     null,
+     null,
+     0.33,
+     null,
+     null
+    ],
+    "prepared": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     1.0,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "a": [
+     null,
+     null,
+     0.0,
+     null,
+     null
+    ]
    }
   },
   "KLAC": {
@@ -33004,6 +35268,94 @@
      null,
      null
     ]
+   },
+   "mem_prod": {
+    "all": [
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "prepared": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "q": [
+     null,
+     null,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "a": [
+     0.0,
+     1.0,
+     null,
+     null,
+     null
+    ]
+   },
+   "hyperscaler_capex": {
+    "all": [
+     -0.33,
+     null,
+     1.0,
+     1.0,
+     0.22
+    ],
+    "prepared": [
+     null,
+     null,
+     1.0,
+     null,
+     1.0
+    ],
+    "ceo": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "cfo": [
+     null,
+     null,
+     1.0,
+     null,
+     1.0
+    ],
+    "q": [
+     null,
+     null,
+     null,
+     null,
+     0.11
+    ],
+    "a": [
+     -0.33,
+     null,
+     null,
+     1.0,
+     0.0
+    ]
    }
   }
  },
@@ -33032,7 +35384,9 @@
    "compute_demand": "The explosive growth in token volume demonstrates increasing consumer AI model adoption, which means more and more computation is needed, leading to more leading-edge silicon demand.",
    "leadtimes": "In addition, as process technology complexity increases, the engagement lead time with customers is now at least two to three years in advance.",
    "mem_demand": "The high end smartphone is less sensitive to the memory supplies so the demand is still strong.",
-   "industrial": "For example, we are increasing our mature node capacity, such as in JASM Fab 1 in Japan for CMOS image sensor application, and ESMC in Germany for automotive and industrial applications."
+   "hyperscaler_capex": "I mean that's for one of the hyperscaler.",
+   "industrial": "For example, we are increasing our mature node capacity, such as in JASM Fab 1 in Japan for CMOS image sensor application, and ESMC in Germany for automotive and industrial applications.",
+   "mem_prod": "We have to speed it up with our build-up of clean room and buying the tools."
   },
   "ASML.AS": {
    "ai_demand": "Broadcom's AI Moat Is Wider Than Ever The Market Has Ollie’s Bargain Outlet Completely Wrong Broadcom's Whiplash: Shares Tank After Pre-Earnings Surge Macy's Delivers Strong Q1, Raises Outlook, but Wall Street Remains Ca",
@@ -33069,6 +35423,8 @@
    "dram": "What I would say is that there is a lot of innovation happening in 6FÂ² that really extends our process equipment leadership and is contributing to the growth that we're talking about on the call here today, and we're ev",
    "gpu": "We recently announced our intent to acquire NEXX to further strengthen Applied's portfolio of panel-level technologies, which are designed to enable larger body packages for AI accelerators.",
    "gaa": "This year, etch will be one of our fastest-growing businesses this calendar year, and Applied is number one in conductor etch for leading-edge foundry logic, gate-all-around nodes, and number one in conductor etch for DR",
+   "mem_prod": "At least our view is it will still be satisfied by upgrades, so we don't expect a lot of new wafer starts on the NAND side, but we do think the demand forecast for bits has gone up on NAND.",
+   "hyperscaler_capex": "AI data center investments translate to strong demand for our most enabling products in leading-edge foundry logic, DRAM, and high-bandwidth memory, along with advanced services that help our customers accelerate ramps a",
    "industrial": "In semiconductor systems, the overall demand environment for equipment was largely in line with our expectations, with broad-based customer investments across foundry logic, DRAM, and NAND.",
    "hbm4": "Yeah, the other thing I would add is, you know, I mentioned this earlier, with HBM DRAM, you're starting 3x more wafers, and as you go from HBM3 to HBM4, that goes from 3x to 4x.",
    "highna": "In leading-edge foundry logic, investment was more oriented toward advanced lithography.",
@@ -33099,8 +35455,11 @@
    "mem_supply": "Availability of clean room space will likely act as a limiter to the pace of NAND supply growth, but we believe that capacity additions to meet rising bit demand may be needed sooner than previously thought.",
    "gpu": "At the end of the day, though, when you look at these system architectures, all this stuff needs to fit together, and you saw one of the big accelerator guys talking about this at CES.",
    "cpu": "AI data centers require the most advanced CPU and accelerator capabilities, low latency, high-bandwidth memory, and high-speed eSSD storage, all integrated through 2.5D and 3D advanced packaging.",
+   "mem_prod": "Also, if you think of the, on a relative basis, somewhat under-investment in that area, partly as customers made choices about clean room allocation and obviously, some other devices like HBM were so hot during that peri",
+   "hyperscaler_capex": "AI and its impact on the semiconductor industry continues to be a major topic of interest, and the data center CapEx investments already announced are expected to drive significant expansion of manufacturing capacity ove",
    "agentic_ai": "But I think that as we move forward and we see the growth from AI inference and other use cases, NAND is going to take its place in the AI data infrastructure and memory infrastructure, and I think you'll see growth ther",
-   "industrial": "Well, I think it's, Joe, it's probably a little bit of affiliate rule, but frankly, it's, it's, there's a broad-based set of customer spending in China that have nothing to do with the affiliate rule."
+   "industrial": "Well, I think it's, Joe, it's probably a little bit of affiliate rule, but frankly, it's, it's, there's a broad-based set of customer spending in China that have nothing to do with the affiliate rule.",
+   "compute_demand": "Melissa, maybe I'd just add, the way I'm looking at this right now is memory is just so critical in all of these accelerated compute architectures."
   },
   "NVDA": {
    "ai_demand": "If you look at the segmentation and the size of each, you could see that in fact, we're growing share in the hyperscalers because we now have much bigger support from Anthropic, a new partner of ours, and we're helping t",
@@ -33119,9 +35478,10 @@
    "gpu": "The right economic metric is not the purchase price of the GPU, it is the lifetime cost of an AI factory producing intelligence, token per watt, tokens per dollar, uptime, utilization, time to production, software durabi",
    "cpu": "First, from search and advertising to recommender systems and content understanding, the largest hyperscale workloads continue to transition from CPU to GPU-based accelerating computing.",
    "custom_asic": "There's a whole category of data centers that semi-custom chips just don't apply because these data centers want to buy systems, they want to operate systems.",
+   "compute_demand": "We continue to expect the transition of classic data center workloads to GPU-accelerated computing and the use of AI to enhance today's hyperscale workloads and contribute toward roughly half of our long-term opportunity",
+   "hyperscaler_capex": "If you look at the segmentation and the size of each, you could see that in fact, we're growing share in the hyperscalers because we now have much bigger support from Anthropic, a new partner of ours, and we're helping t",
    "capex": "With analysts now forecasting hyperscale CapEx to exceed $1 trillion in 2027 and agentic AI beginning to proliferate all industries, AI infrastructure spending is on track to reach $3 trillion-$4 trillion annually by the",
    "leadtimes": "I guess with wafer in to rack out lead times of 12 months, you confirmed on the call today that Rubin is on track for ramping the second half.",
-   "compute_demand": "This expansion will demand orders of a magnitude more compute with every major OEM and service provider developing on NVIDIA's platform.",
    "mem_pricing": "The right economic metric is not the purchase price of the GPU, it is the lifetime cost of an AI factory producing intelligence, token per watt, tokens per dollar, uptime, utilization, time to production, software durabi",
    "nodes": "You know, as you know, we see ourselves as an AI infrastructure company, and the AI computing infrastructure includes CPUs, GPUs, and we invented NVLink to scale up one computing node into a giant computing rack.",
    "dram": "It's the only data center CPU that supports LPDDR5.",
@@ -33150,8 +35510,10 @@
    "mem_supply": "In DRAM, cleanroom constraints and long construction lead times, higher HBM trade ratio, higher HBM growth rates, and declining bits per wafer growth from node migrations constrained bit supply growth.",
    "dram": "I'll just point out there that that portfolio is about HBM, it's about LP, it's about CAMM2, it's about DDR5, as well as our data center SSDs, which have made tremendous strides in terms of our market share in data cente",
    "gpu": "Vera Rubin, which utilizes, you know, tremendous amount of HBM as well as DRAM and the Nvidia Groq LPX, this LPU based architecture, actually a rack uses 12 TB of DRAM in it as well.",
+   "mem_prod": "From our last earnings call estimate, the majority of the increase is driven by clean room facility related CapEx, of which the largest factor is Tongluo, followed by construction spend increase in our U.S.",
    "custom_asic": "We have shared with you in the past that going from about 200-288 GB in GPU accelerators today, as well as in the ASIC-based accelerators, in that range going to higher levels as we go from 8-high to 12-high capacity.",
    "leadtimes": "In DRAM, cleanroom constraints and long construction lead times, higher HBM trade ratio, higher HBM growth rates, and declining bits per wafer growth from node migrations constrained bit supply growth.",
+   "hyperscaler_capex": "Turning to our end markets, as the world's leading technology companies advance toward artificial general intelligence and transform the global economy, our customers are committing to an extraordinary multi-year data ce",
    "cpu": "Building on this leadership, we sampled the industry's first 256 GB LPCAMM2 product, which is built using our 1-gamma node and enables a massive 2 TB of capacity per CPU, quadrupling the content from just a year ago."
   },
   "6723.T": {
@@ -33170,6 +35532,7 @@
    "capacity": "Periodic repairs and maintenance will be done during the Golden Week holiday, and also in preparation for capacity expansion, there will be some inspections done, contributing to an overall increase in costs.",
    "gpu": "Within the grid to core, from grid to core, including GPU, we cover the whole range.",
    "custom_asic": "For example, on the interface side, SOCAMM is likely to attract attention, along with the transition to DDR5, and on the PMIC, GPU plus , custom ASIC is going to grow.",
+   "hyperscaler_capex": "ASICs for hyperscalers by phases, they are being ramped up.",
    "agentic_ai": "When it comes to automotive and robotics, mainly for inference, AI, the role of AI , is becoming greater, and it's likely to become even greater in the future.",
    "nodes": "Over the short term, for 28 nm MCUs, we do believe steady growth this year , for Gen 4 R-Car, it will start to pick up as well, which are likely to become growth drivers, but as you rightly know, probably, since last yea",
    "mem_supply": "For the DRAM , shortage may have an impact on the business.",
@@ -33190,6 +35553,7 @@
    "consumer": "From a demand perspective, market conditions continue to improve across the majority of the verticals we serve, which includes data center, industrial, aerospace and defense, transportation, consumer, and networking.",
    "hbm": "With HBM taking off, there's definitely some lead time issues in memory.",
    "compute_demand": "From a demand perspective, sales increased sequentially in most of the verticals we serve, and not surprisingly, were led by strong demand in compute and aerospace and defense.",
+   "hyperscaler_capex": "The bulk of that selling into directly the hyperscalers and data centers is more in Asia and within Asia, Taiwan.",
    "mem_demand": "At the end of the quarter, our EC business received approximately $150 million of high demand inventory related to memory and storage products, which partially offset some of the broader inventory reductions that took pl",
    "mem_supply": "The increase in inventories was primarily driven by an increase in certain memory products to support supply chain services engagements and from an overall increase in inventory received at the end of the quarter."
   },
@@ -33205,6 +35569,7 @@
    "auto": "We've already gotten several hundred million dollars of billings this year, and that's going to be a big growth vehicle for us longer term for ECS and for the company.",
    "mem_strategic": "Additionally, we took a charge primarily related to 1 underperforming multi-year contract.",
    "capacity": "First, as pockets of supply became constrained for technologies around AI investments, hardware sales saw strong momentum in the first quarter.",
+   "hyperscaler_capex": "By normalizing for the 4 extra days, our global ECS business still achieved year-over-year growth in billings, net sales, gross profit, and operating income dollars, reflecting our alignment to the high-growth demand tre",
    "agentic_ai": "I'm proud to share that Arrow was recognized as Microsoft's 2025 Distributor Partner of the Year for its ArrowSphere AI offerings, including ArrowSphere Assistant, that helps channel partners drive sustainable growth thr",
    "mem_supply": "Today, as pockets of on-premise memory supply become thin, channel partners will need to find alternatives and lean more on the software and public cloud solutions that we offer."
   },
@@ -33226,11 +35591,13 @@
    "gpu": "In cloud, AI was the primary driver of growth in the quarter, as every major cloud provider expanded their EPYC footprint to support a broad range of AI workloads, from general purpose compute and data processing to head",
    "cpu": "In cloud, AI was the primary driver of growth in the quarter, as every major cloud provider expanded their EPYC footprint to support a broad range of AI workloads, from general purpose compute and data processing to head",
    "custom_asic": "And you can do that with GPUs as well as with other more ASIC-like architectures.",
+   "hyperscaler_capex": "I think you're gonna see people, actually use x86, you know, and Arm, for many of the large hyperscalers, and, you know, even for those who are developing their own, they're still buying lots of CPUs, in the merchant mar",
    "capex": "There is aâ€”you can see from some of the CapEx spending that there's a desire to put on more compute, and we're working closely together.",
    "cowos": "We're continuing to innovate on, you know, both advanced packaging as well as, you know, all of the architectural pieces.",
    "compute_demand": "As we approach production, demand for MI450 series GPUs continues to strengthen, with lead customer forecasts now exceeding our initial plans and a growing number of new customers engaging on large-scale deployments, inc",
    "hbm": "I mean, given the lead times for things like HBM and wafers and these parts of the supply chain, I mean, we're working closely with our suppliers over a multi-year timeframe in terms of what we see in demand, how we ramp",
    "hbm4": "MI500 is powered by our CDNA six architecture, built on advanced 2-nanometer process technology, and features high-speed HBM4e memory.",
+   "mem_prod": "I mean, given the lead times for things like HBM and wafers and these parts of the supply chain, I mean, we're working closely with our suppliers over a multi-year timeframe in terms of what we see in demand, how we ramp",
    "mem_demand": "You know, as we said in the prepared remarks, you know, we are expecting that there could be, you know, sort of the demand impact as a result of the memory price increases on, you know, things like the PC business in the"
   },
   "AVGO": {
@@ -33245,6 +35612,7 @@
    "inventory": "Our days of inventory on hand were 86 days in Q2 compared to 68 days in Q1 in anticipation of accelerating AI semiconductor growth in the second half of the year.",
    "gpu": "That continues to be the model we do, which is we provide chips, technology in the form of chips, whether they be AI compute accelerators we call XPUs or networking chips that cluster them together, be it switches, PCI E",
    "custom_asic": "In April, we entered into an agreement to enable Anthropic to access another five gigawatts of next-generation TPU-based compute beginning in 2027.",
+   "hyperscaler_capex": "To extend AI clusters across data centers, we remain the industry leader with our Jericho 3 and Jericho 4 fabric solutions, enabling the world's largest deployments at multiple hyperscalers.",
    "cowos": "We bring to the partnerships, each of them unmatched technology in service, silicon design, process technology, advanced packaging, and networking to enable each of these customers to achieve optimal performance for thei",
    "compute_demand": "These LLM guys, as they productize their frontier models, whether it be Opus 4.7, ChatGPT 5.5 or Gemini 3.5, comes back to the same end demand on compute capacity we provide to all these guys.",
    "nodes": "Silicon-wise, no, we go back to the same process source in TSMC, and so we keep going for more and more capacity in 2 nm, 3 nm.",
@@ -33266,10 +35634,12 @@
    "tariffs": "The rules are still not finalized in terms of the rates of tariffs, for example.",
    "inventory": "I think we see strength over there, and I think we are unique in the setup in the sense that we have the capacity, we have the inventory, and we are well-positioned to support customers at the highest level.",
    "mem_pricing": "If demand continues to be strong and we are monitoring the market price, and there is definitely at least an average price increase in the last several months across the Analog market, I think it's likely that prices may",
+   "mem_prod": "Anything that we put in place, any CapEx we put in place, both equipment, building, clean room, in 2026, we get back 35% on the ITC credit.",
    "mem_strategic": "We see good opportunities in all of our markets, but we place additional strategic emphasis on industrial, automotive, and data center.",
    "nodes": "I think I've mentioned in 2025, we've completed our 65-nanometer transition, and they are yielding at the same level as they used to in the foundries.",
    "mem_supply": "But we have seen some noise in the last several months on some issues regarding a certain supplier, and sometimes we all know about the memory shortages.",
-   "cpu": "This is where a lot of the current going into an accelerated computer or a CPU comes from."
+   "cpu": "This is where a lot of the current going into an accelerated computer or a CPU comes from.",
+   "compute_demand": "This is where a lot of the current going into an accelerated computer or a CPU comes from."
   },
   "ADI": {
    "ai_demand": "While ATE systems are geared to enable efficient, high-volume manufacturing of chips and electronic systems, ETM supports end-to-end product development and delivery, from R&D prototyping, debugging, and validation, all ",
@@ -33290,6 +35660,7 @@
    "gpu": "This transaction will expand ADI's total addressable market within the hyper-growth AI accelerator space and further solidify our position as an indispensable hardware partner in the drive for maximum compute density per",
    "leadtimes": "But I think, generally speaking, our lead times are in pretty good shape.",
    "hbm4": "We anticipate further growth in FY 2026 due to our expanding design pipeline, industry transitions to HBM4, and expected double-digit growth in hyperscaler CapEx.",
+   "hyperscaler_capex": "Look, if you look at the external factors, particularly around the data center piece and the high-performance compute, the forecast from all of the hyperscalers and the big buyers in the space continue to go up.",
    "cowos": "We're enabling the ongoing digitalization of clinical environments through the combination of our deep domain expertise and breadth of technological capabilities across hardware, software, and advanced packaging.",
    "cpu": "We have to move closer to the core of the problem, which is down at the XPU, the GPU, the CPU, and so on and so forth.",
    "sovereign_ai": "Another robust growth market for ADI is our aerospace and defense business, which reached a new revenue high this quarter and where increased focus on national sovereignty concerns is accelerating an already strong multi"
@@ -33312,6 +35683,8 @@
    "tariffs": "Considering this impact, the tariff environment, along with product mix and volume expectations, our view of gross margins remains unchanged at approximately 62%Â± 50 basis points in calendar 2026.",
    "dram": "As discussed last quarter, the guidance also includes the persistent impact of elevated DRAM chip costs for the company's image processing computers that ship with our systems, creating a headwind to the company's gross ",
    "custom_asic": "In addition, the growing investment in custom silicon, particularly among hyperscalers developing their own custom chips, have led to a proliferation of new higher-value design starts and increased demand on our customer",
+   "mem_prod": "A lot of these HBM fabs are actually doing process ramps of the new nodes.",
+   "hyperscaler_capex": "In addition, the growing investment in custom silicon, particularly among hyperscalers developing their own custom chips, have led to a proliferation of new higher-value design starts and increased demand on our customer",
    "mem_demand": "Well, we think that you know, certainly the DRAM part of the market will grow faster than Foundry Logic will grow, be driven mostly by the demands for HBM, but also, as we talked about, the challenges in conventional mem",
    "gaa": "That product is well positioned and really critical for gate all around.",
    "gpu": "We believe that our experience reflects the compelling capabilities, cost, and power consumption available with GPU-based compute architectures and is fueling the ongoing HPC infrastructure build-out.",

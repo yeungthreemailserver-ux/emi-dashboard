@@ -9,6 +9,7 @@
     "mem_sup":    { "label": "Supply",              "parent": "memory",    "facet": "supply" },
     "mem_pri":    { "label": "Pricing",             "parent": "memory",    "facet": "price" },
     "mem_cap":    { "label": "Capability",          "parent": "memory",    "facet": "product" },
+    "mem_prd":    { "label": "Production",           "parent": "memory",    "facet": "supply" },
 
     "processor":  { "label": "Processor",           "parent": "products",  "facet": "product" },
     "proc_dem":   { "label": "Demand",              "parent": "processor", "facet": "demand" },
@@ -27,6 +28,7 @@
   "leaves": {
     "mem_demand":    { "label": "Memory demand",          "parent": "mem_dem", "kind": "demand",  "reads": ["demand"] },
     "mem_supply":    { "label": "Memory supply",          "parent": "mem_sup", "kind": "supply",  "reads": ["supply"] },
+    "mem_prod":      { "label": "Memory production",      "parent": "mem_prd", "kind": "supply",  "reads": ["supply"] },
     "mem_pricing":   { "label": "Memory pricing",         "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
     "mem_strategic": { "label": "Long-term agreements",   "parent": "mem_pri", "kind": "price",   "reads": ["price"] },
     "hbm":           { "label": "HBM",                    "parent": "mem_cap", "kind": "product", "reads": ["demand", "supply"] },
@@ -47,6 +49,7 @@
     "ai_demand":     { "label": "AI / datacenter demand", "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
     "agentic_ai":    { "label": "Agentic & inference AI", "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
     "sovereign_ai":  { "label": "Sovereign AI",           "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
+    "hyperscaler_capex": { "label": "Hyperscaler capex",  "parent": "ai_dc",  "kind": "demand",  "reads": ["demand"] },
     "auto":          { "label": "Automotive",             "parent": "endmkt", "kind": "demand",  "reads": ["demand"] },
     "industrial":    { "label": "Industrial",             "parent": "endmkt", "kind": "demand",  "reads": ["demand"] },
     "consumer":      { "label": "Consumer (smartphone/PC)","parent": "endmkt","kind": "demand",  "reads": ["demand"] },

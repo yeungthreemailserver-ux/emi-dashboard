@@ -1160,11 +1160,11 @@ function sigTreeChart(S) {
   const data = [{ name: 'Topics', symbolSize: 7, itemStyle: { color: '#cbd5e1' }, label: { show: false }, children: roots }];
   ch.setOption({ animation: true, animationDuration: 450,
     tooltip: { trigger: 'item', confine: true, formatter: p => (p.data && p.data.tid) ? `<b>${p.data.name}</b><br/>${p.data.value}× per call` : `<b>${p.data.name}</b>` },
-    series: [{ type: 'tree', data, top: '1%', left: '6%', bottom: '1%', right: '18%',
+    series: [{ type: 'tree', data, top: '1%', left: '6%', bottom: '1%', right: '21%',
       layout: 'orthogonal', orient: 'LR', edgeShape: 'curve', edgeForkPosition: '55%',
       initialTreeDepth: -1, expandAndCollapse: true, symbol: 'circle', roam: false,
-      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6 },
-      leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left' } },
+      label: { position: 'right', verticalAlign: 'middle', align: 'left', fontSize: 12, distance: 6, formatter: p => (p.data && p.data.tid) ? `${p.name}  ${p.value}×` : p.name },
+      leaves: { label: { position: 'right', verticalAlign: 'middle', align: 'left', formatter: p => `${p.name}  ${p.value}×` } },
       emphasis: { focus: 'relative', lineStyle: { width: 2 } },
       lineStyle: { color: '#d7dee8', width: 1.2, curveness: 0.45 } }] });
   ch.off('click'); ch.on('click', p => { if (p.data && p.data.tid) { STATE.sigView = 'topics'; STATE.topicPin = p.data.tid; STATE.topicDrill = p.data.dparent || null; STATE.inspScroll = 0; render(); } });

@@ -57,9 +57,12 @@ TOPIC_LEXICON = {
     "gpu":           [r"\bGPU\b", r"\baccelerator", r"Blackwell", r"\bRubin\b", r"Hopper", r"GB200", r"\bH100\b", r"\bH200\b", r"\bMI3\d0"],
     "cpu":           [r"\bCPU\b", r"\bXeon\b", r"\bEPYC\b", r"server processor", r"central processing"],
     "custom_asic":   [r"custom silicon", r"\bASIC\b", r"\bTPU\b", r"custom accelerator", r"custom chip", r"in[- ]house chip"],
-    "compute_demand":[r"(?:GPU|accelerator|compute|silicon)[^.]{0,28}demand", r"demand[^.]{0,28}(?:GPU|accelerator|compute)", r"compute demand"],
+    "compute_demand":[r"compute demand", r"accelerated comput", r"demand for (?:compute|accelerat|GPU|silicon)", r"(?:GPU|accelerator|compute|silicon)[^.]{0,28}demand", r"demand[^.]{0,28}(?:GPU|accelerator|compute)"],
     # Process Technology · Capability (transistor architecture)
     "gaa":           [r"\bGAA\b", r"gate[- ]all[- ]around", r"nanosheet", r"backside power", r"back[- ]side power", r"super power rail"],
+    # Memory · Production (capacity build / output) + AI demand-driver: hyperscaler capex
+    "mem_prod":      [r"bit output", r"bit growth", r"wafer start", r"clean ?room", r"(?:memory|DRAM|NAND|HBM)[^.]{0,30}(?:capex|fab|wafer|output|node migration|capacity expansion)"],
+    "hyperscaler_capex": [r"hyperscaler", r"cloud capex", r"(?:cloud|data ?cent(?:er|re))[^.]{0,22}(?:capex|cap ?ex|spend|investment|build[- ]?out)", r"capex[^.]{0,22}hyperscal"],
 }
 _COMPILED = {k: [re.compile(p, re.IGNORECASE) for p in pats] for k, pats in TOPIC_LEXICON.items()}
 

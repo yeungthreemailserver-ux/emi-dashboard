@@ -256,6 +256,10 @@ TOPICS = [
      "series": [0, 0, 0, 0, 0, 0, 0], "who": "TSMC · NVDA", "note": "hyperscaler custom accelerators"},
     {"id": "gaa", "label": "GAA / backside power", "cat": "tech", "stance": "excited",
      "series": [0, 0, 0, 0, 0, 0, 0], "who": "TSMC · ASML", "note": "gate-all-around + backside power"},
+    {"id": "mem_prod", "label": "Memory production", "cat": "mem", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "Micron", "note": "bit output / fab / cleanroom"},
+    {"id": "hyperscaler_capex", "label": "Hyperscaler capex", "cat": "ai", "stance": "excited",
+     "series": [0, 0, 0, 0, 0, 0, 0], "who": "NVDA · hyperscalers", "note": "cloud / data-center capex (demand leading indicator)"},
 ]
 
 
