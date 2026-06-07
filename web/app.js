@@ -642,23 +642,37 @@ function renderSignals() {
   main.querySelectorAll('[data-tctl]').forEach(b => b.onclick = () => { STATE.topicCtlOpen = STATE.topicCtlOpen === false; render(); });
   const cs = main.querySelector('#cosearch');
   if (cs) {
-    const dd = main.querySelector('#cosearch_dd');
+    const dd = main.querySelector('#cosearch_dd'), T = SIGNALS.topics;
+    let acts = [], active = -1;   // suggestion actions (in display order) + keyboard-highlighted index
+    const setActive = i => { active = i; dd.querySelectorAll('[data-idx]').forEach(el => el.classList.toggle('active', +el.dataset.idx === i)); };
+    const choose = i => {
+      const a = acts[i]; if (!a) return; cs.value = ''; dd.style.display = 'none';
+      if (a.kind === 'topic') { STATE.topicLock = a.id; STATE.topicPin = a.id; STATE.inspScroll = 0; }   // lock the bubble + open panel
+      else { const s = new Set(STATE.topicLayers || []); s.add(a.code); STATE.topicLayers = [...s]; topicPlayStop(); }   // add filter
+      render();
+    };
     cs.oninput = () => {
-      const q = cs.value.trim().toLowerCase();
+      const q = cs.value.trim().toLowerCase(); acts = []; active = -1;
       if (!q) { dd.style.display = 'none'; dd.innerHTML = ''; return; }
-      const sel = STATE.topicLayers || [], T = SIGNALS.topics;
-      const tHits = (T.items || []).filter(it => (it.label + ' ' + it.id + ' ' + ((TOPIC_KW[it.id] || []).join(' '))).toLowerCase().includes(q)).slice(0, 6);
-      const cHits = topicCos().filter(c => !sel.includes(c.ticker) && (c.name + ' ' + c.ticker + ' ' + c.layer + ' ' + c.sublayer).toLowerCase().includes(q)).slice(0, 6);
+      const sel = STATE.topicLayers || [];
+      const tHits = (T.items || []).filter(it => (it.label + ' ' + it.id + ' ' + ((TOPIC_KW[it.id] || []).join(' '))).toLowerCase().includes(q)).slice(0, 8);
+      const cHits = topicCos().filter(c => !sel.includes(c.ticker) && (c.name + ' ' + c.ticker + ' ' + c.layer + ' ' + c.sublayer).toLowerCase().includes(q)).slice(0, 5);
       const layEntries = [['L0', 'L0 · Distribution'], ['L1', 'L1 · Foundry'], ['L2', 'L2 · Equipment'], ['L3', 'L3 · Components'], ['3.1', 'Analog / MCU'], ['3.2', 'Logic / GPU'], ['3.4', 'Memory']];
-      const lHits = layEntries.filter(([code, lab]) => !sel.includes(code) && (code + ' ' + lab).toLowerCase().includes(q)).slice(0, 6);
+      const lHits = layEntries.filter(([code, lab]) => !sel.includes(code) && (code + ' ' + lab).toLowerCase().includes(q)).slice(0, 5);
       let html = '';
-      if (tHits.length) html += `<div class="sdh">Topics</div>` + tHits.map(it => `<div class="cosearch-item" data-focus="${it.id}"><span class="tdot" style="background:${(T.categories.find(c => c.id === it.cat) || {}).color}"></span>${it.label}</div>`).join('');
-      if (cHits.length) html += `<div class="sdh">Companies</div>` + cHits.map(c => `<div class="cosearch-item" data-add="${c.ticker}"><span class="lyr-dot" style="background:${LAYER_COLORS[c.layer]}"></span>${c.name} <span class="dim">${c.layer} · ${c.sublayer}</span></div>`).join('');
-      if (lHits.length) html += `<div class="sdh">Layers</div>` + lHits.map(([code, lab]) => `<div class="cosearch-item" data-add="${code}"><span class="lyr-dot" style="background:${LAYER_COLORS[code] || LAYER_COLORS['L' + code[0]] || '#94a3b8'}"></span>${lab}</div>`).join('');
+      if (tHits.length) { html += `<div class="sdh">Topics — open</div>`; tHits.forEach(it => { const i = acts.push({ kind: 'topic', id: it.id }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="tdot" style="background:${favColor((topicLLMFav(it.id, T) || {}).net) || (T.categories.find(c => c.id === it.cat) || {}).color}"></span>${it.label}</div>`; }); }
+      if (cHits.length) { html += `<div class="sdh">Companies — filter</div>`; cHits.forEach(c => { const i = acts.push({ kind: 'filter', code: c.ticker }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="lyr-dot" style="background:${LAYER_COLORS[c.layer]}"></span>${c.name} <span class="dim">${c.layer} · ${c.sublayer}</span></div>`; }); }
+      if (lHits.length) { html += `<div class="sdh">Layers — filter</div>`; lHits.forEach(([code, lab]) => { const i = acts.push({ kind: 'filter', code }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="lyr-dot" style="background:${LAYER_COLORS[code] || LAYER_COLORS['L' + code[0]] || '#94a3b8'}"></span>${lab}</div>`; }); }
       dd.innerHTML = html || '<div class="cosearch-item dim">no match</div>';
       dd.style.display = 'block';
-      dd.querySelectorAll('[data-add]').forEach(it => it.onmousedown = e => { e.preventDefault(); const s = new Set(STATE.topicLayers || []); s.add(it.dataset.add); STATE.topicLayers = [...s]; topicPlayStop(); render(); });
-      dd.querySelectorAll('[data-focus]').forEach(it => it.onmousedown = e => { e.preventDefault(); focusTopic(it.dataset.focus); cs.value = ''; dd.style.display = 'none'; });
+      dd.querySelectorAll('[data-idx]').forEach(el => { el.onmousedown = e => { e.preventDefault(); choose(+el.dataset.idx); }; el.onmouseenter = () => setActive(+el.dataset.idx); });
+    };
+    cs.onkeydown = e => {
+      if (dd.style.display === 'none' || !acts.length) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(acts.length - 1, active + 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(0, active - 1)); }
+      else if (e.key === 'Enter') { e.preventDefault(); choose(active >= 0 ? active : 0); }
+      else if (e.key === 'Escape') { dd.style.display = 'none'; }
     };
     cs.onblur = () => setTimeout(() => { if (dd) dd.style.display = 'none'; }, 150);
   }
@@ -903,13 +917,26 @@ function toutExecHTML(it, S, q) {
       <div class="insp-headline">${(O.outlook || {}).headline || ''}</div>
       <div class="tout-summary">${(O.outlook || {}).summary || ''}</div></div>`;
   }
+  // LLM-derived INSIGHT first (we now have per-company favorability for ~every topic): lead with a
+  // direct-English read + a concrete management reason, then the statistics underneath.
+  const lrows = topicLLMRows(it.id, T), agg = topicLLMFav(it.id, T);
+  if (lrows.length && agg) {
+    const posL = lrows.filter(r => r.fav === 'bullish').length, negL = lrows.filter(r => r.fav === 'bearish').length;
+    const net = agg.net, dir = net >= 0.2 ? ['▲', 'Bullish', 'up', '#16a34a'] : net <= -0.2 ? ['▼', 'Bearish', 'down', '#dc2626'] : ['◆', 'Mixed', 'mix', '#d97706'];
+    const wantSide = net < -0.05 ? 'bearish' : 'bullish';
+    const side = lrows.filter(r => r.fav === wantSide); const pick = (side.length ? side : lrows).slice().sort((a, b) => (b.why || '').length - (a.why || '').length)[0] || lrows[0];
+    return `<div class="insp-sec insp-exec">
+      <div class="insp-dir ${dir[2]}"><span class="tout-arrow">${dir[0]}</span><span class="tout-dirlab">${dir[1]}</span><span class="tout-conf">${posL} bullish · ${negL} cautious of ${lrows.length} · ${quad}</span></div>
+      <div class="insp-headline">${it.label} — management leans <b style="color:${dir[3]}">${dir[1].toLowerCase()}</b> this quarter</div>
+      <div class="tout-summary"><b>${pick.co}:</b> ${pick.why || ''}</div>
+      <div class="dim" style="font-size:11px;margin-top:6px">Raised by <b>${brdNow} of ${denom}</b> · ~${(+ser[q]).toFixed(1)}× per call · momentum ${(mom >= 0 ? '+' : '') + Math.round(mom * 100)}% vs 4Q norm. Per-company stance below.</div></div>`;
+  }
   const recs = topicCompanyRecords(it, S, q);
   const top = recs.slice().sort((a, b) => b.mentions - a.mentions).slice(0, 3).map(r => r.name).join(', ');
   const pos = recs.filter(r => r.stance === 'positive').length, neg = recs.filter(r => r.stance === 'negative').length;
   return `<div class="insp-sec insp-exec">
     <div class="insp-headline">${it.label} — <span style="text-transform:lowercase">${quad}</span></div>
-    <div class="tout-summary">Raised by <b>${brdNow} of ${denom}</b> companies (~${(+ser[q]).toFixed(1)}× per call), momentum <b style="color:${mom >= 0 ? '#16a34a' : '#dc2626'}">${(mom >= 0 ? '+' : '') + Math.round(mom * 100)}%</b> vs its 4-quarter norm. Stance leans <b style="color:#16a34a">${pos} positive</b> / <b style="color:#dc2626">${neg} cautious</b>. Most active: <b>${top || '—'}</b>.</div>
-    <div class="dim" style="font-size:11px;margin-top:6px">No LLM forward synthesis for this topic yet — counts &amp; lexicon sentiment only.</div></div>`;
+    <div class="tout-summary">Raised by <b>${brdNow} of ${denom}</b> companies (~${(+ser[q]).toFixed(1)}× per call), momentum <b style="color:${mom >= 0 ? '#16a34a' : '#dc2626'}">${(mom >= 0 ? '+' : '') + Math.round(mom * 100)}%</b> vs its 4-quarter norm. Stance leans <b style="color:#16a34a">${pos} positive</b> / <b style="color:#dc2626">${neg} cautious</b>. Most active: <b>${top || '—'}</b>.</div></div>`;
 }
 function stanceBadgeMini(s) { const m = ({ positive: ['Pos', '#16a34a'], neutral: ['Neu', '#d97706'], negative: ['Neg', '#dc2626'] })[s] || ['—', '#94a3b8']; return `<span class="smx-badge" style="color:${m[1]};border-color:${m[1]}">${m[0]}</span>`; }
 const SUBLABEL_INSP = { '0': 'Distribution', '1.1': 'Foundry', '2.1': 'Equipment', '3.1': 'Analog / MCU', '3.2': 'Logic / GPU', '3.3': 'Discrete / power', '3.4': 'Memory' };
@@ -975,12 +1002,13 @@ function toutLLMReadHTML(it, S) {
 function topicInspectorHTML(it, S, q) {
   const T = S.topics, cat = (T.categories || []).find(c => c.id === it.cat) || {};
   const domColor = topicNodeColor(it.id, T), pathStr = (it.path_labels && it.path_labels.length > 1) ? it.path_labels.slice(0, -1).join(' › ') : (cat.label || '');
+  const locked = (typeof STATE.topicLock === 'string') && STATE.topicLock === it.id;
   const eff = topicEffSeries(it, S), ser = eff.ser, brd = eff.brd;
   const mom = topicMomentum(ser, q, momSmooth(T)), brdNow = (brd || [])[q], denom = topicSelCos().length;
   const heats = topicItemsForLayer(T).map(x => topicEffSeries(x, S).ser[q]).sort((a, b) => a - b), med = heats[Math.floor(heats.length / 2)];
   const quad = ser[q] >= med ? (mom >= 0 ? 'Hot & accelerating' : 'Still hot · losing steam') : (mom >= 0 ? 'Emerging' : 'Fading');
   return `<div class="insp">
-    <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><button class="unpin" data-unpin="1" title="Unpin — then hover bubbles to browse">✕</button>
+    <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><span class="lockchip ${locked ? 'on' : ''}">${locked ? '📌 Locked' : '👁 Preview'}</span><button class="unpin" data-unpin="1" title="${locked ? 'Release lock' : 'Close'}">✕</button>
       <div class="insp-sub"><span style="color:${domColor};font-weight:700">${pathStr}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
     ${toutExecHTML(it, S, q)}
     ${toutLLMReadHTML(it, S)}
@@ -1287,8 +1315,8 @@ function sigTopicsBody(S) {
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[segMode] || '';
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
       ${topicFilterToggle()}</div>
-    ${topicFilterBar(S, { search: true, labels: true, play: true })}
-    ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="seglbl">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by mention count · hover = preview · <b>click = lock</b> · click empty space = close</span></div>`; })()}
+    ${topicFilterBar(S, { labels: true, play: true })}
+    ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics / companies / layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span><span class="seglbl" style="margin-left:6px">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by count · hover = preview · <b>click = lock</b> · empty space = close</span></div>`; })()}
     <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious).</div>
     <div class="topicwrap2" style="--drawer-w:${STATE.drawerW || 440}px"><div class="chart" id="topicchart" style="height:600px"></div><div class="topic-split" id="topicsplit" title="Drag to resize"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
     <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
@@ -1373,13 +1401,13 @@ function sigTopicsChart(S) {
         .sort((a, b) => b.d.cur - a.d.cur)
         .forEach(o => {
           const lines = (o.d.lab || o.d.tname).split('\n'), lw = Math.max(...lines.map(l => l.length));
-          const w = lw * 5.6 + 8, hh = lines.length * 12 + 4, r = (7 + (o.d.brd || 5) * 2.1) / 2 + 5, cx = o.px[0], cy = o.px[1];
+          const w = lw * 7 + 10, hh = lines.length * 13 + 6, r = (9 + (o.d.brd || 5) * 2.1) / 2 + 6, cx = o.px[0], cy = o.px[1];
           const cands = [['right', cx + r, cy - hh / 2], ['left', cx - r - w, cy - hh / 2], ['top', cx - w / 2, cy - r - hh], ['bottom', cx - w / 2, cy + r]];
           for (const c of cands) {
             const x0 = c[1], y0 = c[2], x1 = x0 + w, y1 = y0 + hh;
             if (x0 < 2 || x1 > W - 2 || y0 < 22 || y1 > H - 30) continue;
             if (placed.some(b => !(x1 < b.x0 || x0 > b.x1 || y1 < b.y0 || y0 > b.y1))) continue;
-            placed.push({ x0, y0, x1, y1 }); place[o.i] = { show: true, position: c[0] }; break;
+            placed.push({ x0: x0 - 4, y0: y0 - 3, x1: x1 + 4, y1: y1 + 3 }); place[o.i] = { show: true, position: c[0] }; break;   // pad for spacing
           }
         });
     } catch (e) { /* not ready */ }
@@ -1389,11 +1417,15 @@ function sigTopicsChart(S) {
   const paint = hl => {
     if (hl && !data.some(d => d.tid === hl)) hl = null;   // locked topic filtered out → don't dim everything
     const cl = hl ? (data.find(d => d.tid === hl) || {}).cluster : null;
+    const lockId = (typeof STATE.topicLock === 'string') ? STATE.topicLock : null;
     ch.setOption({ graphic: gfx, series: [{ data: data.map((d, i) => {
-      const fam = !hl || d.cluster === cl;
+      const fam = !hl || d.cluster === cl, locked = d.tid === lockId;
       return Object.assign({}, d, {
-        label: { show: hl ? fam : place[i].show, position: place[i].position, opacity: fam ? 1 : 0 },
-        itemStyle: Object.assign({}, d.itemStyle, { opacity: hl ? (fam ? 0.96 : 0.08) : 0.92 }) });
+        symbolSize: locked ? d.symbolSize + 3 : d.symbolSize,   // locked = a touch larger + soft glow, always visible (subtle)
+        label: { show: locked || (hl ? fam : place[i].show), position: place[i].position, opacity: (locked || fam) ? 1 : 0, fontWeight: 700 },
+        itemStyle: Object.assign({}, d.itemStyle, {
+          opacity: locked ? 1 : (hl ? (fam ? 0.96 : 0.08) : 0.92),
+          shadowBlur: locked ? 9 : 0, shadowColor: locked ? cRgba('#0f172a', 0.22) : 'transparent' }) });
     }) }] });
   };
   // Interaction: HOVER always previews · CLICK a bubble LOCKS it (stays when you move away) · click empty / ✕ unlocks.
@@ -1406,15 +1438,16 @@ function sigTopicsChart(S) {
   ch.off('mouseover'); ch.on('mouseover', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); if (d.tid !== curHL) { curHL = d.tid; paint(d.tid); } showInsp(d.tid); });
   ch.off('mouseout'); ch.on('mouseout', () => { cancelRestore(); restoreT = setTimeout(restore, 160); });
   ch.off('globalout'); ch.on('globalout', () => { cancelRestore(); restore(); });
-  ch.off('click'); ch.on('click', p => { const d = p.data; if (!d || !d.tid) return; cancelRestore(); STATE.inspScroll = 0; STATE.topicLock = d.tid; curHL = d.tid; paint(d.tid); showInsp(d.tid); });
-  // empty-area click → unlock + close. Robust: ignore if a symbol/label was hit (e.target) OR the click
-  // landed near any bubble (geometry) — so clicking a bubble NEVER closes it.
+  // CLICK = geometry-based single source of truth (ECharts data-click misses small/label hits): the nearest
+  // bubble within a threshold gets LOCKED (persists on mouse-leave); a click in open space unlocks + closes.
+  ch.off('click');
   const zr = ch.getZr(); zr.off('click'); zr.on('click', e => {
-    if (e.target) return;
     const x = e.offsetX != null ? e.offsetX : e.zrX, y = e.offsetY != null ? e.offsetY : e.zrY;
-    const near = data.some(d => { const pp = ch.convertToPixel({ seriesIndex: 0 }, d.value); return pp && Math.hypot(pp[0] - x, pp[1] - y) < ((d.symbolSize || 14) / 2 + 12); });
-    if (near) return;
-    cancelRestore(); STATE.topicLock = null; STATE.topicPin = null; curHL = null; paint(null); renderTopicInspector(S);
+    let best = null, bestD = 1e9;
+    data.forEach(d => { const pp = ch.convertToPixel({ seriesIndex: 0 }, d.value); if (pp) { const dd = Math.hypot(pp[0] - x, pp[1] - y); if (dd < bestD) { bestD = dd; best = d; } } });
+    cancelRestore();
+    if (best && bestD < (best.symbolSize / 2 + 22)) { STATE.inspScroll = 0; STATE.topicLock = best.tid; curHL = best.tid; paint(best.tid); showInsp(best.tid); }
+    else { STATE.topicLock = null; STATE.topicPin = null; curHL = null; paint(null); renderTopicInspector(S); }
   });
   // resizable splitter: drag the divider to change the chart ↔ drawer ratio
   const split = document.getElementById('topicsplit'), wrap = split && split.parentElement;
