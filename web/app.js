@@ -959,13 +959,14 @@ function toutConceptsHTML(it, S) { const qh = topicQuotes(it, S, 6); return qh ?
 /* full pinned inspector — works for ANY topic (outlook sections skipped when no synthesis exists) */
 function topicInspectorHTML(it, S, q) {
   const T = S.topics, cat = (T.categories || []).find(c => c.id === it.cat) || {};
+  const domColor = topicNodeColor(it.id, T), pathStr = (it.path_labels && it.path_labels.length > 1) ? it.path_labels.slice(0, -1).join(' › ') : (cat.label || '');
   const eff = topicEffSeries(it, S), ser = eff.ser, brd = eff.brd;
   const mom = topicMomentum(ser, q, momSmooth(T)), brdNow = (brd || [])[q], denom = topicSelCos().length;
   const heats = topicItemsForLayer(T).map(x => topicEffSeries(x, S).ser[q]).sort((a, b) => a - b), med = heats[Math.floor(heats.length / 2)];
   const quad = ser[q] >= med ? (mom >= 0 ? 'Hot & accelerating' : 'Still hot · losing steam') : (mom >= 0 ? 'Emerging' : 'Fading');
   return `<div class="insp">
-    <div class="insp-banner"><span class="tddot" style="background:${cat.color}"></span><b>${it.label}</b><button class="unpin" data-unpin="1" title="Unpin — then hover bubbles to browse">✕</button>
-      <div class="insp-sub"><span style="color:${cat.color};font-weight:700">${cat.label}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
+    <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><button class="unpin" data-unpin="1" title="Unpin — then hover bubbles to browse">✕</button>
+      <div class="insp-sub"><span style="color:${domColor};font-weight:700">${pathStr}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
     ${toutExecHTML(it, S, q)}
     <div class="insp-sec"><h5>Mention &amp; breadth trend</h5><div class="insp-charts"><div class="insp-ch"><div class="chlbl">Avg mentions per company</div><div class="chart-xs" id="tspk_m"></div></div><div class="insp-ch"><div class="chlbl">Companies mentioning it</div><div class="chart-xs" id="tspk_c"></div></div></div></div>
     ${toutHiloHTML(it, S)}
