@@ -23,7 +23,7 @@ from emi.config import ROOT
 from count_topics import _COMPILED, _SENT, count_topics, to_body
 from count_topics import topic_sentiment
 from parse_transcript import segments
-from lang import cached_en
+from lang import cached_en, html_to_text, looks_like_transcript
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 CACHE = ROOT / "data" / "transcripts"
@@ -74,7 +74,10 @@ def clean_text(raw, kind):
         return raw
     if kind == "html":
         seg = segments(raw)
-        return seg["analysis_text"] if seg.get("ok") else None   # require a real verbatim transcript
+        if seg.get("ok"):
+            return seg["analysis_text"]
+        gen = html_to_text(raw)                       # generic source (IR / Investing.com): use if it's really a transcript
+        return gen if looks_like_transcript(gen) else None
     return None
 
 
@@ -102,7 +105,9 @@ def main() -> None:
     coverage = {}
     NP = len(PERIODS)
     for tk, urls in MANIFEST.items():
-        slots = (urls[::-1] + [None] * NP)[:NP]  # oldest->newest, aligned to PERIODS length
+        slots = [None] * NP  # align newest-first urls to the NEWEST period slots (a partial history fills recent quarters, not oldest)
+        for _i, _u in enumerate(urls[:NP]):
+            slots[NP - 1 - _i] = _u
         got, segmentable = [], False
         raw = {tid: {sg: [None] * NP for sg in SEGS} for tid in TOPIC_IDS}
         sent = {tid: {sg: [None] * NP for sg in SEGS} for tid in TOPIC_IDS}
@@ -119,11 +124,17 @@ def main() -> None:
                 doc, kind = fetch_text(url, key=key)
                 if kind == "html":
                     seg = segments(doc)
-                    if not seg.get("ok"):
-                        print("    SKIP (not a verbatim transcript)")
-                        continue
-                    texts = {"all": seg["analysis_text"], "prepared": seg["prepared"], "ceo": seg["ceo"], "cfo": seg["cfo"], "q": seg["q"], "a": seg["a"]}
-                    segmentable = True
+                    if seg.get("ok"):
+                        texts = {"all": seg["analysis_text"], "prepared": seg["prepared"], "ceo": seg["ceo"], "cfo": seg["cfo"], "q": seg["q"], "a": seg["a"]}
+                        segmentable = True
+                    else:   # non-MarketBeat source (IR site / Investing.com): generic extraction if it really is a transcript
+                        gen = html_to_text(doc)
+                        if looks_like_transcript(gen):
+                            texts = {sg: "" for sg in SEGS}; texts["all"] = gen
+                            print("    (generic transcript extraction)")
+                        else:
+                            print("    SKIP (not a verbatim transcript)")
+                            continue
                 elif kind == "pdf":
                     texts = {sg: "" for sg in SEGS}; texts["all"] = doc   # PDFs can't be segmented
                 else:

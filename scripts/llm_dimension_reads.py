@@ -148,11 +148,11 @@ def main():
     tickers = [a.ticker] if a.ticker else list(MANIFEST.keys())
     outpath = ROOT / "data" / "dimension_reads.json"
     out, tot_in, tot_out = {}, 0, 0
-    if not a.ticker and not a.fresh and outpath.exists():   # resume: keep already-done companies for this period
+    if not a.fresh and outpath.exists():   # always MERGE into existing reads (so --ticker updates one, never clobbers)
         prev = json.loads(outpath.read_text(encoding="utf-8"))
         if prev.get("period") == PERIOD and prev.get("model") == model:
             out = prev.get("companies", {})
-    todo = [tk for tk in tickers if a.ticker or tk not in out]
+    todo = [tk for tk in tickers if a.ticker or tk not in out]   # --ticker: re-judge just that one; else only the not-yet-done
     workers = 1 if a.ticker else max(1, a.workers)
     print(f"model = {model} · judging {len(LEAVES)} topics (>= {MIN_COS} cos) · {len(todo)} companies to do · {workers} workers" + (" · FRESH" if a.fresh else ""))
     lock = threading.Lock()

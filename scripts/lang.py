@@ -20,6 +20,26 @@ _CJK = re.compile(r"[぀-ヿ㐀-鿿가-힯ｦ-ﾟ]")  # hiragana/katakana/CJK/ha
 _EN_STOP = re.compile(r"\b(the|and|of|to|in|that|we|our|for|is|are|on|with|as|will)\b", re.I)
 
 
+_TAG = re.compile(r"(?is)<(script|style)\b.*?</\1>")
+_TAGS = re.compile(r"(?s)<[^>]+>")
+
+
+def html_to_text(doc: str) -> str:
+    """Crude HTML -> text for transcript pages our verbatim parser can't segment (IR sites, Investing.com, …)."""
+    t = _TAG.sub(" ", doc or "")
+    return re.sub(r"\s+", " ", _TAGS.sub(" ", t)).strip()
+
+
+def looks_like_transcript(text: str) -> bool:
+    """Guard so we only ingest real call transcripts (not summary/estimate pages) from generic HTML."""
+    if not text:
+        return False
+    n = len(text.split())
+    low = text.lower()
+    qa = sum(low.count(w) for w in ("question", "analyst", "operator", "thank you", "next question"))
+    return n >= 2500 and qa >= 12
+
+
 def en_file(key: str) -> Path:
     return EN_DIR / f"{key}.txt"
 

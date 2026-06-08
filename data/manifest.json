@@ -1171,6 +1171,33 @@
     "https://www.marketbeat.com/earnings/reports/2026-1-29-4285541-stock/",
     "https://www.marketbeat.com/earnings/reports/2025-11-6-4285541-stock/"
    ]
+  },
+  {
+   "ticker": "STM",
+   "name": "STMicroelectronics",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "marketbeat",
+   "urls": [
+    "https://www.marketbeat.com/earnings/reports/2026-4-23-stmicroelectronics-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-3-28-stmicroelectronics-stock/",
+    "https://www.marketbeat.com/earnings/reports/2026-1-30-stmicroelectronics-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-11-5-stmicroelectronics-stock/",
+    "https://www.marketbeat.com/earnings/reports/2025-10-23-stmicroelectronics-stock/"
+   ],
+   "mb": "NYSE/STM"
+  },
+  {
+   "ticker": "IFX.DE",
+   "name": "Infineon Technologies",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "ir_manual",
+   "urls": [
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-infineon-technologies-misses-q2-2026-eps-forecast-93CH-4681405"
+   ]
   }
  ]
 }
