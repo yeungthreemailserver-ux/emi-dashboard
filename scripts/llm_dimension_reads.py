@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from emi.config import ROOT
 from count_topics import _COMPILED, _SENT
 from build_topic_counts import fetch_text, clean_text, MANIFEST, PERIODS
+from lang import cached_en
 
 MODEL = "gpt-5.4-mini"
 PRICE = {"gpt-5.4-mini": (0.75, 4.50), "gpt-5.4-nano": (0.20, 1.25), "gpt-4.1-mini": (0.40, 1.60)}  # $/1M (in,out)
@@ -91,8 +92,10 @@ def sentences_for(tk):
     url = MANIFEST.get(tk, [None])[0]
     if not url:
         return None, "no url"
-    doc, kind = fetch_text(url, key=f"{tk}_{PERIOD}")
-    text = clean_text(doc, kind) if doc else None
+    text = cached_en(f"{tk}_{PERIOD}")   # translated non-English call -> read the English body
+    if text is None:
+        doc, kind = fetch_text(url, key=f"{tk}_{PERIOD}")
+        text = clean_text(doc, kind) if doc else None
     if not text or len(text.split()) < 600:
         return None, "no transcript"
     sents = [s.strip() for s in _SENT.split(text) if len(s.strip()) > 25]

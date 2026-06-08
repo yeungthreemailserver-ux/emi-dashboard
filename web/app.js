@@ -597,13 +597,14 @@ function renderSignals() {
   const main = document.getElementById('main');
   if (!SIGNALS) { main.innerHTML = '<div class="loading">transcripts.json not loaded — run scripts/load_transcripts.py</div>'; return; }
   const S = SIGNALS;
-  const subs = [['overview', 'Overview'], ['alerts', 'Alerts'], ['topics', 'Topics · trends'], ['tree', 'Topic tree'], ['correl', 'Correlation'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
+  const subs = [['overview', 'Overview'], ['alerts', 'Alerts'], ['topics', 'Topics · trends'], ['tree', 'Topic tree'], ['correl', 'Correlation'], ['coverage', 'Data coverage'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
   const tabs = subs.map(([k, l]) => `<button class="seg ${STATE.sigView === k ? 'on' : ''}" data-sv="${k}">${l}</button>`).join('');
   const sparks = [];
   const body = STATE.sigView === 'cycle' ? sigCycleBody(S)
     : STATE.sigView === 'topics' ? sigTopicsBody(S)
       : STATE.sigView === 'alerts' ? sigAlertsBody(S)
       : STATE.sigView === 'correl' ? sigCorrelBody(S)
+      : STATE.sigView === 'coverage' ? sigCoverageBody(S)
       : STATE.sigView === 'tree' ? sigTreeBody(S)
       : STATE.sigView === 'overview' ? sigOverviewBody(S)
         : STATE.sigView === 'company' ? sigCompanyBody(S)
@@ -649,6 +650,8 @@ function renderSignals() {
     else { const s = new Set(STATE.topicDomains || []); s.has(k) ? s.delete(k) : s.add(k); STATE.topicDomains = [...s]; }
     render();
   });
+  main.querySelectorAll('[data-covreg]').forEach(b => b.onclick = () => { STATE.covRegion = b.dataset.covreg; render(); });
+  main.querySelectorAll('[data-covscope]').forEach(b => b.onclick = () => { STATE.covScope = b.dataset.covscope; render(); });
   main.querySelectorAll('[data-tctl]').forEach(b => b.onclick = () => { STATE.topicCtlOpen = STATE.topicCtlOpen === false; render(); });
   const cs = main.querySelector('#cosearch');
   if (cs) {
@@ -1113,8 +1116,11 @@ function topicFilterBar(S, opts) {
   const segSel = [['all', 'All speech'], ['prepared', 'Prepared'], ['ceo', 'CEO'], ['cfo', 'CFO'], ['q', 'Analyst Q'], ['a', 'Mgmt A']].map(([k, l]) => `<button class="seg ${topicSeg() === k ? 'on' : ''}" data-tseg="${k}">${l}</button>`).join('');
   const selLabel = sel.map(code => { const co = topicCos().find(c => c.ticker === code); return co ? co.name : code; }).join(' + ');
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
-  if (STATE.topicCtlOpen === false) return `<div class="ctl-collapsed dim" data-tctl="1">Layer: <b>${sel.length ? selLabel : 'All'}</b> · Segment: <b>${segName || 'All speech'}</b> · As of <b>${qLabel(T.periods[q])}</b> <span class="lnk" style="margin-left:6px">▾ change</span></div>`;
-  return `<div class="topicctl">
+  // domain filter — shown in every lens EXCEPT Topics (which has its own clickable shape legend); always visible, even when the rest of the controls are collapsed
+  const _tr = topicTree(T), dsel = topicDomSel();
+  const domBar = (_tr && STATE.sigView !== 'topics') ? `<div class="mkbar tight"><div class="seggrp"><span class="seglbl">Domain</span><button class="seg ${dsel.length === 0 ? 'on' : ''}" data-tdom="__all">All</button>${Object.keys(_tr.nodes).filter(n => !_tr.nodes[n].parent).map(r => `<button class="seg ${dsel.includes(r) ? 'on' : ''}" data-tdom="${r}">${shapeSVG(DOMAIN_SHAPE[r], dsel.includes(r) ? (TREE_ROOT_COLOR[r] || '#334155') : '#94a3b8')}${_tr.nodes[r].label}</button>`).join('')}</div></div>` : '';
+  if (STATE.topicCtlOpen === false) return `<div class="topicctl">${domBar}<div class="ctl-collapsed dim" data-tctl="1">Chain: <b>${sel.length ? selLabel : 'All'}</b> · Segment: <b>${segName || 'All speech'}</b> · As of <b>${qLabel(T.periods[q])}</b> <span class="lnk" style="margin-left:6px">▾ change</span></div></div>`;
+  return `<div class="topicctl">${domBar}
     <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Chain</span>${lsel}</div>${subGrps}${coGrp}</div>
     <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Segment</span>${segSel}</div><div class="seggrp"><span class="seglbl">As of</span>${qsel}${playBtn}</div>${labSel}</div>
   </div>`;
@@ -1258,6 +1264,63 @@ function sigCorrelBody(S) {
       </div>
     </div>
     <div class="dim" style="font-size:11px;margin-top:12px">Correlation (ρ) = Pearson of the two topics' <b>per-company mention intensity</b> across all companies — it reads which themes companies emphasize together, and stays discriminating even when nearly every company mentions the big topics (where simple co-occurrence saturates). Token-free. Click any topic to open it.</div>
+  </div>`;
+}
+
+/* Lens — DATA COVERAGE: production housekeeping. Whole universe (US + non-US, L0-L5) data readiness:
+   transcript coverage, financials, market cap & latest-Q revenue (screening), and extraction freshness. */
+function fmtUSD(v) {
+  if (v == null) return '—';
+  const a = Math.abs(v);
+  if (a >= 1e12) return '$' + (v / 1e12).toFixed(2) + 'T';
+  if (a >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+  if (a >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+  return '$' + Math.round(v);
+}
+function sigCoverageBody(S) {
+  const R = S.readiness;
+  if (!R) return `<div class="panel"><div class="dim">No readiness data — run scripts/build_readiness.py then rebuild the bundle.</div></div>`;
+  const region = STATE.covRegion || 'all', scope = STATE.covScope || 'incl';
+  const np = (R.periods || []).length || 5;
+  const passScope = r => scope === 'all' ? true : scope === 'transcript' ? r.transcript_q > 0 : scope === 'finonly' ? (r.included && !r.transcript_q) : scope === 'screened' ? !r.included : r.included;
+  const passReg = r => region === 'all' ? true : region === 'us' ? r.us : !r.us;
+  const rows = (R.companies || []).filter(r => passReg(r) && passScope(r));
+  const order = ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'];
+  const byL = {}; rows.forEach(r => (byL[r.layer || '?'] = byL[r.layer || '?'] || []).push(r));
+  const tStat = r => r.transcript_q > 0
+    ? `<span class="cov-ok">●</span> ${r.transcript_q}/${np}${r.transcript_latest ? ` <span class="dim">${r.transcript_latest}</span>` : ''}`
+    : `<span class="cov-no">○</span> <span class="dim">none</span>`;
+  const rowHTML = r => `<tr class="${r.included ? '' : 'cov-screened'}">
+    <td class="cov-name">${r.name} <span class="dim">${r.ticker}</span>${r.in_pipeline ? '' : ''}</td>
+    <td><span class="cov-reg ${r.us ? 'us' : 'x'}">${r.region}</span></td>
+    <td class="cov-num">${fmtUSD(r.mcap_usd)}</td>
+    <td class="cov-num">${fmtUSD(r.rev_usd)}${r.rev_q ? `<span class="dim"> ${String(r.rev_q).slice(2)}</span>` : ''}</td>
+    <td>${tStat(r)}</td>
+    <td>${r.has_financials ? '<span class="cov-ok">●</span>' : '<span class="cov-no">○</span>'}</td>
+    <td class="dim cov-date">${r.transcript_pulled || r.fin_pulled || '—'}</td>
+    <td class="dim">${r.included ? '' : (r.screen || 'excluded')}</td></tr>`;
+  const sect = L => {
+    const list = (byL[L] || []).sort((a, b) => (b.mcap_usd || 0) - (a.mcap_usd || 0));
+    if (!list.length) return '';
+    const s = (R.by_layer || {})[L] || {};
+    const t = list.filter(r => r.transcript_q).length;
+    return `<div class="cov-sect"><div class="cov-sect-h">${L} · ${s.layer_name || ''} <span class="dim">— ${list.length} shown · ${t} with transcripts</span></div>
+      <table class="cov-tbl"><thead><tr><th>Company</th><th>Region</th><th>Mkt cap</th><th>Revenue (Q)</th><th>Transcripts</th><th>Fin</th><th>Last pull</th><th>Screen</th></tr></thead>
+      <tbody>${list.map(rowHTML).join('')}</tbody></table></div>`;
+  };
+  const regBtns = [['all', 'All'], ['us', 'US'], ['nonus', 'Non-US']].map(([k, l]) => `<button class="seg ${region === k ? 'on' : ''}" data-covreg="${k}">${l}</button>`).join('');
+  const scopeBtns = [['incl', 'In scope'], ['transcript', 'Has transcript'], ['finonly', 'Financials only'], ['screened', 'Screened out'], ['all', 'All']].map(([k, l]) => `<button class="seg ${scope === k ? 'on' : ''}" data-covscope="${k}">${l}</button>`).join('');
+  return `<div class="panel">
+    <div class="thead-row"><h3>Data coverage &amp; readiness <span class="dim" style="font-weight:400;font-size:13px">— whole universe (US + non-US), what data we hold per company</span></h3></div>
+    <div class="cov-strip">
+      <span class="cov-kpi"><b>${R.n_companies}</b> companies</span>
+      <span class="cov-kpi"><b>${R.n_included}</b> in scope <span class="dim">(≥ $${R.min_mcap_usd_b}B)</span></span>
+      <span class="cov-kpi"><b>${R.n_with_transcripts}</b> with transcripts</span>
+      <span class="cov-kpi dim">Data as of <b>${R.generated_at || '—'}</b> · FX ${R.fx_as_of}</span>
+    </div>
+    <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Region</span>${regBtns}</div><div class="seggrp"><span class="seglbl">Show</span>${scopeBtns}</div></div>
+    ${order.map(sect).join('') || '<div class="dim">No companies match.</div>'}
+    <div class="dim" style="font-size:11px;margin-top:10px">Transcripts power the topic intelligence (LLM-judged); financials (market cap, revenue) come from Yahoo for the full universe incl. non-US. Companies below the market-cap floor are screened out of the pipeline. Market cap / revenue converted to USD at the stamped FX date — approximate, for screening only.</div>
   </div>`;
 }
 

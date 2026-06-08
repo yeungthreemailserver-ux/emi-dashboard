@@ -15,13 +15,48 @@ Writes a PROPOSAL (review before committing), not the live tree:
 Then review, and: .\.venv\Scripts\python.exe scripts\build_taxonomy.py --commit
 """
 from __future__ import annotations
-import argparse, json, re, sys, urllib.request
+import argparse, json, re, sys, time, urllib.request, urllib.error
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from emi.config import ROOT
 
 KEY = (ROOT / "openai_key.txt").read_text(encoding="utf-8").strip()
+_API = "https://api.openai.com/v1/chat/completions"
+
+
+def _stream(payload, timeout=300, retries=4):
+    """POST a streaming chat-completion and return the parsed JSON content, retrying transient network errors.
+    A reasoning model thinks fully before the first token, so the first-byte wait must cover reasoning; once
+    generation starts, SSE lines arrive continuously and keep the socket alive."""
+    body = json.dumps(payload).encode("utf-8")
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(_API, data=body,
+                                         headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"})
+            buf, ticks = [], 0
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                for raw_line in resp:
+                    line = raw_line.decode("utf-8", "ignore").strip()
+                    if not line.startswith("data:"):
+                        continue
+                    data = line[5:].strip()
+                    if data == "[DONE]":
+                        break
+                    try:
+                        delta = json.loads(data)["choices"][0]["delta"].get("content")
+                    except Exception:
+                        continue
+                    if delta:
+                        buf.append(delta); ticks += 1
+                        if ticks % 200 == 0:
+                            print(f"  …streaming ({sum(len(b) for b in buf)} chars)", flush=True)
+            return json.loads("".join(buf))
+        except (urllib.error.URLError, TimeoutError, ConnectionResetError, ValueError) as e:
+            if attempt < retries - 1:
+                print(f"  retry {attempt + 1}/{retries - 1} after {type(e).__name__}", flush=True)
+                time.sleep(5 * (attempt + 1)); continue
+            raise
 TREE_PATH = ROOT / "data" / "topic_tree.json"
 RAW_PATH = ROOT / "data" / "emergent_raw.json"
 PROP_TREE = ROOT / "data" / "topic_tree.proposed.json"
@@ -98,29 +133,7 @@ def call(model, phrases, tree, effort="medium"):
     payload = {"model": model, "reasoning_effort": effort, "stream": True,
                "messages": [{"role": "system", "content": SYS}, {"role": "user", "content": user}],
                "response_format": {"type": "json_schema", "json_schema": {"name": "taxonomy", "strict": True, "schema": SCHEMA}}}
-    req = urllib.request.Request("https://api.openai.com/v1/chat/completions",
-                                 data=json.dumps(payload).encode("utf-8"),
-                                 headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"})
-    buf, ticks = [], 0
-    # stream SSE: a reasoning model thinks fully BEFORE the first token, so the first-byte wait must cover reasoning;
-    # once generation starts, lines arrive continuously and keep the socket alive.
-    with urllib.request.urlopen(req, timeout=300) as resp:
-        for raw_line in resp:
-            line = raw_line.decode("utf-8", "ignore").strip()
-            if not line.startswith("data:"):
-                continue
-            data = line[5:].strip()
-            if data == "[DONE]":
-                break
-            try:
-                delta = json.loads(data)["choices"][0]["delta"].get("content")
-            except Exception:
-                continue
-            if delta:
-                buf.append(delta); ticks += 1
-                if ticks % 200 == 0:
-                    print(f"  …streaming ({sum(len(b) for b in buf)} chars)", flush=True)
-    return json.loads("".join(buf))
+    return _stream(payload)
 
 
 TIGHTEN_SYS = (
@@ -150,28 +163,59 @@ def tighten(model, lex, tree, effort="medium"):
     payload = {"model": model, "reasoning_effort": effort, "stream": True,
                "messages": [{"role": "system", "content": TIGHTEN_SYS}, {"role": "user", "content": user}],
                "response_format": {"type": "json_schema", "json_schema": {"name": "tight", "strict": True, "schema": TIGHTEN_SCHEMA}}}
-    req = urllib.request.Request("https://api.openai.com/v1/chat/completions",
-                                 data=json.dumps(payload).encode("utf-8"),
-                                 headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"})
-    buf, ticks = [], 0
-    with urllib.request.urlopen(req, timeout=300) as resp:
-        for raw_line in resp:
-            line = raw_line.decode("utf-8", "ignore").strip()
-            if not line.startswith("data:"):
-                continue
-            data = line[5:].strip()
-            if data == "[DONE]":
-                break
-            try:
-                delta = json.loads(data)["choices"][0]["delta"].get("content")
-            except Exception:
-                continue
-            if delta:
-                buf.append(delta); ticks += 1
-                if ticks % 200 == 0:
-                    print(f"  …streaming ({sum(len(b) for b in buf)} chars)", flush=True)
-    out = json.loads("".join(buf))["topics"]
+    out = _stream(payload)["topics"]
     return {t["id"]: t["keywords"] for t in out if t.get("keywords")}
+
+
+EXPAND_SYS = (
+    "You widen keyword REGEX coverage for a token-free transcript counter. A topic is UNDER-matching: its keywords "
+    "miss companies that (per semantic discovery) clearly discuss it. Given the topic label, its CURRENT keywords, and "
+    "example phrases analysts actually used, propose 3-6 ADDITIONAL regex terms that capture the missed phrasings.\n"
+    "HARD RULES (same as before): NO bare generic English words (test, timing, power, demand, supply, capacity, content, "
+    "platform…); short acronyms MUST be \\\\b-boundaried; never bare 'IP'/'PIC'/'ATE'-style 2-letter strings without \\\\b; "
+    "prefer specific multi-word phrases. Do NOT repeat the current keywords. Stay specific to THIS topic (don't bleed into "
+    "siblings). Return additions for every id."
+)
+
+
+def _norm(s):
+    return set(re.sub(r"[^a-z0-9 ]", " ", (s or "").lower()).split())
+
+
+def reconcile(tree):
+    """Compare keyword breadth (topic_counts) vs reliable discovery prevalence (emergent_topics clusters)."""
+    cnt = json.loads((ROOT / "data" / "topic_counts.json").read_text(encoding="utf-8")).get("breadth", {})
+    em = json.loads((ROOT / "data" / "emergent_topics.json").read_text(encoding="utf-8")).get("clusters", [])
+    lex = json.loads(LEX_PATH.read_text(encoding="utf-8")) if LEX_PATH.exists() else {}
+    leaves = tree["leaves"]
+    gaps = []
+    for tid in lex:
+        lf = leaves.get(tid)
+        if not lf:
+            continue
+        kb = cnt.get(tid) or [0]
+        kb = max(kb) if kb else 0
+        toks = _norm(lf["label"])
+        best, bestov = None, 0.0
+        for c in em:
+            ov = len(toks & _norm(c["name"])) / max(1, len(toks | _norm(c["name"])))
+            if ov > bestov:
+                best, bestov = c, ov
+        if best and bestov >= 0.3:
+            disc = best.get("companies", 0)
+            if disc >= 8 and kb < disc * 0.4:
+                gaps.append({"id": tid, "label": lf["label"], "kw_cos": kb, "disc_cos": disc,
+                             "current": lex.get(tid, []), "examples": best.get("examples", [])[:6]})
+    return gaps, lex
+
+
+def expand(model, gaps, effort="medium"):
+    items = [{"id": g["id"], "label": g["label"], "current_keywords": g["current"], "example_phrases": g["examples"]} for g in gaps]
+    user = "Widen keyword coverage for these under-matching topics (return additions for all):\n" + json.dumps(items, ensure_ascii=False)
+    payload = {"model": model, "reasoning_effort": effort, "stream": True,
+               "messages": [{"role": "system", "content": EXPAND_SYS}, {"role": "user", "content": user}],
+               "response_format": {"type": "json_schema", "json_schema": {"name": "expand", "strict": True, "schema": TIGHTEN_SCHEMA}}}
+    return {t["id"]: t["keywords"] for t in _stream(payload)["topics"] if t.get("keywords")}
 
 
 def merge(tree, out):
@@ -235,10 +279,30 @@ def main():
     ap.add_argument("--show", action="store_true", help="re-render the saved proposal tree (no LLM call)")
     ap.add_argument("--prune", action="store_true", help="clean the proposal: drop dup-label leaves + empty nodes")
     ap.add_argument("--tighten", action="store_true", help="LLM-tighten the LIVE emergent lexicon to kill false positives")
+    ap.add_argument("--expand", action="store_true", help="reconcile keyword breadth vs discovery prevalence; widen UNDER-matching topics")
     a = ap.parse_args()
 
     if a.show:
         print_tree(json.loads(PROP_TREE.read_text(encoding="utf-8"))); return
+
+    if a.expand:
+        tree = json.loads(TREE_PATH.read_text(encoding="utf-8"))
+        gaps, lex = reconcile(tree)
+        if not gaps:
+            print("no under-matching topics — keyword coverage looks aligned with discovery"); return
+        print(f"{len(gaps)} under-matching topics (keyword breadth << discovery prevalence):")
+        for g in gaps:
+            print(f"  {g['id']:<24} kw {g['kw_cos']}cos vs discovery {g['disc_cos']}cos")
+        adds = expand(a.model, gaps, a.effort)
+        n = 0
+        for tid, kw in adds.items():
+            if tid in lex and kw:
+                have = set(lex[tid]); new = [k for k in kw if k not in have]
+                if new:
+                    lex[tid] = lex[tid] + new; n += 1
+        LEX_PATH.write_text(json.dumps(lex, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"expanded {n} keyword sets -> {LEX_PATH.name}  (re-run build_topic_counts to apply)")
+        return
 
     if a.tighten:
         tree = json.loads(TREE_PATH.read_text(encoding="utf-8"))

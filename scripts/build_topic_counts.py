@@ -23,6 +23,7 @@ from emi.config import ROOT
 from count_topics import _COMPILED, _SENT, count_topics, to_body
 from count_topics import topic_sentiment
 from parse_transcript import segments
+from lang import cached_en
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 CACHE = ROOT / "data" / "transcripts"
@@ -108,19 +109,25 @@ def main() -> None:
         for si, url in enumerate(slots):
             if not url:
                 continue
-            print(f"  {tk} {PERIODS[si]} <- {url[:70]}")
-            doc, kind = fetch_text(url, key=f"{tk}_{PERIODS[si]}")
-            if kind == "html":
-                seg = segments(doc)
-                if not seg.get("ok"):
-                    print("    SKIP (not a verbatim transcript)")
-                    continue
-                texts = {"all": seg["analysis_text"], "prepared": seg["prepared"], "ceo": seg["ceo"], "cfo": seg["cfo"], "q": seg["q"], "a": seg["a"]}
-                segmentable = True
-            elif kind == "pdf":
-                texts = {sg: "" for sg in SEGS}; texts["all"] = doc   # PDFs can't be segmented
+            key = f"{tk}_{PERIODS[si]}"
+            en = cached_en(key)   # translated non-English call -> use English body (whole-call 'all' segment only)
+            if en is not None:
+                print(f"  {tk} {PERIODS[si]} <- [translated EN]")
+                texts = {sg: "" for sg in SEGS}; texts["all"] = en
             else:
-                continue
+                print(f"  {tk} {PERIODS[si]} <- {url[:70]}")
+                doc, kind = fetch_text(url, key=key)
+                if kind == "html":
+                    seg = segments(doc)
+                    if not seg.get("ok"):
+                        print("    SKIP (not a verbatim transcript)")
+                        continue
+                    texts = {"all": seg["analysis_text"], "prepared": seg["prepared"], "ceo": seg["ceo"], "cfo": seg["cfo"], "q": seg["q"], "a": seg["a"]}
+                    segmentable = True
+                elif kind == "pdf":
+                    texts = {sg: "" for sg in SEGS}; texts["all"] = doc   # PDFs can't be segmented
+                else:
+                    continue
             if not texts["all"] or len(texts["all"].split()) < 600:
                 print(f"    SKIP ({len(texts['all'].split()) if texts['all'] else 0} words)")
                 continue

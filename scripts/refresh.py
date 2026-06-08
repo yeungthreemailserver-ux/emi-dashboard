@@ -26,10 +26,21 @@ import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 
 from emi.config import ROOT
 
 MANIFEST = ROOT / "data" / "manifest.json"
+STAMP = ROOT / "data" / "last_refresh.json"
+
+
+def _stamp(step, ok=True):
+    """Housekeeping: record when each pipeline step last ran (surfaced in the Data-coverage lens)."""
+    s = json.loads(STAMP.read_text(encoding="utf-8")) if STAMP.exists() else {"steps": {}}
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    s.setdefault("steps", {})[step] = {"at": now, "ok": ok}
+    s["last_run"] = now
+    STAMP.write_text(json.dumps(s, ensure_ascii=False, indent=1), encoding="utf-8")
 
 PY = sys.executable
 PERIOD = "2026Q1"                      # latest 'as of' quarter (detect hook can advance this)
@@ -111,6 +122,17 @@ def cmd_bundle():
     run("scripts/bundle.py")
 
 
+# --- current-gen pipeline steps (gpt-5.4 reads/synth + self-calibrating lexicon + readiness) ---
+def cmd_discover():   run("scripts/discover_topics.py")            # LLM: extract+cluster emergent themes
+def cmd_promote():    run("scripts/auto_topics.py")                # LLM: promote new hot themes into the tree
+def cmd_expand():     run("scripts/build_taxonomy.py", "--expand") # LLM: widen UNDER-matching keywords vs discovery
+def cmd_tighten():    run("scripts/build_taxonomy.py", "--tighten")# LLM: kill keyword false positives
+def cmd_reads(fresh): run("scripts/llm_dimension_reads.py", *(["--fresh"] if fresh else []))  # LLM: per-company favorability
+def cmd_synth():      run("scripts/llm_synthesis.py", "--model", "gpt-5.4-mini")              # LLM: forward outlooks
+def cmd_readiness():  run("scripts/build_readiness.py")            # FREE: data-coverage report
+def cmd_translate():  run("scripts/translate_transcripts.py")      # LLM: non-English calls -> English (cached)
+
+
 def _url_date(u):
     m = re.search(r"/reports/(\d{4})-(\d{1,2})-(\d{1,2})", u or "")
     return tuple(int(x) for x in m.groups()) if m else (0, 0, 0)
@@ -147,21 +169,46 @@ def cmd_detect(bump=None):
     print(f"detect: {new} companies have a newer report than the manifest")
 
 
+# named multi-step plans (current-gen). 'quick' = free rebuild; 'calibrate' = cheap keyword self-tuning;
+# 'update' = full quarterly refresh. Legacy 'all'/'outlooks' (the old .synth path) are kept for back-compat.
+PLANS = {
+    "quick": ["counts", "readiness", "bundle"],
+    "calibrate": ["expand", "tighten", "counts", "readiness", "bundle"],
+    "update": ["translate", "discover", "promote", "expand", "tighten", "counts", "reads", "synth", "readiness", "bundle"],
+}
+
+
 def main():
-    arg = sys.argv[1] if len(sys.argv) > 1 else "all"
+    arg = sys.argv[1] if len(sys.argv) > 1 else "quick"
+    fresh = "--fresh" in sys.argv
     topics = synth_topics()
     if "--topics" in sys.argv:
         topics = sys.argv[sys.argv.index("--topics") + 1].split(",")
-    if arg in ("counts", "all"):
-        cmd_counts()
-    if arg in ("outlooks", "all"):
-        cmd_outlooks(topics)
-    if arg in ("bundle", "all"):
-        cmd_bundle()
+    STEP = {
+        "counts": cmd_counts, "bundle": cmd_bundle, "readiness": cmd_readiness, "translate": cmd_translate,
+        "discover": cmd_discover, "promote": cmd_promote, "expand": cmd_expand, "tighten": cmd_tighten,
+        "reads": lambda: cmd_reads(fresh), "synth": cmd_synth, "outlooks": lambda: cmd_outlooks(topics),
+    }
     if arg == "detect":
         bump = sys.argv[sys.argv.index("--bump") + 1] if "--bump" in sys.argv else None
-        cmd_detect(bump)
-    print(f"refresh '{arg}' done — topics: {topics}")
+        cmd_detect(bump); return
+    if arg == "all":   # legacy path (old .synth outlooks)
+        plan = ["counts", "outlooks", "bundle"]
+    elif arg in PLANS:
+        plan = PLANS[arg]
+    elif arg in STEP:
+        plan = [arg]
+    else:
+        print(f"unknown command '{arg}'. Use one of: {', '.join(list(PLANS) + list(STEP) + ['detect','all'])}"); sys.exit(2)
+    print(f"refresh plan: {' -> '.join(plan)}" + (" (--fresh)" if fresh else ""))
+    for step in plan:
+        try:
+            STEP[step]()
+            _stamp(step, True)
+        except Exception as e:  # noqa: BLE001
+            _stamp(step, False)
+            print(f"!! step '{step}' FAILED: {type(e).__name__} — stopping"); sys.exit(1)
+    print(f"\n✓ refresh '{arg}' done: {', '.join(plan)} · stamped {STAMP.name}")
 
 
 if __name__ == "__main__":

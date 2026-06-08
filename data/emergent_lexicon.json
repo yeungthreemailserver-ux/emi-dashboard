@@ -4,35 +4,60 @@
   "\\boptical interconnects?\\b",
   "\\b1\\.6T\\s+pluggable\\b",
   "\\b800G\\s+optics\\b",
-  "\\bphotonic chiplets?\\b"
+  "\\bphotonic chiplets?\\b",
+  "\\bco-packaged optics\\b",
+  "\\bnear-package optics\\b",
+  "\\bCPO\\b",
+  "\\b1\\.6T\\s+optical modules?\\b",
+  "\\boptical transceivers?\\b"
  ],
  "datacenter_power_deliver": [
   "\\bAI\\s+server\\s+power\\s+delivery\\b",
   "\\b800V\\s+data[- ]?center\\b",
   "\\b48V\\s+rack\\b",
   "\\bvoltage\\s+regulator\\s+modules?\\b",
-  "\\bpower\\s+shelf\\b"
+  "\\bpower\\s+shelf\\b",
+  "\\b800V\\s+HVDC\\b",
+  "\\bpower semiconductors?\\b",
+  "\\bSiC\\s+MOSFETs?\\b",
+  "\\bGaN\\s+FETs?\\b",
+  "\\bpoint[- ]of[- ]load\\b"
  ],
  "test_ate_probe_cards": [
   "\\bautomated test equipment\\b",
   "\\bATE\\b",
   "\\bprobe cards?\\b",
   "\\bHBM probe cards?\\b",
-  "\\bwafer sort\\b"
+  "\\bwafer sort\\b",
+  "\\btester shortages\\b",
+  "\\btest handlers?\\b",
+  "\\bwafer probers?\\b",
+  "\\bdevice interface boards?\\b",
+  "\\bload boards?\\b"
  ],
  "ai_networking_ethernet_f": [
   "\\bAI networking\\b",
   "\\bSpectrum-?X\\b",
   "\\bInfiniBand(?:\\s+XDR)?\\b",
   "\\bEthernet fabric\\b",
-  "\\b51\\.2T\\b"
+  "\\b51\\.2T\\b",
+  "\\bUALink\\b",
+  "\\b100T\\s+Ethernet\\b",
+  "\\bspine[- ]leaf\\b",
+  "\\bleaf[- ]spine\\b",
+  "\\bscale[- ]up fabrics?\\b"
  ],
  "materials_specialty_gase": [
   "\\bspecialty gases?\\b",
   "\\belectronic specialty gases?\\b",
   "\\belectronic chemicals?\\b",
   "\\bwet chemicals?\\b",
-  "\\bphotoresist\\b"
+  "\\bphotoresist\\b",
+  "\\bhelium supply shortages\\b",
+  "\\bneon supply\\b",
+  "\\bfluorinated gases?\\b",
+  "\\bNF3\\b",
+  "\\bmicroelectronics water filtration\\b"
  ],
  "eda_ip_chiplet_design": [
   "\\belectronic design automation\\b",
@@ -40,7 +65,12 @@
   "\\bUCIe\\b",
   "\\bdie-to-die interconnect\\b",
   "\\bchiplet design\\b",
-  "\\b3D IC\\b"
+  "\\b3D IC\\b",
+  "\\badvanced[- ]node EDA\\b",
+  "\\bagentic AI design automation\\b",
+  "\\bRTL-to-GDS\\b",
+  "\\bplace-and-route\\b",
+  "\\bphysical verification\\b"
  ],
  "sic_gan_power_semiconduc": [
   "\\bsilicon carbide\\b",
@@ -61,7 +91,12 @@
   "\\binference storage\\b",
   "\\bnearline HDDs?\\b",
   "\\benterprise SSDs?\\b",
-  "\\bHAMR\\b"
+  "\\bHAMR\\b",
+  "\\bMozaic\\b",
+  "\\bHDD areal density\\b",
+  "\\bNVMe SSDs?\\b",
+  "\\bhyperscale HDDs?\\b",
+  "\\bmulti-actuator HDDs?\\b"
  ],
  "process_control_inspecti": [
   "\\bprocess control\\b",
@@ -75,14 +110,24 @@
   "\\bextreme ultraviolet\\b",
   "\\bEUV scanners?\\b",
   "\\bNXE:?\\d+\\b",
-  "\\bEUV adoption\\b"
+  "\\bEUV adoption\\b",
+  "\\bHigh-NA EUV\\b",
+  "\\b0\\.55\\s*NA\\b",
+  "\\bEUV mask blanks?\\b",
+  "\\bmask defect(?:s|ivity)\\b",
+  "\\bnext-gen EUV\\b"
  ],
  "euv_throughput": [
   "\\bEUV throughput\\b",
   "\\bWPH\\b",
   "\\bwafer per hour\\b",
   "\\bscanner throughput\\b",
-  "\\bNXE:3800[EF]\\b"
+  "\\bNXE:3800[EF]\\b",
+  "\\bhigher WPH\\b",
+  "\\bincreased wafers per hour\\b",
+  "\\bmore wafers per hour\\b",
+  "\\bscanner productivity\\b",
+  "\\bthroughput improvements?\\b"
  ],
  "duv_immersion": [
   "\\bimmersion DUV\\b",
@@ -103,7 +148,12 @@
   "\\bEUV pellicles\\b",
   "\\bmask pellicle\\b",
   "\\bpellicle blanks\\b",
-  "\\bpellicle supply\\b"
+  "\\bpellicle supply\\b",
+  "\\bpellicle transmission\\b",
+  "\\bpellicle lifetime\\b",
+  "\\bpellicle membranes?\\b",
+  "\\breticle pellicle\\b",
+  "\\bEUV mask pellicle\\b"
  ],
  "etch_depo_int": [
   "\\betch and deposition\\b",
@@ -145,7 +195,12 @@
   "\\bHBM module packaging\\b",
   "\\b2\\.5D HBM\\b",
   "\\bHBM interposer\\b",
-  "\\badvanced packaging for HBM\\b"
+  "\\badvanced packaging for HBM\\b",
+  "\\b2\\.5D packaging\\b",
+  "\\bhybrid bonding\\b",
+  "\\bstacked die packaging\\b",
+  "\\binterposer-based packaging\\b",
+  "\\bdie stacking\\b"
  ],
  "mask_inspect": [
   "\\bmask inspection\\b",
@@ -180,7 +235,12 @@
   "\\bsilicon-photonics\\b",
   "\\bsilicon photonic\\b",
   "\\bphotonic integrated circuit\\b",
-  "\\bphotonic chiplets?\\b"
+  "\\bphotonic chiplets?\\b",
+  "\\bco-packaged optics\\b",
+  "\\bnear-package optics\\b",
+  "\\bphotonic integrated circuits?\\b",
+  "\\boptical engines?\\b",
+  "\\bsilicon-photonic transceivers?\\b"
  ],
  "optical_modules": [
   "\\bOSFP\\b",
@@ -320,7 +380,12 @@
   "\\bdatacenter power\\b",
   "\\brack power distribution\\b",
   "\\bserver rack power\\b",
-  "\\bpower distribution unit\\b"
+  "\\bpower distribution unit\\b",
+  "\\b800V\\s+data[- ]center\\s+architectures?\\b",
+  "\\b800V\\s+HVDC\\b",
+  "\\b48V\\s+architecture\\b",
+  "\\bpower delivery network\\b",
+  "\\bbusbar\\b"
  ],
  "hvdc_800v": [
   "\\b800V HVDC\\b",
@@ -348,7 +413,12 @@
   "\\bAI accelerator power\\b",
   "\\bAI server power\\b",
   "\\bpower tree\\b",
-  "\\bpower rails\\b"
+  "\\bpower rails\\b",
+  "\\bGPU power delivery\\b",
+  "\\baccelerator power delivery\\b",
+  "\\bVRM\\b",
+  "\\blow-voltage high-current\\b",
+  "\\bhigh-current rails?\\b"
  ],
  "rack_power": [
   "\\brack-scale power\\b",
@@ -481,7 +551,12 @@
   "\\bnearline capacity\\b",
   "\\bhigher-capacity HDDs?\\b",
   "\\bcapacity per drive\\b",
-  "\\bdisk capacity\\b"
+  "\\bdisk capacity\\b",
+  "\\bareal density\\b",
+  "\\bterabytes per drive\\b",
+  "\\bcapacity per platter\\b",
+  "\\bplatters per drive\\b",
+  "\\bdrive density\\b"
  ],
  "kioxia_jv": [
   "\\bKioxia JV\\b",
@@ -509,21 +584,36 @@
   "\\bHBM capacity additions\\b",
   "\\bHBM wafer supply\\b",
   "\\bHBM investments\\b",
-  "\\bHBM expansions?\\b"
+  "\\bHBM expansions?\\b",
+  "\\bHBM production capacity\\b",
+  "\\bHBM line capacity\\b",
+  "\\bHBM output\\b",
+  "\\bHBM wafer starts\\b",
+  "\\bHBM expansion projects?\\b"
  ],
  "hbm_supply": [
   "\\bHBM supply\\b",
   "\\bHBM availability\\b",
   "\\bHBM allocation\\b",
   "\\bHBM supply chain\\b",
-  "\\bHBM wafer supply\\b"
+  "\\bHBM wafer supply\\b",
+  "\\bHBM shortages\\b",
+  "\\bHBM tightness\\b",
+  "\\bHBM lead times?\\b",
+  "\\bHBM availability constraints\\b",
+  "\\bHBM supply bottlenecks?\\b"
  ],
  "dram_6f2": [
   "\\b6F²\\b",
   "\\b6F2\\b",
   "\\bDRAM capacity additions\\b",
   "\\bDRAM fabs\\b",
-  "\\bDRAM nodes\\b"
+  "\\bDRAM nodes\\b",
+  "\\b6F2\\s+DRAM\\b",
+  "\\b6F2\\s+cell\\b",
+  "\\b6F2\\s+architecture\\b",
+  "\\b6F2\\s+scaling\\b",
+  "\\b6F2\\s+node\\b"
  ],
  "onec_dram": [
   "\\b1C DRAM\\b",
@@ -544,7 +634,12 @@
   "\\bauto LPDDR5\\b",
   "\\bLPDDR5 automotive\\b",
   "\\bin-vehicle DRAM\\b",
-  "\\bautomotive memory\\b"
+  "\\bautomotive memory\\b",
+  "\\bautomotive LPDDR5X\\b",
+  "\\bin-vehicle LPDDR5\\b",
+  "\\bautomotive infotainment\\b",
+  "\\bADAS memory\\b",
+  "\\bconnected car infotainment\\b"
  ],
  "hbm4e": [
   "\\bHBM4E\\b",
@@ -642,7 +737,12 @@
   "\\blegacy MCU\\b",
   "\\bR-Car\\b",
   "\\bmicrocontroller\\b",
-  "\\bMCU\\b"
+  "\\bMCU\\b",
+  "\\bautomotive microcontroller\\b",
+  "\\bvehicle microcontroller\\b",
+  "\\bbody control module\\b",
+  "\\bADAS controller\\b",
+  "\\bengine control unit\\b"
  ],
  "analog_power": [
   "\\banalog power management\\b",
@@ -838,7 +938,12 @@
   "\\bEFC gases\\b",
   "\\bultra-high-purity gases\\b",
   "\\belectronic gases\\b",
-  "\\bgas systems\\b"
+  "\\bgas systems\\b",
+  "\\bgas cabinets?\\b",
+  "\\bgas distribution systems?\\b",
+  "\\bpoint[- ]of[- ]use gas\\b",
+  "\\bgas abatement\\b",
+  "\\bbulk gas systems?\\b"
  ],
  "helium_supply": [
   "\\bhelium supply\\b",
@@ -866,7 +971,12 @@
   "\\bonshoring\\b",
   "\\breshoring\\b",
   "\\bChina-to-global\\b",
-  "\\bnon-China installed base\\b"
+  "\\bnon-China installed base\\b",
+  "\\bMalaysia manufacturing expansion\\b",
+  "\\bbackend manufacturing expansion\\b",
+  "\\bMexico facility transformation\\b",
+  "\\bmanufacturing footprint in Malaysia\\b",
+  "\\bmanufacturing footprint in Mexico\\b"
  ],
  "malaysia_exp": [
   "\\bMalaysia expansion\\b",
@@ -880,7 +990,12 @@
   "\\bHBM SmartMatrix\\b",
   "\\bprobe cards?\\b",
   "\\bmemory probe\\b",
-  "\\bcontactor\\b"
+  "\\bcontactor\\b",
+  "\\bhigh-pin-count probe cards?\\b",
+  "\\bstacked memory probe cards?\\b",
+  "\\bMEMS probe cards?\\b",
+  "\\bmemory test handlers?\\b",
+  "\\bHBM testers?\\b"
  ],
  "photonics_test": [
   "\\bsilicon photonics probing\\b",
@@ -929,6 +1044,11 @@
   "\\binference storage\\b",
   "\\bexabyte growth\\b",
   "\\bagentic AI data retention\\b",
-  "\\bhyperscale storage\\b"
+  "\\bhyperscale storage\\b",
+  "\\bexabyte-scale storage\\b",
+  "\\bmodel checkpoint storage\\b",
+  "\\binference log storage\\b",
+  "\\btraining data retention\\b",
+  "\\bAI data retention\\b"
  ]
 }

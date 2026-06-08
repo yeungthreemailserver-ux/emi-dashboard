@@ -483,6 +483,12 @@ def main() -> None:
     out = {"as_of": "2026Q1", "periods": PERIODS,
            "companies": COMPANIES, "calls": calls, "facts": facts, "sigmatrix": sigmatrix,
            "themes": THEMES, "callouts": CALLOUTS, "capability": CAPABILITY, "topics": topics}
+    _rp = ROOT / "data" / "readiness.json"   # data-readiness / coverage (whole universe incl non-US) for the Coverage lens
+    if _rp.exists():
+        out["readiness"] = json.loads(_rp.read_text(encoding="utf-8"))
+    _lr = ROOT / "data" / "last_refresh.json"   # housekeeping: when each pipeline step last ran
+    if _lr.exists():
+        out["last_refresh"] = json.loads(_lr.read_text(encoding="utf-8"))
     (ROOT / "web" / "transcripts.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print(f"landed {len(sig_rows)} call_signals + {len(tr_rows)} transcripts | facts={len(facts)} | wrote web/transcripts.json")
 
