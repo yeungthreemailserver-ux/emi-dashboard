@@ -1275,6 +1275,213 @@
    "core": false,
    "source": "manual_text",
    "urls": []
+  },
+  {
+   "ticker": "NXPI",
+   "name": "NXP Semiconductors",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "SOI.PA",
+   "name": "Soitec",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "AMS.SW",
+   "name": "ams-OSRAM",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "NOD.OL",
+   "name": "Nordic Semiconductor",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "0522.HK",
+   "name": "ASMPT",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "UMC",
+   "name": "United Microelectronics",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "WAF.DE",
+   "name": "Siltronic",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "SMHN.DE",
+   "name": "SUSS MicroTec",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "AIXA.DE",
+   "name": "Aixtron",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "TSEM",
+   "name": "Tower Semiconductor",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "2408.TW",
+   "name": "Nanya Technology",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "VACN.SW",
+   "name": "VAT Group",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "7735.T",
+   "name": "SCREEN Holdings",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "6488.TWO",
+   "name": "GlobalWafers",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "MELE.BR",
+   "name": "Melexis",
+   "layer": "L3",
+   "sublayer": "3.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "XFAB.PA",
+   "name": "X-FAB Silicon Foundries",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "COTN.SW",
+   "name": "Comet Holding",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "6525.T",
+   "name": "Kokusai Electric",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "009150.KS",
+   "name": "Samsung Electro-Mechanics",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "ARM",
+   "name": "Arm Holdings",
+   "layer": "L2",
+   "sublayer": "2.3",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "3436.T",
+   "name": "SUMCO",
+   "layer": "L2",
+   "sublayer": "2.2",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "COHR",
+   "name": "Coherent",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "LITE",
+   "name": "Lumentum",
+   "layer": "L3",
+   "sublayer": "3.3",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
   }
  ]
 }
