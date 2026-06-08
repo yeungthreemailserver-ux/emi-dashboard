@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-06-08 15:40 UTC",
+ "generated_at": "2026-06-08 16:03 UTC",
  "fx_as_of": "2026-06-01",
  "min_mcap_usd_b": 2.0,
  "periods": [
@@ -11,7 +11,7 @@
  ],
  "n_companies": 282,
  "n_included": 265,
- "n_with_transcripts": 80,
+ "n_with_transcripts": 81,
  "by_layer": {
   "L0": {
    "layer_name": "Distribution (Channel)",
@@ -35,7 +35,7 @@
    "layer_name": "Equipment, Materials & EDA",
    "companies": 63,
    "included": 59,
-   "with_transcripts": 26,
+   "with_transcripts": 27,
    "with_financials": 63,
    "us": 24,
    "non_us": 39
@@ -753,8 +753,8 @@
    "rev_usd": null,
    "rev_q": null,
    "currency": "JPY",
-   "transcript_q": 2,
-   "transcript_latest": "2025Q4",
+   "transcript_q": 3,
+   "transcript_latest": "2026Q1",
    "transcript_pulled": "2026-06-08",
    "in_pipeline": true,
    "has_financials": true,
@@ -1215,10 +1215,10 @@
    "rev_usd": 931500000,
    "rev_q": "2026-03-31",
    "currency": "EUR",
-   "transcript_q": 0,
-   "transcript_latest": null,
-   "transcript_pulled": null,
-   "in_pipeline": false,
+   "transcript_q": 1,
+   "transcript_latest": "2026Q1",
+   "transcript_pulled": "2026-06-08",
+   "in_pipeline": true,
    "has_financials": true,
    "fin_pulled": "2026-06-04",
    "included": true,

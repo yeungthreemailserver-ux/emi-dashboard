@@ -1266,6 +1266,15 @@
    "core": false,
    "source": "manual_text",
    "urls": []
+  },
+  {
+   "ticker": "ASM.AS",
+   "name": "ASM International",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
   }
  ]
 }

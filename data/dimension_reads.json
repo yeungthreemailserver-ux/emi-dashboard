@@ -13630,6 +13630,206 @@
     "supply_favorable": "bullish",
     "why": "The company points to strong partner selection, future business opportunities, and a very large order in this area."
    }
+  },
+  "ASM.AS": {
+   "mem_demand": {
+    "topic": "Memory demand",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "AI-related memory demand is described as strong and still expanding."
+   },
+   "mem_prod": {
+    "topic": "Memory production",
+    "favorable": "bullish",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "4F² increases tool intensity and served market, implying more production complexity and demand pull for equipment."
+   },
+   "mem_strategic": {
+    "topic": "Long-term agreements",
+    "favorable": "neutral",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "The remarks are just a strategic view on DRAM, with no pricing or contract terms discussed."
+   },
+   "dram": {
+    "topic": "DRAM",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "DRAM is called out as high growth, led by HBM-related applications and expanding capacity."
+   },
+   "hbm": {
+    "topic": "HBM",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They cite robust momentum in advanced DRAM used for HBM and good customer engagement."
+   },
+   "compute_demand": {
+    "topic": "Compute demand",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "AI token growth is increasing compute demand and making compute capacity the bottleneck."
+   },
+   "gpu": {
+    "topic": "GPU / accelerators",
+    "favorable": "bearish",
+    "demand_state": "soft",
+    "demand_favorable": "bearish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "The mix is shifting toward CPU use instead of GPU, reducing GPU-centric demand."
+   },
+   "cpu": {
+    "topic": "CPU",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "AI workloads are increasingly CPU-driven, with broadening incremental demand across 3 nm to 7 nm."
+   },
+   "nodes": {
+    "topic": "Advanced nodes (N2/A16)",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Business is strengthening across customers and GAA is becoming a large node for multiple leading applications."
+   },
+   "cowos": {
+    "topic": "CoWoS / packaging",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "ASM says it is seeing encouraging traction and multiple customers for advanced packaging solutions."
+   },
+   "gaa": {
+    "topic": "GAA / backside power",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "GAA is ramping, enabling new AI and mobile applications and broad customer adoption."
+   },
+   "ai_demand": {
+    "topic": "AI / datacenter demand",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "AI demand is described as robust across logic, memory, and data-center related applications, with acceleration underway."
+   },
+   "agentic_ai": {
+    "topic": "Agentic & inference AI",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "Agentic AI is specifically cited as driving healthy uptick in 3 nm to 7 nm demand."
+   },
+   "auto": {
+    "topic": "Automotive",
+    "favorable": "bearish",
+    "demand_state": "soft",
+    "demand_favorable": "bearish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "Management explicitly says the market is soft in broader automotive."
+   },
+   "industrial": {
+    "topic": "Industrial",
+    "favorable": "bearish",
+    "demand_state": "soft",
+    "demand_favorable": "bearish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "Industrial demand is included in the soft market condition, even if the customer mix is broad-based."
+   },
+   "consumer": {
+    "topic": "Consumer (smartphone/PC)",
+    "favorable": "bullish",
+    "demand_state": "solid",
+    "demand_favorable": "bullish",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "PC-related AI demand is improving, with CPU strength supporting node demand."
+   },
+   "capacity": {
+    "topic": "Capacity",
+    "favorable": "bullish",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "They describe tighter capacity needs and ongoing capacity additions that drive tool urgency."
+   },
+   "leadtimes": {
+    "topic": "Lead times",
+    "favorable": "bullish",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "Lead times are increasing because of supply chain constraints, signaling a tighter environment."
+   },
+   "capex": {
+    "topic": "Capex / WFE",
+    "favorable": "bullish",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "Customer capex and ASM’s confidence in outgrowing WFE both point to a supportive market backdrop."
+   },
+   "china": {
+    "topic": "China / export controls",
+    "favorable": "neutral",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "China rebounded strongly, but the discussion is offset by uncertainty around export controls."
+   },
+   "sic_gan_power_semiconduc": {
+    "topic": "SiC / GaN power semiconductors",
+    "favorable": "neutral",
+    "demand_state": "na",
+    "demand_favorable": "na",
+    "supply_state": "na",
+    "supply_favorable": "na",
+    "why": "The comments only identify SiC exposure and potential content, without clear demand or supply direction."
+   },
+   "packaging_2p5d": {
+    "topic": "2.5D packaging",
+    "favorable": "bullish",
+    "demand_state": "hot",
+    "demand_favorable": "bullish",
+    "supply_state": "tight",
+    "supply_favorable": "bullish",
+    "why": "ASM says it is seeing encouraging traction and positions advanced packaging as a midterm growth area."
+   }
   }
  }
 }
