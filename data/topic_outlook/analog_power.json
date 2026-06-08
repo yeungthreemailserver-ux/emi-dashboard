@@ -1,0 +1,42 @@
+{
+ "topic": "analog_power",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "New product wins offset by uneven power IC demand",
+  "summary": "The next 1-2 quarters look mixed: Cirrus is broadening its analog power management portfolio with a new smart power IC that opens an attractive new application space, while Alpha & Omega is still seeing sharp power IC revenue declines both year over year and quarter over quarter. The slight uptick in mention activity suggests the topic is getting a bit more attention, but the reads do not yet show a broad-based inflection; watch whether Cirrus’ new product ramps fast enough to outweigh continued weakness elsewhere.",
+  "confidence": "low"
+ },
+ "drivers": [
+  {
+   "label": "New smart power IC expands application space",
+   "detail": "Cirrus says the new smart power IC opens an attractive new application space and broadens its product portfolio.",
+   "polarity": "pos",
+   "companies": [
+    "Cirrus Logic"
+   ]
+  },
+  {
+   "label": "Sharp power IC revenue decline",
+   "detail": "Alpha & Omega reported power IC revenue down sharply year over year and quarter over quarter, signaling ongoing demand weakness.",
+   "polarity": "neg",
+   "companies": [
+    "Alpha & Omega Semi"
+   ]
+  },
+  {
+   "label": "Slightly firmer mention activity",
+   "detail": "Topic mentions are running modestly above the trailing average, implying a small uptick in attention into 2026Q1.",
+   "polarity": "pos",
+   "companies": [
+    "Cirrus Logic",
+    "Alpha & Omega Semi"
+   ]
+  }
+ ],
+ "risks": [
+  "Cirrus’ new smart power IC could stay niche or ramp slower than expected.",
+  "Alpha & Omega’s revenue weakness could persist into the next quarter, confirming broader softness.",
+  "The recent mention uptick could fade if there are no follow-on design wins or product announcements."
+ ]
+}

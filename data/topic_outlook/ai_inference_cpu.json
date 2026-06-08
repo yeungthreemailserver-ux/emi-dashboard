@@ -1,0 +1,65 @@
+{
+ "topic": "ai_inference_cpu",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI inference CPU demand is broadening across the server stack",
+  "summary": "The read-through is uniformly positive and still strengthening: data-center/server CPU demand is increasingly tied to AI infrastructure, with AMD calling for >70% Q2 growth and Intel highlighting server CPU demand plus higher core counts. Beneficiaries span the ecosystem — from TSMC, Amkor, and FormFactor to ON Semiconductor, MPS, Qualcomm, and Intel — with no company flagging a supply bottleneck; the main watch item is whether the new CPU ramp sustains at this pace into the next 1-2 quarters.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI infrastructure is pulling CPUs into the inference stack",
+   "detail": "Data-center CPU is now increasingly part of AI infrastructure, creating incremental demand rather than just a replacement cycle.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "FormFactor",
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Server CPU TAM is expanding rapidly",
+   "detail": "AMD explicitly described the server CPU TAM as rapidly expanding and expects >70% growth in Q2, signaling near-term acceleration.",
+   "polarity": "pos",
+   "companies": [
+    "AMD"
+   ]
+  },
+  {
+   "label": "New data-center CPU ramp and SKU additions",
+   "detail": "Amkor and ON Semiconductor cited a new data-center CPU ramp and new server CPU SKUs, pointing to broadening product demand.",
+   "polarity": "pos",
+   "companies": [
+    "Amkor Technology",
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Higher compute intensity and core-count growth",
+   "detail": "Rising AI inference compute intensity and positive core-count growth are supporting incremental CPU content and demand.",
+   "polarity": "pos",
+   "companies": [
+    "FormFactor",
+    "Intel",
+    "Monolithic Power Systems"
+   ]
+  },
+  {
+   "label": "Balanced supply keeps demand visible",
+   "detail": "Most reads say supply is balanced, implying demand is the driver rather than shortage-driven upside and reducing near-term execution risk.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "AMD",
+    "Qualcomm",
+    "Intel"
+   ]
+  }
+ ],
+ "risks": [
+  "A pause in the data-center CPU ramp would quickly temper the current broad-based bullishness.",
+  "Balanced supply could limit upside if demand acceleration outpaces execution but not capacity.",
+  "Intel/AMD product momentum needs to remain strong for the current mention trend to keep rising."
+ ]
+}

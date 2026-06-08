@@ -1,0 +1,60 @@
+{
+ "topic": "chiplet_arch",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Chiplet adoption is broadening, led by EDA and advanced packaging",
+  "summary": "Company reads point to a modestly improving chiplet outlook over the next 1-2 quarters, with the clearest pull coming from design software and advanced packaging tools rather than end-market demand. Cadence and Synopsys see stronger 3D IC/die-to-die pull, while Applied Materials, ACM Research, and Onto benefit from tighter advanced packaging, metrology, and yield-management needs; Marvell’s first-generation chiplet moving toward high-volume manufacturing adds evidence of real commercialization. Mention activity is still only 0.3x and just above trend, so adoption looks early rather than explosive, and the more consumer-facing names remain noncommittal.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "3D IC and die-to-die demand is rising",
+   "detail": "Chiplet-based architectures are explicitly cited as a demand driver for EDA and multi-die solutions, supporting near-term tool demand.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems",
+    "Synopsys"
+   ]
+  },
+  {
+   "label": "Advanced packaging demand remains tight",
+   "detail": "3D chiplet stacking and AI-driven 3D IC packaging are called hot, supporting equipment demand in the packaging flow.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "ACM Research"
+   ]
+  },
+  {
+   "label": "Metrology and yield control needs increase",
+   "detail": "Chiplet mainstreaming raises complexity and yield concerns, which supports inspection/metrology spending.",
+   "polarity": "pos",
+   "companies": [
+    "Onto Innovation"
+   ]
+  },
+  {
+   "label": "Chiplet moves from concept to HVM",
+   "detail": "A first-generation chiplet entering high-volume manufacturing suggests customer acceptance and a path to growth.",
+   "polarity": "pos",
+   "companies": [
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "End-demand read-through is still limited",
+   "detail": "Mentions from some connectivity/handset names are too vague or purely conceptual, implying adoption is not yet broad across all customers.",
+   "polarity": "neg",
+   "companies": [
+    "MaxLinear",
+    "Qualcomm"
+   ]
+  }
+ ],
+ "risks": [
+  "Chiplet adoption remains uneven if more end-market names stay conceptual rather than confirming design wins or volume ramps.",
+  "Any easing in advanced-packaging tightness would reduce the urgency for packaging, metrology, and EDA spend.",
+  "A delayed HVM ramp for first-generation chiplet programs would slow the conversion of interest into revenue."
+ ]
+}

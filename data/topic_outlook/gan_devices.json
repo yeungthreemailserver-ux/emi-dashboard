@@ -1,0 +1,64 @@
+{
+ "topic": "gan_devices",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "GaN demand broadens, but higher-voltage adoption remains uneven",
+  "summary": "GaN is seeing broadening pull from AI datacenter power, 800V HVDC, and electrification, with several suppliers citing hot demand, strong design funnels, and even demand above supply. That said, the latest mention trend has eased to 1.3x after earlier highs, and Monolithic Power remains skeptical on the higher-voltage opportunity, so the near-term read is more one of selective strength than clean sector-wide acceleration.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI datacenter and power-socket demand expansion",
+   "detail": "Active R&D and emerging data center power socket demand are creating new near-term opportunities for GaN.",
+   "polarity": "pos",
+   "companies": [
+    "Texas Instruments",
+    "Veeco Instruments",
+    "Navitas Semiconductor",
+    "Semtech"
+   ]
+  },
+  {
+   "label": "Strong design funnels and roadmap visibility",
+   "detail": "Large funnels, long-term roadmaps, and 'real pull' suggest demand is not just exploratory but translating into adoption plans.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor",
+    "Power Integrations",
+    "Navitas Semiconductor"
+   ]
+  },
+  {
+   "label": "Supply tightness supporting leverage",
+   "detail": "Where demand exceeds supply, the setup is favorable for pricing and utilization in the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "Power Integrations",
+    "Navitas Semiconductor",
+    "Semtech"
+   ]
+  },
+  {
+   "label": "Broader competitive positioning improving",
+   "detail": "Sampling new GaN products, licensing technology, and a competitor exit are improving share-gain potential.",
+   "polarity": "pos",
+   "companies": [
+    "MACOM Technology"
+   ]
+  },
+  {
+   "label": "Skepticism on higher-voltage use cases",
+   "detail": "One key company remains unconvinced on GaN for the higher-voltage opportunity, limiting conviction in a uniform ramp.",
+   "polarity": "neg",
+   "companies": [
+    "Monolithic Power Systems"
+   ]
+  }
+ ],
+ "risks": [
+  "Higher-voltage GaN designs may take longer to convert from interest to volume, limiting near-term upside.",
+  "If supply tightness eases, the favorable leverage seen at some suppliers could fade.",
+  "The recent mention trend has pulled back from prior highs, so sentiment could cool if AI/datacenter enthusiasm pauses."
+ ]
+}

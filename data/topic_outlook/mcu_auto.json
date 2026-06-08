@@ -1,0 +1,57 @@
+{
+ "topic": "mcu_auto",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "Demand is improving, but breadth and mentions remain soft",
+  "summary": "Automotive MCU demand looks firmer in select names, led by Renesas’ rising wafer inputs and newer-generation ramp, plus solid linked demand at Diodes and healthy customer interest around Synaptics. But the story is not yet broad-based: Microchip called MCUs merely fine, and overall mentions are still down 8% vs the trailing average, suggesting the rebound is still selective rather than sector-wide.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Renesas demand and ramp-up",
+   "detail": "Management said MCU demand is increasing, wafer input is being raised, and newer generations are ramping well.",
+   "polarity": "pos",
+   "companies": [
+    "Renesas"
+   ]
+  },
+  {
+   "label": "New design wins and deployment activity",
+   "detail": "CEVA cited a new MCU-partner win and first mass-volume automotive AI deployment, signaling active customer adoption.",
+   "polarity": "pos",
+   "companies": [
+    "CEVA"
+   ]
+  },
+  {
+   "label": "Healthy MCU-adjacent demand",
+   "detail": "Diodes said linked MCU power-supply and motor-drive applications are seeing solid to significant demand.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Pipeline still healthy at Synaptics",
+   "detail": "New product launches, awards, and upcoming sampling point to sustained customer interest and near-term follow-through.",
+   "polarity": "pos",
+   "companies": [
+    "Synaptics"
+   ]
+  },
+  {
+   "label": "Broad-based strength not yet visible",
+   "detail": "Microchip described microcontrollers as fine but did not call out special strength, and mention momentum is still below trend.",
+   "polarity": "neg",
+   "companies": [
+    "Microchip Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention momentum remains 8% below the trailing average, which could signal slower sector-wide re-acceleration.",
+  "If Microchip-style 'fine' demand proves more representative, the current improvement may stay narrow.",
+  "Watch whether Renesas wafer input increases translate into sustained orders or just inventory normalization."
+ ]
+}

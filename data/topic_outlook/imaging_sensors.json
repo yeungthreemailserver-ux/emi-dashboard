@@ -1,0 +1,62 @@
+{
+ "topic": "imaging_sensors",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Imaging sensors gain breadth across medical, industrial and device ramps",
+  "summary": "Imaging sensors look better over the next 1-2 quarters as multiple companies point to concrete traction: Synaptics in home diagnostic imaging, CTS in diagnostic and surgical systems, Cirrus in industrial imaging, and indie/Qualcomm in product ramp and richer platform content. The main offset is that topic mentions remain very light and have fallen versus trend, so the setup is improving fundamentally but still under-discovered.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Medical imaging demand is firming",
+   "detail": "Design wins in home diagnostic imaging and stronger diagnostic/surgical system pull point to healthier end-demand for imaging sensors.",
+   "polarity": "pos",
+   "companies": [
+    "Synaptics",
+    "CTS Corporation"
+   ]
+  },
+  {
+   "label": "Industrial imaging product momentum is expanding",
+   "detail": "A new industrial imaging series suggests a broader set of imaging-related applications and incremental product momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Cirrus Logic"
+   ]
+  },
+  {
+   "label": "Real ramp evidence from design wins",
+   "detail": "Production starting at NIO indicates a concrete program ramp rather than just pipeline interest.",
+   "polarity": "pos",
+   "companies": [
+    "indie Semiconductor"
+   ]
+  },
+  {
+   "label": "Platform content is getting richer",
+   "detail": "More competitive device platform content supports downstream demand and sensor attach opportunity.",
+   "polarity": "pos",
+   "companies": [
+    "Qualcomm"
+   ]
+  },
+  {
+   "label": "Sector visibility remains muted",
+   "detail": "Mention intensity is only 0.1x and is down 45% versus trailing average, implying limited near-term topic breadth despite positive company reads.",
+   "polarity": "neg",
+   "companies": [
+    "Synaptics",
+    "Cirrus Logic",
+    "indie Semiconductor",
+    "Qualcomm",
+    "CTS Corporation"
+   ]
+  }
+ ],
+ "risks": [
+  "Mentions may stay subdued if the current interest does not broaden beyond a few product updates.",
+  "Medical and industrial traction could prove incremental rather than broad-based if ramps slip.",
+  "If Qualcomm or indie program momentum slows, the improving read-through could narrow quickly."
+ ]
+}

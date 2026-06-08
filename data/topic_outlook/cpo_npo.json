@@ -1,0 +1,88 @@
+{
+ "topic": "cpo_npo",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "CPO/NPO adoption is broadening, with mentions and demand both inflecting",
+  "summary": "CPO/NPO looks set to improve over the next 1-2 quarters: the mention trend has stepped up to 1.5x, 35% above the trailing average, and the company reads are overwhelmingly bullish. Demand is strongest where hyperscaler conviction and design wins are visible, while tight supply at several names suggests the near-term constraint is increasingly execution/ramp, not interest. Watch for whether early co-development and tape-outs convert into production volumes, but the setup clearly favors suppliers tied to optical interconnects, timing, and high-speed connectivity.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Broadening design-win and co-development momentum",
+   "detail": "Multiple companies cite active customer engagement, tape-outs, or product pull into CPO/NPO architectures, indicating the opportunity is moving from concept to design activity.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom",
+    "GlobalFoundries",
+    "FormFactor",
+    "MACOM Technology",
+    "Credo Technology",
+    "Amphenol"
+   ]
+  },
+  {
+   "label": "Hyperscaler and AI scale-out demand",
+   "detail": "Reads reference hyperscaler conviction, multi-rack AI clusters, agentic AI, and inference-driven adoption, all of which expand the addressable use case for CPO/NPO.",
+   "polarity": "pos",
+   "companies": [
+    "Semtech",
+    "Astera Labs",
+    "Teradyne",
+    "TE Connectivity",
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Transition away from copper interconnect",
+   "detail": "Companies frame CPO as the next step versus copper-based architectures, supporting incremental adoption as bandwidth and integration requirements rise.",
+   "polarity": "pos",
+   "companies": [
+    "Veeco Instruments",
+    "Broadcom",
+    "MACOM Technology",
+    "MaxLinear"
+   ]
+  },
+  {
+   "label": "Tight supply signals strong pull",
+   "detail": "Where supply is mentioned, it is often tight, implying demand is outrunning current capacity and supporting a constructive near-term setup.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Teradyne",
+    "Semtech",
+    "TE Connectivity",
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Rising mention momentum",
+   "detail": "The topic’s mention trend accelerated from 0.6-0.7x to 1.4-1.5x, showing clear inflection in attention and reinforcing the improving forward read.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom",
+    "GlobalFoundries",
+    "Teradyne",
+    "Onto Innovation",
+    "MKS Instruments",
+    "FormFactor",
+    "Veeco Instruments",
+    "SiTime",
+    "MACOM Technology",
+    "Semtech",
+    "MaxLinear",
+    "TE Connectivity",
+    "Astera Labs",
+    "Amphenol",
+    "Marvell Technology",
+    "Credo Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "Commercial ramp remains early for several companies, so near-term revenue conversion could lag the enthusiasm.",
+  "If hyperscaler qualification cycles slow, current design-win momentum may not translate into volume as quickly as expected.",
+  "Supply tightness could ease before demand fully scales, reducing the urgency signal embedded in this quarter's reads."
+ ]
+}

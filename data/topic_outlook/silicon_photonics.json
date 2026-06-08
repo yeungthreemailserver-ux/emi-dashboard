@@ -1,0 +1,76 @@
+{
+ "topic": "silicon_photonics",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Silicon photonics demand is broadening into a real ramp",
+  "summary": "Reads are uniformly bullish and the mention trend is rising to 0.8x, suggesting silicon photonics is moving from early interest to broader deployment over the next 1-2 quarters. The strongest pull is AI/HPC and Tier 1 network adoption, with tight supply and capacity needs showing up at key enablers like GF, Veeco, Marvell, Credo and Teradyne. Beneficiaries are the suppliers tied to hot demand and ramping volumes; watch for whether this converts into sustained production orders rather than just early design wins.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI/HPC-driven demand inflection",
+   "detail": "Strong AI compute and AI/HPC networking demand is driving silicon photonics volumes higher.",
+   "polarity": "pos",
+   "companies": [
+    "Onto Innovation",
+    "Veeco Instruments",
+    "Marvell Technology",
+    "Credo Technology"
+   ]
+  },
+  {
+   "label": "Ramp from early adoption to production",
+   "detail": "Multiple reads point to starting volumes, ramping production test, and large-account/multi-unit orders.",
+   "polarity": "pos",
+   "companies": [
+    "Onto Innovation",
+    "FormFactor",
+    "Cohu",
+    "Teradyne"
+   ]
+  },
+  {
+   "label": "Tight supply and capacity needs",
+   "detail": "Tight supply and capacity expansion signal a constrained but favorable backdrop for suppliers.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Veeco Instruments",
+    "Marvell Technology",
+    "Credo Technology"
+   ]
+  },
+  {
+   "label": "Broader optical roadmap penetration",
+   "detail": "Silicon photonics is appearing across optical roadmaps and architectures, indicating widening product mix participation.",
+   "polarity": "pos",
+   "companies": [
+    "MACOM Technology",
+    "Amphenol"
+   ]
+  },
+  {
+   "label": "Rising mention momentum",
+   "detail": "Company mentions are trending up, ending at 0.8x with 33% momentum versus trailing average, consistent with strengthening attention and adoption.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries",
+    "Teradyne",
+    "Onto Innovation",
+    "FormFactor",
+    "Cohu",
+    "Veeco Instruments",
+    "MACOM Technology",
+    "Amphenol",
+    "Marvell Technology",
+    "Credo Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "Any easing of tight supply could temper the urgency and pricing benefit for suppliers.",
+  "Early ramp status means timing risk remains if volume conversion slows after initial orders.",
+  "If AI/HPC deployment pauses, the current broad enthusiasm could revert to design-win noise rather than shipment growth."
+ ]
+}

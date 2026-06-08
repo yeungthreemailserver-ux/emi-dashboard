@@ -1,0 +1,57 @@
+{
+ "topic": "datacenter_power",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI datacenter power delivery demand is broadening beyond initial adopters",
+  "summary": "Multiple suppliers now point to stronger design activity and demand pull in AI datacenter power, from GaN power solutions to high-voltage gate drivers and power supplies. GlobalFoundries, ON Semiconductor, Allegro MicroSystems, Veeco, and Littelfuse all read positively, while AMD remains non-committal, suggesting the theme is strengthening in the supply chain even if public mention remains low and flat.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI data center power-tree opportunity expanding",
+   "detail": "Broader opportunity set in the full power tree is supporting demand for power-delivery content.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Design progress in high-voltage gate drivers and power supplies",
+   "detail": "Growing design momentum indicates customers are moving further along the adoption curve.",
+   "polarity": "pos",
+   "companies": [
+    "Allegro MicroSystems"
+   ]
+  },
+  {
+   "label": "Strategic design win in data center power solutions",
+   "detail": "A named win signals continued product traction and near-term demand momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Littelfuse"
+   ]
+  },
+  {
+   "label": "AI datacenter power efficiency driving GaN solutions",
+   "detail": "Efficiency needs are a durable long-term tailwind for GaN-based power products.",
+   "polarity": "pos",
+   "companies": [
+    "Veeco Instruments"
+   ]
+  },
+  {
+   "label": "Data center power named as supported application",
+   "detail": "Supporting this application points to solid demand tied to ongoing buildouts.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention trend is still very low and flat, so broader market enthusiasm has not clearly accelerated yet.",
+  "AMD gave only a power-visibility comment, offering little confirmation of end-demand strength.",
+  "Design wins need to convert into production ramps; any AI buildout timing delays could push out revenue recognition."
+ ]
+}

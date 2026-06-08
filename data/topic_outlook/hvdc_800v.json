@@ -1,0 +1,50 @@
+{
+ "topic": "hvdc_800v",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "AI data centers keep 800V HVDC demand intact",
+  "summary": "The next 1-2 quarters look steady: Navitas says AI data centers are rapidly moving to 800V HVDC, while Diodes is seeing strong SiC MOSFET momentum in high-voltage applications. That keeps the opportunity constructive for suppliers with AI/data-center and high-voltage SiC exposure, but the flat-to-down mention trend suggests adoption is still broadening slowly rather than accelerating across the sector.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI data center migration to 800V HVDC",
+   "detail": "Rapid shift in AI data-center power architecture is expanding content opportunity and demand for 800V platforms.",
+   "polarity": "pos",
+   "companies": [
+    "Navitas Semiconductor"
+   ]
+  },
+  {
+   "label": "Strong SiC MOSFET momentum in high-voltage apps",
+   "detail": "Diodes is seeing demand strength tied to high-voltage applications, reinforcing pull for 800V-related power devices.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Tight supply supports pricing/leverage",
+   "detail": "Diodes cites tight supply alongside hot demand, which is constructive for suppliers into the 800V chain.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Topic breadth is not yet expanding",
+   "detail": "Mention trend is flat at the latest read and slightly below the trailing average, implying limited near-term broadening beyond a few bullish company reads.",
+   "polarity": "neg",
+   "companies": [
+    "Diodes Incorporated",
+    "Navitas Semiconductor"
+   ]
+  }
+ ],
+ "risks": [
+  "800V HVDC adoption may remain concentrated in AI data centers rather than broadening across end markets",
+  "If mention momentum stays below trend, investor attention could fade despite positive company-specific reads",
+  "Supply tightness could limit near-term shipment upside if demand outpaces available capacity"
+ ]
+}

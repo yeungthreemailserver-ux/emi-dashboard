@@ -1,0 +1,64 @@
+{
+ "topic": "installed_base",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Installed-base services are broadening as upgrade demand stays firm",
+  "summary": "The mix is turning more constructive into 2026Q1: most reads point to growing installed bases, higher attach, and recurring spares/upgrade/service pull, with ASML also benefiting from tight supply as customers use the base to add capacity quickly. Applied Materials, Lam Research, NVIDIA, Ambarella, and Seagate all look like beneficiaries; Skyworks is the outlier with only a descriptive read and no clear service signal. The 0.3x latest mention rate, up 6% versus the trailing average, reinforces that momentum is modestly building rather than fading.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Installed-base expansion supports recurring pull",
+   "detail": "A larger base is generating more service, spares, and upgrade activity, which directly lifts recurring revenue.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Applied Materials",
+    "Lam Research",
+    "NVIDIA",
+    "Ambarella",
+    "Seagate Technology"
+   ]
+  },
+  {
+   "label": "Higher attach and upgrade intensity",
+   "detail": "Service attach and upgrade opportunities are rising, especially where customers are extending the life or capability of existing systems.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Lam Research",
+    "Ambarella",
+    "Seagate Technology",
+    "NVIDIA"
+   ]
+  },
+  {
+   "label": "Tight supply accelerates capacity additions",
+   "detail": "ASML specifically noted tight supply, which supports faster use of the installed base to add capacity and sustain service demand.",
+   "polarity": "pos",
+   "companies": [
+    "ASML"
+   ]
+  },
+  {
+   "label": "Broad mention momentum is edging higher",
+   "detail": "Mentions moved from 0.2x to 0.3x recently, suggesting the theme is gaining some traction into the next quarter.",
+   "polarity": "pos",
+   "companies": [
+    "ASML",
+    "Applied Materials",
+    "Lam Research",
+    "NVIDIA",
+    "Ambarella",
+    "Seagate Technology",
+    "Skyworks Solutions"
+   ]
+  }
+ ],
+ "risks": [
+  "Customer capex pauses could slow installed-base utilization and service pull.",
+  "Ambarella’s upgrade opportunity depends on low AI penetration converting into actual upgrades, not just a large base.",
+  "Skyworks remains a weaker read because the commentary was descriptive only, limiting conviction on service upside."
+ ]
+}

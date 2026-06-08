@@ -1,24 +1,21 @@
 {
  "optical_interconnect_sil": [
-  "\\bco[- ]?packaged optics\\b",
-  "\\bCPO\\b",
   "\\bsilicon photonics\\b",
   "\\boptical interconnects?\\b",
   "\\b1\\.6T\\s+pluggable\\b",
-  "\\b800G\\s+optics\\b"
+  "\\b800G\\s+optics\\b",
+  "\\bphotonic chiplets?\\b"
  ],
  "datacenter_power_deliver": [
-  "\\bdata\\s*cent(?:er|re) power delivery\\b",
-  "\\bAI (?:server|data\\s*cent(?:er|re)) power delivery\\b",
-  "\\b800V data\\s*cent(?:er|re)\\b",
-  "\\b48V rack\\b",
-  "\\b(?:voltage regulator modules?|VRMs?)\\b",
-  "\\bpower shelf\\b"
+  "\\bAI\\s+server\\s+power\\s+delivery\\b",
+  "\\b800V\\s+data[- ]?center\\b",
+  "\\b48V\\s+rack\\b",
+  "\\bvoltage\\s+regulator\\s+modules?\\b",
+  "\\bpower\\s+shelf\\b"
  ],
  "test_ate_probe_cards": [
-  "\\bATE\\b",
   "\\bautomated test equipment\\b",
-  "\\btester shortages?\\b",
+  "\\bATE\\b",
   "\\bprobe cards?\\b",
   "\\bHBM probe cards?\\b",
   "\\bwafer sort\\b"
@@ -28,59 +25,49 @@
   "\\bSpectrum-?X\\b",
   "\\bInfiniBand(?:\\s+XDR)?\\b",
   "\\bEthernet fabric\\b",
-  "\\b51\\.2T\\b",
-  "\\b100T\\b",
-  "\\bswitching silicon\\b"
+  "\\b51\\.2T\\b"
  ],
  "materials_specialty_gase": [
   "\\bspecialty gases?\\b",
   "\\belectronic specialty gases?\\b",
   "\\belectronic chemicals?\\b",
   "\\bwet chemicals?\\b",
-  "\\bhelium supply\\b",
   "\\bphotoresist\\b"
  ],
  "eda_ip_chiplet_design": [
-  "\\bEDA\\b",
   "\\belectronic design automation\\b",
-  "\\bdesign IP\\b",
+  "\\bEDA\\b",
   "\\bUCIe\\b",
-  "\\bdie-to-die IP\\b",
+  "\\bdie-to-die interconnect\\b",
   "\\bchiplet design\\b",
   "\\b3D IC\\b"
  ],
  "sic_gan_power_semiconduc": [
   "\\bsilicon carbide\\b",
   "\\bSiC MOSFETs?\\b",
-  "\\bGaN power\\b",
   "\\bgallium nitride\\b",
   "\\bGaN HEMTs?\\b",
   "\\b300mm GaN\\b"
  ],
  "manufacturing_footprint_": [
-  "\\bmanufacturing footprint\\b",
   "\\bregionali[sz]ation\\b",
   "\\bonshor(?:e|ing)\\b",
   "\\breshor(?:e|ing)\\b",
-  "\\bMalaysia(?:n)? manufacturing expansion\\b",
-  "\\bbackend manufacturing\\b",
-  "\\blocali[sz]ation\\b"
+  "\\blocali[sz]ation\\b",
+  "\\bbackend manufacturing\\b"
  ],
  "ai_storage_hdd_ssd": [
   "\\bAI storage\\b",
   "\\binference storage\\b",
   "\\bnearline HDDs?\\b",
   "\\benterprise SSDs?\\b",
-  "\\bHAMR\\b",
-  "\\bMozaic\\b",
-  "\\bcloud storage demand\\b"
+  "\\bHAMR\\b"
  ],
  "process_control_inspecti": [
   "\\bprocess control\\b",
   "\\bmask inspection\\b",
   "\\be[- ]?beam inspection\\b",
   "\\boverlay metrology\\b",
-  "\\bTSV metrology\\b",
   "\\bdefect inspection\\b"
  ],
  "euv_lithography": [
@@ -88,8 +75,860 @@
   "\\bextreme ultraviolet\\b",
   "\\bEUV scanners?\\b",
   "\\bNXE:?\\d+\\b",
+  "\\bEUV adoption\\b"
+ ],
+ "euv_throughput": [
   "\\bEUV throughput\\b",
-  "\\bEUV adoption\\b",
-  "\\bEUV pellicles?\\b"
+  "\\bWPH\\b",
+  "\\bwafer per hour\\b",
+  "\\bscanner throughput\\b",
+  "\\bNXE:3800[EF]\\b"
+ ],
+ "duv_immersion": [
+  "\\bimmersion DUV\\b",
+  "\\bDUV immersion\\b",
+  "\\bArF immersion\\b",
+  "\\b193nm immersion\\b",
+  "\\bimmersion lithography\\b"
+ ],
+ "euv_masks": [
+  "\\bEUV mask stack\\b",
+  "\\bEUV mask\\b",
+  "\\breticle count\\b",
+  "\\bmask count\\b",
+  "\\bmulti-patterning\\b"
+ ],
+ "euv_pellicles": [
+  "\\bEUV pellicle\\b",
+  "\\bEUV pellicles\\b",
+  "\\bmask pellicle\\b",
+  "\\bpellicle blanks\\b",
+  "\\bpellicle supply\\b"
+ ],
+ "etch_depo_int": [
+  "\\betch and deposition\\b",
+  "\\bdeposition and etch\\b",
+  "\\betch intensity\\b",
+  "\\bdeposition intensity\\b",
+  "\\bprocess mix\\b"
+ ],
+ "laser_anneal": [
+  "\\blaser annealing\\b",
+  "\\blaser anneal\\b",
+  "\\bnanosecond annealing\\b",
+  "\\banneal tools\\b",
+  "\\bannealing systems\\b"
+ ],
+ "packaging_2p5d": [
+  "\\b2\\.5D packaging\\b",
+  "\\b2\\.5D integration\\b",
+  "\\b2\\.5D AI accelerators\\b",
+  "\\b2\\.5D qualification\\b",
+  "\\badvanced packaging\\b"
+ ],
+ "hybrid_bonding": [
+  "\\bhybrid bonding\\b",
+  "\\bhybrid bond\\b",
+  "\\bwafer-to-wafer bond\\b",
+  "\\bdie-to-die bond\\b",
+  "\\bbonding R&D\\b"
+ ],
+ "panel_packaging": [
+  "\\bpanel-level packaging\\b",
+  "\\bpanel packaging\\b",
+  "\\blarge-panel packaging\\b",
+  "\\bPLP\\b",
+  "\\bpanel-level packaging architecture\\b"
+ ],
+ "hbm_packaging": [
+  "\\bHBM packaging\\b",
+  "\\bHBM module packaging\\b",
+  "\\b2\\.5D HBM\\b",
+  "\\bHBM interposer\\b",
+  "\\badvanced packaging for HBM\\b"
+ ],
+ "mask_inspect": [
+  "\\bmask inspection\\b",
+  "\\breticle inspection\\b",
+  "\\bphotomask inspection\\b",
+  "\\bEUV mask inspection\\b",
+  "\\bpattern inspection\\b"
+ ],
+ "xray_metrology": [
+  "\\bX-ray metrology\\b",
+  "\\bxray metrology\\b",
+  "\\bX-ray inspection\\b",
+  "\\bRigaku\\b",
+  "\\bX-ray\\s+inspection\\b"
+ ],
+ "single_wafer_clean": [
+  "\\bsingle-wafer cleaning\\b",
+  "\\bsingle wafer clean\\b",
+  "\\bSPM cleaning\\b",
+  "\\bwet cleaning\\b",
+  "\\bpost-etch clean\\b"
+ ],
+ "liquid_filtration": [
+  "\\bliquid filtration\\b",
+  "\\bchemical filtration\\b",
+  "\\bfluid filtration\\b",
+  "\\bprocess liquids\\b",
+  "\\bultra-fine filtration\\b"
+ ],
+ "silicon_photonics": [
+  "\\bsilicon photonics\\b",
+  "\\bsilicon-photonics\\b",
+  "\\bsilicon photonic\\b",
+  "\\bphotonic integrated circuit\\b",
+  "\\bphotonic chiplets?\\b"
+ ],
+ "optical_modules": [
+  "\\bOSFP\\b",
+  "\\bQSFP-DD\\b",
+  "\\bpluggable transceiver\\b",
+  "\\boptical module\\b",
+  "\\bpluggable optics\\b"
+ ],
+ "onep6_optics": [
+  "\\b1\\.6T\\b",
+  "\\b1\\.6\\s*Tb\\b",
+  "\\b1\\.6T\\s+pluggable\\b",
+  "\\b1\\.6T\\s+Ethernet\\b",
+  "\\b1\\.6T\\s+optics\\b"
+ ],
+ "optical_dsp": [
+  "\\boptical DSP\\b",
+  "\\bcoherent DSP\\b",
+  "\\bPAM4 DSP\\b",
+  "\\bmodulation DSP\\b",
+  "\\bcoherent modem DSP\\b"
+ ],
+ "cpo_npo": [
+  "\\bco[- ]?packaged optics\\b",
+  "\\bCPO\\b",
+  "\\bnear[- ]?package optics\\b",
+  "\\blinear pluggable optics\\b",
+  "\\bLPO\\b"
+ ],
+ "retimers_serdes": [
+  "\\bretimers?\\b",
+  "\\bSerDes\\b",
+  "\\b200G/lane\\b",
+  "\\b400G/lane\\b",
+  "\\belectrical retimers?\\b"
+ ],
+ "active_cables": [
+  "\\bactive electrical cable\\b",
+  "\\bactive electrical cables\\b",
+  "\\bAEC\\b",
+  "\\bdirect-attach copper\\b",
+  "\\bcopper cable assembly\\b"
+ ],
+ "coherent_optics": [
+  "\\bcoherent optics\\b",
+  "\\bcoherent transceiver\\b",
+  "\\bcoherent LITE\\b",
+  "\\bCW lasers?\\b",
+  "\\bcoherent module\\b"
+ ],
+ "photodetectors": [
+  "\\bphotodetector\\b",
+  "\\boptical detector\\b",
+  "\\bInP detector\\b",
+  "\\bPD array\\b",
+  "\\b200G-per-lane photodetector\\b"
+ ],
+ "ethernet_switch": [
+  "\\bEthernet switching\\b",
+  "\\b100-terabit Ethernet\\b",
+  "\\b200-terabit Ethernet\\b",
+  "\\b51\\.2T switch\\b",
+  "\\b100T switch\\b"
+ ],
+ "fabric_switch": [
+  "\\bfabric switch\\b",
+  "\\bswitch fabric\\b",
+  "\\bAI fabric\\b",
+  "\\brace-scale fabric\\b",
+  "\\bfabric networking\\b"
+ ],
+ "scale_up_fabric": [
+  "\\bscale-up fabric\\b",
+  "\\bscale-up interconnect\\b",
+  "\\bNVLink Fusion\\b",
+  "\\bGPU scale-up\\b",
+  "\\bscale-up AI\\b"
+ ],
+ "infini_band": [
+  "\\bInfiniBand\\b",
+  "\\bInfiniBand\\s+XDR\\b",
+  "\\bIB fabric\\b",
+  "\\bRDMA fabric\\b",
+  "\\bhigh-performance interconnect\\b"
+ ],
+ "ualink_fabric": [
+  "\\bUALink\\b",
+  "\\bUALink-based\\b",
+  "\\bopen AI fabric\\b",
+  "\\bscale-up interconnect\\b",
+  "\\bAI accelerator interconnect\\b"
+ ],
+ "pcie_switch": [
+  "\\bPCIe switch\\b",
+  "\\bPCIe 6\\.0 switching\\b",
+  "\\bScorpio X\\b",
+  "\\bScorpio P-Series\\b",
+  "\\bPCIe fabric\\b"
+ ],
+ "spectrum_x": [
+  "\\bSpectrum-X\\b",
+  "\\bSpectrum X\\b",
+  "\\bSpectrum-X Ethernet\\b",
+  "\\bSpectrum-X fabric\\b",
+  "\\bNVIDIA Spectrum-X\\b"
+ ],
+ "fiveg_ran": [
+  "\\b5G RAN\\b",
+  "\\bRAN backhaul\\b",
+  "\\bRAN access\\b",
+  "\\bbase station processors\\b",
+  "\\bOCTEON\\b"
+ ],
+ "sixg_net": [
+  "\\b6G networks\\b",
+  "\\b6G and AI-native networks\\b",
+  "\\bAI-native networks\\b",
+  "\\bnext-gen mobile\\b",
+  "\\b6G\\b"
+ ],
+ "xgs_pon": [
+  "\\bXGS-PON\\b",
+  "\\bXGS PON\\b",
+  "\\bpassive optical network\\b",
+  "\\bFTTx\\b",
+  "\\b10G PON\\b"
+ ],
+ "docsis_4": [
+  "\\bDOCSIS 4\\.0\\b",
+  "\\bDOCSIS 4\\b",
+  "\\bFDX DOCSIS\\b",
+  "\\bextended spectrum DOCSIS\\b",
+  "\\bcable broadband\\b"
+ ],
+ "datacenter_power": [
+  "\\bdata center power\\b",
+  "\\bdatacenter power\\b",
+  "\\brack power distribution\\b",
+  "\\bserver rack power\\b",
+  "\\bpower distribution unit\\b"
+ ],
+ "hvdc_800v": [
+  "\\b800V HVDC\\b",
+  "\\b800V DC\\b",
+  "\\bdata-center HVDC\\b",
+  "\\b800V architecture\\b",
+  "\\bhigh-voltage DC\\b"
+ ],
+ "power_48v": [
+  "\\b48V rack\\b",
+  "\\b48V architecture\\b",
+  "\\b48V bus\\b",
+  "\\b48V-to-12V\\b",
+  "\\b48V\\b"
+ ],
+ "acdc_psu": [
+  "\\bAC-DC PSU\\b",
+  "\\bDC-DC PSU\\b",
+  "\\bserver power supply\\b",
+  "\\bpower brick\\b",
+  "\\bPSU design\\b"
+ ],
+ "ai_power": [
+  "\\bAI power delivery\\b",
+  "\\bAI accelerator power\\b",
+  "\\bAI server power\\b",
+  "\\bpower tree\\b",
+  "\\bpower rails\\b"
+ ],
+ "rack_power": [
+  "\\brack-scale power\\b",
+  "\\brack-level power\\b",
+  "\\bserver rack power\\b",
+  "\\brack power architecture\\b",
+  "\\brack power\\b"
+ ],
+ "sic_mosfets": [
+  "\\bSiC MOSFETs?\\b",
+  "\\bsilicon carbide MOSFETs?\\b",
+  "\\bSiC device\\b",
+  "\\btraction inverter\\b",
+  "\\bpower MOSFET\\b"
+ ],
+ "sic_modules": [
+  "\\bSiC module\\b",
+  "\\bsilicon carbide module\\b",
+  "\\bSiC power module\\b",
+  "\\b3\\.3kV SiC\\b",
+  "\\b2\\.3kV SiC\\b"
+ ],
+ "gan_devices": [
+  "\\bGaN\\b",
+  "\\bGaN devices?\\b",
+  "\\bGaNFast\\b",
+  "\\bTOPSwitchGaN\\b",
+  "\\bGaN power\\b"
+ ],
+ "gan_300mm": [
+  "\\b300mm GaN\\b",
+  "\\b8-inch GaN\\b",
+  "\\blarge-wafer GaN\\b",
+  "\\bGaN wafer\\b",
+  "\\bGaN manufacturing\\b"
+ ],
+ "gate_drivers": [
+  "\\bgate driver\\b",
+  "\\bisolated gate driver\\b",
+  "\\bSiC gate driver\\b",
+  "\\bhigh-voltage gate driver\\b",
+  "\\bgate-drive\\b"
+ ],
+ "traction_inv": [
+  "\\btraction inverter\\b",
+  "\\bxEV traction\\b",
+  "\\bEV inverter\\b",
+  "\\b900V EV\\b",
+  "\\b800V xEV\\b"
+ ],
+ "lv_gan": [
+  "\\blow-voltage GaN\\b",
+  "\\b650V GaN\\b",
+  "\\b100V GaN\\b",
+  "\\baux power\\b",
+  "\\bGaN power conversion\\b"
+ ],
+ "hamr_hdd": [
+  "\\bHAMR\\b",
+  "\\bHAMR HDD\\b",
+  "\\bheat-assisted magnetic recording\\b",
+  "\\bMozaic\\b",
+  "\\bhigh-capacity HDD\\b"
+ ],
+ "epmr_hdd": [
+  "\\bEPMR\\b",
+  "\\bEPMR HDD\\b",
+  "\\benergy-assisted recording\\b",
+  "\\bMAMR\\b",
+  "\\bmagnetic recording\\b"
+ ],
+ "nearline_hdd": [
+  "\\bnearline HDDs?\\b",
+  "\\bcloud nearline\\b",
+  "\\bnearline storage\\b",
+  "\\bhyperscaler storage\\b",
+  "\\bexabyte\\b"
+ ],
+ "areal_density": [
+  "\\bareal density\\b",
+  "\\bareal-density\\b",
+  "\\bbits per inch\\b",
+  "\\bbit density\\b",
+  "\\bdisk capacity\\b"
+ ],
+ "ultrasmr": [
+  "\\bUltraSMR\\b",
+  "\\bultra SMR\\b",
+  "\\bshingled magnetic recording\\b",
+  "\\bSMR HDD\\b",
+  "\\bSMR drives?\\b"
+ ],
+ "mozaic_hdd": [
+  "\\bMozaic\\b",
+  "\\bMozaic 5\\b",
+  "\\bMozaic 3\\+\\b",
+  "\\b50\\s*TB\\b",
+  "\\bhigh-capacity HDD\\b"
+ ],
+ "enterprise_ssd": [
+  "\\benterprise SSDs?\\b",
+  "\\bdata center SSDs?\\b",
+  "\\bPCIe Gen6 SSD\\b",
+  "\\bNVMe SSDs?\\b",
+  "\\bSSD controller\\b"
+ ],
+ "qlc_nand": [
+  "\\bQLC NAND\\b",
+  "\\benterprise QLC\\b",
+  "\\bQLC for AI\\b",
+  "\\bBiCS8\\b",
+  "\\bQLC\\b"
+ ],
+ "pcie6_ssd": [
+  "\\bPCIe Gen6 SSD\\b",
+  "\\bPCIe 6\\.0 SSD\\b",
+  "\\bGen6 SSD\\b",
+  "\\bPCIe 6 SSD\\b",
+  "\\bNVMe Gen6\\b"
+ ],
+ "storage_ctrls": [
+  "\\bstorage controller\\b",
+  "\\bdata center storage controller\\b",
+  "\\bSSD controller\\b",
+  "\\bNVMe controller\\b",
+  "\\bcontroller chipset\\b"
+ ],
+ "hdd_capacity": [
+  "\\bHDD capacity\\b",
+  "\\bnearline capacity\\b",
+  "\\bhigher-capacity HDDs?\\b",
+  "\\bcapacity per drive\\b",
+  "\\bdisk capacity\\b"
+ ],
+ "kioxia_jv": [
+  "\\bKioxia JV\\b",
+  "\\bKioxia\\b",
+  "\\bNAND JV\\b",
+  "\\bJV agreement\\b",
+  "\\bJV extension\\b"
+ ],
+ "ai_memory_content": [
+  "\\bAI memory content\\b",
+  "\\bmemory content growth\\b",
+  "\\bHBM content\\b",
+  "\\bmemory bytes per accelerator\\b",
+  "\\bAI workload memory\\b"
+ ],
+ "hbm_asic_demand": [
+  "\\bHBM-based ASIC\\b",
+  "\\bHBM ASIC\\b",
+  "\\bcustom ASIC with HBM\\b",
+  "\\bHBM-attached ASIC\\b",
+  "\\bHBM demand\\b"
+ ],
+ "hbm_capacity": [
+  "\\bHBM capacity\\b",
+  "\\bHBM capacity additions\\b",
+  "\\bHBM wafer supply\\b",
+  "\\bHBM investments\\b",
+  "\\bHBM expansions?\\b"
+ ],
+ "hbm_supply": [
+  "\\bHBM supply\\b",
+  "\\bHBM availability\\b",
+  "\\bHBM allocation\\b",
+  "\\bHBM supply chain\\b",
+  "\\bHBM wafer supply\\b"
+ ],
+ "dram_6f2": [
+  "\\b6F²\\b",
+  "\\b6F2\\b",
+  "\\bDRAM capacity additions\\b",
+  "\\bDRAM fabs\\b",
+  "\\bDRAM nodes\\b"
+ ],
+ "onec_dram": [
+  "\\b1C DRAM\\b",
+  "\\b1-gamma DRAM\\b",
+  "\\b1 gamma DRAM\\b",
+  "\\b1C-node\\b",
+  "\\b1C migration\\b"
+ ],
+ "lpddr5x": [
+  "\\bLPDDR5X\\b",
+  "\\bLPCAMM2\\b",
+  "\\bLPDDR5\\b",
+  "\\bAI PC memory\\b",
+  "\\bmobile DRAM\\b"
+ ],
+ "auto_lpddr5": [
+  "\\bautomotive LPDDR5\\b",
+  "\\bauto LPDDR5\\b",
+  "\\bLPDDR5 automotive\\b",
+  "\\bin-vehicle DRAM\\b",
+  "\\bautomotive memory\\b"
+ ],
+ "hbm4e": [
+  "\\bHBM4E\\b",
+  "\\bHBM4e\\b",
+  "\\bHBM4/E\\b",
+  "\\bnext-gen HBM\\b",
+  "\\bHBM4 generation\\b"
+ ],
+ "enterprise_nand": [
+  "\\benterprise NAND\\b",
+  "\\bdata center NAND\\b",
+  "\\benterprise SSD NAND\\b",
+  "\\bQLC for AI\\b",
+  "\\bBiCS8\\b"
+ ],
+ "nand_200l": [
+  "\\b200-layer NAND\\b",
+  "\\b200 layer NAND\\b",
+  "\\b200L NAND\\b",
+  "\\blayer-count conversion\\b",
+  "\\b3D NAND\\b"
+ ],
+ "nand_layers": [
+  "\\bNAND layer scaling\\b",
+  "\\blayer-count conversion\\b",
+  "\\b3D NAND layers\\b",
+  "\\bNAND conversion\\b",
+  "\\blayer count\\b"
+ ],
+ "blackwell_ramp": [
+  "\\bBlackwell\\b",
+  "\\bB200\\b",
+  "\\bGB200\\b",
+  "\\bBlackwell systems\\b",
+  "\\bBlackwell ramp\\b"
+ ],
+ "gb300_nvl72": [
+  "\\bGB300\\b",
+  "\\bNVL72\\b",
+  "\\bGB300 NVL72\\b",
+  "\\bGrace Blackwell NVL72\\b",
+  "\\bBlackwell NVL72\\b"
+ ],
+ "grace_blackwell": [
+  "\\bGrace Blackwell\\b",
+  "\\bGB200\\b",
+  "\\bGrace CPU\\b",
+  "\\bGPU-CPU co-design\\b",
+  "\\binference economics\\b"
+ ],
+ "instinct_mi450": [
+  "\\bMI450\\b",
+  "\\bInstinct MI450\\b",
+  "\\bAMD MI450\\b",
+  "\\bMI series\\b",
+  "\\bAMD Instinct\\b"
+ ],
+ "epyc_venice": [
+  "\\bEPYC Venice\\b",
+  "\\bEPYC\\b",
+  "\\bVenice\\b",
+  "\\bserver CPU\\b",
+  "\\bserver CPU ramp\\b"
+ ],
+ "zen6_venice": [
+  "\\bZen 6\\b",
+  "\\bZen6\\b",
+  "\\bVenice\\b",
+  "\\b2nm Zen 6\\b",
+  "\\b2 nm Zen 6\\b"
+ ],
+ "hyperscaler_xpu": [
+  "\\bhyperscaler ASIC\\b",
+  "\\bsemi-custom AI ASICs\\b",
+  "\\bXPU\\b",
+  "\\bcustom AI silicon\\b",
+  "\\bhyperscaler custom silicon\\b"
+ ],
+ "server_fpga_attach": [
+  "\\bserver FPGA\\b",
+  "\\bFPGA attach rate\\b",
+  "\\bFPGA accelerator\\b",
+  "\\bdata center FPGA\\b",
+  "\\bFPGA attach\\b"
+ ],
+ "ai_inference_cpu": [
+  "\\bAI inference CPU\\b",
+  "\\binference CPU\\b",
+  "\\bAI CPU\\b",
+  "\\bdata center CPU\\b",
+  "\\bserver CPU\\b"
+ ],
+ "mcu_auto": [
+  "\\bautomotive MCU\\b",
+  "\\blegacy MCU\\b",
+  "\\bR-Car\\b",
+  "\\bmicrocontroller\\b",
+  "\\bMCU\\b"
+ ],
+ "analog_power": [
+  "\\banalog power management\\b",
+  "\\banalog power\\b",
+  "\\bsmart power\\b",
+  "\\bpower IC\\b",
+  "\\bvoltage regulation\\b"
+ ],
+ "pmic_power": [
+  "\\bPMIC\\b",
+  "\\bpower management IC\\b",
+  "\\bbattery protection\\b",
+  "\\bmultiphase\\b",
+  "\\bpower IC\\b"
+ ],
+ "bms_ev": [
+  "\\bbattery management system\\b",
+  "\\bBMS\\b",
+  "\\bEV battery management\\b",
+  "\\benergy storage BMS\\b",
+  "\\bbattery backup\\b"
+ ],
+ "current_sensors": [
+  "\\bcurrent sensor\\b",
+  "\\bhigh-speed current sensors\\b",
+  "\\bHall sensor\\b",
+  "\\bshunt sensor\\b",
+  "\\bcurrent sensing\\b"
+ ],
+ "radar_sense": [
+  "\\b77 GHz radar\\b",
+  "\\b4Tx 8Rx\\b",
+  "\\bautomotive radar\\b",
+  "\\bradar backend\\b",
+  "\\bcorner radar\\b"
+ ],
+ "lidar_socs": [
+  "\\bLiDAR\\b",
+  "\\bFMCW LiDAR\\b",
+  "\\bLiDAR SoC\\b",
+  "\\bsolid-state LiDAR\\b",
+  "\\bperception suite\\b"
+ ],
+ "imaging_sensors": [
+  "\\bimaging sensors\\b",
+  "\\bcamera sensors\\b",
+  "\\bdiagnostic imaging\\b",
+  "\\beMirror camera\\b",
+  "\\bindustrial imaging\\b"
+ ],
+ "smart_actuators": [
+  "\\bsmart actuator\\b",
+  "\\bactuator qualification\\b",
+  "\\bsteer-by-wire\\b",
+  "\\brototics tactile sensing\\b",
+  "\\bfoot controls\\b"
+ ],
+ "led_drivers": [
+  "\\bLED driver\\b",
+  "\\bMatrix LED\\b",
+  "\\b48V Matrix LED\\b",
+  "\\bdisplay driver\\b",
+  "\\blighting IC\\b"
+ ],
+ "rf_frontend": [
+  "\\bRF front-end\\b",
+  "\\bfront-end solutions\\b",
+  "\\bRF content\\b",
+  "\\bpremium Android RF\\b",
+  "\\bsub-7 GHz\\b"
+ ],
+ "wifi7": [
+  "\\bWi-Fi 7\\b",
+  "\\bWiFi 7\\b",
+  "\\bWiFi7\\b",
+  "\\b802\\.11be\\b",
+  "\\bWi-Fi 7 chipset\\b"
+ ],
+ "wifi8": [
+  "\\bWi-Fi 8\\b",
+  "\\bWiFi 8\\b",
+  "\\bWiFi8\\b",
+  "\\b802\\.11bn\\b",
+  "\\bnext Wi-Fi\\b"
+ ],
+ "bt_combo": [
+  "\\bBluetooth combo\\b",
+  "\\bWi-Fi 6 Bluetooth combo\\b",
+  "\\bBluetooth 6\\b",
+  "\\bcombo chip\\b",
+  "\\bconnected MCU\\b"
+ ],
+ "baw_filters": [
+  "\\bBAW filters\\b",
+  "\\bbulk acoustic wave\\b",
+  "\\b6G FR3\\b",
+  "\\bRF filters\\b",
+  "\\bfilter bank\\b"
+ ],
+ "fr3_rf": [
+  "\\bFR3\\b",
+  "\\b6 GHz\\b",
+  "\\brf front-end above 7 GHz\\b",
+  "\\bsub-THz\\b",
+  "\\b6G FR3\\b"
+ ],
+ "tcxo_clk": [
+  "\\bTCXO\\b",
+  "\\bSuper-TCXO\\b",
+  "\\bclock oscillators?\\b",
+  "\\bresonators\\b",
+  "\\bfrequency reference\\b"
+ ],
+ "ntn_satcom": [
+  "\\bNTN\\b",
+  "\\bnon-terrestrial network\\b",
+  "\\bsatellite connectivity\\b",
+  "\\bLEO broadband\\b",
+  "\\bD2D payloads\\b"
+ ],
+ "eda_cloud": [
+  "\\bcloud-native EDA\\b",
+  "\\bEDA in cloud\\b",
+  "\\bSaaS EDA\\b",
+  "\\bcloud EDA\\b",
+  "\\bGoogle Cloud\\b"
+ ],
+ "gpu_eda": [
+  "\\bGPU-accelerated EDA\\b",
+  "\\bGPU EDA\\b",
+  "\\baccelerated simulation\\b",
+  "\\bAI-driven design\\b",
+  "\\bcompute acceleration\\b"
+ ],
+ "dig_signoff": [
+  "\\bdigital sign-off\\b",
+  "\\bsign-off\\b",
+  "\\badvanced nodes signoff\\b",
+  "\\btiming closure\\b",
+  "\\bphysical verification\\b"
+ ],
+ "hw_verif": [
+  "\\bhardware-assisted verification\\b",
+  "\\bemulation\\b",
+  "\\bverification platform\\b",
+  "\\bPalladium\\b",
+  "\\baccelerated verification\\b"
+ ],
+ "chiplet_arch": [
+  "\\bchiplet-based\\b",
+  "\\bchiplet\\b",
+  "\\b3D IC\\b",
+  "\\b3D-IC\\b",
+  "\\badvanced packaging design\\b"
+ ],
+ "die2die_ip": [
+  "\\bUCIe\\b",
+  "\\bdie-to-die interconnect\\b",
+  "\\bdie-to-die protocol\\b",
+  "\\bdie-to-die link\\b",
+  "\\bchiplet interconnect\\b"
+ ],
+ "pcie7_ip": [
+  "\\bPCIe 7\\.0\\b",
+  "\\bPCIe 7\\b",
+  "\\bPCIe 7 PHY\\b",
+  "\\bCXL\\b",
+  "\\bPCIe 7 controller\\b"
+ ],
+ "hbm4_ip": [
+  "\\bHBM4\\b",
+  "\\bHBM4E\\b",
+  "\\bHBM controller\\b",
+  "\\bHBM PHY\\b",
+  "\\bHBM interface\\b"
+ ],
+ "edge_ai_ip": [
+  "\\bedge AI\\b",
+  "\\bedge NPU\\b",
+  "\\bedge AI silicon\\b",
+  "\\bsmart edge royalties\\b",
+  "\\bedge royalties\\b"
+ ],
+ "agentic_design": [
+  "\\bagentic design\\b",
+  "\\bagentic AI design\\b",
+  "\\bdesign automation\\b",
+  "\\bAI design automation\\b",
+  "\\bAI-driven semiconductor design\\b"
+ ],
+ "specialty_gases": [
+  "\\bspecialty gases\\b",
+  "\\bEFC gases\\b",
+  "\\bultra-high-purity gases\\b",
+  "\\belectronic gases\\b",
+  "\\bgas systems\\b"
+ ],
+ "helium_supply": [
+  "\\bhelium supply\\b",
+  "\\bhelium contracts\\b",
+  "\\bhelium shortages\\b",
+  "\\bhelium source\\b",
+  "\\bQatar helium\\b"
+ ],
+ "water_filtration": [
+  "\\bwater filtration\\b",
+  "\\bmicroelectronics water\\b",
+  "\\bprocess water\\b",
+  "\\bwater treatment\\b",
+  "\\bclean water system\\b"
+ ],
+ "battery_mat": [
+  "\\bbattery materials\\b",
+  "\\bconductive additives\\b",
+  "\\bcathode coatings\\b",
+  "\\bseparator coatings\\b",
+  "\\bbattery chemistries\\b"
+ ],
+ "regionalization": [
+  "\\bregionalization\\b",
+  "\\bonshoring\\b",
+  "\\breshoring\\b",
+  "\\bChina-to-global\\b",
+  "\\bnon-China installed base\\b"
+ ],
+ "malaysia_exp": [
+  "\\bMalaysia expansion\\b",
+  "\\bMalaysia manufacturing\\b",
+  "\\bMalaysia Super Center\\b",
+  "\\bPenang\\b",
+  "\\bJohor\\b"
+ ],
+ "hbm_probecard": [
+  "\\bHBM probe cards\\b",
+  "\\bHBM SmartMatrix\\b",
+  "\\bprobe cards?\\b",
+  "\\bmemory probe\\b",
+  "\\bcontactor\\b"
+ ],
+ "photonics_test": [
+  "\\bsilicon photonics probing\\b",
+  "\\bCPO test\\b",
+  "\\boptical test\\b",
+  "\\bphotonics test\\b",
+  "\\bhigh-speed IO test\\b"
+ ],
+ "production_test": [
+  "\\bproduction test\\b",
+  "\\bTRITON\\b",
+  "\\bfinal test\\b",
+  "\\btest utilization\\b",
+  "\\bwafer test\\b"
+ ],
+ "tester_shortages": [
+  "\\btester shortages\\b",
+  "\\bATE shortages\\b",
+  "\\btest capacity\\b",
+  "\\bhandler capacity\\b",
+  "\\bprobe shortages\\b"
+ ],
+ "installed_base": [
+  "\\binstalled-base services\\b",
+  "\\binstalled base\\b",
+  "\\baftermarket spares\\b",
+  "\\bservice contracts\\b",
+  "\\bmaintenance contracts\\b"
+ ],
+ "supply_chain_serv": [
+  "\\bsupply chain services\\b",
+  "\\bdistribution services\\b",
+  "\\bArrowSphere\\b",
+  "\\bFarnell\\b",
+  "\\bvalue-added services\\b"
+ ],
+ "ai_infra_buildout": [
+  "\\bAI infrastructure build-out\\b",
+  "\\bAI factory build-out\\b",
+  "\\bAI compute build-out\\b",
+  "\\bAI data center build-out\\b",
+  "\\bAI infrastructure spending\\b"
+ ],
+ "ai_storage_growth": [
+  "\\bAI storage\\b",
+  "\\binference storage\\b",
+  "\\bexabyte growth\\b",
+  "\\bagentic AI data retention\\b",
+  "\\bhyperscale storage\\b"
  ]
 }

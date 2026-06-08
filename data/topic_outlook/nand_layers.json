@@ -1,0 +1,60 @@
+{
+ "topic": "nand_layers",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "NAND layer scaling stays disciplined, with tight supply extending",
+  "summary": "Higher NAND layer counts are still being pulled by AI memory demand, which keeps conversion activity and material intensity supportive for suppliers like Lam Research and Entegris. SanDisk’s read on limited greenfield and measured bit growth argues against an oversupply reset, while Advanced Energy remains only a pass-through beneficiary until spending broadens.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI-driven higher layer counts",
+   "detail": "Rising NAND layer counts are being driven by AI memory demand, lifting tool intensity and keeping the scaling cycle active.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Tight supply / disciplined expansion",
+   "detail": "Supply remains tight and layer-count-driven bit growth is measured, suggesting capacity is not expanding aggressively enough to create near-term oversupply.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "SanDisk",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Material intensity rises with scaling",
+   "detail": "Moving to higher layer counts increases materials usage per unit of output, supporting consumables demand.",
+   "polarity": "pos",
+   "companies": [
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Limited greenfield additions",
+   "detail": "SanDisk flagged limited new greenfield supply, which helps keep the supply side controlled over the next 1-2 quarters.",
+   "polarity": "pos",
+   "companies": [
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Broad spending still uneven",
+   "detail": "Advanced Energy only saw a passing reference to NAND conversion spending, implying the upcycle is not yet broad-based across all suppliers.",
+   "polarity": "neg",
+   "companies": [
+    "Advanced Energy"
+   ]
+  }
+ ],
+ "risks": [
+  "Layer-count conversion spending stays incremental instead of broadening to more suppliers.",
+  "NAND makers accelerate greenfield or bit-growth plans faster than expected, easing tightness.",
+  "AI memory demand slips, reducing the urgency for higher-layer scaling investments."
+ ]
+}

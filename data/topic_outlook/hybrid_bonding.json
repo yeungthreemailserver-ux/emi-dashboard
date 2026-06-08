@@ -1,0 +1,58 @@
+{
+ "topic": "hybrid_bonding",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Hybrid bonding demand is broadening across advanced packaging",
+  "summary": "Hybrid bonding looks set to strengthen over the next 1-2 quarters as more of the advanced-packaging toolchain cites it as a real pull factor, not just a roadmap item. Applied Materials, KLA, GlobalFoundries and Kulicke & Soffa all point to strengthening traction, while Onto and Entegris remain more neutral/strategic, suggesting the opportunity is real but still unevenly monetized. Watch whether the current product momentum converts from positioning and program acceleration into visible order growth.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Advanced packaging tool demand is rising",
+   "detail": "Emerging hybrid-bonding and die-stack activity is increasing demand for advanced packaging tools, especially where tight supply supports pricing and utilization.",
+   "polarity": "pos",
+   "companies": [
+    "KLA"
+   ]
+  },
+  {
+   "label": "Packaging stack expansion at suppliers",
+   "detail": "Hybrid bonding and NEXX are strengthening Applied Materials' packaging technology stack, indicating a broader product mix opportunity.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  },
+  {
+   "label": "Strategic roadmap pull from foundry/customer side",
+   "detail": "GlobalFoundries says hybrid bonding is part of its advanced packaging roadmap, signaling product pull and longer-run relevance for the ecosystem.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries"
+   ]
+  },
+  {
+   "label": "Program acceleration and competitive solution traction",
+   "detail": "Kulicke & Soffa said it is confident in its solution and is accelerating the program, pointing to improving commercial momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Kulicke & Soffa"
+   ]
+  },
+  {
+   "label": "Near-term signal still partly strategic",
+   "detail": "Onto Innovation had only a positioning conversation, and Entegris framed hybrid bonding as strategically important rather than a near-term demand driver.",
+   "polarity": "neg",
+   "companies": [
+    "Onto Innovation",
+    "Entegris"
+   ]
+  }
+ ],
+ "risks": [
+  "Adoption may stay roadmap-driven if positioning does not convert into orders quickly, especially for Onto Innovation and Entegris.",
+  "Any slowdown in emerging die-stack or advanced packaging activity would directly soften the demand signal seen at KLA and K&S.",
+  "If hybrid bonding remains concentrated in a few programs, the broadening trend could stall despite the positive mention trend."
+ ]
+}

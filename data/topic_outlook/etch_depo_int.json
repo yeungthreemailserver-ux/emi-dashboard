@@ -1,0 +1,53 @@
+{
+ "topic": "etch_depo_int",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI-led process intensity is broadening, despite a DRAM pause",
+  "summary": "Etch and deposition intensity looks set to improve over the next 1-2 quarters as AI and technology inflections push more process steps and higher content per fab. Lam Research, Ichor, MKS, and Advanced Energy all point to stronger tool demand and rising WFE tied to etch/deposition, while Applied Materials flags only a temporary DRAM-related slowdown at a big node. The key watch item is whether the AI-led uplift is broad enough to offset that near-term DRAM timing gap.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI-driven technology inflections increasing process intensity",
+   "detail": "Customers are adding more etch/deposition steps and higher tool content as AI ramps progress.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "Ichor Holdings",
+    "MKS Instruments"
+   ]
+  },
+  {
+   "label": "Tight supply conditions supporting demand",
+   "detail": "Cited tight supply in the supply chain implies stronger near-term equipment pull-through for intensity-related products.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "Ichor Holdings",
+    "MKS Instruments"
+   ]
+  },
+  {
+   "label": "Rising WFE in etch and deposition",
+   "detail": "Customer wafer fab equipment growth in these areas remains strong, supporting near-term orders.",
+   "polarity": "pos",
+   "companies": [
+    "Advanced Energy"
+   ]
+  },
+  {
+   "label": "Temporary DRAM node transition slowing intensity",
+   "detail": "A big node transition could pause DRAM dep/etch intensity briefly, limiting equipment intensity at Applied Materials.",
+   "polarity": "neg",
+   "companies": [
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "A larger-than-expected DRAM node transition could keep intensity soft longer than a quarter or two.",
+  "If AI-related buildouts slow, the positive read-through for etch/deposition content could fade quickly.",
+  "Order timing could remain uneven by company even if the underlying intensity trend improves."
+ ]
+}

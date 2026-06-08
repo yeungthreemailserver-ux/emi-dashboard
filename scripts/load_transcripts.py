@@ -449,6 +449,12 @@ def main() -> None:
     dr_path = ROOT / "data" / "dimension_reads.json"
     if dr_path.exists():
         topics["dimension_reads"] = json.loads(dr_path.read_text(encoding="utf-8"))
+    # emergent topics surfaced by discovery (for the Alerts 🆕 section), ranked by # companies
+    em_path = ROOT / "data" / "emergent_topics.json"
+    if em_path.exists():
+        emc = [c for c in json.loads(em_path.read_text(encoding="utf-8")).get("clusters", []) if c.get("is_new")]
+        emc.sort(key=lambda c: -c.get("companies", 0))
+        topics["emergent"] = [{"name": c["name"], "companies": c.get("companies", 0), "examples": (c.get("examples") or [])[:3]} for c in emc[:14]]
 
     # PROPAGATE the LLM's "excluded" verdicts (keyword false-positives / tangential list mentions):
     # drop those (company, topic) cells from counts + sentiment, and recompute the topic's series/breadth,

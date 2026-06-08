@@ -1,0 +1,60 @@
+{
+ "topic": "wifi7",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "stabilizing",
+  "headline": "Wi-Fi 7 demand stays constructive, but attention is cooling",
+  "summary": "Company reads remain uniformly bullish on Wi-Fi 7, with design wins, active sampling, AI-linked demand, and large-scale deployments pointing to a healthy adoption curve over the next 1-2 quarters. That said, the sharp drop in mention intensity suggests the narrative is shifting from hype to execution, so the key watch is whether these positives convert into visible ramps and revenue contributions.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Design-win driven platform transitions",
+   "detail": "Wi-Fi 7 design wins and platform transitions support ongoing upgrade cycles.",
+   "polarity": "pos",
+   "companies": [
+    "CEVA"
+   ]
+  },
+  {
+   "label": "AI workload pull-through",
+   "detail": "Accelerating AI workloads are being cited as a driver of stronger Wi-Fi 7 content demand.",
+   "polarity": "pos",
+   "companies": [
+    "Skyworks Solutions"
+   ]
+  },
+  {
+   "label": "First-to-market edge AI differentiation",
+   "detail": "Wi-Fi 7 is tied to differentiated edge AI products and active sampling, indicating strong demand pull.",
+   "polarity": "pos",
+   "companies": [
+    "Synaptics"
+   ]
+  },
+  {
+   "label": "Large-scale deployments and later-year ramps",
+   "detail": "Deployment activity and additional ramps expected later this year point to healthy rollout momentum.",
+   "polarity": "pos",
+   "companies": [
+    "MaxLinear"
+   ]
+  },
+  {
+   "label": "Weaker mention momentum",
+   "detail": "Latest mention intensity is only 0.1x, down 14% versus trailing average, implying cooling conversation even as fundamentals look solid.",
+   "polarity": "neg",
+   "companies": [
+    "CEVA",
+    "Skyworks Solutions",
+    "Synaptics",
+    "MaxLinear"
+   ]
+  }
+ ],
+ "risks": [
+  "Wi-Fi 7 ramps slip from sampling/design wins into volume shipments more slowly than expected.",
+  "AI-related demand does not translate into sustained near-term content growth.",
+  "The continued decline in mentions reflects fading hype and could signal a pause in adoption momentum."
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "topic": "areal_density",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Areal density gains are broadening across the HDD chain",
+  "summary": "Higher bit density is now a clear near-term positive for both suppliers and drive makers: Entegris sees more materials consumption, while Seagate and Western Digital cite better economics, TCO, and customer adoption. The mention trend is also firming from a low base, suggesting this remains an increasingly important talking point into the next 1-2 quarters. Watch whether continued density progress translates into sustained pricing power and tighter supply discipline.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Higher bit density lifts materials intensity",
+   "detail": "More advanced areal density drives greater materials consumption and is explicitly called favorable for the supply chain.",
+   "polarity": "pos",
+   "companies": [
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Areal density improves drive economics",
+   "detail": "Advancing density supports profit economics alongside supply discipline and pricing.",
+   "polarity": "pos",
+   "companies": [
+    "Seagate Technology"
+   ]
+  },
+  {
+   "label": "Better TCO boosts adoption confidence",
+   "detail": "Higher areal density improves customer total cost of ownership and supports drive adoption.",
+   "polarity": "pos",
+   "companies": [
+    "Western Digital"
+   ]
+  },
+  {
+   "label": "Mention trend is strengthening",
+   "detail": "Company mentions rose to 0.3x with 21% momentum vs trailing average, signaling building focus rather than fading interest.",
+   "polarity": "pos",
+   "companies": [
+    "Entegris",
+    "Seagate Technology",
+    "Western Digital"
+   ]
+  }
+ ],
+ "risks": [
+  "If areal density progress slows, the economics and adoption benefits could fade quickly.",
+  "Any loosening of supply discipline would dilute pricing support for Seagate and Western Digital.",
+  "Customer adoption could lag if TCO gains do not translate into enough real-world savings versus alternatives."
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "topic": "regionalization",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Regionalization tailwinds are building for local manufacturing models",
+  "summary": "Manufacturing regionalization looks modestly improving into 2026Q1, with onshoring continuing to lift customer engagement and demand for localized production. GlobalFoundries appears to be the clearest beneficiary through its regional manufacturing footprint, while Analog Devices also sees a secondary pull-through from digital factory and robotics demand tied to labor and onshoring shifts. The mention trend is only slightly positive, so watch whether this broadens beyond a couple of names or stays a niche theme.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Onshoring increases need for regional capacity",
+   "detail": "Customer engagements and design wins are improving as buyers prefer local manufacturing footprints.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries"
+   ]
+  },
+  {
+   "label": "Digital factory and robotics demand rises",
+   "detail": "Labor shifts and onshoring are creating more demand for automation-heavy end markets tied to regional manufacturing.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Regional manufacturing model gains relevance",
+   "detail": "Companies with established local supply chains are better positioned as supply chains remain regionally anchored.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries"
+   ]
+  }
+ ],
+ "risks": [
+  "Theme may remain concentrated in a small set of beneficiaries if mention momentum does not broaden further.",
+  "Any slowdown in onshoring-related customer activity could cap the upside for regional manufacturing demand.",
+  "Analog Devices' benefit is indirect, so the read could weaken if robotics/digital factory demand softens."
+ ]
+}

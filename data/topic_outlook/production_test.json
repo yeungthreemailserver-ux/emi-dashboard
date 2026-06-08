@@ -1,0 +1,51 @@
+{
+ "topic": "production_test",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Production test demand is broadening, but still early-stage",
+  "summary": "Production test supply looks set to improve modestly over the next 1-2 quarters as demand pull broadens from early commercialization into actual production ramps. Teradyne is seeing first multi-system production test orders, FormFactor is benefiting from TRITON ramp and advanced-packaging final-test roles, and Cohu’s near-80% utilization suggests capacity remains tight. The key watch is whether this current, only slightly above-average mention trend translates into sustained order conversion rather than a short-lived burst.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Commercialization orders are starting to convert",
+   "detail": "Teradyne’s first multi-system production test orders point to real demand pull rather than just interest.",
+   "polarity": "pos",
+   "companies": [
+    "Teradyne"
+   ]
+  },
+  {
+   "label": "Ramp in advanced packaging and final-test roles",
+   "detail": "FormFactor’s TRITON ramp and expanded final-test exposure indicate broader production-test demand.",
+   "polarity": "pos",
+   "companies": [
+    "FormFactor"
+   ]
+  },
+  {
+   "label": "Capacity remains relatively tight",
+   "detail": "Cohu’s near-80% utilization signals healthy demand and limited spare capacity in the near term.",
+   "polarity": "pos",
+   "companies": [
+    "Cohu"
+   ]
+  },
+  {
+   "label": "Mention trend is only modestly positive",
+   "detail": "The topic mention trend is flat-to-slightly up (latest 0.1x, +2% vs trailing average), implying improvement is real but not yet broad-based.",
+   "polarity": "pos",
+   "companies": [
+    "Teradyne",
+    "FormFactor",
+    "Cohu"
+   ]
+  }
+ ],
+ "risks": [
+  "Demand pull could remain concentrated in a few early commercialization wins rather than broaden sector-wide.",
+  "TRITON or advanced-packaging ramps could slip, delaying the expected uplift in production-test demand.",
+  "Cohu utilization could ease if customers push out volumes or if supply tightness normalizes faster than expected."
+ ]
+}

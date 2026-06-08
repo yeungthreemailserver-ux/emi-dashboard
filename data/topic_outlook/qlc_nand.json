@@ -1,0 +1,50 @@
+{
+ "topic": "qlc_nand",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI SSD adoption is lifting QLC demand and tightening supply",
+  "summary": "QLC NAND is seeing a clear near-term upswing as AI data-center SSD adoption expands, with SanDisk calling demand hot and supply tight while Micron still sees healthy demand and record mix. The setup looks best for suppliers with exposed QLC shipments and inventory positioning; watch whether Lam’s AI pull-through and SanDisk’s upcoming shipments turn a still-small mention footprint into broader volume momentum.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI data-center SSD adoption",
+   "detail": "AI data centers are increasing use of QLC NAND in SSDs, creating a direct demand tailwind.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research",
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Healthy QLC demand and mix",
+   "detail": "Micron flagged solid demand and record mix, pointing to supportive end-market consumption.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Tight supply conditions",
+   "detail": "SanDisk sees QLC supply as tight, suggesting near-term support for utilization and pricing.",
+   "polarity": "pos",
+   "companies": [
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Upcoming shipment ramp",
+   "detail": "SanDisk highlighted upcoming revenue shipments and inventory build for Stargate, implying near-term demand conversion.",
+   "polarity": "pos",
+   "companies": [
+    "SanDisk"
+   ]
+  }
+ ],
+ "risks": [
+  "Demand may remain concentrated in AI data-center SSDs rather than broadening across other end markets.",
+  "Micron’s balanced supply view suggests shortage conditions may not become widespread, limiting upside.",
+  "If Stargate-related inventory build does not translate into shipments, near-term pull-through could fall short."
+ ]
+}

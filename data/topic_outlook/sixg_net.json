@@ -1,0 +1,57 @@
+{
+ "topic": "sixg_net",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "6G demand is starting to broaden, but still early",
+  "summary": "The read-through for the next 1-2 quarters is constructive: multiple suppliers are seeing early 6G-related pull from RF transition plans, component requests, new product activity, and ecosystem coalition-building. The upside is most obvious for Skyworks, Vishay, Qualcomm, and Marvell, while the main watch-out is that current demand is still embryonic and mentions remain sparse despite the recent uptick.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "RF transition catalyst",
+   "detail": "An upcoming major RF transition is starting to pull demand forward.",
+   "polarity": "pos",
+   "companies": [
+    "Cohu"
+   ]
+  },
+  {
+   "label": "Early component requests",
+   "detail": "Customer requests for 6G parts suggest demand is moving from concept to initial sourcing.",
+   "polarity": "pos",
+   "companies": [
+    "Vishay Intertechnology"
+   ]
+  },
+  {
+   "label": "Standards and new product cycle",
+   "detail": "New 6G-related products and standards imply future content growth and a wider addressable opportunity.",
+   "polarity": "pos",
+   "companies": [
+    "Skyworks Solutions"
+   ]
+  },
+  {
+   "label": "Ecosystem alignment",
+   "detail": "Positive partner feedback and coalition-building point to stronger industry support for 6G.",
+   "polarity": "pos",
+   "companies": [
+    "Qualcomm"
+   ]
+  },
+  {
+   "label": "Incremental workload demand",
+   "detail": "Running 5G and 6G workloads with AI on the same hardware adds incremental telecom silicon demand.",
+   "polarity": "pos",
+   "companies": [
+    "Marvell Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "6G remains early-stage, so requests may not convert into near-term volume",
+  "Standards or ecosystem coordination could slip, delaying content growth",
+  "Mention intensity is still low despite the latest uptick, limiting visibility into adoption pace"
+ ]
+}

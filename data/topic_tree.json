@@ -46,11 +46,6 @@
    "parent": "processor",
    "facet": "demand"
   },
-  "proc_sup": {
-   "label": "Supply",
-   "parent": "processor",
-   "facet": "supply"
-  },
   "proc_cap": {
    "label": "Capability",
    "parent": "processor",
@@ -60,16 +55,6 @@
    "label": "Process Technology",
    "parent": "products",
    "facet": "product"
-  },
-  "pt_dem": {
-   "label": "Demand",
-   "parent": "proctech",
-   "facet": "demand"
-  },
-  "pt_sup": {
-   "label": "Supply",
-   "parent": "proctech",
-   "facet": "supply"
   },
   "pt_cap": {
    "label": "Capability",
@@ -95,6 +80,86 @@
    "label": "Macro / Risk",
    "parent": null,
    "facet": "risk"
+  },
+  "interconnect_optical": {
+   "label": "Interconnect & Optical",
+   "parent": "products",
+   "facet": "product"
+  },
+  "networking": {
+   "label": "Networking",
+   "parent": "products",
+   "facet": "product"
+  },
+  "power_delivery": {
+   "label": "Power Delivery",
+   "parent": "products",
+   "facet": "product"
+  },
+  "power_semiconductors": {
+   "label": "Power Semiconductors",
+   "parent": "products",
+   "facet": "product"
+  },
+  "storage": {
+   "label": "Storage",
+   "parent": "products",
+   "facet": "product"
+  },
+  "analog_sensors": {
+   "label": "Analog & Sensors",
+   "parent": "products",
+   "facet": "product"
+  },
+  "connectivity_rf": {
+   "label": "Connectivity & RF",
+   "parent": "products",
+   "facet": "product"
+  },
+  "design_ip": {
+   "label": "Design & IP",
+   "parent": "products",
+   "facet": "product"
+  },
+  "lithography": {
+   "label": "Lithography",
+   "parent": "proctech",
+   "facet": "product"
+  },
+  "etch_deposition": {
+   "label": "Etch & Deposition",
+   "parent": "proctech",
+   "facet": "product"
+  },
+  "packaging": {
+   "label": "Packaging",
+   "parent": "proctech",
+   "facet": "product"
+  },
+  "process_control": {
+   "label": "Process Control / Metrology",
+   "parent": "proctech",
+   "facet": "supply"
+  },
+  "cleaning_filtration": {
+   "label": "Cleaning & Filtration",
+   "parent": "proctech",
+   "facet": "supply"
+  },
+  "materials": {
+   "label": "Materials",
+   "parent": "ops",
+   "facet": "supply"
+  },
+  "manufacturing_footprint": {
+   "label": "Manufacturing Footprint",
+   "parent": "ops",
+   "facet": "supply"
+  },
+  "test_ate": {
+   "label": "Test / ATE",
+   "parent": "ops",
+   "facet": "supply"
   }
  },
  "leaves": {
@@ -388,65 +453,101 @@
   },
   "optical_interconnect_sil": {
    "label": "Optical interconnect / silicon photonics",
-   "parent": "products",
+   "parent": "interconnect_optical",
    "kind": "product",
    "reads": [
     "demand",
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "datacenter_power_deliver": {
    "label": "Datacenter power delivery / power semiconductors",
-   "parent": "products",
+   "parent": "power_delivery",
    "kind": "product",
    "reads": [
     "demand",
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "test_ate_probe_cards": {
    "label": "Test / ATE / probe cards",
-   "parent": "ops",
+   "parent": "test_ate",
    "kind": "supply",
    "reads": [
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "ai_networking_ethernet_f": {
    "label": "AI networking / Ethernet / fabric",
-   "parent": "products",
+   "parent": "networking",
    "kind": "product",
    "reads": [
     "demand",
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "materials_specialty_gase": {
    "label": "Materials / specialty gases / chemicals",
-   "parent": "ops",
+   "parent": "materials",
    "kind": "supply",
    "reads": [
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "eda_ip_chiplet_design": {
    "label": "EDA / IP / chiplet design",
-   "parent": "products",
+   "parent": "design_ip",
    "kind": "product",
    "reads": [
     "demand",
     "supply"
-   ],
-   "emergent": true
+   ]
   },
   "sic_gan_power_semiconduc": {
    "label": "SiC / GaN power semiconductors",
-   "parent": "products",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "manufacturing_footprint_": {
+   "label": "Manufacturing footprint / regionalization",
+   "parent": "manufacturing_footprint",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "ai_storage_hdd_ssd": {
+   "label": "AI storage / HDD / SSD",
+   "parent": "storage",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ]
+  },
+  "process_control_inspecti": {
+   "label": "Process control / inspection / metrology",
+   "parent": "process_control",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ]
+  },
+  "euv_lithography": {
+   "label": "EUV lithography",
+   "parent": "lithography",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ]
+  },
+  "euv_throughput": {
+   "label": "EUV throughput",
+   "parent": "lithography",
    "kind": "product",
    "reads": [
     "demand",
@@ -454,8 +555,1162 @@
    ],
    "emergent": true
   },
-  "manufacturing_footprint_": {
-   "label": "Manufacturing footprint / regionalization",
+  "duv_immersion": {
+   "label": "Immersion DUV",
+   "parent": "lithography",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "euv_masks": {
+   "label": "EUV mask stack",
+   "parent": "lithography",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "euv_pellicles": {
+   "label": "EUV pellicles",
+   "parent": "lithography",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "etch_depo_int": {
+   "label": "Etch and deposition intensity",
+   "parent": "etch_deposition",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "laser_anneal": {
+   "label": "Laser annealing",
+   "parent": "etch_deposition",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "packaging_2p5d": {
+   "label": "2.5D packaging",
+   "parent": "packaging",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hybrid_bonding": {
+   "label": "Hybrid bonding",
+   "parent": "packaging",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "panel_packaging": {
+   "label": "Panel-level packaging",
+   "parent": "packaging",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hbm_packaging": {
+   "label": "HBM packaging",
+   "parent": "packaging",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "mask_inspect": {
+   "label": "Mask inspection",
+   "parent": "process_control",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "xray_metrology": {
+   "label": "X-ray metrology",
+   "parent": "process_control",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "single_wafer_clean": {
+   "label": "Single-wafer cleaning",
+   "parent": "cleaning_filtration",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "liquid_filtration": {
+   "label": "Liquid filtration",
+   "parent": "cleaning_filtration",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "silicon_photonics": {
+   "label": "Silicon photonics",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "optical_modules": {
+   "label": "Optical modules",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "onep6_optics": {
+   "label": "1.6T optical interconnect",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "optical_dsp": {
+   "label": "Optical DSP",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "cpo_npo": {
+   "label": "CPO and NPO",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "retimers_serdes": {
+   "label": "Retimers and SerDes",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "active_cables": {
+   "label": "Active electrical cables",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "coherent_optics": {
+   "label": "Coherent optics",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "photodetectors": {
+   "label": "Photodetectors",
+   "parent": "interconnect_optical",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ethernet_switch": {
+   "label": "Ethernet switching",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "fabric_switch": {
+   "label": "Fabric switching",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "scale_up_fabric": {
+   "label": "Scale-up fabric",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "infini_band": {
+   "label": "InfiniBand",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ualink_fabric": {
+   "label": "UALink fabrics",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "pcie_switch": {
+   "label": "PCIe switching",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "spectrum_x": {
+   "label": "Spectrum-X",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "fiveg_ran": {
+   "label": "5G RAN",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "sixg_net": {
+   "label": "6G networks",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "xgs_pon": {
+   "label": "XGS-PON",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "docsis_4": {
+   "label": "DOCSIS 4.0",
+   "parent": "networking",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "datacenter_power": {
+   "label": "Datacenter power delivery",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hvdc_800v": {
+   "label": "800V HVDC",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "power_48v": {
+   "label": "48V power architectures",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "acdc_psu": {
+   "label": "AC-DC and DC-DC power supplies",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_power": {
+   "label": "AI power delivery",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "rack_power": {
+   "label": "Rack-scale power",
+   "parent": "power_delivery",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "sic_mosfets": {
+   "label": "Silicon carbide MOSFETs",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "sic_modules": {
+   "label": "Silicon carbide modules",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "gan_devices": {
+   "label": "GaN devices",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "gan_300mm": {
+   "label": "300mm GaN",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "gate_drivers": {
+   "label": "Gate drivers",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "traction_inv": {
+   "label": "Traction inverters",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "lv_gan": {
+   "label": "Low-voltage GaN",
+   "parent": "power_semiconductors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hamr_hdd": {
+   "label": "HAMR HDD",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "epmr_hdd": {
+   "label": "EPMR HDD",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "nearline_hdd": {
+   "label": "Nearline HDD",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "areal_density": {
+   "label": "Areal density",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ultrasmr": {
+   "label": "UltraSMR",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "mozaic_hdd": {
+   "label": "Mozaic HDD roadmap",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "enterprise_ssd": {
+   "label": "Enterprise SSD",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "qlc_nand": {
+   "label": "QLC NAND",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "pcie6_ssd": {
+   "label": "PCIe Gen6 SSD",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "storage_ctrls": {
+   "label": "Storage controllers",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hdd_capacity": {
+   "label": "HDD capacity",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "kioxia_jv": {
+   "label": "Kioxia JV",
+   "parent": "storage",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_memory_content": {
+   "label": "AI memory content",
+   "parent": "mem_dem",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ],
+   "emergent": true
+  },
+  "hbm_asic_demand": {
+   "label": "HBM-based ASIC demand",
+   "parent": "mem_dem",
+   "kind": "demand",
+   "reads": [
+    "demand"
+   ],
+   "emergent": true
+  },
+  "hbm_capacity": {
+   "label": "HBM capacity",
+   "parent": "mem_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hbm_supply": {
+   "label": "HBM supply",
+   "parent": "mem_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "dram_6f2": {
+   "label": "6F² DRAM capacity",
+   "parent": "mem_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "onec_dram": {
+   "label": "1C DRAM",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "lpddr5x": {
+   "label": "LPDDR5X",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "auto_lpddr5": {
+   "label": "Automotive LPDDR5",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hbm4e": {
+   "label": "HBM4E",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "enterprise_nand": {
+   "label": "Enterprise NAND",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "nand_200l": {
+   "label": "200-layer NAND",
+   "parent": "mem_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "nand_layers": {
+   "label": "NAND layer scaling",
+   "parent": "mem_sup",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "blackwell_ramp": {
+   "label": "Blackwell ramp",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "gb300_nvl72": {
+   "label": "GB300 NVL72",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "grace_blackwell": {
+   "label": "Grace Blackwell",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "instinct_mi450": {
+   "label": "Instinct MI450",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "epyc_venice": {
+   "label": "EPYC Venice",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "zen6_venice": {
+   "label": "Zen 6 Venice",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hyperscaler_xpu": {
+   "label": "Hyperscaler custom silicon",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "server_fpga_attach": {
+   "label": "Server FPGA attach",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_inference_cpu": {
+   "label": "AI inference CPU",
+   "parent": "proc_cap",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "mcu_auto": {
+   "label": "Automotive MCU",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "analog_power": {
+   "label": "Analog power management",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "pmic_power": {
+   "label": "Power management ICs",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "bms_ev": {
+   "label": "Battery management systems",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "current_sensors": {
+   "label": "Current sensors",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "radar_sense": {
+   "label": "Radar sensors",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "lidar_socs": {
+   "label": "LiDAR SoCs",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "imaging_sensors": {
+   "label": "Imaging sensors",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "smart_actuators": {
+   "label": "Smart actuators",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "led_drivers": {
+   "label": "LED drivers",
+   "parent": "analog_sensors",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "rf_frontend": {
+   "label": "RF front-end",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "wifi7": {
+   "label": "Wi-Fi 7",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "wifi8": {
+   "label": "Wi-Fi 8",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "bt_combo": {
+   "label": "Bluetooth combo chips",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "baw_filters": {
+   "label": "BAW filters",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "fr3_rf": {
+   "label": "FR3 RF front-end",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "tcxo_clk": {
+   "label": "Timing and clocks",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ntn_satcom": {
+   "label": "NTN satellite connectivity",
+   "parent": "connectivity_rf",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "eda_cloud": {
+   "label": "Cloud-native EDA",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "gpu_eda": {
+   "label": "GPU-accelerated EDA",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "dig_signoff": {
+   "label": "Digital sign-off",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hw_verif": {
+   "label": "Hardware-assisted verification",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "chiplet_arch": {
+   "label": "Chiplet architectures",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "die2die_ip": {
+   "label": "Die-to-die IP",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "pcie7_ip": {
+   "label": "PCIe 7.0 IP",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hbm4_ip": {
+   "label": "HBM4 IP",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "edge_ai_ip": {
+   "label": "Edge AI IP",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "agentic_design": {
+   "label": "Agentic design automation",
+   "parent": "design_ip",
+   "kind": "product",
+   "reads": [
+    "demand",
+    "supply"
+   ],
+   "emergent": true
+  },
+  "specialty_gases": {
+   "label": "Specialty gases",
+   "parent": "materials",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "helium_supply": {
+   "label": "Helium supply",
+   "parent": "materials",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "water_filtration": {
+   "label": "Water filtration",
+   "parent": "materials",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "battery_mat": {
+   "label": "Battery materials",
+   "parent": "materials",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "regionalization": {
+   "label": "Manufacturing regionalization",
+   "parent": "manufacturing_footprint",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "malaysia_exp": {
+   "label": "Malaysia manufacturing expansion",
+   "parent": "manufacturing_footprint",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "hbm_probecard": {
+   "label": "HBM probe cards",
+   "parent": "test_ate",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "photonics_test": {
+   "label": "Photonics test",
+   "parent": "test_ate",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "production_test": {
+   "label": "Production test",
+   "parent": "test_ate",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "tester_shortages": {
+   "label": "Tester shortages",
+   "parent": "test_ate",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "installed_base": {
+   "label": "Installed-base services",
    "parent": "ops",
    "kind": "supply",
    "reads": [
@@ -463,8 +1718,17 @@
    ],
    "emergent": true
   },
-  "ai_storage_hdd_ssd": {
-   "label": "AI storage / HDD / SSD",
+  "supply_chain_serv": {
+   "label": "Supply chain services",
+   "parent": "ops",
+   "kind": "supply",
+   "reads": [
+    "supply"
+   ],
+   "emergent": true
+  },
+  "ai_infra_buildout": {
+   "label": "AI infrastructure buildout",
    "parent": "ai_dc",
    "kind": "demand",
    "reads": [
@@ -472,22 +1736,12 @@
    ],
    "emergent": true
   },
-  "process_control_inspecti": {
-   "label": "Process control / inspection / metrology",
-   "parent": "pt_sup",
-   "kind": "supply",
+  "ai_storage_growth": {
+   "label": "AI storage growth",
+   "parent": "ai_dc",
+   "kind": "demand",
    "reads": [
-    "supply"
-   ],
-   "emergent": true
-  },
-  "euv_lithography": {
-   "label": "EUV lithography",
-   "parent": "proctech",
-   "kind": "product",
-   "reads": [
-    "demand",
-    "supply"
+    "demand"
    ],
    "emergent": true
   }

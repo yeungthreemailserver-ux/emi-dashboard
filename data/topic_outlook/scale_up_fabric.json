@@ -1,0 +1,60 @@
+{
+ "topic": "scale_up_fabric",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Scale-up fabric demand is broadening as ramps begin",
+  "summary": "The next 1-2 quarters look incrementally stronger for scale-up fabric as engagement is broad across AI architectures, design wins are moving into volume, and suppliers are describing early supply scarcity. Astera Labs and Marvell look best positioned near-term because their wins are converting into production and investment is accelerating, while MaxLinear points to widening demand breadth. Mentioning is still low, but the slight uptick versus trend suggests the theme is early-stage and still building rather than peaking.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Broad AI architecture engagement",
+   "detail": "Strong interest across both scale-up and scale-out AI architectures suggests the customer base is widening, not just a one-off order spike.",
+   "polarity": "pos",
+   "companies": [
+    "MaxLinear"
+   ]
+  },
+  {
+   "label": "Volume ramps are starting",
+   "detail": "Design wins are moving into production and volumes are beginning, indicating real pull-through into the next couple of quarters.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs"
+   ]
+  },
+  {
+   "label": "Aggressive TAM investment",
+   "detail": "Management is framing scale-up interconnect as a large new market and stepping up investment, which supports further adoption and supplier momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Early supply tightness",
+   "detail": "Tight supply implies demand is currently outrunning available capacity, a positive read for suppliers with exposure to the product cycle.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs",
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Mentions are low but edging up",
+   "detail": "The mention trend remains modest at 0.2x, but the slight improvement versus the trailing average points to an early, broadening build rather than a mature cycle.",
+   "polarity": "pos",
+   "companies": [
+    "MaxLinear",
+    "Astera Labs",
+    "Marvell Technology"
+   ]
+  }
+ ],
+ "risks": [
+  "Design-win engagement must convert into sustained production; if ramps slip, the near-term read-through weakens.",
+  "If supply tightness eases too quickly, it could signal demand is less robust than currently implied.",
+  "Mentioning is still low, so the theme could stall if broader AI deployment priorities shift away from scale-up."
+ ]
+}

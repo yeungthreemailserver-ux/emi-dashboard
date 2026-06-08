@@ -21,7 +21,7 @@ let STATE = { view: 'signals', metric: 'revenue', mode: 'value', search: '', exp
   exSubs: new Set(), exOpen: false,
   sigView: 'topics', sigMetric: 'tonecmp', topicLayers: [], topicLabels: 'auto', topicSeg: 'all',
   topicPin: undefined, topicGroups: new Set(), topicDrvAll: false, topicCoAll: false,
-  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false, drawerW: null };
+  topicCtlOpen: false, topicDrill: null, topicTopN: 30, topicLock: false, drawerW: null, topicDomains: [] };
 const charts = [];
 let TOPIC_PLAY = null;
 
@@ -597,11 +597,13 @@ function renderSignals() {
   const main = document.getElementById('main');
   if (!SIGNALS) { main.innerHTML = '<div class="loading">transcripts.json not loaded — run scripts/load_transcripts.py</div>'; return; }
   const S = SIGNALS;
-  const subs = [['overview', 'Overview'], ['topics', 'Topics · trends'], ['tree', 'Topic tree'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
+  const subs = [['overview', 'Overview'], ['alerts', 'Alerts'], ['topics', 'Topics · trends'], ['tree', 'Topic tree'], ['correl', 'Correlation'], ['company', 'By company'], ['journey', 'Journey · now'], ['cycle', 'Cycle · over time'], ['matrix', 'Optimism − Discount'], ['flow', 'Propagation'], ['radar', 'Divergence & inflection'], ['roadmap', 'Capability roadmap']];
   const tabs = subs.map(([k, l]) => `<button class="seg ${STATE.sigView === k ? 'on' : ''}" data-sv="${k}">${l}</button>`).join('');
   const sparks = [];
   const body = STATE.sigView === 'cycle' ? sigCycleBody(S)
     : STATE.sigView === 'topics' ? sigTopicsBody(S)
+      : STATE.sigView === 'alerts' ? sigAlertsBody(S)
+      : STATE.sigView === 'correl' ? sigCorrelBody(S)
       : STATE.sigView === 'tree' ? sigTreeBody(S)
       : STATE.sigView === 'overview' ? sigOverviewBody(S)
         : STATE.sigView === 'company' ? sigCompanyBody(S)
@@ -618,7 +620,7 @@ function renderSignals() {
     ${sigMethodology()}`;
   main.querySelectorAll('[data-sv]').forEach(b => b.onclick = () => { STATE.sigView = b.dataset.sv; render(); });
   main.querySelectorAll('[data-co]').forEach(b => b.onclick = () => { STATE.coView = b.dataset.co; render(); });
-  main.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.sigView = 'topics'; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
+  main.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => { STATE.sigView = 'topics'; STATE.topicLock = b.dataset.goto; STATE.topicPin = b.dataset.goto; STATE.inspScroll = 0; render(); });
   main.querySelectorAll('[data-tdrill]').forEach(b => b.onclick = () => { topicPlayStop(); STATE.topicDrill = b.dataset.tdrill || null; STATE.topicPin = null; render(); });
   main.querySelectorAll('[data-topn]').forEach(sl => sl.oninput = () => {
     STATE.topicTopN = +sl.value;
@@ -639,6 +641,14 @@ function renderSignals() {
   main.querySelectorAll('[data-tplay]').forEach(b => b.onclick = () => topicPlayToggle());
   main.querySelectorAll('[data-tlabels]').forEach(b => b.onclick = () => { STATE.topicLabels = b.dataset.tlabels; render(); });
   main.querySelectorAll('[data-tseg]').forEach(b => b.onclick = () => { topicPlayStop(); STATE.topicSeg = b.dataset.tseg; render(); });
+  { const cf = main.querySelector('#correlFocus'); if (cf) cf.onchange = () => { STATE.correlFocus = cf.value; render(); }; }
+  main.querySelectorAll('[data-tdom]').forEach(b => b.onclick = () => {
+    topicPlayStop();
+    const k = b.dataset.tdom;
+    if (k === '__all') STATE.topicDomains = [];
+    else { const s = new Set(STATE.topicDomains || []); s.has(k) ? s.delete(k) : s.add(k); STATE.topicDomains = [...s]; }
+    render();
+  });
   main.querySelectorAll('[data-tctl]').forEach(b => b.onclick = () => { STATE.topicCtlOpen = STATE.topicCtlOpen === false; render(); });
   const cs = main.querySelector('#cosearch');
   if (cs) {
@@ -743,10 +753,16 @@ function topicLayerSel() { return STATE.topicLayers || []; }
 /* companies matching the current selection (by layer OR sub-layer code); [] = all companies */
 function topicCos() { return (SIGNALS && SIGNALS.topics && SIGNALS.topics.companies) || (SIGNALS && SIGNALS.companies) || []; }
 function topicSelCos() { const s = topicLayerSel(), cos = topicCos(); return s.length ? cos.filter(c => s.includes(c.layer) || s.includes(c.sublayer) || s.includes(c.ticker)) : cos; }
+function topicDomSel() { return STATE.topicDomains || []; }
 function topicItemsForLayer(T) {
-  const s = topicLayerSel(); if (!s.length) return T.items;
-  const pc = (SIGNALS && SIGNALS.topics && SIGNALS.topics.per_company) || {}, seg = topicSeg(), tks = topicSelCos().map(c => c.ticker);
-  return T.items.filter(it => tks.some(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; return arr && arr.some(v => v > 0); }));  // topics the selected cos raise (in this segment)
+  const s = topicLayerSel(), dom = topicDomSel();
+  let items = T.items;
+  if (s.length) {   // company-layer filter: keep topics the selected supply-chain segment actually raises
+    const pc = (SIGNALS && SIGNALS.topics && SIGNALS.topics.per_company) || {}, seg = topicSeg(), tks = topicSelCos().map(c => c.ticker);
+    items = items.filter(it => tks.some(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; return arr && arr.some(v => v > 0); }));
+  }
+  if (dom.length) items = items.filter(it => dom.includes(topicRootOf(it.id, T)));   // domain filter (Products / End Markets / …)
+  return items;
 }
 function topicSeg() { return STATE.topicSeg || 'all'; }
 /* recompute a topic's mentions/company + breadth for the chosen SPEECH SEGMENT and selected companies */
@@ -1075,14 +1091,18 @@ function topicFilterToggle() {
 function topicFilterBar(S, opts) {
   opts = opts || {};
   const T = S.topics, pf = T.plot_from || 0, q = topicAsOf(T), sel = topicLayerSel();
-  const SUBLABEL = { '3.1': 'Analog / MCU', '3.2': 'Logic / GPU', '3.3': 'Discrete / power', '3.4': 'Memory' };
+  // full supply-chain taxonomy — every layer AND sub-layer is directly selectable, in one compact row
+  const SUBLABEL = { '0': 'Distribution', '1.1': 'Foundry', '1.2': 'OSAT / packaging', '2.1': 'Fab equipment', '2.2': 'Materials / gases', '2.3': 'EDA / IP', '3.1': 'Analog / MCU', '3.2': 'Logic / GPU', '3.3': 'Connectors / passives', '3.4': 'Memory' };
   const subsBy = {}; topicCos().forEach(c => { if (c.layer && c.sublayer) (subsBy[c.layer] = subsBy[c.layer] || new Set()).add(c.sublayer); });
-  const multiSub = new Set(Object.keys(subsBy).filter(L => subsBy[L].size > 1));
-  const lsel = TOPIC_LAYERS.map(([k, l]) => { const on = k === 'all' ? sel.length === 0 : sel.includes(k); const caret = multiSub.has(k) ? ' ▾' : ''; return `<button class="seg ${on ? 'on' : ''}" data-tl="${k}">${k === 'all' ? '' : `<span class="lyr-dot" style="background:${LAYER_COLORS[k] || '#94a3b8'}"></span>`}${l}${caret}</button>`; }).join('');
-  const subGrps = [...multiSub].filter(L => sel.includes(L) || [...subsBy[L]].some(sc => sel.includes(sc))).sort().map(L => {
-    const chips = [...subsBy[L]].sort().map(sc => `<button class="seg ${sel.includes(sc) ? 'on' : ''}" data-tl="${sc}"><span class="lyr-dot" style="background:${LAYER_COLORS[L] || '#94a3b8'}"></span>${SUBLABEL[sc] || sc}</button>`).join('');
-    return `<div class="seggrp"><span class="seglbl">${L} sub</span>${chips}</div>`;
+  const allChip = `<button class="seg ${sel.length === 0 ? 'on' : ''}" data-tl="all">All</button>`;
+  const lsel = allChip + ['L0', 'L1', 'L2', 'L3'].filter(L => subsBy[L]).map(L => {
+    const subs = [...subsBy[L]].sort(), dot = `<span class="lyr-dot" style="background:${LAYER_COLORS[L] || '#94a3b8'}"></span>`;
+    if (subs.length <= 1) return `<button class="seg ${sel.includes(L) ? 'on' : ''}" data-tl="${L}">${dot}${SUBLABEL[subs[0]] || L}</button>`;
+    const tag = `<button class="seg laytag ${sel.includes(L) ? 'on' : ''}" data-tl="${L}" title="select all of ${L}">${L}</button>`;
+    const chips = subs.map(sc => `<button class="seg ${sel.includes(sc) ? 'on' : ''}" data-tl="${sc}">${dot}${SUBLABEL[sc] || sc}</button>`).join('');
+    return tag + chips;
   }).join('');
+  const subGrps = '';
   const selTk = sel.filter(code => topicCos().some(c => c.ticker === code));
   const coChips = selTk.map(tk => { const co = topicCos().find(c => c.ticker === tk) || {}; return `<button class="seg on" data-tl="${tk}"><span class="lyr-dot" style="background:${LAYER_COLORS[co.layer] || '#94a3b8'}"></span>${co.name || tk} ✕</button>`; }).join('');
   const coGrp = opts.search ? `<div class="seggrp"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics, companies, layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span>${coChips}</div>` : (coChips ? `<div class="seggrp">${coChips}</div>` : '');
@@ -1095,7 +1115,7 @@ function topicFilterBar(S, opts) {
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[topicSeg()] || '';
   if (STATE.topicCtlOpen === false) return `<div class="ctl-collapsed dim" data-tctl="1">Layer: <b>${sel.length ? selLabel : 'All'}</b> · Segment: <b>${segName || 'All speech'}</b> · As of <b>${qLabel(T.periods[q])}</b> <span class="lnk" style="margin-left:6px">▾ change</span></div>`;
   return `<div class="topicctl">
-    <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Layer</span>${lsel}</div>${subGrps}${coGrp}</div>
+    <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Chain</span>${lsel}</div>${subGrps}${coGrp}</div>
     <div class="mkbar tight"><div class="seggrp"><span class="seglbl">Segment</span>${segSel}</div><div class="seggrp"><span class="seglbl">As of</span>${qsel}${playBtn}</div>${labSel}</div>
   </div>`;
 }
@@ -1135,6 +1155,109 @@ function sigOverviewBody(S) {
     <h4 style="margin:16px 0 8px">🧭 Forward outlooks <span class="dim" style="font-weight:400">— LLM-validated, click to open</span></h4>
     <div class="ov-outs">${outRows.map(outCard).join('')}</div>
     <div class="dim" style="font-size:11px;margin-top:12px">Counts &amp; momentum are token-free (regex over transcripts); forward outlooks are LLM-validated (false-positives excluded). Click any row to open the topic.</div>
+  </div>`;
+}
+
+/* Lens — ALERTS: the dashboard's headline value. Per area, surface what is NEWLY EMERGED (LLM discovery,
+   ranked by # companies), ACCELERATING (positive momentum vs trailing-4Q norm), and FADING (negative momentum).
+   New-topic prevalence uses discovery company-count (broader than the conservative keyword counter). Token-free. */
+function sigAlertsBody(S) {
+  const T = S.topics; if (!T) return `<div class="panel"><div class="dim">No topic data.</div></div>`;
+  const q = topicAsOf(T), seg = topicSeg();
+  const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[seg] || '';
+  const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
+  const mom = it => topicMomentum(it.series, q, momSmooth(T));
+  const pct = m => (m >= 0 ? '+' : '') + Math.round((m || 0) * 100) + '%';
+  // favorability-aware dot: LLM net when judged, else lexicon sentiment of the selected speakers
+  const favDot = it => { const l = topicLLMFav(it.id, T); const c = l ? favColor(l.net) : sentDotColor(topicSent(it, S, seg, q)); return `<span class="tdot" style="background:${c}" title="${l ? favLabel(l.net) : (sentLabel(topicSent(it, S, seg, q)).t)}"></span>`; };
+  const row = (it, m) => `<div class="ov-row" data-goto="${it.id}">${favDot(it)}<span class="ov-lab">${it.label}</span><span class="tmom ${m >= 0 ? 'up' : 'down'}">${pct(m)}</span><span class="ov-x">${(+it.series[q]).toFixed(1)}×</span></div>`;
+
+  // 🆕 NEWLY EMERGED — from transcript discovery, ranked by # companies (true prevalence, not the conservative keyword counts)
+  const em = (T.emergent || []);
+  const emHTML = em.length
+    ? em.map(e => `<div class="al-new"><div class="al-new-top"><span class="al-badge">🆕</span><span class="al-new-lab">${e.name}</span><span class="al-cos">${e.companies} cos</span></div>${(e.examples || []).length ? `<div class="al-ex">${e.examples.slice(0, 3).join(' · ')}</div>` : ''}</div>`).join('')
+    : '<div class="dim" style="font-size:12px">No new themes detected this run.</div>';
+
+  // 📊 MOMENTUM BY AREA — group leaves by L1 root, split accelerating / fading
+  const roots = [['products', 'Products'], ['endmkt', 'End Markets'], ['ops', 'Supply & Operations'], ['macro', 'Macro / Risk']];
+  const byRoot = {}; items.forEach(it => { const r = topicRootOf(it.id, T) || 'products'; (byRoot[r] = byRoot[r] || []).push({ it, m: mom(it) }); });
+  const areaHTML = roots.map(([rid, lab]) => {
+    const di = (byRoot[rid] || []).filter(r => r.m != null);
+    const accel = di.filter(r => r.m > 0.08).sort((a, b) => b.m - a.m).slice(0, 6);
+    const fade = di.filter(r => r.m < -0.05).sort((a, b) => a.m - b.m).slice(0, 6);
+    if (!accel.length && !fade.length) return '';
+    const dot = TREE_ROOT_COLOR[rid] || '#64748b';
+    return `<div class="al-area">
+      <div class="al-area-h"><span class="tdot" style="background:${dot}"></span>${lab} <span class="dim" style="font-weight:400">— ${di.length} topics</span></div>
+      <div class="al-cols">
+        <div class="al-col"><div class="al-col-h up">🚀 Accelerating</div>${accel.map(r => row(r.it, r.m)).join('') || '<div class="dim" style="font-size:12px;padding:2px 0">— none</div>'}</div>
+        <div class="al-col"><div class="al-col-h dn">❄️ Fading</div>${fade.map(r => row(r.it, r.m)).join('') || '<div class="dim" style="font-size:12px;padding:2px 0">— none</div>'}</div>
+      </div></div>`;
+  }).join('');
+
+  return `<div class="panel">
+    <div class="thead-row"><h3>Alerts <span class="dim" style="font-weight:400;font-size:13px">— what's emerging, accelerating &amp; fading · ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
+    ${topicFilterBar(S, {})}
+    <div class="al-sec">
+      <h4>🆕 Newly emerged <span class="dim" style="font-weight:400">— auto-detected from earnings calls, ranked by # of companies raising it</span></h4>
+      <div class="al-new-grid">${emHTML}</div>
+    </div>
+    <div class="al-sec">
+      <h4>📊 Momentum by area <span class="dim" style="font-weight:400">— mention frequency this quarter vs its trailing-4Q norm · colour = favorability</span></h4>
+      ${areaHTML || '<div class="dim" style="font-size:12px">No significant momentum shifts at the current threshold.</div>'}
+    </div>
+    <div class="dim" style="font-size:11px;margin-top:12px">🆕 themes are discovered by an LLM reading every transcript, then auto-promoted into the taxonomy — their prevalence uses discovery company-count, broader than the keyword counter. Momentum is token-free (regex). Click any row to open the topic.</div>
+  </div>`;
+}
+
+/* Lens — CORRELATION: which themes companies raise TOGETHER. Token-free, computed client-side from the
+   per-company mention matrix. Co-occurrence = Jaccard overlap of the companies raising each pair of topics;
+   the ± value is the quarter-to-quarter Pearson of their mention trends (do they move together over time?). */
+function sigCorrelBody(S) {
+  const T = S.topics; if (!T) return `<div class="panel"><div class="dim">No topic data.</div></div>`;
+  const q = topicAsOf(T), seg = topicSeg();
+  const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[seg] || '';
+  const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
+  const pc = T.per_company || {}, cos = topicSelCos().map(c => c.ticker);
+  // set of companies that raise each topic (in the current segment)
+  const raisers = {}; items.forEach(it => { const s = new Set(); cos.forEach(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; if (arr && arr.reduce((a, b) => a + b, 0) > 0) s.add(tk); }); raisers[it.id] = s; });
+  const jac = (a, b) => { const A = raisers[a], B = raisers[b]; if (!A || !B || !A.size || !B.size) return { j: 0, both: 0 }; let both = 0; A.forEach(x => { if (B.has(x)) both++; }); const uni = A.size + B.size - both; return { j: uni ? both / uni : 0, both }; };
+  const pear = (x, y) => { const n = Math.min(x.length, y.length); if (n < 3) return 0; let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0; for (let i = 0; i < n; i++) { sx += x[i]; sy += y[i]; sxx += x[i] * x[i]; syy += y[i] * y[i]; sxy += x[i] * y[i]; } const cov = sxy - sx * sy / n, vx = sxx - sx * sx / n, vy = syy - sy * sy / n; return (vx > 0 && vy > 0) ? cov / Math.sqrt(vx * vy) : 0; };
+  // focus topic — default the hottest this quarter
+  const byHeat = items.slice().sort((a, b) => b.series[q] - a.series[q]);
+  const focusId = (STATE.correlFocus && items.find(it => it.id === STATE.correlFocus)) ? STATE.correlFocus : (byHeat[0] || {}).id;
+  const focus = items.find(it => it.id === focusId) || {};
+  const opts = items.slice().sort((a, b) => a.label.localeCompare(b.label)).map(it => `<option value="${it.id}" ${it.id === focusId ? 'selected' : ''}>${it.label}</option>`).join('');
+  // co-EMPHASIS: per-company mention-intensity vector for each topic (summed over quarters), then Pearson ACROSS companies.
+  // This discriminates even when presence saturates (most cos mention the big topics) — it reads how hard each co leans in.
+  const vec = {}; items.forEach(it => { vec[it.id] = cos.map(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; return arr ? arr.reduce((a, b) => a + b, 0) : 0; }); });
+  const rhoV = (a, b) => pear(vec[a], vec[b]);
+  const prev = id => (raisers[id] || new Set()).size;
+  const co = items.filter(it => it.id !== focusId).map(it => ({ it, rho: rhoV(focusId, it.id), r: pear(focus.series || [], it.series), both: jac(focusId, it.id).both })).filter(x => x.both > 0).sort((a, b) => b.rho - a.rho).slice(0, 10);
+  const maxR = Math.max(0.001, ...co.map(x => Math.abs(x.rho)));
+  const focusN = (raisers[focusId] || new Set()).size;
+  const coRow = x => `<div class="ov-row cor-row" data-goto="${x.it.id}"><span class="cor-track"><span class="cor-bar ${x.rho < 0 ? 'neg' : ''}" style="width:${Math.round(Math.abs(x.rho) / maxR * 100)}%"></span></span><span class="ov-lab">${x.it.label}</span><span class="cor-both">${x.both} cos</span><span class="cor-r ${x.rho >= 0 ? 'up' : 'down'}" title="cross-company co-emphasis correlation (ρ): companies that emphasize the focus also emphasize this topic">${x.rho >= 0 ? '+' : ''}${x.rho.toFixed(2)}</span></div>`;
+  // strongest linkages across all topics by co-emphasis (require each topic raised by >= 5 cos, positive ρ)
+  const pairs = [];
+  for (let i = 0; i < items.length; i++) for (let k = i + 1; k < items.length; k++) { const a = items[i], b = items[k]; if (prev(a.id) < 5 || prev(b.id) < 5) continue; const rho = rhoV(a.id, b.id); if (rho > 0.25) pairs.push({ a, b, rho, both: jac(a.id, b.id).both }); }
+  pairs.sort((p, r) => r.rho - p.rho); const top = pairs.slice(0, 14);
+  const linkRow = p => `<div class="cor-link"><span class="cor-j">${p.rho.toFixed(2)}</span><span class="cor-pair"><b data-goto="${p.a.id}">${p.a.label}</b> <span class="dim">↔</span> <b data-goto="${p.b.id}">${p.b.label}</b></span><span class="cor-both">${p.both}</span></div>`;
+  return `<div class="panel">
+    <div class="thead-row"><h3>Topic correlation <span class="dim" style="font-weight:400;font-size:13px">— which themes companies raise together · ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
+    ${topicFilterBar(S, {})}
+    <div class="cor-grid">
+      <div class="cor-card">
+        <h4>Correlated with&nbsp; <select id="correlFocus" class="cor-sel">${opts}</select></h4>
+        <div class="dim" style="font-size:11.5px;margin-bottom:7px">${focusN} companies raise <b>${focus.label || '—'}</b>. Themes whose per-company emphasis tracks it most closely (bar = strength, ρ = correlation, # = companies raising both):</div>
+        ${co.map(coRow).join('') || '<div class="dim" style="font-size:12px">No correlated topics at the current filter.</div>'}
+      </div>
+      <div class="cor-card">
+        <h4>🔗 Strongest linkages <span class="dim" style="font-weight:400">— themes companies emphasize together</span></h4>
+        <div class="cor-link cor-link-head"><span class="cor-j">ρ</span><span class="cor-pair">topic pair</span><span class="cor-both">cos both</span></div>
+        ${top.map(linkRow).join('') || '<div class="dim" style="font-size:12px">No linkages above threshold.</div>'}
+      </div>
+    </div>
+    <div class="dim" style="font-size:11px;margin-top:12px">Correlation (ρ) = Pearson of the two topics' <b>per-company mention intensity</b> across all companies — it reads which themes companies emphasize together, and stays discriminating even when nearly every company mentions the big topics (where simple co-occurrence saturates). Token-free. Click any topic to open it.</div>
   </div>`;
 }
 
@@ -1310,17 +1433,18 @@ function sigTopicsBody(S) {
     return `<div class="trow"><span class="tdot" style="background:${catOf(it.cat).color}"></span><span class="tlab"><b>${it.label}</b> <span class="dim">— ${it.note || ''}</span></span><span class="kco">${b != null ? b + ' cos' : ''}</span><span class="tmom ${m >= 0 ? 'up' : 'down'}">${pct(m)}</span></div>`;
   }).join('');
   const _tr = topicTree(T), _roots = _tr ? Object.keys(_tr.nodes).filter(n => !_tr.nodes[n].parent) : [];
-  const shapeKey = _roots.map(r => `<span class="tlg">${shapeSVG(DOMAIN_SHAPE[r], '#64748b')} ${_tr.nodes[r].label}</span>`).join('');
-  const colorKey = `<span class="tlg">${shapeSVG('circle', '#15803d')} optimistic</span><span class="tlg">${shapeSVG('circle', '#f59e0b')} neutral</span><span class="tlg">${shapeSVG('circle', '#b91c1c')} cautious</span><span class="dim" style="font-size:11px">— size = # companies (relative)</span>`;
+  const dsel = topicDomSel();
+  const domAll = `<button class="domchip ${dsel.length ? '' : 'on'}" data-tdom="__all">All</button>`;
+  const shapeKey = _roots.map(r => { const on = dsel.includes(r); return `<button class="domchip ${on ? 'on' : ''}" data-tdom="${r}" title="filter to ${_tr.nodes[r].label}">${shapeSVG(DOMAIN_SHAPE[r], on ? (TREE_ROOT_COLOR[r] || '#334155') : '#94a3b8')}${_tr.nodes[r].label}</button>`; }).join('');
+  const colorKey = `<span class="tlg">${shapeSVG('circle', '#15803d')} optimistic</span><span class="tlg">${shapeSVG('circle', '#f59e0b')} neutral</span><span class="tlg">${shapeSVG('circle', '#b91c1c')} cautious</span>`;
   const segName = { all: '', prepared: 'Prepared remarks', ceo: 'CEO remarks', cfo: 'CFO remarks', q: 'Analyst questions', a: 'Mgmt answers' }[segMode] || '';
   return `<div class="panel"><div class="thead-row"><h3>Topic map — what's hot, and where the momentum is (${qLabel(T.periods[q])})${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}${sel.length ? ` · <span style="color:var(--text-dim)">${selLabel}</span>` : ''}</h3>
       ${topicFilterToggle()}</div>
     ${topicFilterBar(S, { labels: true, play: true })}
     ${(() => { const bi = topicBubbleItems(T, S); const shown = bi.items.length, tot = bi.total; return `<div class="topn-bar"><span class="cosearch-wrap"><input id="cosearch" class="cosearch" placeholder="Search topics / companies / layers…" autocomplete="off"><div id="cosearch_dd" class="cosearch-dd"></div></span><span class="seglbl" style="margin-left:6px">Show top</span><input type="range" class="topn-slider" min="3" max="${tot}" value="${Math.min(STATE.topicTopN || 30, tot)}" data-topn><span class="topn-val"><b>${shown}</b> / ${tot} topics</span><span class="dim" style="font-size:11px;margin-left:8px">by count · hover = preview · <b>click = lock</b> · empty space = close</span></div>`; })()}
-    <div class="topiccap dim">X = avg mentions/company (how hot) · Y = momentum vs prior 4Q (emerging ↑) · size = # companies · <b>shape = domain</b> · <b>colour = sentiment</b> (green optimistic → red cautious).</div>
+    <div class="topiccap dim">X = avg mentions/company (hot) · Y = momentum vs prior 4Q (emerging ↑)</div>
     <div class="topicwrap2"${STATE.drawerW ? ` style="--drawer-w:${STATE.drawerW}px"` : ''}><div class="chart" id="topicchart" style="height:600px"></div><div class="topic-split" id="topicsplit" title="Drag to resize"></div><div class="topicdetail drawer" id="topicdetail"></div></div>
-    <div class="tlgrow"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Shape = domain</span>${shapeKey}</div>
-    <div class="tlgrow" style="margin-top:2px"><span class="dim" style="font-size:11px;font-weight:700;margin-right:4px">Colour = sentiment</span>${colorKey}</div>
+    <div class="legendbar"><span class="leglbl">Domain <span class="dim" style="font-weight:400">(shape · click to filter)</span></span>${domAll}${shapeKey}<span class="legsep"></span><span class="leglbl">Colour</span>${colorKey}<span class="dim" style="font-size:11px">· size = # cos</span></div>
     <div class="tcols">
       <div class="tcol"><h4>🔥 Hot &amp; accelerating <span class="dim" style="font-weight:400">— highest momentum</span></h4>${heating}</div>
       <div class="tcol"><h4>❄️ Losing steam <span class="dim" style="font-weight:400">— momentum fading</span></h4>${cooling}</div>

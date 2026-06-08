@@ -1,0 +1,57 @@
+{
+ "topic": "active_cables",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AEC demand remains broadening, though mention momentum is easing",
+  "summary": "Active electrical cables still look to be in an improving phase over the next 1-2 quarters: every covered name was bullish, and the strongest reads point to hot demand, broadening adoption, and multiple design wins. The softer mention trend (0.3x, -5% vs trailing average) suggests the story is not accelerating from here, but it is still expanding from a narrow niche into a broader volume opportunity, led by Credo, Microchip, and Marvell, with Astera and MaxLinear also participating.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Broad adoption and volume shipments",
+   "detail": "Evidence that AECs are moving beyond early deployment into sustained production demand.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs"
+   ]
+  },
+  {
+   "label": "Core growth engine / broadening use cases",
+   "detail": "AEC is being described as a central growth driver with multiple new vectors, signaling expanding TAM.",
+   "polarity": "pos",
+   "companies": [
+    "Credo Technology"
+   ]
+  },
+  {
+   "label": "Rapid market growth support",
+   "detail": "Retimer demand tied to rapid AEC market growth points to continued shipment acceleration.",
+   "polarity": "pos",
+   "companies": [
+    "Microchip Technology"
+   ]
+  },
+  {
+   "label": "Multiple design wins and strong interest",
+   "detail": "Healthy pipeline signals near-term conversion into revenue across deployments.",
+   "polarity": "pos",
+   "companies": [
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Scale-up participation but less emphatic tone",
+   "detail": "AEC opportunity is still growing, though commentary is more measured than on the strongest hyperscale/1.6T themes.",
+   "polarity": "pos",
+   "companies": [
+    "MaxLinear"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention trend is slipping modestly versus the trailing average, which could hint at a near-term pause in narrative momentum.",
+  "If deployment timing shifts, broad adoption could take longer to convert into shipment growth.",
+  "Any cooling in design-win conversion would disproportionately impact the more bullish growth cases at Credo and Marvell."
+ ]
+}

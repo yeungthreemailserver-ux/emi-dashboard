@@ -1,0 +1,49 @@
+{
+ "topic": "sic_mosfets",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "SiC MOSFET demand is strengthening, led by EV and product wins",
+  "summary": "All three reads are bullish, with ON Semiconductor citing new traction inverter wins and stronger EV demand, Diodes pointing to hot demand and tight supply, and Wolfspeed highlighting commercialization progress with its first 10-kV SiC MOSFET. The near-term setup looks constructive for the category, with demand-led momentum broadening from end-market traction to product launch leadership. Watch whether Wolfspeed’s launch converts into volume, and whether tight supply at Diodes persists into next quarter.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "EV traction inverter wins",
+   "detail": "New design wins in traction inverters are expanding SiC MOSFET demand tied to EV powertrains.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Hot demand / tight supply",
+   "detail": "Customer need is described as strong, with tight supply indicating healthy near-term pricing and utilization conditions.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "10-kV product leadership",
+   "detail": "First commercially available 10-kV SiC MOSFET signals commercialization progress and an expanding performance envelope.",
+   "polarity": "pos",
+   "companies": [
+    "Wolfspeed"
+   ]
+  },
+  {
+   "label": "Stronger EV demand",
+   "detail": "Improving EV demand supports broader SiC content growth in power conversion applications.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  }
+ ],
+ "risks": [
+  "Wolfspeed launch momentum may not translate quickly into meaningful volume",
+  "Any easing of supply tightness could temper the strongest near-term demand signals",
+  "The low mention level means the bullish trend is still early and not yet broad-based"
+ ]
+}

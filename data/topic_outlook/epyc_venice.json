@@ -1,0 +1,59 @@
+{
+ "topic": "epyc_venice",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Venice demand broadens into a stronger server refresh cycle",
+  "summary": "EPYC Venice looks set for a stronger 1Q26 backdrop as multiple companies point to hotter server CPU demand and improving backlog visibility. AMD still stands out with tight supply and leadership positioning, while Intel’s commentary on improving server CPU demand and double-digit industry growth suggests the wave is broadening beyond one vendor; ON Semi and MPS see constructive spillover from new CPU SKUs and server backlog. Watch whether Rambus’ MRDIMM opportunity converts into a clearer demand signal, but the read-through is decisively positive for the next 1-2 quarters.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Hot server CPU demand",
+   "detail": "Multiple reads cite stronger server CPU demand tied to Venice and the broader CPU refresh cycle.",
+   "polarity": "pos",
+   "companies": [
+    "AMD",
+    "ON Semiconductor",
+    "Intel"
+   ]
+  },
+  {
+   "label": "Tight AMD supply supports sell-through",
+   "detail": "AMD says Venice is a major performance leader into a strong AI/server cycle, with supply still tight.",
+   "polarity": "pos",
+   "companies": [
+    "AMD"
+   ]
+  },
+  {
+   "label": "Improving backlog visibility",
+   "detail": "MPS notes server CPU demand and backlog visibility are improving, reinforcing near-term momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Monolithic Power Systems"
+   ]
+  },
+  {
+   "label": "CPU-side content opportunity from new SKUs",
+   "detail": "ON Semi sees a sizable opportunity from new server CPU SKUs, indicating richer component demand around Venice launches.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "MRDIMM optionality not yet confirmed",
+   "detail": "Rambus flagged the potential MRDIMM opportunity, but did not yet convert it into a direct demand update.",
+   "polarity": "neg",
+   "companies": [
+    "Rambus"
+   ]
+  }
+ ],
+ "risks": [
+  "If AMD supply remains tight longer than expected, near-term unit growth could be constrained.",
+  "MRDIMM attach and broader memory-related content could lag if the opportunity stays qualitative.",
+  "Intel’s balanced supply suggests demand is improving, but execution and share mix could still create uneven beneficiary outcomes."
+ ]
+}

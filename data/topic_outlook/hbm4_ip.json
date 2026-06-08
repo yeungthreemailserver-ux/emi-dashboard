@@ -1,0 +1,62 @@
+{
+ "topic": "hbm4_ip",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "HBM4 IP still wins, but momentum is fading",
+  "summary": "Fundamentally, HBM4 IP still shows real traction: Micron is shipping/ramping HBM4/HBM4E into AI platforms, Synopsys delivered the first HBM4 IP test chip, and Rambus has the fastest HBM4E controller. But mention momentum has rolled over to 0.2x and sits 20% below its trailing average, so the next 1-2 quarters look more like a selective leader story than a broadening cycle; watch whether adoption extends beyond a few flagship AI platforms.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI platform ramp for HBM4/HBM4E",
+   "detail": "HBM4 and HBM4E are shipping or ramping into AI platforms, supporting near-term traction and mix control.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "First HBM4 IP test chip milestone",
+   "detail": "Industry-first HBM4 IP test chip points to leading-edge design engagement in the segment.",
+   "polarity": "pos",
+   "companies": [
+    "Synopsys"
+   ]
+  },
+  {
+   "label": "Fastest HBM4E controller",
+   "detail": "The fastest HBM4E controller suggests strong demand for advanced memory IP in AI accelerators.",
+   "polarity": "pos",
+   "companies": [
+    "Rambus"
+   ]
+  },
+  {
+   "label": "Higher-speed stack testing demand",
+   "detail": "HBM4/HBM5 progression and SmartMatrix’s ability to test more stacks at higher speeds support ongoing demand.",
+   "polarity": "pos",
+   "companies": [
+    "FormFactor"
+   ]
+  },
+  {
+   "label": "Mention momentum deterioration",
+   "detail": "Topic mentions are down to 0.2x, with momentum 20% below the trailing average, indicating weaker breadth in the conversation.",
+   "polarity": "neg",
+   "companies": [
+    "Lam Research",
+    "Micron",
+    "FormFactor",
+    "Cohu",
+    "Synopsys",
+    "Rambus"
+   ]
+  }
+ ],
+ "risks": [
+  "Adoption remains concentrated in a few AI platforms rather than broadening across the market.",
+  "HBM4E/HBM5 progression could shift attention away from HBM4 IP sooner than expected.",
+  "Weakening mention momentum could persist even if underlying product traction remains solid."
+ ]
+}

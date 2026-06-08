@@ -10,7 +10,8 @@ Key is read from openai_key.txt (gitignored); never printed. Output -> data/dime
     ...\python.exe scripts\llm_dimension_reads.py            # all companies
 """
 from __future__ import annotations
-import argparse, json, re, sys, time, urllib.request, urllib.error
+import argparse, json, re, sys, time, threading, urllib.request, urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -22,9 +23,17 @@ MODEL = "gpt-5.4-mini"
 PRICE = {"gpt-5.4-mini": (0.75, 4.50), "gpt-5.4-nano": (0.20, 1.25), "gpt-4.1-mini": (0.40, 1.60)}  # $/1M (in,out)
 KEY = (ROOT / "openai_key.txt").read_text(encoding="utf-8").strip()
 TREE = json.loads((ROOT / "data" / "topic_tree.json").read_text(encoding="utf-8"))
-# judge ALL family-level topics (parent is an internal node). products get demand+supply; every topic gets a
-# company-relative favorability. generation children (HBM4, DDR5, QLC …) are excluded (inherit the family).
-LEAVES = {tid: lf["label"] for tid, lf in TREE["leaves"].items() if lf["parent"] in TREE["nodes"]}
+# judge node-parented topics (generation children like HBM4/DDR5/QLC inherit the family), FURTHER scoped to
+# topics with real mention support (raised by >= MIN_COS companies) so we never pay to judge niche single-SKU
+# topics nobody discusses. products get demand+supply; every topic gets a company-relative favorability.
+MIN_COS = int(__import__("os").environ.get("EMI_MIN_COS", "4"))
+try:
+    _CNT = json.loads((ROOT / "data" / "topic_counts.json").read_text(encoding="utf-8")).get("breadth", {})
+    _SUPPORTED = {tid for tid, b in _CNT.items() if b and max(b) >= MIN_COS}
+except Exception:
+    _SUPPORTED = None
+LEAVES = {tid: lf["label"] for tid, lf in TREE["leaves"].items()
+          if lf["parent"] in TREE["nodes"] and (_SUPPORTED is None or tid in _SUPPORTED)}
 KIND = {tid: TREE["leaves"][tid].get("kind", "topic") for tid in LEAVES}
 LABEL2ID = {label: tid for tid, label in LEAVES.items()}
 _LOWER2ID = {l.lower(): i for l, i in LABEL2ID.items()}
@@ -129,40 +138,53 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ticker", help="run a single company")
     ap.add_argument("--model", default=MODEL, help="override model id (e.g. gpt-5.4-nano)")
+    ap.add_argument("--fresh", action="store_true", help="ignore prior cache (re-judge every company against the current topic set)")
+    ap.add_argument("--workers", type=int, default=12, help="concurrent OpenAI calls (uses only the OpenAI key, $0 Max)")
     a = ap.parse_args()
     model = a.model
     tickers = [a.ticker] if a.ticker else list(MANIFEST.keys())
-    print(f"model = {model}")
     outpath = ROOT / "data" / "dimension_reads.json"
     out, tot_in, tot_out = {}, 0, 0
-    if not a.ticker and outpath.exists():   # resume: keep already-done companies for this period
+    if not a.ticker and not a.fresh and outpath.exists():   # resume: keep already-done companies for this period
         prev = json.loads(outpath.read_text(encoding="utf-8"))
         if prev.get("period") == PERIOD and prev.get("model") == model:
             out = prev.get("companies", {})
+    todo = [tk for tk in tickers if a.ticker or tk not in out]
+    workers = 1 if a.ticker else max(1, a.workers)
+    print(f"model = {model} · judging {len(LEAVES)} topics (>= {MIN_COS} cos) · {len(todo)} companies to do · {workers} workers" + (" · FRESH" if a.fresh else ""))
+    lock = threading.Lock()
     save = lambda: outpath.write_text(json.dumps({"model": model, "period": PERIOD, "companies": out}, ensure_ascii=False, indent=1), encoding="utf-8")
-    for tk in tickers:
-        if tk in out and not a.ticker:
-            print(f"  {tk}: cached ({len(out[tk])} reads)"); continue
+
+    def work(tk):
         topics, err = sentences_for(tk)
         if err:
-            print(f"  {tk}: SKIP ({err})"); continue
+            return tk, None, None, err
         if not topics:
-            print(f"  {tk}: no product topics raised"); continue
+            return tk, None, None, "no topics raised"
         try:
             reads, usage = call_llm(NAMES.get(tk, tk), tk, topics, model)
         except Exception as e:   # noqa: BLE001 — never let one company abort the batch
             msg = e.read().decode("utf-8", "ignore")[:160] if isinstance(e, urllib.error.HTTPError) else str(e)[:160]
-            print(f"  {tk}: FAILED ({type(e).__name__}) {msg}"); continue
-        out[tk] = {to_id(t["topic"]): t for t in reads}   # key by stable topic id (tolerant of echoed suffixes)
-        save()   # persist after every company so a crash never loses progress
-        pin, pout = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
-        tot_in += pin; tot_out += pout
-        print(f"  {tk}: {len(reads)} reads · {pin}+{pout} tok")
-        for t in reads:
-            print(f"      {t['topic']:<22} {t['favorable']:<8} D:{t['demand_state']}/{t['supply_state']} — {t['why'][:80]}")
+            return tk, None, None, f"{type(e).__name__} {msg}"
+        return tk, {to_id(t["topic"]): t for t in reads}, usage, None
+
+    done = 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(work, tk): tk for tk in todo}
+        for fut in as_completed(futs):
+            tk, reads, usage, err = fut.result()
+            done += 1
+            if err or not reads:
+                print(f"  [{done}/{len(todo)}] {tk}: SKIP ({err})"); continue
+            with lock:
+                out[tk] = reads
+                save()   # persist as each finishes — a crash never loses progress
+            pin, pout = (usage or {}).get("prompt_tokens", 0), (usage or {}).get("completion_tokens", 0)
+            tot_in += pin; tot_out += pout
+            print(f"  [{done}/{len(todo)}] {tk}: {len(reads)} reads · {pin}+{pout} tok", flush=True)
     pin, pout = PRICE.get(model, (0.75, 4.50))
     cost = tot_in / 1e6 * pin + tot_out / 1e6 * pout
-    print(f"\nTOTAL {tot_in}+{tot_out} tok  (~${cost:.3f} at {model})  · wrote data/dimension_reads.json" if out else "\nno output")
+    print(f"\nTOTAL {tot_in}+{tot_out} tok  (~${cost:.3f} at {model})  · {len(out)} companies · wrote data/dimension_reads.json" if out else "\nno output")
 
 
 if __name__ == "__main__":

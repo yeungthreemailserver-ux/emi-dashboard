@@ -1,0 +1,51 @@
+{
+ "topic": "ai_power",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "AI power-delivery demand is broadening across the power tree",
+  "summary": "ON Semiconductor and Diodes both point to stronger AI data-center activity, with ON calling out accelerating demand across the power tree and Diodes seeing strong demand plus design wins in server power-supply and hot-swap rails. The small positive mention trend also supports a near-term uptick, while Wolfspeed’s neutral read suggests no clear offset yet; watch for whether these wins convert into volume over the next 1-2 quarters.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI data-center acceleration across the power tree",
+   "detail": "Broadening demand signal in AI data centers rather than a single niche product area.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor"
+   ]
+  },
+  {
+   "label": "Strong demand in server power-supply products",
+   "detail": "AI server power-supply exposure is seeing sustained pull, supporting near-term orders.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Design wins in hot-swap rail products",
+   "detail": "New design wins indicate the AI power-delivery pipeline is expanding into adjacent rails.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Slightly positive mention momentum",
+   "detail": "Latest mention trend is positive, with 7% momentum vs trailing average, reinforcing the improving read.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor",
+    "Diodes Incorporated",
+    "Wolfspeed"
+   ]
+  }
+ ],
+ "risks": [
+  "Design wins may not convert into meaningful shipment ramp within the next 1-2 quarters.",
+  "The current readset is narrow; if broader AI server demand softens, momentum could fade quickly.",
+  "Wolfspeed provides no demand or supply confirmation, leaving part of the ecosystem unvalidated."
+ ]
+}

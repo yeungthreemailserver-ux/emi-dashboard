@@ -1,0 +1,66 @@
+{
+ "topic": "edge_ai_ip",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Edge AI IP demand is broadening, with mentions now trending higher",
+  "summary": "Edge AI IP looks set for a better 1-2 quarters as demand is described as hot or solid across multiple names, from connected devices and autonomous use cases to semi-custom integrations and royalty growth. Beneficiaries are the IP-rich and royalty-exposed players like CEVA, Synaptics, Qualcomm, and Ambarella, while Broadcom, Teradyne, and Microchip remain harder to read because they show little direct traction yet. The mention trend also improved to 0.7x, 17% above the trailing average, reinforcing that the topic is gaining visibility rather than fading.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Broad-based end-market proliferation",
+   "detail": "Rapid proliferation in edge AI devices and use cases is creating new demand pockets across endpoints and connected devices.",
+   "polarity": "pos",
+   "companies": [
+    "Avnet",
+    "Skyworks Solutions",
+    "Ambarella",
+    "Qualcomm"
+   ]
+  },
+  {
+   "label": "Royalty and agreement conversion",
+   "detail": "CEVA cited new agreements and rising royalty contribution, while Synaptics pointed to strong customer interest and semi-custom demand, signaling better monetization.",
+   "polarity": "pos",
+   "companies": [
+    "CEVA",
+    "Synaptics"
+   ]
+  },
+  {
+   "label": "Infrastructure and workload expansion",
+   "detail": "Edge AI is being framed as an emerging enabler or growing workload, with supportive investment in 5G RAN and real-world deployment momentum.",
+   "polarity": "pos",
+   "companies": [
+    "Semtech",
+    "MaxLinear",
+    "Intel"
+   ]
+  },
+  {
+   "label": "Rising topic visibility",
+   "detail": "The mention trend improved to 0.7x and is 17% above the trailing average, suggesting accelerating attention across the group.",
+   "polarity": "pos",
+   "companies": [
+    "Avnet",
+    "Broadcom",
+    "Teradyne",
+    "CEVA",
+    "Microchip Technology",
+    "Skyworks Solutions",
+    "Synaptics",
+    "Semtech",
+    "MaxLinear",
+    "Qualcomm",
+    "Intel",
+    "Ambarella"
+   ]
+  }
+ ],
+ "risks": [
+  "Several names still lack direct demand proof or are described as 'still to come,' leaving monetization timing uneven.",
+  "If design-win conversion or renewal cycles slip, the current hot-demand tone could soften quickly.",
+  "The current lift is partly mention-driven; a pullback in visibility would weaken the near-term signal."
+ ]
+}

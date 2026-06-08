@@ -1,0 +1,51 @@
+{
+ "topic": "bms_ev",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "BMS demand is broadening across EV, ESS, and data centers",
+  "summary": "Battery management systems are seeing a near-term demand inflection, with multiple suppliers citing solid demand and active design wins across EV, ESS, industrial, and data-center backup power. Analog Devices flagged renewed BMS revenue growth and returning EV demand, while ON, Diodes, and Allegro point to expanding program activity in backup/resiliency applications; the only read that is not directly supportive is Wolfspeed, which was not really a BMS call. The low but positive mention trend also suggests the topic is getting slightly more attention rather than fading.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "EV demand recovery",
+   "detail": "Analog Devices said EV-related growth has returned, supporting renewed BMS demand.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "ESS strength",
+   "detail": "Analog Devices highlighted strong energy-storage-system demand, which supports BMS growth.",
+   "polarity": "pos",
+   "companies": [
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Data-center backup power adoption",
+   "detail": "Allegro and Diodes both cited rising demand tied to backup/resiliency needs in data centers and AI servers.",
+   "polarity": "pos",
+   "companies": [
+    "Allegro MicroSystems",
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Active design wins / program breadth",
+   "detail": "Advanced Energy and ON Semiconductor both pointed to multiple winning designs and a broad set of active programs, indicating healthy pipeline activity.",
+   "polarity": "pos",
+   "companies": [
+    "Advanced Energy",
+    "ON Semiconductor"
+   ]
+  }
+ ],
+ "risks": [
+  "EV or ESS demand could slow again if the recent recovery does not hold.",
+  "Data-center backup demand may remain lumpy until more programs convert to volume.",
+  "The current mention level is still modest, so broader momentum could stall if new design activity does not expand."
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "topic": "pmic_power",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "mixed",
+  "headline": "PMIC demand is broadening, but not uniformly across names",
+  "summary": "The next 1-2 quarters look mixed: several suppliers see solid PMIC traction in multiple end markets, while Alpha & Omega is still flagging weak demand and revenue pressure. The upside is being driven by design wins and platform adoption at the high end—edge AI at Synaptics, Apple-related early work at Cirrus Logic, and memory PMIC strength at Monolithic—while the lack of mention momentum suggests no broad sector inflection yet.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Multi-application demand traction",
+   "detail": "Power-management products are seeing solid demand across several applications, supporting near-term order visibility.",
+   "polarity": "pos",
+   "companies": [
+    "Diodes Incorporated"
+   ]
+  },
+  {
+   "label": "Edge AI platform adoption",
+   "detail": "PMIC content embedded in a high-performance edge AI platform should lift attached adoption if the broader solution ramps.",
+   "polarity": "pos",
+   "companies": [
+    "Synaptics"
+   ]
+  },
+  {
+   "label": "Apple design-phase opportunity",
+   "detail": "First-product design work tied to Apple points to a potentially meaningful new growth avenue, albeit still early.",
+   "polarity": "pos",
+   "companies": [
+    "Cirrus Logic"
+   ]
+  },
+  {
+   "label": "Memory PMIC positioning",
+   "detail": "A good position in memory PMICs supports share capture where demand remains comparatively firm.",
+   "polarity": "pos",
+   "companies": [
+    "Monolithic Power Systems"
+   ]
+  },
+  {
+   "label": "Weak near-term demand",
+   "detail": "Revenue decline and explicit weak demand at AOSL show not all PMIC exposure is recovering.",
+   "polarity": "neg",
+   "companies": [
+    "Alpha & Omega Semi"
+   ]
+  }
+ ],
+ "risks": [
+  "Weak demand at Alpha & Omega could signal broader softness if customer orders do not improve.",
+  "Early-stage design activity at Cirrus Logic may not convert into volume within the next 1-2 quarters.",
+  "Flat mention momentum suggests limited evidence of a sector-wide inflection in PMIC demand."
+ ]
+}

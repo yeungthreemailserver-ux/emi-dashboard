@@ -1,0 +1,62 @@
+{
+ "topic": "hyperscaler_xpu",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Hyperscaler custom silicon demand broadens into 2026Q1",
+  "summary": "The readthrough is still strengthening: most covered names cite hot or improving hyperscaler demand, and the mention trend has risen from 0.4x to 0.8x with positive momentum, suggesting custom-silicon programs are expanding rather than fading. Broadcom, Marvell, Astera Labs, Synopsys, ON Semi, Micron and others point to larger deployments, deeper design-ins, and more content per rack; the only nuance is that the latest mention level is slightly below the 0.9x peak, so watch whether activity holds after this run-up.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "Custom XPU deployment scaling",
+   "detail": "Multiple customers and large GW deployments point to stronger hyperscaler adoption of custom XPU platforms.",
+   "polarity": "pos",
+   "companies": [
+    "Broadcom",
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "Broader design-in and engagement",
+   "detail": "Earlier GPU/XPU customer engagement and stronger alignment with hyperscaler demand suggest more customized AI silicon programs are entering design-in phases.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Synopsys"
+   ]
+  },
+  {
+   "label": "Rising silicon content per rack",
+   "detail": "Custom GPU/XPU platforms are increasing content density, supporting future demand for enabling components and infrastructure.",
+   "polarity": "pos",
+   "companies": [
+    "Astera Labs",
+    "Analog Devices"
+   ]
+  },
+  {
+   "label": "Improving real-world utilization",
+   "detail": "Better XPU utilization in workloads indicates the economics of hyperscaler custom silicon are improving and supporting continued investment.",
+   "polarity": "pos",
+   "companies": [
+    "Microchip Technology"
+   ]
+  },
+  {
+   "label": "Wider adoption across the power tree",
+   "detail": "Adoption across multiple XPU vendors points to a broader, healthier custom-silicon buildout.",
+   "polarity": "pos",
+   "companies": [
+    "ON Semiconductor",
+    "Analog Devices",
+    "Monolithic Power Systems"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention intensity has eased from the recent 0.9x peak; a further drop would signal slower program momentum.",
+  "Neutral reads from Intel and Cohu suggest visibility is not uniform across the ecosystem.",
+  "If workload utilization or deployment cadence softens, the current hot-demand tone could normalize quickly."
+ ]
+}

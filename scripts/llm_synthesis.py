@@ -12,6 +12,7 @@ dashboard inspector already consumes. Topics that already have a hand-built outl
 """
 from __future__ import annotations
 import argparse, json, sys, time, urllib.request, urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -106,28 +107,44 @@ def synth(tid, model):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--topic"); ap.add_argument("--force", action="store_true"); ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--workers", type=int, default=10, help="concurrent OpenAI calls (OpenAI key only, $0 Max)")
     a = ap.parse_args()
     model = a.model
     OUTDIR.mkdir(parents=True, exist_ok=True)
     tids = [a.topic] if a.topic else list(LEAVES.keys())
-    tin = tout = 0
+    # decide which topics to synthesize: skip existing (unless --force) and topics with < 2 reads
+    todo = []
     for tid in tids:
         f = OUTDIR / f"{tid}.json"
         if f.exists() and not a.force and not a.topic:
-            print(f"  {tid}: keep existing"); continue
-        rows = topic_reads(tid)
-        if len(rows) < 2:
-            print(f"  {tid}: SKIP (only {len(rows)} read)"); continue
+            continue
+        if len(topic_reads(tid)) < 2:
+            continue
+        todo.append(tid)
+    workers = 1 if a.topic else max(1, a.workers)
+    print(f"model = {model} · {len(todo)} topics to synthesize · {workers} workers")
+    tin = tout = done = 0
+
+    def work(tid):
         try:
             o, usage, n = synth(tid, model)
+            return tid, o, usage, n, None
         except Exception as e:  # noqa: BLE001
             msg = e.read().decode("utf-8", "ignore")[:160] if isinstance(e, urllib.error.HTTPError) else str(e)[:160]
-            print(f"  {tid}: FAILED ({type(e).__name__}) {msg}"); continue
-        doc = {"topic": tid, "source": f"{model}-synth", "outlook": {"direction": o["direction"], "headline": o["headline"],
-               "summary": o["summary"], "confidence": o["confidence"]}, "drivers": o["drivers"], "risks": o["risks"]}
-        f.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
-        pin, pout = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0); tin += pin; tout += pout
-        print(f"  {tid}: {o['direction']} · {n} reads · {pin}+{pout} tok — {o['headline']}")
+            return tid, None, None, 0, f"{type(e).__name__} {msg}"
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(work, tid): tid for tid in todo}
+        for fut in as_completed(futs):
+            tid, o, usage, n, err = fut.result()
+            done += 1
+            if err or not o:
+                print(f"  [{done}/{len(todo)}] {tid}: FAILED ({err})"); continue
+            doc = {"topic": tid, "source": f"{model}-synth", "outlook": {"direction": o["direction"], "headline": o["headline"],
+                   "summary": o["summary"], "confidence": o["confidence"]}, "drivers": o["drivers"], "risks": o["risks"]}
+            (OUTDIR / f"{tid}.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+            pin, pout = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0); tin += pin; tout += pout
+            print(f"  [{done}/{len(todo)}] {tid}: {o['direction']} · {n} reads — {o['headline']}", flush=True)
     p = PRICE.get(model, (2.5, 15.0))
     print(f"\nTOTAL {tin}+{tout} tok (~${tin/1e6*p[0]+tout/1e6*p[1]:.3f} at {model})")
 

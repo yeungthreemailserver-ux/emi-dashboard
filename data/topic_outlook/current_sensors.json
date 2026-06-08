@@ -1,0 +1,58 @@
+{
+ "topic": "current_sensors",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Adoption and wins keep current sensors on a modest upswing",
+  "summary": "Both reads are bullish: Allegro cites broad adoption, a strong pipeline, and product recognition, while CTS points to new customer wins, awards, and electrification-driven demand. That supports an improving near-term setup for current sensors, though the mention trend is still only 0.1x and slightly below its recent average, so the broadening of attention remains limited.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Broad adoption",
+   "detail": "Allegro says demand is hot, driven by broader customer adoption and product recognition.",
+   "polarity": "pos",
+   "companies": [
+    "Allegro MicroSystems"
+   ]
+  },
+  {
+   "label": "Pipeline conversion",
+   "detail": "Allegro’s strong pipeline suggests demand should stay firm over the next 1-2 quarters if it converts into orders.",
+   "polarity": "pos",
+   "companies": [
+    "Allegro MicroSystems"
+   ]
+  },
+  {
+   "label": "New customer wins and awards",
+   "detail": "CTS cites multiple wins and awards, indicating growing acceptance of current-sensor products.",
+   "polarity": "pos",
+   "companies": [
+    "CTS Corporation"
+   ]
+  },
+  {
+   "label": "Electrification tailwind",
+   "detail": "CTS explicitly ties demand to electrification trends, supporting continued product demand.",
+   "polarity": "pos",
+   "companies": [
+    "CTS Corporation"
+   ]
+  },
+  {
+   "label": "Soft mention momentum",
+   "detail": "Topic mentions are positive but muted, with latest interest only 0.1x and down 2% vs the trailing average.",
+   "polarity": "neg",
+   "companies": [
+    "Allegro MicroSystems",
+    "CTS Corporation"
+   ]
+  }
+ ],
+ "risks": [
+  "Weak mention momentum could signal that the improving demand story is not yet broad-based.",
+  "Pipeline strength at Allegro and wins at CTS need to convert into sustained shipments and backlog growth.",
+  "If electrification demand slows, CTS’s current-sensor momentum could flatten despite current positivity."
+ ]
+}

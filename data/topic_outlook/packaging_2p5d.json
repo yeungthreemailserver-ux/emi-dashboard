@@ -1,0 +1,88 @@
+{
+ "topic": "packaging_2p5d",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "2.5D packaging demand broadens as AI keeps supply tight",
+  "summary": "The read-through is still getting better: most companies citing 2.5D/advanced packaging point to hot AI-driven demand and tight capacity, with TSMC, Amkor, Onto, Veeco, KLA and others all calling out stronger demand or higher revenue/content. Beneficiaries are the suppliers with direct exposure to constrained advanced-packaging capacity and AI/HBM ramps, while neutral names are simply not seeing enough incremental signal yet. The mention trend is only slightly above trailing levels, so the story looks more like steady broadening than a fresh inflection; watch whether new capacity starts to loosen the bottleneck.",
+  "confidence": "high"
+ },
+ "drivers": [
+  {
+   "label": "AI-driven demand acceleration",
+   "detail": "Multiple reads describe advanced packaging spend, customer engagement, and content growth as being pulled by AI and high-performance compute.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Applied Materials",
+    "KLA",
+    "Ultra Clean Holdings",
+    "Veeco Instruments",
+    "Synopsys",
+    "Intel",
+    "Marvell Technology",
+    "Cadence Design Systems"
+   ]
+  },
+  {
+   "label": "Tight packaging capacity",
+   "detail": "Companies repeatedly note constrained supply or tight capacity, implying continued pricing/power and backlog support for the ecosystem.",
+   "polarity": "pos",
+   "companies": [
+    "TSMC",
+    "Micron",
+    "KLA",
+    "GlobalFoundries",
+    "Amkor Technology",
+    "Onto Innovation",
+    "Ultra Clean Holdings",
+    "Veeco Instruments",
+    "Kulicke & Soffa",
+    "Element Solutions",
+    "Synopsys",
+    "Intel",
+    "Marvell Technology"
+   ]
+  },
+  {
+   "label": "HBM and AI backend buildout",
+   "detail": "HBM packaging expansion and backend growth are direct signals that advanced packaging demand is still outrunning installed capacity.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "Intel",
+    "TSMC"
+   ]
+  },
+  {
+   "label": "Revenue and outlook revisions higher",
+   "detail": "Tools and process suppliers are seeing upside to revenue or outlook, showing demand is converting into near-term financial acceleration.",
+   "polarity": "pos",
+   "companies": [
+    "KLA",
+    "Onto Innovation",
+    "Applied Materials",
+    "Lam Research",
+    "ACM Research",
+    "Veeco Instruments"
+   ]
+  },
+  {
+   "label": "Technology complexity and chiplet adoption",
+   "detail": "Rising 3D IC, chiplet, and advanced-package complexity supports higher test and process intensity.",
+   "polarity": "pos",
+   "companies": [
+    "Cadence Design Systems",
+    "FormFactor",
+    "Synopsys",
+    "AMD",
+    "Analog Devices"
+   ]
+  }
+ ],
+ "risks": [
+  "Advanced-packaging capacity additions could start easing the tightness faster than demand grows.",
+  "The mention trend is only 1% above trailing average, so incremental enthusiasm may be limited despite strong reads.",
+  "Exposure is uneven: several companies are neutral and may not convert the packaging trend into near-term upside."
+ ]
+}

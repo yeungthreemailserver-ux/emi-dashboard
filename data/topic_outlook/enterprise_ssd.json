@@ -1,0 +1,51 @@
+{
+ "topic": "enterprise_ssd",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Enterprise SSD demand is hot, with tight supply amplifying gains",
+  "summary": "Enterprise SSD looks set to improve over the next 1-2 quarters as both Micron and SanDisk describe hot demand and tight supply. Micron is seeing rising design wins and data center share, while SanDisk is calling out enormous pull and rapid enterprise SSD growth. The main watchpoint is whether the current low mention level and slight negative momentum simply reflect thin coverage rather than any real cooling in demand.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Hot enterprise SSD demand",
+   "detail": "Both Micron and SanDisk describe demand as hot/strong, indicating a supportive near-term demand backdrop.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Tight supply",
+   "detail": "Supply remains tight, which supports allocation discipline and keeps the product cycle favorable for suppliers.",
+   "polarity": "pos",
+   "companies": [
+    "Micron",
+    "SanDisk"
+   ]
+  },
+  {
+   "label": "Share gains and design wins",
+   "detail": "Micron reports rising data center SSD share, design wins, and market share gains, signaling execution strength.",
+   "polarity": "pos",
+   "companies": [
+    "Micron"
+   ]
+  },
+  {
+   "label": "Rapid enterprise growth",
+   "detail": "SanDisk cites enormous pull and rapid growth in enterprise SSDs, reinforcing broadening demand.",
+   "polarity": "pos",
+   "companies": [
+    "SanDisk"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention trend is still low and slightly negative, so the bullish read is based on limited coverage.",
+  "If supply loosens faster than expected, the tightness tailwind could fade.",
+  "Watch for demand normalization after the current strong pull."
+ ]
+}
