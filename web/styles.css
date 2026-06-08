@@ -525,6 +525,9 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .cor-pair b { cursor: pointer; }
 .cor-pair b:hover { color: var(--blue); text-decoration: underline; }
 .cor-link .cor-both { flex: 0 0 auto; }
+.cor-sub { font-size: 11.5px; font-weight: 800; margin: 9px 0 2px; }
+.cor-sub.up { color: #15803d; }
+.cor-sub.dn { color: #b45309; }
 
 /* Data coverage / readiness lens */
 .cov-strip { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 4px 2px 12px; padding: 9px 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 9px; }

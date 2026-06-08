@@ -1,0 +1,41 @@
+{
+ "topic": "nand_200l",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "200-layer NAND demand stays constructive as investment recovers",
+  "summary": "Both Lam and Tokyo Electron frame 200-layer NAND as a positive transition: higher-layer stacks expand tool content for Lam, while TEL sees recovering 3D NAND investment and tight supply supporting process-tool demand. The near-term read is improving, though mentions are flat to slightly down, so breadth is not yet accelerating. Watch whether NAND capex and layer-count ramps broaden beyond these two suppliers.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "Higher-layer stack transition expands tool content",
+   "detail": "200-layer NAND adds process complexity and increases content per wafer, which is constructive for equipment demand.",
+   "polarity": "pos",
+   "companies": [
+    "Lam Research"
+   ]
+  },
+  {
+   "label": "3D NAND investment recovery",
+   "detail": "A rebound in 3D NAND spending points to improving order momentum for next-layer NAND processing tools.",
+   "polarity": "pos",
+   "companies": [
+    "Tokyo Electron"
+   ]
+  },
+  {
+   "label": "Tight supply supports process demand",
+   "detail": "Tighter supply in the NAND chain can keep conversion and capacity-add spend elevated near term.",
+   "polarity": "pos",
+   "companies": [
+    "Tokyo Electron"
+   ]
+  }
+ ],
+ "risks": [
+  "NAND capex recovery could stall if memory makers delay layer-count ramps or capacity additions.",
+  "Flat-to-lower mention trend suggests the theme is not yet broadening beyond a narrow set of suppliers.",
+  "Any weakening in 3D NAND pricing or demand could dampen the recovery in investment."
+ ]
+}

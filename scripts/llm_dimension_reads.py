@@ -89,11 +89,11 @@ SCHEMA = {
 
 def sentences_for(tk):
     """Latest-call sentences per product topic the company raises (keyword-matched)."""
-    url = MANIFEST.get(tk, [None])[0]
-    if not url:
-        return None, "no url"
-    text = cached_en(f"{tk}_{PERIOD}")   # translated non-English call -> read the English body
+    text = cached_en(f"{tk}_{PERIOD}")   # translated/pasted call -> read the English body (works even with no URL)
     if text is None:
+        url = MANIFEST.get(tk, [None])[0]
+        if not url:
+            return None, "no url"
         doc, kind = fetch_text(url, key=f"{tk}_{PERIOD}")
         text = clean_text(doc, kind) if doc else None
     if not text or len(text.split()) < 600:

@@ -23,3 +23,7 @@ data/_topic_*.json
 .claude/
 
 .DS_Store
+
+# local transcript caches (raw text / translations) — not committed, like data/transcripts/
+data/transcripts_en/
+data/paste/

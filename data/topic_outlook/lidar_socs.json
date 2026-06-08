@@ -1,0 +1,50 @@
+{
+ "topic": "lidar_socs",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "LiDAR SoC demand is broadening on FMCW and ToF adoption",
+  "summary": "Reads are uniformly constructive, with indie Semiconductor seeing hot demand as embodied AI and FMCW adoption lift need for LiDAR/radar processors and perception software, while SMIC flags automotive LiDAR-linked ToF as a supported application area. The next 1-2 quarters look better for LiDAR SoCs as content ramps across both perception processing and timing/ranging use cases, though the mention trend is still only modestly positive. ",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "FMCW adoption lifts processing content",
+   "detail": "Growing FMCW use is increasing demand for LiDAR/radar processors and perception software.",
+   "polarity": "pos",
+   "companies": [
+    "indie Semiconductor"
+   ]
+  },
+  {
+   "label": "Embodied AI expands perception demand",
+   "detail": "AI-driven sensing architectures are creating more demand for LiDAR SoCs tied to perception and fusion.",
+   "polarity": "pos",
+   "companies": [
+    "indie Semiconductor"
+   ]
+  },
+  {
+   "label": "Automotive LiDAR ToF remains a supported end market",
+   "detail": "SMIC’s read points to ToF products tied to automotive LiDAR as an active application area.",
+   "polarity": "pos",
+   "companies": [
+    "SMIC"
+   ]
+  },
+  {
+   "label": "Mentions are trending slightly higher",
+   "detail": "Company mention trend is still low but positive, suggesting gradual broadening rather than a sharp surge.",
+   "polarity": "pos",
+   "companies": [
+    "indie Semiconductor",
+    "SMIC"
+   ]
+  }
+ ],
+ "risks": [
+  "Adoption remains early-cycle: FMCW and embodied AI are positive, but still need conversion into volume shipments.",
+  "The breadth of support is limited in the reads, so a single customer/program delay could soften near-term momentum.",
+  "If automotive LiDAR demand slows, SMIC’s ToF-linked support could prove less durable."
+ ]
+}

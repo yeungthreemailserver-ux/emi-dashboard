@@ -55,8 +55,13 @@ def latest_rev(iq):
     return (rev, q) if rev else (None, q)
 
 
+EN = ROOT / "data" / "transcripts_en"
+
+
 def transcript_quarters(tk):
     files = list(TRANSCRIPTS.glob(f"{tk}_*.html")) + list(TRANSCRIPTS.glob(f"{tk}_*.pdf")) + list(TRANSCRIPTS.glob(f"{tk}_*.txt"))
+    if EN.exists():
+        files += list(EN.glob(f"{tk}_*.txt"))   # translated / manually-pasted transcripts
     # unique by quarter token (e.g. 2025Q3)
     qs = set()
     for f in files:

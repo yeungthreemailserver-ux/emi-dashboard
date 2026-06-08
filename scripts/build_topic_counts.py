@@ -111,13 +111,14 @@ def main() -> None:
         got, segmentable = [], False
         raw = {tid: {sg: [None] * NP for sg in SEGS} for tid in TOPIC_IDS}
         sent = {tid: {sg: [None] * NP for sg in SEGS} for tid in TOPIC_IDS}
-        for si, url in enumerate(slots):
-            if not url:
-                continue
+        for si in range(NP):
+            url = slots[si]
             key = f"{tk}_{PERIODS[si]}"
-            en = cached_en(key)   # translated non-English call -> use English body (whole-call 'all' segment only)
+            en = cached_en(key)   # translated/pasted call -> English body (whole-call 'all' segment); works even with NO url
+            if en is None and not url:
+                continue
             if en is not None:
-                print(f"  {tk} {PERIODS[si]} <- [translated EN]")
+                print(f"  {tk} {PERIODS[si]} <- [cached EN]")
                 texts = {sg: "" for sg in SEGS}; texts["all"] = en
             else:
                 print(f"  {tk} {PERIODS[si]} <- {url[:70]}")

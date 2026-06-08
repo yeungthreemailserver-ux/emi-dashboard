@@ -1,0 +1,53 @@
+{
+ "topic": "hbm_packaging",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "HBM packaging demand stays hot across the supply chain",
+  "summary": "The next 1-2 quarters still point to improving HBM packaging demand, with Applied Materials, KLA, Kulicke & Soffa, and Entegris all citing hot/tight conditions tied to AI-driven buildouts. The strength is broadening across tools, materials, and hybrid-bonding/die-stacking workflows, while GlobalFoundries adds a capacity-expansion read; Onto Innovation offers no fresh confirmation. Watch whether the flat mention trend starts to climb, or whether this remains a strong but already-mature cycle.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI-driven HBM packaging buildout remains hot",
+   "detail": "Multiple suppliers describe HBM packaging as a major focus with tight supply and strong demand, indicating continued near-term pull-through.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "KLA",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Advanced packaging tool demand broadens",
+   "detail": "HBM-related packaging is supporting more demand for advanced packaging tools and materials, lifting the whole ecosystem.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "KLA",
+    "Entegris"
+   ]
+  },
+  {
+   "label": "Hybrid bonding and die-stacking adoption",
+   "detail": "Kulicke & Soffa highlights hybrid bonding and die-stacking alternatives as emerging HBM packaging demand drivers, suggesting ongoing technology migration.",
+   "polarity": "pos",
+   "companies": [
+    "Kulicke & Soffa"
+   ]
+  },
+  {
+   "label": "Capacity expansion in growth technologies",
+   "detail": "GlobalFoundries ties the advanced packaging context to growth technologies and capacity expansion, which should help backend ecosystem activity.",
+   "polarity": "pos",
+   "companies": [
+    "GlobalFoundries"
+   ]
+  }
+ ],
+ "risks": [
+  "Mention trend is flat at 0.1x with no momentum, so enthusiasm is strong but not accelerating.",
+  "Onto Innovation is neutral and provides no direct confirmation, limiting breadth of the read-through.",
+  "Any pause in AI/HBM buildouts or packaging capacity additions could ease the current tightness quickly."
+ ]
+}

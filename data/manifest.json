@@ -1198,6 +1198,74 @@
    "urls": [
     "https://www.investing.com/news/transcripts/earnings-call-transcript-infineon-technologies-misses-q2-2026-eps-forecast-93CH-4681405"
    ]
+  },
+  {
+   "ticker": "8035.T",
+   "name": "Tokyo Electron",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "ir_manual",
+   "urls": [
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-tokyo-electron-q4-2026-beats-estimates-stock-surges-93CH-4654441",
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-tokyo-electron-q3-2025-misses-estimates-stock-dips-93CH-4494657",
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-tokyo-electron-q1-2025-highlights-market-trends-93CH-4325666"
+   ]
+  },
+  {
+   "ticker": "6857.T",
+   "name": "Advantest",
+   "layer": "L2",
+   "sublayer": "2.1",
+   "core": false,
+   "source": "ir_manual",
+   "urls": [
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-advantest-corp-q4-2026-beats-forecasts-but-stock-dips-93CH-4645789",
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-advantest-corp-q3-2025-beats-forecasts-stock-rises-93CH-4481046",
+    "https://www.investing.com/news/transcripts/earnings-call-transcript-advantests-record-q1-2025-sales-and-growth-strategy-93CH-4325840"
+   ]
+  },
+  {
+   "ticker": "2454.TW",
+   "name": "MediaTek",
+   "layer": "L3",
+   "sublayer": "3.2",
+   "core": false,
+   "source": "ir_manual",
+   "urls": [
+    "https://www.mediatek.com/hubfs/MediaTek%20Assets/Pdfs/Quarterly%20Earnings%20Release/2026/Quarterly%20Earnings%20Release-2026Q1/Transcript.pdf",
+    "https://www.mediatek.com/hubfs/MediaTek%20Assets/Pdfs/Quarterly%20Earnings%20Release/2025/Quarterly%20Earnings%20Release-2025Q4/Transcript.pdf",
+    "https://www.mediatek.com/hubfs/MediaTek%20Assets/Pdfs/Quarterly%20Earnings%20Release/2025/Quarterly%20Earnings%20Release-2025Q3/Transcript.pdf",
+    "https://www.mediatek.com/hubfs/MediaTek%20Assets/Pdfs/Quarterly%20Earnings%20Release/2025/Quarterly%20Earnings%20Release-2025Q2/Transcript.pdf",
+    "https://www.mediatek.com/hubfs/MediaTek%20Assets/Pdfs/Quarterly%20Earnings%20Release/2025/Quarterly%20Earnings%20Release-2025Q1/Transcript.pdf"
+   ]
+  },
+  {
+   "ticker": "000660.KS",
+   "name": "SK hynix",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "005930.KS",
+   "name": "Samsung Electronics",
+   "layer": "L3",
+   "sublayer": "3.4",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
+  },
+  {
+   "ticker": "0981.HK",
+   "name": "SMIC",
+   "layer": "L1",
+   "sublayer": "1.1",
+   "core": false,
+   "source": "manual_text",
+   "urls": []
   }
  ]
 }

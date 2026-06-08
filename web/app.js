@@ -1243,11 +1243,14 @@ function sigCorrelBody(S) {
   const maxR = Math.max(0.001, ...co.map(x => Math.abs(x.rho)));
   const focusN = (raisers[focusId] || new Set()).size;
   const coRow = x => `<div class="ov-row cor-row" data-goto="${x.it.id}"><span class="cor-track"><span class="cor-bar ${x.rho < 0 ? 'neg' : ''}" style="width:${Math.round(Math.abs(x.rho) / maxR * 100)}%"></span></span><span class="ov-lab">${x.it.label}</span><span class="cor-both">${x.both} cos</span><span class="cor-r ${x.rho >= 0 ? 'up' : 'down'}" title="cross-company co-emphasis correlation (ρ): companies that emphasize the focus also emphasize this topic">${x.rho >= 0 ? '+' : ''}${x.rho.toFixed(2)}</span></div>`;
-  // strongest linkages across all topics by co-emphasis (require each topic raised by >= 5 cos, positive ρ)
-  const pairs = [];
-  for (let i = 0; i < items.length; i++) for (let k = i + 1; k < items.length; k++) { const a = items[i], b = items[k]; if (prev(a.id) < 5 || prev(b.id) < 5) continue; const rho = rhoV(a.id, b.id); if (rho > 0.25) pairs.push({ a, b, rho, both: jac(a.id, b.id).both }); }
-  pairs.sort((p, r) => r.rho - p.rho); const top = pairs.slice(0, 14);
-  const linkRow = p => `<div class="cor-link"><span class="cor-j">${p.rho.toFixed(2)}</span><span class="cor-pair"><b data-goto="${p.a.id}">${p.a.label}</b> <span class="dim">↔</span> <b data-goto="${p.b.id}">${p.b.label}</b></span><span class="cor-both">${p.both}</span></div>`;
+  // RIGHT card — also driven by the focus: how the focus topic MOVES OVER TIME vs others
+  // (temporal Pearson of the 5-quarter mention series — do their trends rise/fall together?)
+  const tmove = items.filter(it => it.id !== focusId)
+    .map(it => ({ it, r: pear(focus.series || [], it.series), both: jac(focusId, it.id).both }))
+    .filter(x => x.both > 0 && Math.abs(x.r) >= 0.35);
+  const together = tmove.filter(x => x.r > 0).sort((a, b) => b.r - a.r).slice(0, 7);
+  const inverse = tmove.filter(x => x.r < 0).sort((a, b) => a.r - b.r).slice(0, 7);
+  const tRow = x => `<div class="ov-row cor-row" data-goto="${x.it.id}"><span class="cor-r ${x.r >= 0 ? 'up' : 'down'}" style="flex:0 0 46px;text-align:right">${x.r >= 0 ? '+' : ''}${x.r.toFixed(2)}</span><span class="ov-lab">${x.it.label}</span><span class="cor-both">${x.both} cos</span></div>`;
   return `<div class="panel">
     <div class="thead-row"><h3>Topic correlation <span class="dim" style="font-weight:400;font-size:13px">— which themes companies raise together · ${qLabel(T.periods[q])}${segName ? ` · <span style="color:var(--blue)">${segName}</span>` : ''}</span></h3>${topicFilterToggle()}</div>
     ${topicFilterBar(S, {})}
@@ -1258,12 +1261,14 @@ function sigCorrelBody(S) {
         ${co.map(coRow).join('') || '<div class="dim" style="font-size:12px">No correlated topics at the current filter.</div>'}
       </div>
       <div class="cor-card">
-        <h4>🔗 Strongest linkages <span class="dim" style="font-weight:400">— themes companies emphasize together</span></h4>
-        <div class="cor-link cor-link-head"><span class="cor-j">ρ</span><span class="cor-pair">topic pair</span><span class="cor-both">cos both</span></div>
-        ${top.map(linkRow).join('') || '<div class="dim" style="font-size:12px">No linkages above threshold.</div>'}
+        <h4>Moves with <b>${focus.label || '—'}</b> over time <span class="dim" style="font-weight:400">— quarter-to-quarter co-movement</span></h4>
+        <div class="cor-sub up">↑ Trend together</div>
+        ${together.map(tRow).join('') || '<div class="dim" style="font-size:12px;padding:2px 0">— none above +0.35</div>'}
+        <div class="cor-sub dn">↓ Move inversely</div>
+        ${inverse.map(tRow).join('') || '<div class="dim" style="font-size:12px;padding:2px 0">— none below −0.35</div>'}
       </div>
     </div>
-    <div class="dim" style="font-size:11px;margin-top:12px">Correlation (ρ) = Pearson of the two topics' <b>per-company mention intensity</b> across all companies — it reads which themes companies emphasize together, and stays discriminating even when nearly every company mentions the big topics (where simple co-occurrence saturates). Token-free. Click any topic to open it.</div>
+    <div class="dim" style="font-size:11px;margin-top:12px"><b>Left</b> = cross-company emphasis correlation (ρ): companies that emphasize the focus also emphasize these (discriminating even when most companies mention the big topics). <b>Right</b> = quarter-to-quarter co-movement: do their mention trends rise/fall together over the 5 quarters. Both update with the topic you pick. Token-free; click any topic to open it.</div>
   </div>`;
 }
 

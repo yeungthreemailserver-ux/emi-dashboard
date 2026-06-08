@@ -1,0 +1,50 @@
+{
+ "topic": "panel_packaging",
+ "source": "gpt-5.4-mini-synth",
+ "outlook": {
+  "direction": "improving",
+  "headline": "Panel-level packaging demand is broadening on AI adoption",
+  "summary": "All three reads were bullish, with AI packaging adoption and related constraints driving higher panel-level packaging demand over the next 1-2 quarters. Onto Innovation sees the strongest near-term pull-through from tight supply, while Applied Materials and STMicroelectronics point to broader growth vectors and new end-market support; the main watch item is whether this remains a narrow AI-led story or starts to widen further.",
+  "confidence": "medium"
+ },
+ "drivers": [
+  {
+   "label": "AI packaging adoption",
+   "detail": "AI demand is pulling more panel-level packaging content into the pipeline and is explicitly called out as a growth vector / demand driver.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials",
+    "Onto Innovation"
+   ]
+  },
+  {
+   "label": "Tight supply / packaging constraints",
+   "detail": "Constraints are still forcing adoption higher, supporting near-term upside for equipment and process suppliers.",
+   "polarity": "pos",
+   "companies": [
+    "Onto Innovation"
+   ]
+  },
+  {
+   "label": "New application pull from LEO satellites",
+   "detail": "STMicroelectronics said its LEO satellite business based on panel-level packaging progressed solidly, signaling incremental demand outside pure AI.",
+   "polarity": "pos",
+   "companies": [
+    "STMicroelectronics"
+   ]
+  },
+  {
+   "label": "PLP positioned as a growth vector",
+   "detail": "Applied Materials highlighted panel-level packaging and NEXX as growth vectors, implying continued program pull-through.",
+   "polarity": "pos",
+   "companies": [
+    "Applied Materials"
+   ]
+  }
+ ],
+ "risks": [
+  "Adoption may stay concentrated in AI-related programs rather than broadening across more end markets.",
+  "If packaging bottlenecks ease faster than expected, the urgency behind incremental PLP adoption could soften.",
+  "The mention trend is still only slightly above average, so upside may be gradual rather than a sharp inflection."
+ ]
+}

@@ -18,8 +18,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from emi.config import ROOT
-from build_topic_counts import fetch_text
+from build_topic_counts import fetch_text, PERIODS
 from parse_transcript import segments
+import lang
 from lang import html_to_text, looks_like_transcript
 
 MANIFEST = ROOT / "data" / "manifest.json"
@@ -48,8 +49,48 @@ def main():
     ap.add_argument("--sub", required=True)
     ap.add_argument("--mb", help="MarketBeat EXCH/TICKER (auto-discover)")
     ap.add_argument("--urls", help="comma-separated transcript URLs, newest-first (manual)")
+    ap.add_argument("--textfile", help="pasted transcript file(s): 'path' (latest quarter) or 'PERIOD=path,PERIOD=path' (any language; auto-translated)")
+    ap.add_argument("--period", default=PERIODS[-1], help="quarter for a single --textfile (default = latest)")
     a = ap.parse_args()
     mf = json.loads(MANIFEST.read_text(encoding="utf-8"))
+
+    # --- manual paste: read local transcript file(s), cache as English (translate if needed), no URL needed ---
+    if a.textfile:
+        entries = []
+        for part in a.textfile.split(","):
+            part = part.strip()
+            if not part:
+                continue
+            per, path = part.split("=", 1) if "=" in part else (a.period, part)
+            entries.append((per.strip(), path.strip()))
+        wrote = []
+        for per, path in entries:
+            p = Path(path)
+            if not p.exists():
+                print(f"  {per}: FILE NOT FOUND: {path}"); continue
+            txt = p.read_text(encoding="utf-8", errors="ignore").strip()
+            if len(txt.split()) < 200:
+                print(f"  {per}: SKIP (only {len(txt.split())} words — paste the full call)"); continue
+            key = f"{a.ticker}_{per}"
+            if lang.looks_english(txt):
+                lang.EN_DIR.mkdir(parents=True, exist_ok=True)
+                lang.en_file(key).write_text(txt, encoding="utf-8")
+                note = f"english {len(txt.split())}w"
+            else:
+                lang.translate(txt, key)          # translate -> cache English
+                note = f"translated {len(txt.split())}w"
+            wrote.append((per, note))
+        if not wrote:
+            print("no usable transcript files — nothing added"); return
+        if not any(c["ticker"] == a.ticker for c in mf["companies"]):
+            mf["companies"].append({"ticker": a.ticker, "name": a.name, "layer": a.layer,
+                                    "sublayer": a.sub, "core": False, "source": "manual_text", "urls": []})
+            MANIFEST.write_text(json.dumps(mf, ensure_ascii=False, indent=1), encoding="utf-8")
+        for per, note in wrote:
+            print(f"  cached {a.ticker} {per}: {note}")
+        print(f"  added/updated {a.name} ({a.ticker}) L{a.layer}/{a.sub} · {len(wrote)} quarter(s) · run: refresh.py update")
+        return
+
     if any(c["ticker"] == a.ticker for c in mf["companies"]):
         print(f"{a.ticker} already in manifest"); return
     if a.mb:
