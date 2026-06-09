@@ -673,7 +673,7 @@ function renderSignals() {
       const layEntries = [['L0', 'L0 · Distribution'], ['L1', 'L1 · Foundry'], ['L2', 'L2 · Equipment'], ['L3', 'L3 · Components'], ['3.1', 'Analog / MCU'], ['3.2', 'Logic / GPU'], ['3.4', 'Memory']];
       const lHits = layEntries.filter(([code, lab]) => !sel.includes(code) && (code + ' ' + lab).toLowerCase().includes(q)).slice(0, 5);
       let html = '';
-      if (tHits.length) { html += `<div class="sdh">Topics — open</div>`; tHits.forEach(it => { const i = acts.push({ kind: 'topic', id: it.id }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="tdot" style="background:${favColor((topicLLMFav(it.id, T) || {}).net) || (T.categories.find(c => c.id === it.cat) || {}).color}"></span>${it.label}</div>`; }); }
+      if (tHits.length) { const aq = topicAsOf(T); html += `<div class="sdh">Topics — open</div>`; tHits.forEach(it => { const i = acts.push({ kind: 'topic', id: it.id }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="tdot" style="background:${favColor((topicLLMFav(it.id, T, aq) || {}).net) || (T.categories.find(c => c.id === it.cat) || {}).color}"></span>${it.label}</div>`; }); }
       if (cHits.length) { html += `<div class="sdh">Companies — filter</div>`; cHits.forEach(c => { const i = acts.push({ kind: 'filter', code: c.ticker }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="lyr-dot" style="background:${LAYER_COLORS[c.layer]}"></span>${c.name} <span class="dim">${c.layer} · ${c.sublayer}</span></div>`; }); }
       if (lHits.length) { html += `<div class="sdh">Layers — filter</div>`; lHits.forEach(([code, lab]) => { const i = acts.push({ kind: 'filter', code }) - 1; html += `<div class="cosearch-item" data-idx="${i}"><span class="lyr-dot" style="background:${LAYER_COLORS[code] || LAYER_COLORS['L' + code[0]] || '#94a3b8'}"></span>${lab}</div>`; }); }
       dd.innerHTML = html || '<div class="cosearch-item dim">no match</div>';
@@ -901,7 +901,8 @@ function topicCoName(tk) { const c = topicCos().find(x => x.ticker === tk); retu
 function topicCoSub(tk) { const c = topicCos().find(x => x.ticker === tk); return c ? (c.sublayer || c.layer) : ''; }
 /* unified per-company record for a topic: mentions · trajectory · stance (LLM if judged, else lexicon) · evidence */
 function topicCompanyRecords(it, S, q) {
-  const id = it.id, seg = topicSeg(), pc = (S.topics.per_company) || {}, sd = (S.topics.sentiment) || {}, O = topicOutlookFor(S, id);
+  const id = it.id, seg = topicSeg(), pc = (S.topics.per_company) || {}, sd = (S.topics.sentiment) || {};
+  const O = topicRewound(S.topics, q) ? null : topicOutlookFor(S, id);   // synthesis stance/validation is latest-quarter — drop when rewound (use as-of-q lexicon)
   const allow = (O && O.companies) ? new Set(Object.keys(O.companies)) : null;   // outlook topics: only the LLM-validated companies
   const recs = [];
   topicSelCos().forEach(co => {
@@ -924,7 +925,7 @@ function topicCompanyRecords(it, S, q) {
    Outlook topics get the LLM forward call (drivers split into highlights vs lowlights+risks);
    non-outlook topics get a generated overview from counts + lexicon sentiment. */
 function toutExecHTML(it, S, q) {
-  const O = topicOutlookFor(S, it.id), T = S.topics;
+  const T = S.topics, O = topicRewound(T, q) ? null : topicOutlookFor(S, it.id);   // hide hindsight outlook when rewound
   const eff = topicEffSeries(it, S), ser = eff.ser, brd = eff.brd;
   const mom = topicMomentum(ser, q, momSmooth(T)), brdNow = (brd || [])[q], denom = topicSelCos().length;
   const heats = topicItemsForLayer(T).map(x => topicEffSeries(x, S).ser[q]).sort((a, b) => a - b), med = heats[Math.floor(heats.length / 2)];
@@ -938,7 +939,7 @@ function toutExecHTML(it, S, q) {
   }
   // LLM-derived INSIGHT first (we now have per-company favorability for ~every topic): lead with a
   // direct-English read + a concrete management reason, then the statistics underneath.
-  const lrows = topicLLMRows(it.id, T), agg = topicLLMFav(it.id, T);
+  const lrows = topicLLMRows(it.id, T, q), agg = topicLLMFav(it.id, T, q);
   if (lrows.length && agg) {
     const posL = lrows.filter(r => r.fav === 'bullish').length, negL = lrows.filter(r => r.fav === 'bearish').length;
     const net = agg.net, dir = net >= 0.2 ? ['▲', 'Bullish', 'up', '#16a34a'] : net <= -0.2 ? ['▼', 'Bearish', 'down', '#dc2626'] : ['◆', 'Mixed', 'mix', '#d97706'];
@@ -962,7 +963,8 @@ const SUBLABEL_INSP = { '0': 'Distribution', '1.1': 'Foundry', '2.1': 'Equipment
 /* the scale-safe company section: distribution headline + top movers + collapsible layer groups */
 function toutCompaniesHTML(it, S, q) {
   const recs = topicCompanyRecords(it, S, q); if (!recs.length) return '';
-  const O = topicOutlookFor(S, it.id), P = (S.topics.periods) || [];
+  const rew = topicRewound(S.topics, q);
+  const O = rew ? null : topicOutlookFor(S, it.id), P = (S.topics.periods) || [];   // consensus note is latest-quarter synthesis — hide when rewound
   const pos = recs.filter(r => r.stance === 'positive').length, neg = recs.filter(r => r.stance === 'negative').length, tot = recs.length, neu = tot - pos - neg;
   const dist = `<div class="dist-bar"><span style="width:${pos / tot * 100}%;background:#16a34a"></span><span style="width:${neu / tot * 100}%;background:#d97706"></span><span style="width:${neg / tot * 100}%;background:#dc2626"></span></div>
     <div class="dist-leg"><span style="color:#16a34a">●</span> ${pos} Positive · <span style="color:#d97706">●</span> ${neu} Neutral · <span style="color:#dc2626">●</span> ${neg} Negative</div>`;
@@ -974,15 +976,15 @@ function toutCompaniesHTML(it, S, q) {
   const SR = { positive: 1, neutral: 0, negative: -1 };
   const byGrp = {}; recs.forEach(r => { (byGrp[r.sub] = byGrp[r.sub] || []).push(r); });
   const cellRow = r => {
-    const cells = P.map((p, i) => { const v = (r.traj || [])[i]; if (v == null) return `<span class="smx-c miss" title="${qLabel(p)}: not mentioned this quarter"></span>`; const sc = sentCell(v); return `<span class="smx-c" style="background:${sc.bg}" title="${qLabel(p)}: ${sc.txt}">${sc.txt}</span>`; }).join('');
+    const cells = P.map((p, i) => { if (rew && i > q) return `<span class="smx-c fut" title="${qLabel(p)}: after as-of quarter (hidden)">·</span>`; const v = (r.traj || [])[i]; if (v == null) return `<span class="smx-c miss" title="${qLabel(p)}: not mentioned this quarter"></span>`; const sc = sentCell(v); return `<span class="smx-c" style="background:${sc.bg}" title="${qLabel(p)}: ${sc.txt}">${sc.txt}</span>`; }).join('');
     const ev = (r.ev || []).map(e => `• [${(e.seg || '').toUpperCase()}] ${e.t}`).join('\n').replace(/"/g, '&quot;');
     return `<div class="smx-row" title="${ev}"><span class="smx-co"><span class="lyr-dot" style="background:${LAYER_COLORS[r.layer] || '#94a3b8'}"></span>${r.name}</span>${cells}<span class="smx-st">${stanceBadgeMini(r.stance)}<span class="smx-pt">${r.point || ''}</span></span></div>`;
   };
   const groups = Object.keys(byGrp).sort().map(g => {
     const rs = byGrp[g], open = STATE.topicGroups.has(g);
     // layer header is the SAME row format as the company rows: a per-quarter AVERAGE row (aligned columns, same cells)
-    const qavg = P.map((_, i) => { const vs = rs.map(r => (r.traj || [])[i]).filter(v => v != null); return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null; });
-    const avgCells = qavg.map((v, i) => v == null ? `<span class="smx-c miss" title="${qLabel(P[i])}: —"></span>` : `<span class="smx-c" style="background:${sentCell(v).bg}" title="${qLabel(P[i])}: avg ${sentCell(v).txt}">${sentCell(v).txt}</span>`).join('');
+    const qavg = P.map((_, i) => { if (rew && i > q) return null; const vs = rs.map(r => (r.traj || [])[i]).filter(v => v != null); return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null; });
+    const avgCells = qavg.map((v, i) => (rew && i > q) ? `<span class="smx-c fut" title="${qLabel(P[i])}: after as-of quarter (hidden)">·</span>` : v == null ? `<span class="smx-c miss" title="${qLabel(P[i])}: —"></span>` : `<span class="smx-c" style="background:${sentCell(v).bg}" title="${qLabel(P[i])}: avg ${sentCell(v).txt}">${sentCell(v).txt}</span>`).join('');
     const vals = qavg.filter(v => v != null), savg = vals.length ? vals[vals.length - 1] : null;   // label = latest quarter's layer avg
     const al = savg == null ? ['→', 'n/a', '#94a3b8'] : savg >= 0.2 ? ['▲', 'Positive', '#16a34a'] : savg <= -0.2 ? ['▼', 'Negative', '#dc2626'] : ['→', 'Neutral', '#d97706'];
     const avgTxt = savg == null ? '—' : (savg >= 0 ? '+' : '') + savg.toFixed(1);
@@ -998,7 +1000,8 @@ function toutSpeakerHTML(it, S, q) {
   return `<div class="insp-sec"><h5>Stance by speaker — how they feel about it</h5>${stance}</div>`;
 }
 /* detailed highlights / lowlights — rendered BELOW the charts (kept out of the top summary) */
-function toutHiloHTML(it, S) {
+function toutHiloHTML(it, S, q) {
+  if (topicRewound(S.topics, q)) return '';   // drivers/risks come from the latest-quarter synthesis — omit when rewound
   const O = topicOutlookFor(S, it.id); if (!O || !(O.drivers || []).length) return '';
   const tag = t => `<span class="drv-tag">${topicCoName(t)}</span>`;
   const ups = (O.drivers || []).filter(x => x.polarity === 'pos');
@@ -1011,11 +1014,12 @@ function toutHiloHTML(it, S) {
 }
 function toutConceptsHTML(it, S) { const qh = topicQuotes(it, S, 6); return qh ? `<div class="insp-sec"><h5>Key concepts from the calls</h5>${qh}</div>` : ''; }
 /* LLM company-by-company stance (favorability + why) — works for ANY enriched topic */
-function toutLLMReadHTML(it, S) {
-  const T = S.topics, rows = topicLLMRows(it.id, T); if (!rows.length) return '';
-  const agg = topicLLMFav(it.id, T), c = f => f === 'bullish' ? '#16a34a' : f === 'bearish' ? '#dc2626' : '#d97706';
+function toutLLMReadHTML(it, S, q) {
+  const T = S.topics, rows = topicLLMRows(it.id, T, q); if (!rows.length) return '';
+  const agg = topicLLMFav(it.id, T, q), c = f => f === 'bullish' ? '#16a34a' : f === 'bearish' ? '#dc2626' : '#d97706';
+  const asof = topicReadAsOf(T, q), asofTxt = asof ? ` · as of ${qLabel(asof)}` : '';
   const list = rows.map(r => `<div class="llm-row"><span class="llm-co">${r.co}</span><span class="llm-fav" style="color:${c(r.fav)}">${r.fav}</span><span class="llm-why" title="${(r.why || '').replace(/"/g, '&quot;')}">${r.why || ''}</span></div>`).join('');
-  return `<div class="insp-sec"><h5>LLM stance — by company <span class="dim">net ${agg.net >= 0 ? '+' : ''}${agg.net.toFixed(2)} · ${rows.length} cos · gpt-5.4-mini</span></h5>${list}</div>`;
+  return `<div class="insp-sec"><h5>LLM stance — by company <span class="dim">net ${agg.net >= 0 ? '+' : ''}${agg.net.toFixed(2)} · ${rows.length} cos · gpt-5.4-mini${asofTxt}</span></h5>${list}</div>`;
 }
 /* full pinned inspector — works for ANY topic (outlook sections skipped when no synthesis exists) */
 function topicInspectorHTML(it, S, q) {
@@ -1026,15 +1030,16 @@ function topicInspectorHTML(it, S, q) {
   const mom = topicMomentum(ser, q, momSmooth(T)), brdNow = (brd || [])[q], denom = topicSelCos().length;
   const heats = topicItemsForLayer(T).map(x => topicEffSeries(x, S).ser[q]).sort((a, b) => a - b), med = heats[Math.floor(heats.length / 2)];
   const quad = ser[q] >= med ? (mom >= 0 ? 'Hot & accelerating' : 'Still hot · losing steam') : (mom >= 0 ? 'Emerging' : 'Fading');
+  const pit = topicRewound(T, q) ? `<span class="pitchip" title="Point-in-time view: only data up to ${qLabel(T.periods[q])} is used — the forward outlook is hidden so nothing leaks from the future">📅 as of ${qLabel(T.periods[q])} · no hindsight</span>` : '';
   return `<div class="insp">
-    <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><span class="lockchip ${locked ? 'on' : ''}">${locked ? '📌 Locked' : '👁 Preview'}</span><button class="unpin" data-unpin="1" title="${locked ? 'Release lock' : 'Close'}">✕</button>
+    <div class="insp-banner"><span class="tddot" style="background:${domColor}"></span><b>${it.label}</b><span class="lockchip ${locked ? 'on' : ''}">${locked ? '📌 Locked' : '👁 Preview'}</span>${pit}<button class="unpin" data-unpin="1" title="${locked ? 'Release lock' : 'Close'}">✕</button>
       <div class="insp-sub"><span style="color:${domColor};font-weight:700">${pathStr}</span> · ${brdNow} / ${denom} companies · ~${(+ser[q]).toFixed(1)}× per call</div></div>
     ${toutExecHTML(it, S, q)}
     <div class="insp-sec"><h5>Mention &amp; breadth trend</h5><div class="insp-charts"><div class="insp-ch"><div class="chlbl">Avg mentions per company</div><div class="chart-xs" id="tspk_m"></div></div><div class="insp-ch"><div class="chlbl">Companies mentioning it</div><div class="chart-xs" id="tspk_c"></div></div></div></div>
-    ${toutHiloHTML(it, S)}
+    ${toutHiloHTML(it, S, q)}
     ${toutCompaniesHTML(it, S, q)}
     ${toutSpeakerHTML(it, S, q)}
-    ${toutLLMReadHTML(it, S)}
+    ${toutLLMReadHTML(it, S, q)}
     ${toutConceptsHTML(it, S)}
   </div>`;
 }
@@ -1175,7 +1180,7 @@ function sigAlertsBody(S) {
   const mom = it => topicMomentum(it.series, q, momSmooth(T));
   const pct = m => (m >= 0 ? '+' : '') + Math.round((m || 0) * 100) + '%';
   // favorability-aware dot: LLM net when judged, else lexicon sentiment of the selected speakers
-  const favDot = it => { const l = topicLLMFav(it.id, T); const c = l ? favColor(l.net) : sentDotColor(topicSent(it, S, seg, q)); return `<span class="tdot" style="background:${c}" title="${l ? favLabel(l.net) : (sentLabel(topicSent(it, S, seg, q)).t)}"></span>`; };
+  const favDot = it => { const l = topicLLMFav(it.id, T, q); const c = l ? favColor(l.net) : sentDotColor(topicSent(it, S, seg, q)); return `<span class="tdot" style="background:${c}" title="${l ? favLabel(l.net) : (sentLabel(topicSent(it, S, seg, q)).t)}"></span>`; };
   const row = (it, m) => `<div class="ov-row" data-goto="${it.id}">${favDot(it)}<span class="ov-lab">${it.label}</span><span class="tmom ${m >= 0 ? 'up' : 'down'}">${pct(m)}</span><span class="ov-x">${(+it.series[q]).toFixed(1)}×</span></div>`;
 
   // 🆕 NEWLY EMERGED — from transcript discovery, ranked by # companies (true prevalence, not the conservative keyword counts)
@@ -1226,7 +1231,8 @@ function sigCorrelBody(S) {
   const items = topicItemsForLayer(T).map(it => { const e = topicEffSeries(it, S); return Object.assign({}, it, { series: e.ser, breadth: e.brd }); });
   const pc = T.per_company || {}, cos = topicSelCos().map(c => c.ticker);
   // set of companies that raise each topic (in the current segment)
-  const raisers = {}; items.forEach(it => { const s = new Set(); cos.forEach(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; if (arr && arr.reduce((a, b) => a + b, 0) > 0) s.add(tk); }); raisers[it.id] = s; });
+  const sl = a => (a || []).slice(0, q + 1);   // point-in-time: only quarters at/before the view-quarter q (no future leak)
+  const raisers = {}; items.forEach(it => { const s = new Set(); cos.forEach(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; if (arr && sl(arr).reduce((a, b) => a + b, 0) > 0) s.add(tk); }); raisers[it.id] = s; });
   const jac = (a, b) => { const A = raisers[a], B = raisers[b]; if (!A || !B || !A.size || !B.size) return { j: 0, both: 0 }; let both = 0; A.forEach(x => { if (B.has(x)) both++; }); const uni = A.size + B.size - both; return { j: uni ? both / uni : 0, both }; };
   const pear = (x, y) => { const n = Math.min(x.length, y.length); if (n < 3) return 0; let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0; for (let i = 0; i < n; i++) { sx += x[i]; sy += y[i]; sxx += x[i] * x[i]; syy += y[i] * y[i]; sxy += x[i] * y[i]; } const cov = sxy - sx * sy / n, vx = sxx - sx * sx / n, vy = syy - sy * sy / n; return (vx > 0 && vy > 0) ? cov / Math.sqrt(vx * vy) : 0; };
   // focus topic — default the hottest this quarter
@@ -1236,17 +1242,17 @@ function sigCorrelBody(S) {
   const opts = items.slice().sort((a, b) => a.label.localeCompare(b.label)).map(it => `<option value="${it.id}" ${it.id === focusId ? 'selected' : ''}>${it.label}</option>`).join('');
   // co-EMPHASIS: per-company mention-intensity vector for each topic (summed over quarters), then Pearson ACROSS companies.
   // This discriminates even when presence saturates (most cos mention the big topics) — it reads how hard each co leans in.
-  const vec = {}; items.forEach(it => { vec[it.id] = cos.map(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; return arr ? arr.reduce((a, b) => a + b, 0) : 0; }); });
+  const vec = {}; items.forEach(it => { vec[it.id] = cos.map(tk => { const arr = ((pc[tk] || {})[it.id] || {})[seg]; return arr ? sl(arr).reduce((a, b) => a + b, 0) : 0; }); });
   const rhoV = (a, b) => pear(vec[a], vec[b]);
   const prev = id => (raisers[id] || new Set()).size;
-  const co = items.filter(it => it.id !== focusId).map(it => ({ it, rho: rhoV(focusId, it.id), r: pear(focus.series || [], it.series), both: jac(focusId, it.id).both })).filter(x => x.both > 0).sort((a, b) => b.rho - a.rho).slice(0, 10);
+  const co = items.filter(it => it.id !== focusId).map(it => ({ it, rho: rhoV(focusId, it.id), r: pear(sl(focus.series), sl(it.series)), both: jac(focusId, it.id).both })).filter(x => x.both > 0).sort((a, b) => b.rho - a.rho).slice(0, 10);
   const maxR = Math.max(0.001, ...co.map(x => Math.abs(x.rho)));
   const focusN = (raisers[focusId] || new Set()).size;
   const coRow = x => `<div class="ov-row cor-row" data-goto="${x.it.id}"><span class="cor-track"><span class="cor-bar ${x.rho < 0 ? 'neg' : ''}" style="width:${Math.round(Math.abs(x.rho) / maxR * 100)}%"></span></span><span class="ov-lab">${x.it.label}</span><span class="cor-both">${x.both} cos</span><span class="cor-r ${x.rho >= 0 ? 'up' : 'down'}" title="cross-company co-emphasis correlation (ρ): companies that emphasize the focus also emphasize this topic">${x.rho >= 0 ? '+' : ''}${x.rho.toFixed(2)}</span></div>`;
   // RIGHT card — also driven by the focus: how the focus topic MOVES OVER TIME vs others
   // (temporal Pearson of the 5-quarter mention series — do their trends rise/fall together?)
   const tmove = items.filter(it => it.id !== focusId)
-    .map(it => ({ it, r: pear(focus.series || [], it.series), both: jac(focusId, it.id).both }))
+    .map(it => ({ it, r: pear(sl(focus.series), sl(it.series)), both: jac(focusId, it.id).both }))
     .filter(x => x.both > 0 && Math.abs(x.r) >= 0.35);
   const together = tmove.filter(x => x.r > 0).sort((a, b) => b.r - a.r).slice(0, 7);
   const inverse = tmove.filter(x => x.r < 0).sort((a, b) => a.r - b.r).slice(0, 7);
@@ -1382,13 +1388,52 @@ const FACET_COLOR = { demand: '#f28e2b', supply: '#76b7b2', product: '#b07aa1', 
 /* LLM demand/supply reads → aggregate favorability per (subject, dimension), for the tree's Demand/Supply nodes */
 function favColor(net) { if (net == null) return '#cbd5e1'; if (net >= 0.34) return '#15803d'; if (net >= 0.1) return '#22c55e'; if (net > -0.1) return '#f59e0b'; if (net > -0.34) return '#ef4444'; return '#b91c1c'; }
 function favLabel(net) { return net == null ? '' : net >= 0.1 ? '▲ bullish' : net <= -0.1 ? '▼ bearish' : '→ mixed'; }
-function topicDimReads(T) { return (T.dimension_reads && T.dimension_reads.companies) || {}; }
+/* Point-in-time: per-company reads AS OF view-quarter index q (latest read-quarter <= q; never uses hindsight).
+   New format = {periods:[...], companies:{co:{period:{topic:read}}}}; q omitted => newest read available. */
+function topicDimReads(T, q) {
+  const dr = (T && T.dimension_reads) || {}, companies = dr.companies || {};
+  const rp = dr.periods;                          // per-quarter format carries a `periods` array
+  if (!rp) return companies;                       // legacy flat {co:{topic:read}} — no per-quarter leakage to guard
+  const bp = T.periods || [];
+  const tgtIdx = (q != null && q >= 0 && q < bp.length) ? q : bp.length - 1;
+  const allowed = rp.map(p => bp.indexOf(p)).filter(i => i >= 0 && i <= tgtIdx).sort((a, b) => a - b);  // read-quarters at/before q
+  const out = {};
+  Object.keys(companies).forEach(co => {
+    const byq = companies[co] || {};
+    for (let k = allowed.length - 1; k >= 0; k--) { const p = bp[allowed[k]]; if (byq[p]) { out[co] = byq[p]; break; } }  // newest first
+  });
+  return out;
+}
+/* indices (into T.periods) of the quarters that ACTUALLY have LLM reads for some company.
+   dr.periods is the full manifest period list — not every quarter is judged, so we scan the data. */
+function topicJudgedIdx(T) {
+  const dr = (T && T.dimension_reads) || {}, comp = dr.companies, bp = (T && T.periods) || [];
+  if (!dr.periods || !comp) return [];
+  const judged = new Set();
+  Object.keys(comp).forEach(co => Object.keys(comp[co] || {}).forEach(p => judged.add(p)));
+  return [...judged].map(p => bp.indexOf(p)).filter(i => i >= 0).sort((a, b) => a - b);
+}
+/* label of the newest read-quarter at/before view-quarter q (for an "as of" badge), or null */
+function topicReadAsOf(T, q) {
+  const bp = (T && T.periods) || [], tgtIdx = (q != null && q >= 0 && q < bp.length) ? q : bp.length - 1;
+  const idxs = topicJudgedIdx(T).filter(i => i <= tgtIdx);
+  return idxs.length ? bp[idxs[idxs.length - 1]] : null;
+}
+/* the forward OUTLOOK is synthesized from the newest reads — true only at the latest read-quarter.
+   When the user rewinds to an earlier quarter, suppress the outlook (it would be hindsight) and let
+   the as-of-q per-company favorability drive the read instead. */
+function topicRewound(T, q) {
+  if (q == null) return false;
+  const idxs = topicJudgedIdx(T), bp = (T && T.periods) || [];
+  const latest = idxs.length ? idxs[idxs.length - 1] : bp.length - 1;
+  return q < latest;
+}
 function topicSubjectProducts(subjId, T) {  // family products (parent is a node) under a subject node
   const nodes = topicTree(T).nodes;
   return (T.items || []).filter(it => it.kind === 'product' && it.path && it.path.indexOf(subjId) >= 0 && nodes[it.parent]);
 }
-function topicAggDim(subjId, facet, T) {  // mean favorability of the subject's products on this dimension (skip 'na')
-  const reads = topicDimReads(T), prods = topicSubjectProducts(subjId, T);
+function topicAggDim(subjId, facet, T, q) {  // mean favorability of the subject's products on this dimension (skip 'na')
+  const reads = topicDimReads(T, q), prods = topicSubjectProducts(subjId, T);
   const sk = facet === 'demand' ? 'demand_state' : 'supply_state', fk = facet === 'demand' ? 'demand_favorable' : 'supply_favorable';
   let sum = 0, n = 0; const rows = [];
   Object.keys(reads).forEach(co => prods.forEach(p => {
@@ -1400,13 +1445,13 @@ function topicAggDim(subjId, facet, T) {  // mean favorability of the subject's 
   return { net: n ? sum / n : null, n, rows };
 }
 /* per-topic LLM favorability aggregated across companies (any topic, not just products) */
-function topicLLMFav(tid, T) {
-  const reads = topicDimReads(T); let sum = 0, n = 0;
+function topicLLMFav(tid, T, q) {
+  const reads = topicDimReads(T, q); let sum = 0, n = 0;
   Object.keys(reads).forEach(co => { const r = (reads[co] || {})[tid]; if (r && r.favorable) { sum += r.favorable === 'bullish' ? 1 : r.favorable === 'bearish' ? -1 : 0; n++; } });
   return n ? { net: sum / n, n } : null;
 }
-function topicLLMRows(tid, T) {
-  const reads = topicDimReads(T), rows = [], ord = { bullish: 0, neutral: 1, bearish: 2 };
+function topicLLMRows(tid, T, q) {
+  const reads = topicDimReads(T, q), rows = [], ord = { bullish: 0, neutral: 1, bearish: 2 };
   Object.keys(reads).forEach(co => { const r = (reads[co] || {})[tid]; if (r && r.favorable) rows.push({ co: topicCoName(co), fav: r.favorable, ds: r.demand_state, ss: r.supply_state, why: r.why }); });
   return rows.sort((a, b) => ord[a.fav] - ord[b.fav]);
 }
@@ -1445,7 +1490,7 @@ function sigTreeChart(S) {
     const node = { name: n.label, symbolSize: 9, label: { color: '#334155', fontWeight: 700 }, children: leaves.concat(inner) };
     let col;
     if (n.facet === 'demand' || n.facet === 'supply') {   // product-dimension node → colour by LLM-read favorability
-      const agg = topicAggDim(n.parent, n.facet, T);
+      const agg = topicAggDim(n.parent, n.facet, T, q);
       if (agg.n) { col = favColor(agg.net); Object.assign(node, { isDim: n.facet, dimNet: agg.net, dimRows: agg.rows, netLabel: favLabel(agg.net), symbolSize: 9 + Math.min(9, agg.n * 0.7) }); }
     }
     if (!col) col = FACET_COLOR[n.facet] || '#94a3b8';   // domain/subject nodes (End Markets, Ops…) keep their facet colour
@@ -1542,7 +1587,7 @@ function sigTopicsChart(S) {
   const sizeOf = b => 8 + Math.sqrt((b || 0) / maxBrd) * 17;
   // single scatter series (sorted big→small) so label de-overlap works GLOBALLY, not per-category
   const data = items.slice().sort((a, b) => b.series[q] - a.series[q]).map(it => {
-    const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), llm = topicLLMFav(it.id, T), color = llm ? favColor(llm.net) : sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
+    const cat = catOf(it.cat), sentv = topicSent(it, S, topicSeg(), q), llm = topicLLMFav(it.id, T, q), color = llm ? favColor(llm.net) : sentDotColor(sentv), m = topicMomentum(it.series, q, momSmooth(T)), heat = it.series[q];
     const brd = (it.breadth && it.breadth[q] != null) ? it.breadth[q] : 5;  // # companies that raised it
     const mv = m == null ? 0 : m, quad = heat >= med ? (mv >= 0 ? 'Hot &amp; accelerating' : 'Still hot · losing steam') : (mv >= 0 ? 'Emerging' : 'Fading');
     // "related" cluster for hover-highlight = the SUBJECT (L2 node: Memory/Processor/…/AI&DC) when one

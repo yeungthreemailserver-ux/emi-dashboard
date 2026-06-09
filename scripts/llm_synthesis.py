@@ -27,7 +27,21 @@ KIND = {tid: TREE["leaves"][tid].get("kind", "topic") for tid in LEAVES}
 _MF = json.loads((ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
 NAMES = {c["ticker"]: c["name"] for c in _MF["companies"]}
 READS = json.loads((ROOT / "data" / "dimension_reads.json").read_text(encoding="utf-8"))
-PERIOD = READS.get("period", "")
+_RPERIODS = READS.get("periods") or ([READS["period"]] if READS.get("period") else [])
+PERIOD = _RPERIODS[-1] if _RPERIODS else ""
+
+
+def _latest_read(byq, tid):
+    """Per-quarter reads {period:{topic:read}} -> the latest quarter's read for tid (synthesis = current forward view)."""
+    if not isinstance(byq, dict):
+        return None
+    if byq.get("favorable"):           # legacy flat {topic:read}? (shouldn't happen post-migration)
+        return byq.get(tid)
+    for p in reversed(_RPERIODS):      # newest -> oldest
+        qr = byq.get(p)
+        if isinstance(qr, dict) and qr.get(tid):
+            return qr[tid]
+    return None
 CNT = json.loads((ROOT / "data" / "topic_counts.json").read_text(encoding="utf-8"))
 OUTDIR = ROOT / "data" / "topic_outlook"
 
@@ -65,8 +79,8 @@ SCHEMA = {
 
 def topic_reads(tid):
     out = []
-    for tk, td in READS.get("companies", {}).items():
-        r = td.get(tid)
+    for tk, byq in READS.get("companies", {}).items():
+        r = _latest_read(byq, tid)
         if r and r.get("favorable"):
             out.append((NAMES.get(tk, tk), r["favorable"], r.get("demand_state", "na"), r.get("supply_state", "na"), r.get("why", "")))
     return out

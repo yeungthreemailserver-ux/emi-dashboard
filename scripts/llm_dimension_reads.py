@@ -87,14 +87,23 @@ SCHEMA = {
 }
 
 
-def sentences_for(tk):
-    """Latest-call sentences per product topic the company raises (keyword-matched)."""
-    text = cached_en(f"{tk}_{PERIOD}")   # translated/pasted call -> read the English body (works even with no URL)
+def url_for(tk, period):
+    """The manifest URL for a SPECIFIC quarter (newest-first urls right-aligned to PERIODS, same as build_topic_counts)."""
+    urls = MANIFEST.get(tk) or []
+    slots = [None] * len(PERIODS)
+    for i, u in enumerate(urls[:len(PERIODS)]):
+        slots[len(PERIODS) - 1 - i] = u
+    return slots[PERIODS.index(period)]
+
+
+def sentences_for(tk, period):
+    """That QUARTER's call sentences per topic the company raises (keyword-matched = counts-gated to that quarter)."""
+    text = cached_en(f"{tk}_{period}")   # translated/pasted call -> English body (works even with no URL)
     if text is None:
-        url = MANIFEST.get(tk, [None])[0]
+        url = url_for(tk, period)
         if not url:
             return None, "no url"
-        doc, kind = fetch_text(url, key=f"{tk}_{PERIOD}")
+        doc, kind = fetch_text(url, key=f"{tk}_{period}")
         text = clean_text(doc, kind) if doc else None
     if not text or len(text.split()) < 600:
         return None, "no transcript"
@@ -107,9 +116,9 @@ def sentences_for(tk):
     return out, None
 
 
-def call_llm(name, tk, topics, model):
+def call_llm(name, tk, period, topics, model):
     blocks = "\n\n".join(f"[TOPIC: {LEAVES[t]}]  (type: {KIND.get(t, 'topic')})\n" + "\n".join("- " + s[:280] for s in topics[t]) for t in topics)
-    user = f"Company: {name} ({tk}), {PERIOD} earnings call. Judge demand & supply for each topic.\n\n{blocks}"
+    user = f"Company: {name} ({tk}), {period} earnings call. Judge demand & supply for each topic — AS OF THIS QUARTER ONLY (do not use hindsight).\n\n{blocks}"
     payload = {
         "model": model,
         "messages": [{"role": "system", "content": SYS}, {"role": "user", "content": user}],
@@ -137,57 +146,77 @@ def call_llm(name, tk, topics, model):
             raise
 
 
+def load_out(outpath, model):
+    """Load existing reads as the per-quarter structure {tk:{period:{topic:read}}}, migrating the old single-quarter format."""
+    if not outpath.exists():
+        return {}
+    prev = json.loads(outpath.read_text(encoding="utf-8"))
+    if prev.get("model") != model:
+        return {}
+    cos = prev.get("companies", {})
+    if "period" in prev and not prev.get("periods"):   # OLD format: companies[tk] = {topic: read} for a single quarter
+        oldp = prev["period"]
+        return {tk: {oldp: topics} for tk, topics in cos.items()}
+    return cos   # already per-quarter: {tk: {period: {topic: read}}}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ticker", help="run a single company")
-    ap.add_argument("--model", default=MODEL, help="override model id (e.g. gpt-5.4-nano)")
-    ap.add_argument("--fresh", action="store_true", help="ignore prior cache (re-judge every company against the current topic set)")
-    ap.add_argument("--workers", type=int, default=12, help="concurrent OpenAI calls (uses only the OpenAI key, $0 Max)")
+    ap.add_argument("--model", default=MODEL, help="override model id")
+    ap.add_argument("--quarters", help="comma-separated quarters to judge (e.g. 2025Q3,2026Q1); default = latest")
+    ap.add_argument("--all-quarters", action="store_true", help="judge every quarter in PERIODS (point-in-time backfill)")
+    ap.add_argument("--fresh", action="store_true", help="re-judge even if (company,quarter) already cached")
+    ap.add_argument("--workers", type=int, default=12, help="concurrent OpenAI calls ($0 Max)")
     a = ap.parse_args()
     model = a.model
+    quarters = PERIODS if a.all_quarters else ([q.strip() for q in a.quarters.split(",")] if a.quarters else [PERIOD])
+    quarters = [q for q in quarters if q in PERIODS]
     tickers = [a.ticker] if a.ticker else list(MANIFEST.keys())
     outpath = ROOT / "data" / "dimension_reads.json"
-    out, tot_in, tot_out = {}, 0, 0
-    if not a.fresh and outpath.exists():   # always MERGE into existing reads (so --ticker updates one, never clobbers)
-        prev = json.loads(outpath.read_text(encoding="utf-8"))
-        if prev.get("period") == PERIOD and prev.get("model") == model:
-            out = prev.get("companies", {})
-    todo = [tk for tk in tickers if a.ticker or tk not in out]   # --ticker: re-judge just that one; else only the not-yet-done
-    workers = 1 if a.ticker else max(1, a.workers)
-    print(f"model = {model} · judging {len(LEAVES)} topics (>= {MIN_COS} cos) · {len(todo)} companies to do · {workers} workers" + (" · FRESH" if a.fresh else ""))
+    out = load_out(outpath, model)   # {tk: {period: {topic: read}}}
+    tot_in = tot_out = 0
+    # work list = (ticker, quarter) pairs not yet judged (unless --fresh)
+    pairs = [(tk, q) for tk in tickers for q in quarters if a.fresh or q not in out.get(tk, {})]
+    workers = max(1, a.workers)
+    print(f"model = {model} · topics<= {len(LEAVES)} (>= {MIN_COS} cos) · quarters {quarters} · {len(pairs)} (company,quarter) to do · {workers} workers" + (" · FRESH" if a.fresh else ""))
     lock = threading.Lock()
-    save = lambda: outpath.write_text(json.dumps({"model": model, "period": PERIOD, "companies": out}, ensure_ascii=False, indent=1), encoding="utf-8")
+    save = lambda: outpath.write_text(json.dumps({"model": model, "periods": PERIODS, "companies": out}, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    def work(tk):
-        topics, err = sentences_for(tk)
+    def work(tk, period):
+        topics, err = sentences_for(tk, period)
         if err:
-            return tk, None, None, err
+            return tk, period, None, None, err
         if not topics:
-            return tk, None, None, "no topics raised"
+            return tk, period, None, None, "no topics raised"
         try:
-            reads, usage = call_llm(NAMES.get(tk, tk), tk, topics, model)
-        except Exception as e:   # noqa: BLE001 — never let one company abort the batch
+            reads, usage = call_llm(NAMES.get(tk, tk), tk, period, topics, model)
+        except Exception as e:   # noqa: BLE001
             msg = e.read().decode("utf-8", "ignore")[:160] if isinstance(e, urllib.error.HTTPError) else str(e)[:160]
-            return tk, None, None, f"{type(e).__name__} {msg}"
-        return tk, {to_id(t["topic"]): t for t in reads}, usage, None
+            return tk, period, None, None, f"{type(e).__name__} {msg}"
+        return tk, period, {to_id(t["topic"]): t for t in reads}, usage, None
 
     done = 0
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        futs = {ex.submit(work, tk): tk for tk in todo}
+        futs = {ex.submit(work, tk, q): (tk, q) for tk, q in pairs}
         for fut in as_completed(futs):
-            tk, reads, usage, err = fut.result()
+            tk, period, reads, usage, err = fut.result()
             done += 1
             if err or not reads:
-                print(f"  [{done}/{len(todo)}] {tk}: SKIP ({err})"); continue
+                print(f"  [{done}/{len(pairs)}] {tk} {period}: SKIP ({err})"); continue
             with lock:
-                out[tk] = reads
+                out.setdefault(tk, {})[period] = reads
                 save()   # persist as each finishes — a crash never loses progress
             pin, pout = (usage or {}).get("prompt_tokens", 0), (usage or {}).get("completion_tokens", 0)
             tot_in += pin; tot_out += pout
-            print(f"  [{done}/{len(todo)}] {tk}: {len(reads)} reads · {pin}+{pout} tok", flush=True)
+            print(f"  [{done}/{len(pairs)}] {tk} {period}: {len(reads)} reads · {pin}+{pout} tok", flush=True)
+    if not outpath.exists() or not out:
+        print("\nno output"); return
+    save()
     pin, pout = PRICE.get(model, (0.75, 4.50))
     cost = tot_in / 1e6 * pin + tot_out / 1e6 * pout
-    print(f"\nTOTAL {tot_in}+{tot_out} tok  (~${cost:.3f} at {model})  · {len(out)} companies · wrote data/dimension_reads.json" if out else "\nno output")
+    cq = sum(len(v) for v in out.values())
+    print(f"\nTOTAL {tot_in}+{tot_out} tok  (~${cost:.3f} at {model}) · {len(out)} companies · {cq} company-quarters · wrote data/dimension_reads.json")
 
 
 if __name__ == "__main__":
