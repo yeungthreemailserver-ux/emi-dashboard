@@ -1,19 +1,19 @@
 {
  "steps": {
   "counts": {
-   "at": "2026-06-08 16:02 UTC",
-   "ok": true
+   "at": "2026-06-08 23:25 UTC",
+   "ok": false
   },
   "readiness": {
-   "at": "2026-06-08 16:03 UTC",
+   "at": "2026-06-09 01:39 UTC",
    "ok": true
   },
   "bundle": {
-   "at": "2026-06-08 16:03 UTC",
+   "at": "2026-06-09 01:39 UTC",
    "ok": true
   },
   "reads": {
-   "at": "2026-06-08 16:03 UTC",
+   "at": "2026-06-09 01:39 UTC",
    "ok": true
   },
   "synth": {
@@ -21,5 +21,5 @@
    "ok": true
   }
  },
- "last_run": "2026-06-08 16:03 UTC"
+ "last_run": "2026-06-09 01:39 UTC"
 }
