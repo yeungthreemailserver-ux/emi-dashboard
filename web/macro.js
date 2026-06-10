@@ -180,10 +180,11 @@ function render() {
         <div class="csub">OICA · M units/yr by region · ${STATE.region} highlighted (2006–2022)</div><div class="chart" id="ch_auto"></div></div>
     </div>
     <div class="sm-section"><h4>Inflation — CPI, % YoY by economy <span class="dim">World Bank (annual)</span></h4><div class="sm-grid" id="sm_cpi"></div></div>
-    <div class="sm-section"><h4>High-tech exports — US$B by economy <span class="dim">World Bank (annual)</span></h4><div class="sm-grid" id="sm_exp"></div></div>`;
+    <div class="sm-section"><h4>High-tech exports — US$B by economy <span class="dim">World Bank (annual)</span></h4><div class="sm-grid" id="sm_exp"></div></div>
+    <div class="sc-section"><h4>Indicator scorecards — latest situation <span class="dim">level + MoM / YoY / 3M-3M annualized + vs-history · US monthly (FRED)</span></h4><div class="sc-grid" id="scorecards"></div></div>`;
   disposeAll();
   chartBillingsHero(S); chartRegionCompare(S); chartGDP(S); chartExports(S); chartCapex(S);
-  chartBillingsYoY(S); chartAuto(S); renderSM(S, "sm_cpi", "FP.CPI.TOTL.ZG", false); renderSM(S, "sm_exp", "TX.VAL.TECH.CD", true);
+  chartBillingsYoY(S); chartAuto(S); renderSM(S, "sm_cpi", "FP.CPI.TOTL.ZG", false); renderSM(S, "sm_exp", "TX.VAL.TECH.CD", true); renderScorecards(S);
   const us = S.us_macro || {}, gdp = (us.GDP || [])[0], cpi = (us.CPI || [])[0], fredN = Object.keys(S.fred || {}).length;
   document.getElementById("foot").innerHTML =
     `<b>Sources:</b> WSTS (billings) · World Bank (macro) · SEC EDGAR (hyperscaler capex) · OICA + ECB (auto) · FMP (US macro${gdp ? `: GDP ${fmtUSD(gdp.value * (gdp.value < 1e6 ? 1e9 : 1))}` : ""}${cpi ? `, CPI ${(+cpi.value).toFixed(1)}` : ""}). ` +
@@ -214,6 +215,54 @@ function chartAuto(S) {
     tooltip: { trigger: "axis", valueFormatter: v => v + "M" }, legend: { top: 0, textStyle: { fontSize: 11, color: "#334155" } },
     grid: { left: 44, right: 14, top: 28, bottom: 26 },
     xAxis: { type: "category", data: x, ...axis() }, yAxis: { type: "value", name: "M units/yr", min: 0, ...axis() }, series,
+  });
+}
+
+/* advanced "latest situation" metrics from a monthly level series */
+function indicatorMetrics(pts) {
+  const v = pts.map(p => p.value), n = v.length - 1;
+  const mom = (n >= 1 && v[n - 1]) ? (v[n] - v[n - 1]) / v[n - 1] * 100 : null;
+  const yoy = (n >= 12 && v[n - 12]) ? (v[n] - v[n - 12]) / v[n - 12] * 100 : null;
+  const avg = (a, b) => { let s = 0, c = 0; for (let i = Math.max(0, a); i <= b; i++) if (v[i] != null) { s += v[i]; c++; } return c ? s / c : null; };
+  const a = avg(n - 2, n), b = avg(n - 5, n - 3);
+  const m3 = (a && b) ? (Math.pow(a / b, 4) - 1) * 100 : null;   // 3M/3M annualized
+  const yoys = []; for (let i = 12; i < v.length; i++) if (v[i - 12]) yoys.push((v[i] - v[i - 12]) / v[i - 12] * 100);
+  const mean = yoys.reduce((s, x) => s + x, 0) / (yoys.length || 1);
+  const sd = Math.sqrt(yoys.reduce((s, x) => s + (x - mean) ** 2, 0) / (yoys.length || 1));
+  const pct = (yoy != null && yoys.length) ? Math.round(yoys.filter(x => x <= yoy).length / yoys.length * 100) : null;
+  const z = (yoy != null && sd) ? (yoy - mean) / sd : null;
+  return { latest: v[n], date: pts[n].date, mom, yoy, m3, pct, z, yearsHist: Math.round(yoys.length / 12) };
+}
+
+function renderScorecards(S) {
+  const cont = document.getElementById("scorecards"); if (!cont) return;
+  const fred = S.fred || {};
+  const items = [{ id: "PPIACO", label: "US PPI — all commodities" }, { id: "INDPRO", label: "US Industrial Production" }];
+  cont.innerHTML = "";
+  items.forEach(it => {
+    const o = fred[it.id]; if (!o || !(o.points || []).length) return;
+    const m = indicatorMetrics(o.points);
+    const chip = (lbl, x) => x == null ? "" : `<span class="sc-m">${lbl} <b class="${x >= 0 ? "up" : "down"}">${x >= 0 ? "+" : ""}${x.toFixed(1)}%</b></span>`;
+    const card = document.createElement("div"); card.className = "scorecard";
+    card.innerHTML = `<div class="sc-head"><span class="sc-name">${it.label}</span><span class="sc-freq">Monthly · FRED</span></div>
+      <div class="sc-val">${m.latest.toFixed(1)} <span class="sc-date">${m.date}</span></div>
+      <div class="sc-metrics">${chip("MoM", m.mom)}${chip("YoY", m.yoy)}${chip("3M/3M ann.", m.m3)}</div>
+      <div class="sc-hist">YoY vs ${m.yearsHist}y: <span class="sc-bar"><i style="width:${m.pct || 0}%"></i></span> ${m.pct != null ? m.pct + "th pct" : ""}${m.z != null ? ` · ${m.z >= 0 ? "+" : ""}${m.z.toFixed(1)}σ` : ""}</div>
+      <div class="sc-chart" id="sc_${it.id}"></div>`;
+    cont.appendChild(card);
+    const pts = o.points, x = pts.map(p => p.date), lev = pts.map(p => +(+p.value).toFixed(1));
+    const yoy = pts.map((p, i) => (i >= 12 && pts[i - 12].value) ? +(((p.value - pts[i - 12].value) / pts[i - 12].value) * 100).toFixed(1) : null);
+    const c = echarts.init(card.querySelector(".sc-chart")); charts.push(c);
+    c.setOption({
+      tooltip: { trigger: "axis" }, legend: { top: 0, right: 0, textStyle: { fontSize: 10, color: "#334155" }, data: ["Level", "YoY %"] },
+      grid: { left: 42, right: 40, top: 24, bottom: 24 },
+      xAxis: { type: "category", data: x, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, interval: Math.floor(x.length / 6) } },
+      yAxis: [{ type: "value", name: "index", scale: true, ...axis() }, { type: "value", name: "YoY%", ...axis() }],
+      series: [
+        { name: "Level", type: "line", yAxisIndex: 0, data: lev, smooth: true, symbol: "none", lineStyle: { color: "#94a3b8", width: 1.5 } },
+        { name: "YoY %", type: "bar", yAxisIndex: 1, data: yoy.map(v => v == null ? null : ({ value: v, itemStyle: { color: v >= 0 ? "#16a34a" : "#dc2626" } })), barWidth: "60%" },
+      ],
+    });
   });
 }
 
