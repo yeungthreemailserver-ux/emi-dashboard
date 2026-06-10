@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMI · Data Coverage — what we've gathered</title>
+  <style>
+    :root{--ink:#0f172a;--ink2:#334155;--muted:#64748b;--faint:#94a3b8;--line:#e2e8f0;--bg:#f6f8fb;--blue:#2563eb;--green:#16a34a;--amber:#d97706;--red:#dc2626;}
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 20px 48px;}
+    .topbar{display:flex;align-items:center;gap:14px;padding:14px 0 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;}
+    .brand a{color:var(--blue);font-weight:700;text-decoration:none;} .brand .sep{color:var(--faint);margin:0 6px;} .brand b{font-size:16px;}
+    .brand small{color:var(--muted);font-size:11px;margin-left:4px;}
+    .spacer{flex:1;}
+    .pagenav a{font-size:12px;font-weight:600;color:var(--ink2);text-decoration:none;margin-left:14px;}
+    .pagenav a:hover{color:var(--blue);text-decoration:underline;}
+    h1{font-size:20px;margin:18px 0 2px;} .sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+    h2{font-size:14px;margin:24px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line);text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);}
+    h2 .tag{font-size:11px;font-weight:600;color:#fff;background:var(--blue);border-radius:10px;padding:1px 9px;margin-left:8px;text-transform:none;letter-spacing:0;}
+    h2 .tag.macro{background:#0891b2;}
+    table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden;font-size:13px;}
+    th{text-align:left;background:#fafbfd;padding:8px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--line);}
+    td{padding:8px 12px;border-bottom:1px solid #eef2f6;vertical-align:top;}
+    tr:last-child td{border-bottom:0;}
+    td.cat{font-weight:600;color:var(--ink);width:230px;}
+    td.scope{font-variant-numeric:tabular-nums;}
+    .st{font-weight:700;white-space:nowrap;} .st.ok{color:var(--green);} .st.warn{color:var(--amber);} .st.no{color:var(--red);}
+    .src{color:var(--muted);font-size:12px;}
+    .note{color:var(--faint);font-size:12px;}
+    .kpibar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:8px 0 6px;}
+    .kpi{background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 13px;}
+    .kpi .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;} .kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+    .legend{font-size:12px;color:var(--muted);margin:10px 0 0;} .legend b{color:var(--ink2);}
+    .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--faint);line-height:1.7;}
+    code{background:#eef2f6;padding:1px 5px;border-radius:4px;font-size:12px;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><a href="index.html">◢ EMI</a><span class="sep">›</span><b>Data Coverage</b><small>what we've gathered</small></div>
+    <div class="spacer"></div>
+    <nav class="pagenav"><a href="index.html">Earnings intelligence</a><a href="macro.html">Macro</a></nav>
+  </div>
+
+  <h1>Data coverage — inventory by category</h1>
+  <div class="sub">A point-in-time snapshot of every dataset feeding EMI. Two intelligence layers: company earnings-call signals, and the macro + semiconductor-industry environment. Periods quoted are calendar quarters 2025Q1–2026Q1.</div>
+
+  <div class="kpibar">
+    <div class="kpi"><div class="v">105</div><div class="l">Companies tracked</div></div>
+    <div class="kpi"><div class="v">70</div><div class="l">Full 5-quarter cohort</div></div>
+    <div class="kpi"><div class="v">167</div><div class="l">Topics (taxonomy)</div></div>
+    <div class="kpi"><div class="v">418</div><div class="l">Favorability co-quarters</div></div>
+    <div class="kpi"><div class="v">16</div><div class="l">Macro economies</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">WSTS billings regions</div></div>
+  </div>
+
+  <h2>Earnings-call intelligence <span class="tag">company layer</span></h2>
+  <table>
+    <thead><tr><th>Data category</th><th>Scope / size</th><th>Source</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="cat">Companies tracked</td><td class="scope">105 (manifest)</td><td class="src">MarketBeat · IR sites · Investing.com</td><td class="st ok">✅</td><td class="note">US 76 · non-US 28 (Avnet excluded by policy)</td></tr>
+      <tr><td class="cat">Full 5-quarter cohort</td><td class="scope">70 companies</td><td class="src">consecutive quarterly transcripts</td><td class="st ok">✅</td><td class="note">US 67 + TSMC, Renesas, MediaTek — drives all point-in-time analysis</td></tr>
+      <tr><td class="cat">Transcript coverage</td><td class="scope">418 company-quarters<br>per Q: 78 / 78 / 81 / 79 / 102</td><td class="src">free transcripts (5 quarters)</td><td class="st ok">✅</td><td class="note">2026Q1 ≈ all; 2025 quarters ~78–81</td></tr>
+      <tr><td class="cat">Topic taxonomy</td><td class="scope">167 leaf topics · 32 nodes</td><td class="src">LLM-built + auto-detected</td><td class="st ok">✅</td><td class="note">hierarchical: subjects × dimensions</td></tr>
+      <tr><td class="cat">Mention counts (per quarter)</td><td class="scope">105 × 167 × 5</td><td class="src">token-free regex over transcripts</td><td class="st ok">✅</td><td class="note">heat + momentum; point-in-time (trailing-window)</td></tr>
+      <tr><td class="cat">Favorability (point-in-time)</td><td class="scope">418 company-quarters<br>per Q: 78 / 78 / 81 / 79 / 102</td><td class="src">LLM (gpt-5.4-mini)</td><td class="st ok">✅</td><td class="note">each quarter judged on its own transcript — no hindsight</td></tr>
+      <tr><td class="cat">Forward outlooks · emergent · readiness</td><td class="scope">per-topic / per-company</td><td class="src">LLM synthesis + counts</td><td class="st ok">✅</td><td class="note">outlooks, alerts, correlation, coverage views</td></tr>
+      <tr><td class="cat">Non-US historical transcripts</td><td class="scope">25 companies @ 2026Q1 only</td><td class="src">Yahoo/Quartr (latest free)</td><td class="st warn">⚠️</td><td class="note">history is paywalled everywhere free — needs FMP Ultimate / Yahoo Gold</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Macro &amp; semiconductor-industry environment <span class="tag macro">macro page</span></h2>
+  <table>
+    <thead><tr><th>Data category</th><th>Scope / size</th><th>Source</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="cat">Semiconductor billings (regional)</td><td class="scope">5 regions × 120 months<br>(monthly + 3MMA), to 2026-04</td><td class="src">WSTS Historical Billings "Blue Book"</td><td class="st ok">✅ free</td><td class="note">Americas / Europe / Japan / Asia Pacific / Worldwide · the industry anchor</td></tr>
+      <tr><td class="cat">Macro — GDP / CPI / high-tech exports</td><td class="scope">16 economies × 3 series × ~15 yrs<br>APAC 6 · EMEA 6 · AMER 4</td><td class="src">World Bank WDI (annual)</td><td class="st ok">✅ free</td><td class="note">CN/KR/JP/SG/MY · DE/NL/FR/GB/IL/IE · US/MX/CA/BR</td></tr>
+      <tr><td class="cat">AI / datacenter — hyperscaler capex</td><td class="scope">4 firms × 24 quarters</td><td class="src">SEC EDGAR (XBRL)</td><td class="st ok">✅ free</td><td class="note">Microsoft · Alphabet · Amazon · Meta — dominant semi end-market</td></tr>
+      <tr><td class="cat">US macro + treasury</td><td class="scope">GDP · CPI · realGDP · yield curve</td><td class="src">FMP economic-indicators / treasury</td><td class="st ok">✅</td><td class="note">US-centric (FMP economic data is US-only)</td></tr>
+      <tr><td class="cat">Industry revenue forecasts</td><td class="scope">Deloitte · IDC · PwC · WSTS/SIA</td><td class="src">analyst outlooks (research)</td><td class="st ok">✅</td><td class="note">labeled side-by-side (different bases) — not one number</td></tr>
+      <tr><td class="cat">PPI · industrial production · Taiwan</td><td class="scope">0 series loaded</td><td class="src">FRED (keyless CSV)</td><td class="st warn">⚠️</td><td class="note">implemented but FRED unreachable from this network — populates on yours</td></tr>
+      <tr><td class="cat">End-market shipments (auto / PC / smartphone)</td><td class="scope">—</td><td class="src">IDC/Gartner/Canalys (paywalled)</td><td class="st no">❌</td><td class="note">pending — will use OICA / national / press-release proxies</td></tr>
+      <tr><td class="cat">Manufacturing PMI</td><td class="scope">—</td><td class="src">Caixin / national PMIs</td><td class="st no">❌</td><td class="note">pending</td></tr>
+    </tbody>
+  </table>
+  <div class="legend"><b>Status:</b> ✅ live &amp; flowing · ⚠️ implemented but gapped/blocked · ❌ not yet sourced</div>
+
+  <div class="foot">
+    <b>Refresh:</b> earnings layer — <code>scripts/refresh.py</code> (counts → favorability → bundle); macro layer — <code>scripts/fetch_macro.py</code> → <code>web/macro-data.json</code>.<br>
+    <b>Known gaps:</b> non-US transcript history (paid-gated) · Taiwan absent from World Bank (→ FRED/DGBAS) · FRED unreachable from this network · end-market shipments &amp; PMI not yet wired · Germany GDP a transient World Bank miss.<br>
+    All sources are free/public or via your FMP key. Snapshot — re-run the scripts above to update.
+  </div>
+</div>
+</body>
+</html>

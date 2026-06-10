@@ -35,6 +35,9 @@ button { font-family: inherit; cursor: pointer; }
 .asof b { color: var(--text); font-family: var(--mono); }
 .spacer { flex: 1; }
 .legend-hint { color: var(--text-faint); font-size: 11px; }
+.pagenav { display: flex; gap: 12px; }
+.pagenav a { font-size: 12px; font-weight: 600; color: var(--blue, #2563eb); text-decoration: none; padding: 3px 9px; border: 1px solid var(--border, #e2e8f0); border-radius: 6px; }
+.pagenav a:hover { background: #eff6ff; }
 .tabs { display: flex; gap: 4px; margin-left: 6px; }
 .tab { background: transparent; border: 1px solid transparent; color: var(--text-dim); padding: 6px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; }
 .tab:hover { color: var(--text); }
