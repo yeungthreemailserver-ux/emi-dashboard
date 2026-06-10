@@ -245,6 +245,14 @@ def main():
     print("WSTS (semiconductor billings)…");     ws = wsts()
     print("FRED (PPI / IndProd / Taiwan)…");     fr = fred()
     print("Auto end-market (OICA + ECB)…");      auto = {"production_by_region": oica_auto(), "eu_registrations": ecb_auto()}
+    if not fr:   # FRED blocked here (corp proxy) -> keep any FRED previously pulled via the browser
+        try:
+            prev = json.loads((WEB / "macro-data.json").read_text(encoding="utf-8"))
+            fr = prev.get("fred") or {}
+            if fr:
+                print(f"  FRED: kept {len(fr)} existing series (browser-pulled) — not overwritten")
+        except Exception:  # noqa: BLE001
+            pass
     out = {
         "as_of": None,  # stamped by caller / left null (no Date.now in pipeline by policy)
         "regions": {r: list(econ.keys()) for r, econ in REGIONS.items()},
@@ -257,9 +265,10 @@ def main():
         "fred": fr,
         "auto": auto,
     }
-    (WEB / "macro-data.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    sz = (WEB / "macro-data.json").stat().st_size / 1024
-    print(f"\nwrote web/macro-data.json ({sz:.0f} KB)")
+    blob = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
+    (WEB / "macro-data.json").write_text(blob, encoding="utf-8")
+    (WEB / "macro-bundle.js").write_text("window.MMI = " + blob + ";\n", encoding="utf-8")   # embedded for file:// (double-click)
+    print(f"\nwrote web/macro-data.json + macro-bundle.js ({len(blob)/1024:.0f} KB)")
 
 
 if __name__ == "__main__":

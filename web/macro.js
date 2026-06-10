@@ -292,6 +292,7 @@ function renderSM(S, containerId, indicator, isLevel) {
 
 window.addEventListener("resize", () => charts.forEach(c => { try { c.resize(); } catch (e) {} }));
 (async () => {
-  try { DATA = await (await fetch("macro-data.json", { cache: "no-store" })).json(); } catch (e) { DATA = null; }
+  if (window.MMI) DATA = window.MMI;                                  // embedded (open macro.html directly, file://)
+  else { try { DATA = await (await fetch("macro-data.json", { cache: "no-store" })).json(); } catch (e) { DATA = null; } }  // served over HTTP
   wireTabs(); render();
 })();
