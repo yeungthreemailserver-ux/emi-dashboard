@@ -88,6 +88,24 @@
   </table>
   <div class="legend"><b>Status:</b> ✅ live &amp; flowing · ⚠️ implemented but gapped/blocked · 📋 free but manual (press-release capture) · ❌ not yet sourced</div>
 
+  <h2>Coverage by frequency &amp; geography <span class="tag macro">time × place</span></h2>
+  <table>
+    <thead><tr><th>Dataset</th><th>Frequency</th><th>Geography</th><th>History</th><th>Latest</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="cat">Semiconductor billings</td><td>Monthly (3MMA)</td><td>Americas · Europe · Japan · Asia&nbsp;Pacific · Worldwide</td><td class="scope">2016-05 →</td><td class="scope">2026-04</td><td class="src">WSTS</td></tr>
+      <tr><td class="cat">Car registrations</td><td>Monthly</td><td>Euro area</td><td class="scope">2016-05 →</td><td class="scope">2026-04</td><td class="src">ECB</td></tr>
+      <tr><td class="cat">PPI · Industrial production · Vehicle sales</td><td>Monthly</td><td>United States</td><td class="scope">2009-09 →</td><td class="scope">2026-04/05</td><td class="src">FRED (via browser)</td></tr>
+      <tr><td class="cat">Industrial production (YoY)</td><td>Monthly</td><td>South Korea · Japan</td><td class="scope">2009-08 →</td><td class="scope">2026-03</td><td class="src">FRED (via browser)</td></tr>
+      <tr><td class="cat">Earnings favorability + mention counts</td><td>Quarterly</td><td>105 companies (US 76 · non-US 28)</td><td class="scope">2025Q1 →</td><td class="scope">2026Q1</td><td class="src">transcripts (LLM + regex)</td></tr>
+      <tr><td class="cat">Hyperscaler capex (AI/datacenter)</td><td>Quarterly</td><td>US filers, global spend (MSFT·GOOGL·AMZN·META)</td><td class="scope">2022Q2 →</td><td class="scope">2026Q1</td><td class="src">SEC EDGAR</td></tr>
+      <tr><td class="cat">Smartphone shipments <span class="st warn">📋</span></td><td>Quarterly</td><td>Global + top-5 vendors</td><td class="scope">seeded</td><td class="scope">2026Q1</td><td class="src">IDC (press, manual)</td></tr>
+      <tr><td class="cat">GDP · CPI · High-tech exports</td><td>Annual</td><td>16 economies — APAC: CN·KR·JP·<i>TW*</i>·SG·MY · EMEA: DE·NL·FR·GB·IL·IE · AMER: US·MX·CA·BR</td><td class="scope">2010 →</td><td class="scope">2024</td><td class="src">World Bank</td></tr>
+      <tr><td class="cat">Auto production</td><td>Annual</td><td>By region (APAC · EMEA · AMER)</td><td class="scope">2006 →</td><td class="scope">2022</td><td class="src">OICA</td></tr>
+      <tr><td class="cat">CPI</td><td>Annual</td><td>Taiwan</td><td class="scope">1990 →</td><td class="scope">2031†</td><td class="src">FRED/IMF</td></tr>
+    </tbody>
+  </table>
+  <div class="legend">*Taiwan absent from World Bank (GDP/CPI/exports) — only CPI via FRED/IMF. †Taiwan CPI includes IMF forecast years. 📋 = manual press-release capture.</div>
+
   <div class="foot">
     <b>Refresh:</b> earnings layer — <code>scripts/refresh.py</code> (counts → favorability → bundle); macro layer — <code>scripts/fetch_macro.py</code> → <code>web/macro-data.json</code>.<br>
     <b>Known gaps:</b> non-US transcript history (paid-gated) · Taiwan absent from World Bank (→ FRED/DGBAS) · FRED blocked from this network (runs on yours) · PC/smartphone shipments &amp; PMI are free but manual (press-release capture) · Germany GDP a transient World Bank miss.<br>
