@@ -171,14 +171,74 @@ function render() {
       <div class="card"><h3>High-tech exports — latest year</h3><div class="csub">US$B · World Bank</div><div class="chart" id="ch_exp"></div></div>
       <div class="card"><h3>AI / datacenter — hyperscaler capex (global)</h3><div class="csub">US$B/quarter · SEC EDGAR · dominant semi end-market</div><div class="chart" id="ch_capex"></div></div>
       ${forecastPanel()}
-    </div>`;
+    </div>
+    <div class="detail-head">Detail tier — drill-down <span class="dim">overview ▸ filter ▸ details-on-demand</span></div>
+    <div class="grid">
+      <div class="card"><h3>${STATE.region} semiconductor billings — YoY% momentum</h3>
+        <div class="csub">3MMA YoY · turning points · zero = flat (green growing / red contracting)</div><div class="chart" id="ch_yoy"></div></div>
+      <div class="card"><h3>Auto production — end-market</h3>
+        <div class="csub">OICA · M units/yr by region · ${STATE.region} highlighted (2006–2022)</div><div class="chart" id="ch_auto"></div></div>
+    </div>
+    <div class="sm-section"><h4>Inflation — CPI, % YoY by economy <span class="dim">World Bank (annual)</span></h4><div class="sm-grid" id="sm_cpi"></div></div>
+    <div class="sm-section"><h4>High-tech exports — US$B by economy <span class="dim">World Bank (annual)</span></h4><div class="sm-grid" id="sm_exp"></div></div>`;
   disposeAll();
   chartBillingsHero(S); chartRegionCompare(S); chartGDP(S); chartExports(S); chartCapex(S);
+  chartBillingsYoY(S); chartAuto(S); renderSM(S, "sm_cpi", "FP.CPI.TOTL.ZG", false); renderSM(S, "sm_exp", "TX.VAL.TECH.CD", true);
   const us = S.us_macro || {}, gdp = (us.GDP || [])[0], cpi = (us.CPI || [])[0], fredN = Object.keys(S.fred || {}).length;
   document.getElementById("foot").innerHTML =
-    `<b>Sources:</b> WSTS Blue Book (billings) · World Bank WDI (macro) · SEC EDGAR (capex) · FMP (US macro${gdp ? `: GDP ${fmtUSD(gdp.value * (gdp.value < 1e6 ? 1e9 : 1))}` : ""}${cpi ? `, CPI ${(+cpi.value).toFixed(1)}` : ""}). ` +
-    `<span class="pill warn">gap</span> Taiwan absent from World Bank → FRED/DGBAS (FRED ${fredN ? "loaded" : "unreachable from this network"}). ` +
-    `<span class="pill warn">next</span> detail tier (small-multiples macro), end-market shipments (auto/PC/smartphone), PMI.`;
+    `<b>Sources:</b> WSTS (billings) · World Bank (macro) · SEC EDGAR (hyperscaler capex) · OICA + ECB (auto) · FMP (US macro${gdp ? `: GDP ${fmtUSD(gdp.value * (gdp.value < 1e6 ? 1e9 : 1))}` : ""}${cpi ? `, CPI ${(+cpi.value).toFixed(1)}` : ""}). ` +
+    `<span class="pill warn">gap</span> Taiwan absent from World Bank → FRED/DGBAS (FRED ${fredN ? "loaded" : "runs on your network"}). ` +
+    `<span class="pill warn">free, no API</span> PC/smartphone shipments &amp; manufacturing PMI = press-release only · PPI/IndProd/US-auto via FRED on your network.`;
+}
+
+function chartBillingsYoY(S) {
+  const mma = wstsSeries(S, "mma3"), x = [], y = [];
+  for (let i = 12; i < mma.length; i++) { const a = mma[i].val, b = mma[i - 12].val; if (b) { x.push(mma[i].ym); y.push(+((a - b) / b * 100).toFixed(1)); } }
+  mk("ch_yoy", {
+    tooltip: { trigger: "axis", valueFormatter: v => (v >= 0 ? "+" : "") + v + "%" },
+    grid: { left: 48, right: 14, top: 14, bottom: 40 },
+    xAxis: { type: "category", data: x, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, interval: Math.floor(x.length / 8) } },
+    yAxis: { type: "value", name: "YoY %", ...axis() },
+    dataZoom: [{ type: "inside", start: 45 }, { type: "slider", height: 14, bottom: 6 }],
+    series: [{ type: "bar", data: y.map(v => ({ value: v, itemStyle: { color: v >= 0 ? "#16a34a" : "#dc2626" } })), barWidth: "70%" }],
+  });
+}
+
+function chartAuto(S) {
+  const a = ((S.auto || {}).production_by_region) || {}, regs = ["APAC", "EMEA", "AMER"];
+  const x = (a.APAC || []).map(p => p.year);
+  const series = regs.map((r, i) => ({ name: r, type: "line", smooth: true, symbol: "none",
+    lineStyle: { width: r === STATE.region ? 3 : 1.3, color: PALETTE[i] }, emphasis: { focus: "series" },
+    data: (a[r] || []).map(p => +(p.units / 1e6).toFixed(2)) }));
+  mk("ch_auto", {
+    tooltip: { trigger: "axis", valueFormatter: v => v + "M" }, legend: { top: 0, textStyle: { fontSize: 11, color: "#334155" } },
+    grid: { left: 44, right: 14, top: 28, bottom: 26 },
+    xAxis: { type: "category", data: x, ...axis() }, yAxis: { type: "value", name: "M units/yr", min: 0, ...axis() }, series,
+  });
+}
+
+function renderSM(S, containerId, indicator, isLevel) {
+  const cont = document.getElementById(containerId); if (!cont) return;
+  const wb = S.worldbank || {}, econ = (S.regions || {})[STATE.region] || [], names = (S.region_names || {})[STATE.region] || {};
+  cont.innerHTML = "";
+  econ.forEach(iso => {
+    const pts = (((wb[iso] || {}).series || {})[indicator] || { points: [] }).points;
+    if (!pts.length) return;
+    const last = pts[pts.length - 1];
+    const val = isLevel ? "$" + (last.value / 1e9).toFixed(0) + "B" : (+last.value).toFixed(1) + "%";
+    const cell = document.createElement("div"); cell.className = "sm-cell";
+    cell.innerHTML = `<div class="sm-lbl">${names[iso] || iso}</div><div class="sm-val">${val}</div><div class="sm-chart"></div>`;
+    cont.appendChild(cell);
+    const c = echarts.init(cell.querySelector(".sm-chart")); charts.push(c);
+    c.setOption({
+      grid: { left: 2, right: 2, top: 4, bottom: 2 },
+      xAxis: { type: "category", data: pts.map(p => p.date), show: false },
+      yAxis: { type: "value", show: false, scale: !isLevel },
+      tooltip: { trigger: "axis", valueFormatter: v => isLevel ? "$" + v + "B" : v + "%" },
+      series: [{ type: "line", smooth: true, symbol: "none", data: pts.map(p => isLevel ? +(p.value / 1e9).toFixed(1) : +(+p.value).toFixed(1)),
+        lineStyle: { color: isLevel ? "#16a34a" : "#2563eb", width: 1.6 }, areaStyle: { color: isLevel ? "rgba(22,163,74,.08)" : "rgba(37,99,235,.08)" } }],
+    });
+  });
 }
 
 window.addEventListener("resize", () => charts.forEach(c => { try { c.resize(); } catch (e) {} }));

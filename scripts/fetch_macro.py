@@ -199,6 +199,44 @@ def fred():
     return out
 
 
+# Auto end-market — OICA global production (free CSV) mapped to APAC/EMEA/AMER + ECB Europe registrations
+OICA_REGION = {"Asia": "APAC", "Oceania": "APAC", "Europe": "EMEA", "Africa": "EMEA", "Americas": "AMER", "NA": "AMER"}
+
+
+def oica_auto():
+    raw = get("https://raw.githubusercontent.com/jhelvy/oica/main/data-raw/production.csv")
+    if raw is None:
+        return None
+    import csv, io
+    from collections import defaultdict
+    rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))))
+    byry = defaultdict(float); years = set()
+    for x in rows:
+        reg = OICA_REGION.get(x.get("region"))
+        if not reg:
+            continue
+        try:
+            byry[(x["year"], reg)] += float(x.get("n") or 0); years.add(x["year"])
+        except ValueError:
+            pass
+    glob = {y: sum(byry[(y, r)] for r in ("APAC", "EMEA", "AMER")) for y in years}
+    good = sorted(y for y in years if glob[y] > 40_000_000)   # drop incomplete latest year
+    out = {r: [{"year": y, "units": round(byry[(y, r)])} for y in good] for r in ("APAC", "EMEA", "AMER")}
+    print(f"  OICA auto production: {good[0]}-{good[-1]} ({len(good)} yrs) by region")
+    return out
+
+
+def ecb_auto():
+    raw = get("https://data-api.ecb.europa.eu/service/data/CAR/M.I10.N.CREG.PC0000.4Z1.N.PN?format=csvdata")
+    if raw is None:
+        return None
+    import csv, io
+    rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))))
+    pts = sorted(({"ym": x["TIME_PERIOD"], "val": float(x["OBS_VALUE"])} for x in rows if x.get("OBS_VALUE")), key=lambda p: p["ym"])
+    print(f"  ECB euro-area car registrations: {len(pts)} mo, latest {pts[-1]['ym'] if pts else '-'}")
+    return pts[-120:]
+
+
 def main():
     WEB.mkdir(parents=True, exist_ok=True)
     print("World Bank (APAC macro)…");          wb = world_bank()
@@ -206,6 +244,7 @@ def main():
     print("FMP (US macro)…");                    us = fmp_us()
     print("WSTS (semiconductor billings)…");     ws = wsts()
     print("FRED (PPI / IndProd / Taiwan)…");     fr = fred()
+    print("Auto end-market (OICA + ECB)…");      auto = {"production_by_region": oica_auto(), "eu_registrations": ecb_auto()}
     out = {
         "as_of": None,  # stamped by caller / left null (no Date.now in pipeline by policy)
         "regions": {r: list(econ.keys()) for r, econ in REGIONS.items()},
@@ -216,6 +255,7 @@ def main():
         "us_macro": us,
         "wsts": ws,
         "fred": fr,
+        "auto": auto,
     }
     (WEB / "macro-data.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     sz = (WEB / "macro-data.json").stat().st_size / 1024

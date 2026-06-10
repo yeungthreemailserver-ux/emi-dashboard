@@ -40,6 +40,17 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 -apple-system,
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media(max-width:980px){.grid{grid-template-columns:1fr;}}
+
+.detail-head{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:24px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line);}
+.detail-head .dim{font-weight:500;text-transform:none;letter-spacing:0;color:var(--faint);font-size:11px;margin-left:8px;}
+.sm-section{margin-top:16px;}
+.sm-section h4{font-size:12.5px;margin:0 0 8px;color:var(--ink);}
+.sm-section h4 .dim{font-weight:400;color:var(--muted);font-size:11px;}
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;}
+.sm-cell{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;}
+.sm-lbl{font-size:11px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sm-val{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;}
+.sm-chart{height:46px;}
 .card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px;}
 .card.full{grid-column:1 / -1;}
 .card h3{font-size:13px;margin:0 0 2px;}

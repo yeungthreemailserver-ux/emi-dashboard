@@ -80,16 +80,17 @@
       <tr><td class="cat">AI / datacenter — hyperscaler capex</td><td class="scope">4 firms × 24 quarters</td><td class="src">SEC EDGAR (XBRL)</td><td class="st ok">✅ free</td><td class="note">Microsoft · Alphabet · Amazon · Meta — dominant semi end-market</td></tr>
       <tr><td class="cat">US macro + treasury</td><td class="scope">GDP · CPI · realGDP · yield curve</td><td class="src">FMP economic-indicators / treasury</td><td class="st ok">✅</td><td class="note">US-centric (FMP economic data is US-only)</td></tr>
       <tr><td class="cat">Industry revenue forecasts</td><td class="scope">Deloitte · IDC · PwC · WSTS/SIA</td><td class="src">analyst outlooks (research)</td><td class="st ok">✅</td><td class="note">labeled side-by-side (different bases) — not one number</td></tr>
-      <tr><td class="cat">PPI · industrial production · Taiwan</td><td class="scope">0 series loaded</td><td class="src">FRED (keyless CSV)</td><td class="st warn">⚠️</td><td class="note">implemented but FRED unreachable from this network — populates on yours</td></tr>
-      <tr><td class="cat">End-market shipments (auto / PC / smartphone)</td><td class="scope">—</td><td class="src">IDC/Gartner/Canalys (paywalled)</td><td class="st no">❌</td><td class="note">pending — will use OICA / national / press-release proxies</td></tr>
-      <tr><td class="cat">Manufacturing PMI</td><td class="scope">—</td><td class="src">Caixin / national PMIs</td><td class="st no">❌</td><td class="note">pending</td></tr>
+      <tr><td class="cat">Auto — end-market (production + EU registrations)</td><td class="scope">global by region 2006–2022<br>+ euro-area monthly to 2026-04</td><td class="src">OICA (CSV) · ECB API</td><td class="st ok">✅ free</td><td class="note">production by APAC/EMEA/AMER (OICA) + live EU car registrations (ECB)</td></tr>
+      <tr><td class="cat">PPI · industrial production · Taiwan CPI</td><td class="scope">0 series loaded here</td><td class="src">FRED (keyless CSV)</td><td class="st warn">⚠️</td><td class="note">code ready — FRED blocked from this network (corp proxy?); runs on yours</td></tr>
+      <tr><td class="cat">PC / smartphone shipments</td><td class="scope">manual capture<br>(smartphone Q1'26 seeded)</td><td class="src">IDC hub · Gartner press releases</td><td class="st warn">📋</td><td class="note">no free API — press-release capture per docs/press-release-capture.md → web/manual-macro.json</td></tr>
+      <tr><td class="cat">Manufacturing PMI</td><td class="scope">manual capture</td><td class="src">S&amp;P Global · ISM press releases</td><td class="st warn">📋</td><td class="note">no reliable API (DBnomics feed broken) — PDF/HTML capture per playbook</td></tr>
     </tbody>
   </table>
-  <div class="legend"><b>Status:</b> ✅ live &amp; flowing · ⚠️ implemented but gapped/blocked · ❌ not yet sourced</div>
+  <div class="legend"><b>Status:</b> ✅ live &amp; flowing · ⚠️ implemented but gapped/blocked · 📋 free but manual (press-release capture) · ❌ not yet sourced</div>
 
   <div class="foot">
     <b>Refresh:</b> earnings layer — <code>scripts/refresh.py</code> (counts → favorability → bundle); macro layer — <code>scripts/fetch_macro.py</code> → <code>web/macro-data.json</code>.<br>
-    <b>Known gaps:</b> non-US transcript history (paid-gated) · Taiwan absent from World Bank (→ FRED/DGBAS) · FRED unreachable from this network · end-market shipments &amp; PMI not yet wired · Germany GDP a transient World Bank miss.<br>
+    <b>Known gaps:</b> non-US transcript history (paid-gated) · Taiwan absent from World Bank (→ FRED/DGBAS) · FRED blocked from this network (runs on yours) · PC/smartphone shipments &amp; PMI are free but manual (press-release capture) · Germany GDP a transient World Bank miss.<br>
     All sources are free/public or via your FMP key. Snapshot — re-run the scripts above to update.
   </div>
 </div>
