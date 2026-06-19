@@ -1,0 +1,92 @@
+"""Build web/seasia-bundle.js (window.SEASIA) for the SE-Asia Hub page (Singapore + Malaysia).
+
+Phase 1: macro tiles (per-country, dated/sourced/digest) + a supply-chain role map. All figures
+are widely-cited official / industry sources, each labelled with source + period. No live fetch.
+English-only (SG/MY are English-business markets); reuses china.css + the China render patterns.
+"""
+import json
+from pathlib import Path
+
+WEB = Path(__file__).resolve().parent.parent / "web"
+
+# Plain-language tooltips for jargon (same mechanism as the China page).
+GLOSSARY = {
+    "GDP growth": "Real gross domestic product growth, year-over-year.",
+    "Core CPI": "Core consumer inflation (excludes accommodation & private transport) — MAS's main price gauge.",
+    "CPI": "Headline consumer price inflation, year-over-year.",
+    "NODX": "Non-Oil Domestic Exports — Singapore's key export gauge (locally-made goods, ex-oil); electronics is a big share.",
+    "Electronics PMI": "Electronics-sector Purchasing Managers' Index (SIPMM) — >50 = the chip cluster is expanding.",
+    "Unemployment": "Resident unemployment rate (seasonally adjusted).",
+    "OPR": "Overnight Policy Rate — Bank Negara Malaysia's benchmark interest rate.",
+    "E&E exports": "Electrical & electronics exports — Malaysia's largest export category (~40% of total), incl. semiconductors.",
+    "ATP": "Assembly, Test & Packaging — the semiconductor 'back-end': turning finished wafers into packaged, tested chips.",
+    "Advanced packaging": "High-density chip packaging (2.5D/3D, chiplets) — increasingly where performance gains come from; Malaysia is only now building it.",
+    "IC design": "Designing the chip itself (the high-value, front-of-chain step) — minimal in SE-Asia, which is mostly mid-stream.",
+    "Semiconductor equipment": "The tools that make chips (deposition, etch, test handlers) — Singapore is a major production base.",
+    "Wafer fab": "Front-end chip fabrication (turning silicon wafers into circuits); Singapore runs mature/specialty fabs.",
+    "leading-edge logic": "The most advanced chips (≤7nm) for CPUs/GPUs/AI — fabricated only in Taiwan & Korea, not SE-Asia.",
+    "HBM": "High-Bandwidth Memory — stacked DRAM for AI accelerators; designed/made by SK hynix, Samsung & Micron.",
+}
+
+# ---- Macro tiles -------------------------------------------------------------------------------
+# view.good: "high" (more=better, ref line), "band" (healthy range), "low" (less=better), "none" (neutral/informational).
+SG = [
+    {"key": "gdp", "k": "GDP growth", "v": "+4.8%", "as_of": "2025", "source": "MTI", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 9.7], ["2022", 3.8], ["2023", 1.1], ["2024", 4.4], ["2025", 4.8]]},
+    {"key": "cpi", "k": "Core CPI", "v": "+1.0%", "as_of": "2025", "source": "MAS", "glo": "Core CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 2.5]}, "series": [["2021", 0.9], ["2022", 4.1], ["2023", 4.2], ["2024", 2.8], ["2025", 1.0]]},
+    {"key": "nodx", "k": "NODX", "v": "+4.8%", "as_of": "2025", "source": "Enterprise SG", "glo": "NODX", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 12.0], ["2022", 3.0], ["2023", -13.1], ["2024", 0.2], ["2025", 4.8]]},
+    {"key": "unemp", "k": "Unemployment", "v": "1.9%", "as_of": "2025", "source": "MOM", "glo": "Unemployment",
+     "view": {"metric": "value", "ref": 2.5, "good": "low"}, "series": [["2021", 2.7], ["2022", 2.1], ["2023", 1.9], ["2024", 1.9], ["2025", 1.9]]},
+    {"key": "epmi", "k": "Electronics PMI", "v": "50.9", "as_of": "Dec 2025", "source": "SIPMM", "glo": "Electronics PMI",
+     "view": {"metric": "value", "ref": 50, "good": "high"}, "series": [["Dec 2025", 50.9]]},
+]
+MY = [
+    {"key": "gdp", "k": "GDP growth", "v": "+4.9%", "as_of": "2025", "source": "DOSM / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 3.3], ["2022", 8.9], ["2023", 3.6], ["2024", 5.1], ["2025", 4.9]]},
+    {"key": "cpi", "k": "CPI", "v": "+1.4%", "as_of": "2025", "source": "DOSM", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 3.0]}, "series": [["2021", 2.5], ["2022", 3.3], ["2023", 2.5], ["2024", 1.8], ["2025", 1.4]]},
+    {"key": "ee", "k": "E&E exports", "v": "RM711B", "as_of": "2025", "source": "MITI / MATRADE", "glo": "E&E exports",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 455], ["2022", 593], ["2023", 575], ["2024", 601], ["2025", 711]]},
+    {"key": "opr", "k": "OPR", "v": "2.75%", "as_of": "2025", "source": "BNM", "glo": "OPR", "note": "eased Jul 2025",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": [["2021", 1.75], ["2022", 2.75], ["2023", 3.0], ["2024", 3.0], ["2025", 2.75]]},
+]
+
+# ---- Supply-chain role map ---------------------------------------------------------------------
+# type "hold" = globally significant (the hub's strength); "gap" = limited / mid-stream (moving upstream).
+ROLE = [
+    {"node": "Semiconductor equipment", "scope": "Singapore", "share": 20, "disp": "~20%", "type": "hold", "source": "A*STAR / industry", "year": "2024", "glo": "Semiconductor equipment"},
+    {"node": "Assembly, test & packaging", "scope": "Malaysia · Penang / Kulim", "share": 13, "disp": "~13%", "type": "hold", "source": "MSIA / MIDA", "year": "2024", "glo": "ATP"},
+    {"node": "Semiconductor output", "scope": "Singapore", "share": 10, "disp": "~10%", "type": "hold", "source": "A*STAR", "year": "2024", "glo": "Wafer fab"},
+    {"node": "Wafer fab capacity", "scope": "Singapore · mature / specialty", "share": 5, "disp": "~5%", "type": "hold", "source": "A*STAR", "year": "2024", "glo": "Wafer fab"},
+    {"node": "Leading-edge logic", "scope": "≤7nm · none in region", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2024", "glo": "leading-edge logic"},
+    {"node": "Advanced packaging", "scope": "Malaysia · 7% target by 2035", "share": 1, "disp": "~0%", "type": "gap", "source": "MIDA / MAPC", "year": "2024", "glo": "Advanced packaging"},
+    {"node": "IC design", "scope": "front-of-chain · moving upstream", "share": 2, "disp": "~2%", "type": "gap", "source": "AMRO", "year": "2024", "glo": "IC design"},
+    {"node": "Advanced memory (HBM/DRAM)", "scope": "design & lead supply elsewhere", "share": 1, "disp": "~1%", "type": "gap", "source": "industry", "year": "2024", "glo": "HBM"},
+]
+ROLE_TAKE = ("SE-Asia is the world's chip back-end & equipment hub — Singapore makes ~20% of global semiconductor "
+             "equipment and Malaysia handles ~13% of assembly, test & packaging — and the prime 'China+1' destination. "
+             "But it sits mid-stream: leading-edge fabrication, advanced packaging and chip design still happen elsewhere.")
+
+OUT = {
+    "countries": [
+        {"key": "sg", "name": "Singapore", "tagline": "Advanced fabs, semiconductor equipment & HQ hub — the high-value front of the SE-Asia chip chain."},
+        {"key": "my", "name": "Malaysia", "tagline": "Penang/Kulim back-end powerhouse — ~13% of global assembly, test & packaging; the 'China+1' magnet."},
+    ],
+    "macro": {"sg": SG, "my": MY},
+    "role": ROLE,
+    "role_take": ROLE_TAKE,
+    "glossary": GLOSSARY,
+}
+
+
+def main():
+    blob = json.dumps(OUT, ensure_ascii=False, separators=(",", ":"))
+    (WEB / "seasia-bundle.js").write_text("window.SEASIA = " + blob + ";\n", encoding="utf-8")
+    kb = len((WEB / "seasia-bundle.js").read_text(encoding="utf-8")) // 1024
+    print(f"wrote web/seasia-bundle.js ({kb} KB) — SG {len(SG)} tiles, MY {len(MY)} tiles, role {len(ROLE)} nodes, glossary {len(GLOSSARY)}")
+
+
+if __name__ == "__main__":
+    main()
