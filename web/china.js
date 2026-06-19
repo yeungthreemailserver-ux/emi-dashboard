@@ -48,6 +48,13 @@ const mnote = (it) => (Z() ? (it.note_zh || it.note) : it.note);
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
 const escAttr = (s) => esc(s).replace(/"/g, "&quot;");
 const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const MONTHS = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+const aslabel = (p) => (p && p.indexOf("-") > 0) ? `${MONTHS[p.split("-")[1]] || p.split("-")[1]} ${p.split("-")[0]}` : p;
+function asof(it) {
+  if (!it.as_of) return `<span class="asof">${esc(it.source || "")}</span>`;
+  const a = it.as_of === "manual" ? (Z() ? "人工录入" : "manual") : aslabel(it.as_of);
+  return `<span class="asof${it.manual ? " man" : ""}">${Z() ? "截至 " : "as of "}${esc(a)} · ${esc(it.source || "")}</span>`;
+}
 
 // professional tooltips: data-tip instead of native title
 function glossWrap(text, term) {
@@ -131,11 +138,12 @@ function render() {
       <div class="val">${esc(k.v)}</div>
       <div class="digest" style="color:${dg.color}">${esc(dg.txt)}</div>
       <div class="spk">${sparkBars(vw)}</div>
-      <div class="src">${esc(k.src)} · <span class="exp">${tt("tap")} ↗</span></div></div>`;
+      <div class="src">${asof(k)} · <span class="exp">${tt("tap")} ↗</span></div></div>`;
   }).join("");
   const more = m.more.map((it) => {
-    if (it.series) { const vw = viewSeries(it), dg = digest(vw); return `<div class="morec"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv" style="color:${dg.color}">${esc(it.v)}</div><div class="msp">${sparkBars(vw, 120, 22)}</div><div class="md">${dg.read ? esc(Z() ? dg.read : dg.read) + " · " : ""}${esc(it.src)}</div></div>`; }
-    return `<div class="morec"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${esc(it.v)}</div><div class="md">${it.d ? esc(it.d) + " · " : ""}${esc(it.src)}</div></div>`;
+    const hasS = it.series && it.series.length;
+    if (hasS) { const vw = viewSeries(it), dg = digest(vw); return `<div class="morec${it.manual ? " man" : ""}"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv" style="color:${dg.color}">${esc(it.v)}</div><div class="msp">${sparkBars(vw, 120, 22)}</div><div class="md">${asof(it)}</div></div>`; }
+    return `<div class="morec${it.manual ? " man" : ""}"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${esc(it.v)}</div><div class="md">${asof(it)}</div></div>`;
   }).join("");
   const ind = m.industry.map((i) => `<div class="ind"><b>${esc(i.v)}</b><span class="il">${glossWrap(mk(i), i.glo)} · ${esc(mnote(i))}</span></div>`).join("");
   const layerBtns = DATA.layers.map((l) => `<button class="mapbtn${l.key === STATE.layer ? " active" : ""}" data-layer="${l.key}">${esc(layerLabel(l))}</button>`).join("");
@@ -232,7 +240,7 @@ function openKpiModal(it) {
   const metricLbl = vw.metric === "yoy" ? "YoY %" : (vw.ref === 50 ? "index" : "%");
   const bg = document.createElement("div"); bg.className = "modal-bg"; bg.id = "kpimodal";
   bg.innerHTML = `<div class="modal"><div class="modal-h"><span class="modal-title">${glossWrap(mk(it), it.glo)}</span><button class="modal-close" aria-label="close">✕</button></div>
-    <div class="modal-sub"><b>${esc(it.v)}</b> · <span style="color:${dg.color};font-weight:600">${esc(dg.txt)}</span> · ${tt("src")}: ${esc(it.src)}</div>
+    <div class="modal-sub"><b>${esc(it.v)}</b>${dg.txt ? ` · <span style="color:${dg.color};font-weight:600">${esc(dg.txt)}</span>` : ""} · ${esc(Z() ? "截至 " : "as of ")}${esc(it.as_of === "manual" ? "manual" : aslabel(it.as_of))} · ${esc(it.source || "")} · <span class="freqtag">${esc(it.freq || "")}</span></div>
     <div class="modal-chart" id="kpichart"></div>
     ${(it.detail || it.detail_zh) ? `<div class="modal-detail">${glossify(Z() ? (it.detail_zh || it.detail) : it.detail)}</div>` : ""}</div>`;
   bg.addEventListener("click", (e) => { if (e.target === bg) closeKpiModal(); });

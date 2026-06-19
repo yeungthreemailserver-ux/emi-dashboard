@@ -99,6 +99,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .morec .mv{font-variant-numeric:tabular-nums;}
 .morec .msp{height:22px;margin:1px 0;} .morec .msp svg{width:100%;height:22px;}
 
+/* as-of / source dating (currency is explicit for an exec) */
+.asof{color:var(--faint);}
+.asof.man{color:#b45309;font-weight:600;}
+.morec.man{background:#fffdf8;border-color:#fce3bf;}
+.freqtag{text-transform:uppercase;font-size:10px;letter-spacing:.04em;background:#eef2f6;color:var(--ink-2);border-radius:5px;padding:1px 6px;}
+
 /* KPI sparkline + clickable */
 .kpi{cursor:pointer;transition:border-color .12s,box-shadow .12s;}
 .kpi:hover{border-color:#cbd5e1;box-shadow:0 1px 6px rgba(0,0,0,.06);}

@@ -560,7 +560,14 @@ def _attach_series():
 
 
 def main():
-    _attach_series()
+    # Real, dated macro from scripts/fetch_china_macro.py (World Bank + DBnomics + FRED cache).
+    cm_path = WEB / "china-macro.json"
+    if cm_path.exists():
+        cm = json.loads(cm_path.read_text(encoding="utf-8"))
+        CHINA_MACRO["headline"] = cm["headline"]
+        CHINA_MACRO["more"] = cm["more"]
+    else:
+        _attach_series()  # fallback to curated if the real pull hasn't run
     geo = json.loads((WEB / "vendor" / "china.geo.json").read_text(encoding="utf-8"))
     out = {"as_of": None, "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY, "glossary_zh": GLOSSARY_ZH,
            "provinces": PROVINCES, "layers": LAYERS, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
