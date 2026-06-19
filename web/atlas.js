@@ -105,8 +105,8 @@ function drillCountry(code) {
     if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; }
     if (code === "cn") { map.setFeatureState({ source: "asia", id: c.name }, { drilled: true }); drilledName = c.name; }  // hide China's base fill/outline so its provinces render clean
     const feat = ASIA.geo.features.find((f) => f.properties.name === c.name);
-    if (feat) map.fitBounds(bbox(feat), { padding: 60, maxZoom: 7.5, duration: reduce() ? 0 : 900 });
-    else map.flyTo({ center: [c.lon, c.lat], zoom: 7, duration: reduce() ? 0 : 900 });
+    if (feat) map.fitBounds(bbox(feat), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1700, essential: true });
+    else map.flyTo({ center: [c.lon, c.lat], zoom: 6.5, duration: reduce() ? 0 : 1700, curve: 1.3, essential: true });
     if (code === "cn" && CHINA && CHINA.geo) {
       colorProvinces();
       if (!map.getSource("prov")) {
@@ -134,16 +134,16 @@ function drillCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
   const ct = list.find((x) => x.name === name); if (!ct) return;
   STATE.level = "city"; STATE.city = name; hideTip();
-  mapDo(() => { if (ct.lon != null) map.flyTo({ center: [ct.lon, ct.lat], zoom: code === "cn" ? 8 : 9.5, duration: reduce() ? 0 : 1000 }); });
+  mapDo(() => { if (ct.lon != null) map.flyTo({ center: [ct.lon, ct.lat], zoom: code === "cn" ? 7.5 : 9, duration: reduce() ? 0 : 1700, curve: 1.4, essential: true }); });
   renderPanel(); renderCrumb();
 }
 function up() {
-  if (STATE.level === "city") { STATE.level = "country"; STATE.city = null; const c = byCode[STATE.country], f = ASIA.geo.features.find((x) => x.properties.name === c.name); mapDo(() => { if (f) map.fitBounds(bbox(f), { padding: 60, maxZoom: 7.5, duration: reduce() ? 0 : 800 }); }); renderPanel(); renderCrumb(); }
+  if (STATE.level === "city") { STATE.level = "country"; STATE.city = null; const c = byCode[STATE.country], f = ASIA.geo.features.find((x) => x.properties.name === c.name); mapDo(() => { if (f) map.fitBounds(bbox(f), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1400, essential: true }); }); renderPanel(); renderCrumb(); }
   else if (STATE.level === "country") goAsia();
 }
 function goAsia() {
   STATE.level = "asia"; STATE.country = null; STATE.city = null; hideTip();
-  mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 800 }); });
+  mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
   renderPanel(); renderCrumb();
 }
 

@@ -3,8 +3,9 @@
   --line:#e2e8f0; --line-2:#eef2f6; --bg:#f6f8fb; --card:#fff;
   --blue:#2563eb; --green:#16a34a; --red:#dc2626; --amber:#d97706;
 }
+@font-face{font-family:'InterVar';font-style:normal;font-weight:100 900;font-display:swap;src:url('vendor/inter.woff2') format('woff2');}
 *{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;letter-spacing:-0.006em;}
 .app{max-width:1340px;margin:0 auto;padding:0 18px 40px;}
 .topbar{display:flex;align-items:center;gap:10px;padding:14px 0 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10;}
 .brand{display:flex;align-items:baseline;gap:4px;}
@@ -106,10 +107,13 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .mk-country.live{cursor:pointer;} .mk-country.live:hover{border-color:var(--blue);color:var(--blue);}
 .mk-country.plan{font-weight:500;color:var(--muted);opacity:.92;}
 .mk-country .dot{width:8px;height:8px;border-radius:50%;flex:none;}
-.mk-city{display:flex;align-items:center;gap:6px;cursor:pointer;}
-.mk-city .cdot{width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #1d4ed8;box-shadow:0 1px 4px rgba(15,23,42,.3);flex:none;}
-.mk-city .clab{font-size:11.5px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.82);border-radius:4px;padding:0 4px;white-space:nowrap;}
-.mk-city:hover .clab{color:var(--blue);}
+.mk-city{display:flex;align-items:center;gap:5px;cursor:pointer;}
+.mk-city .cdot{width:10px;height:10px;border-radius:50%;background:#fff;border:2.5px solid #1d4ed8;box-shadow:0 1px 4px rgba(15,23,42,.3);flex:none;transition:transform .12s;}
+.mk-city:hover .cdot{transform:scale(1.25);}
+/* label hidden by default (avoids overlap when cities are close); shown on hover. names are in the panel cards */
+.mk-city .clab{display:none;font-size:11.5px;font-weight:600;color:var(--blue);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:5px;padding:1px 5px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.12);}
+.mk-city:hover .clab{display:inline-block;}
+.mk-city:hover{z-index:5;}
 /* atlas country composition (macro tiles + leverage full-width, like china.html) */
 .atlas-tiles{margin:2px 0 12px;}
 .atlas-tiles .sech:first-child{margin-top:0;}
