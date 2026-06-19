@@ -148,6 +148,28 @@ MALAYSIA = {
 }
 
 
+# ---- Asia registry: drives the asia.html overview map (one row per country). status live|planned.
+# chip = curated electronics/chip supply-chain weight (0-100). gdp = 2025 real growth %. lon/lat = map centroid.
+REGISTRY = {
+    "layers": [
+        {"key": "chip", "name": "Chip supply-chain weight", "unit": "/100"},
+        {"key": "gdp", "name": "GDP growth", "unit": "% YoY"},
+    ],
+    "countries": [
+        {"code": "cn", "name": "China", "status": "live", "href": "china.html", "lon": 103, "lat": 36, "chip": 100, "gdp": 5.0, "headline": "Biggest market + mature-node base; owns 85-98% of the clean-energy/materials stack."},
+        {"code": "tw", "name": "Taiwan", "status": "planned", "href": "", "lon": 121, "lat": 23.8, "chip": 98, "gdp": 4.0, "headline": "Leading-edge logic — TSMC, UMC, ASE, MediaTek; the chips China lacks."},
+        {"code": "kr", "name": "South Korea", "status": "planned", "href": "", "lon": 127.8, "lat": 36.5, "chip": 90, "gdp": 1.8, "headline": "Memory & display — Samsung, SK hynix (DRAM/NAND/HBM)."},
+        {"code": "jp", "name": "Japan", "status": "planned", "href": "", "lon": 138, "lat": 37, "chip": 80, "gdp": 1.0, "headline": "Materials, equipment & passives — Murata, Tokyo Electron, Shin-Etsu, Sony."},
+        {"code": "sg", "name": "Singapore", "status": "live", "href": "singapore.html", "lon": 103.8, "lat": 1.6, "chip": 60, "gdp": 4.8, "headline": "~20% of global chip equipment + mature/specialty fabs; MNC & HQ hub."},
+        {"code": "my", "name": "Malaysia", "status": "live", "href": "malaysia.html", "lon": 101.5, "lat": 3.8, "chip": 55, "gdp": 4.9, "headline": "Back-end powerhouse — ~13% of global assembly/test/packaging; China+1 magnet."},
+        {"code": "vn", "name": "Vietnam", "status": "planned", "href": "", "lon": 106, "lat": 16, "chip": 45, "gdp": 6.5, "headline": "Fast-rising assembly/EMS base — Samsung, Foxconn, Amkor, Intel ATP."},
+        {"code": "ph", "name": "Philippines", "status": "planned", "href": "", "lon": 122, "lat": 13, "chip": 35, "gdp": 5.7, "headline": "Long-standing assembly & test base."},
+        {"code": "th", "name": "Thailand", "status": "planned", "href": "", "lon": 101, "lat": 15, "chip": 35, "gdp": 2.8, "headline": "HDD/data-storage & electronics assembly hub."},
+        {"code": "in", "name": "India", "status": "planned", "href": "", "lon": 79, "lat": 22, "chip": 30, "gdp": 6.5, "headline": "Emerging — first fabs/ATP (Tata, Micron Sanand); huge end-market."},
+    ],
+}
+
+
 def write(name, obj):
     blob = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
     (WEB / f"{name}-bundle.js").write_text("window.COUNTRY = " + blob + ";\n", encoding="utf-8")
@@ -159,6 +181,10 @@ def write(name, obj):
 def main():
     write("singapore", SINGAPORE)
     write("malaysia", MALAYSIA)
+    blob = json.dumps(REGISTRY, ensure_ascii=False, separators=(",", ":"))
+    (WEB / "asia-registry.js").write_text("window.ASIA = " + blob + ";\n", encoding="utf-8")
+    live = sum(1 for c in REGISTRY["countries"] if c["status"] == "live")
+    print(f"wrote web/asia-registry.js — {len(REGISTRY['countries'])} countries ({live} live)")
 
 
 if __name__ == "__main__":
