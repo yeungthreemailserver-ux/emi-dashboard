@@ -101,6 +101,7 @@ function initMap() {
     map.addLayer({ id: "asia-fill", type: "fill", source: "asia", paint: { "fill-color": ["get", "color"], "fill-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, ["boolean", ["feature-state", "hover"], false], 1, 0.92] } });
     map.addLayer({ id: "asia-line", type: "line", source: "asia", paint: { "line-color": "#ffffff", "line-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, 1], "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2, 0.8] } });
     map.on("mousemove", "asia-fill", (e) => {
+      if (STATE.level !== "asia") return;   // once drilled in, provinces/city markers own the hover, not the country
       const f = e.features[0], c = byName[f.properties.name]; map.getCanvas().style.cursor = c && c.status === "live" ? "pointer" : "";
       if (hovered !== f.id) { if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = f.id; map.setFeatureState({ source: "asia", id: hovered }, { hover: true }); }
       if (c) showTip(`<b>${esc(c.name)}</b> · <span style="color:${c.status === "live" ? "#2563eb" : "#94a3b8"}">${c.status === "live" ? "live ↗ click to drill" : "planned"}</span><br>chip weight <b>${c.chip}</b>/100 · GDP <b>${c.gdp}%</b><br><span style="color:#475569;white-space:normal;display:inline-block;max-width:250px">${esc(c.headline)}</span>`, e.originalEvent); else hideTip();
@@ -132,6 +133,8 @@ function drillCountry(code) {
         map.addSource("prov", { type: "geojson", data: CHINA.geo, promoteId: "name" });
         map.addLayer({ id: "prov-fill", type: "fill", source: "prov", paint: { "fill-color": ["get", "color"], "fill-opacity": 0.95 } }, "asia-line");
         map.addLayer({ id: "prov-line", type: "line", source: "prov", paint: { "line-color": "#ffffff", "line-width": 0.5 } }, "asia-line");
+        map.on("mousemove", "prov-fill", (e) => { const nm = e.features[0].properties.name, pr = (CHINA.provinces || {})[nm]; map.getCanvas().style.cursor = ""; showTip(`<b>${esc(nm)}</b>${pr && pr.gdp != null ? ` · provincial GDP ¥${pr.gdp}T` : ""}`, e.originalEvent); });
+        map.on("mouseleave", "prov-fill", hideTip);
       } else { map.getSource("prov").setData(CHINA.geo); setProvVisible(true); }
     } else { setProvVisible(false); }
     addCityDots(code);
