@@ -126,7 +126,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .more-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:2px 0 14px;}
 .morec{background:#fafbfd;border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;transition:border-color .12s,box-shadow .12s;}
 .morec:hover{border-color:#cbd5e1;box-shadow:0 1px 6px rgba(0,0,0,.06);}
-.morec .mk{font-size:11px;color:var(--ink-2);font-weight:600;}
+.morec .mk{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;}
 .morec .mv{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;margin:1px 0;}
 .morec .md{font-size:10px;color:var(--faint);}
 
