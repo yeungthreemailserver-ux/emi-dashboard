@@ -268,10 +268,15 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeKpiMo
 
 // ---- dossier ----
 function sanctionOf(a) { const al = a.toLowerCase(); return (DATA.sanctions || []).find((s) => s.match && al.indexOf(s.match.toLowerCase()) >= 0) || null; }
+// Simplified-Chinese display name for an anchor company, only when the page is in Chinese mode.
+function anchorZh(a) { return (Z() && DATA.company_zh && DATA.company_zh[a]) ? DATA.company_zh[a] : null; }
 function clusterHTML(cl, z) {
   const anch = (cl.anchors || []).map((a) => {
+    const zh = anchorZh(a);               // Chinese label in zh mode (English original kept in tooltip)
+    const label = zh || a;
     const s = sanctionOf(a);
-    if (s) return `<span class="chip sanc" data-tip="${escAttr("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note)}">⚠ ${esc(a)}</span>`;
+    if (s) return `<span class="chip sanc" data-tip="${escAttr("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note)}">⚠ ${esc(label)}</span>`;
+    if (zh) return `<span class="chip" data-tip="${escAttr(a)}">${esc(zh)}</span>`;
     return `<span class="chip">${glossify(a)}</span>`;
   }).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(z && z.seg ? z.seg : cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
