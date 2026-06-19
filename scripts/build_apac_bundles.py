@@ -181,6 +181,9 @@ def write(name, obj):
 def main():
     write("singapore", SINGAPORE)
     write("malaysia", MALAYSIA)
+    geo_f = WEB / "vendor" / "asia.geo.json"
+    if geo_f.exists():
+        REGISTRY["geo"] = json.loads(geo_f.read_text(encoding="utf-8"))
     blob = json.dumps(REGISTRY, ensure_ascii=False, separators=(",", ":"))
     (WEB / "asia-registry.js").write_text("window.ASIA = " + blob + ";\n", encoding="utf-8")
     live = sum(1 for c in REGISTRY["countries"] if c["status"] == "live")
