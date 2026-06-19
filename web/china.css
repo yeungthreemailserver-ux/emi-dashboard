@@ -97,6 +97,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 
 /* digest verdict line on KPI tiles */
 .kpi .digest{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;margin:1px 0 2px;}
+.morec .digest{font-size:11.5px;font-weight:600;margin:0 0 2px;}
+.morec .md .exp{white-space:nowrap;}
 .morec .mv{font-variant-numeric:tabular-nums;}
 .morec .msp{height:22px;margin:1px 0;} .morec .msp svg{width:100%;height:22px;}
 

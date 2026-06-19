@@ -267,7 +267,7 @@ CITIES = [
         "tagline": "China's hardware Silicon Valley — fabless chip design (HiSilicon), finished electronics (DJI), vertically-integrated EV (BYD) and the Huaqiangbei component market coexist; Dongguan assembles what Shenzhen designs.",
         "clusters": [
             cl("Fabless IC / AI chip design", 3, "HiSilicon designs Kirin SoCs & Ascend AI accelerators; >25,000 national hi-tech firms (12/km²).", ["HiSilicon", "Huawei"]),
-            cl("Intelligent terminals / consumer electronics", 3, "Foxconn Longhua iPhone OEM (~300k workers); DJI >70% of global consumer drones.", ["DJI", "Foxconn", "Skyworth"]),
+            cl("Intelligent terminals / consumer electronics", 3, "Foxconn Longhua iPhone OEM (~300k workers); DJI >70% of global consumer drones.", ["DJI", "Foxconn", "BYD Electronics", "Skyworth"]),
             cl("NEV & EV supply chain", 3, "BYD 10-millionth NEV Nov 2024; Shenzhen = 22.3% of China NEV output; in-city cells + IGBT.", ["BYD", "BYD Semiconductor"]),
             cl("Software / internet / cloud", 3, "Tencent; strategic emerging industries = 42.3% of GDP; R&D 6.46% of GDP (#1 city).", ["Tencent", "ZTE", "Ping An"]),
             cl("Component spot-market", 2, "Huaqiangbei — world's largest electronics-component market; same-day BOM fulfilment.", ["Huaqiangbei (SEG)"]),
@@ -328,7 +328,7 @@ CITIES = [
         "name": "Suzhou", "name_zh": "苏州", "lon": 120.62, "lat": 31.32, "dom": "ELEC",
         "tagline": "China's top FDI-driven electronics & advanced-components belt ('Sunan model') — Samsung, Bosch, ZEISS + thousands of Taiwanese firms in PCB, OSAT, precision components and biomedicine.",
         "clusters": [
-            cl("FDI electronics & EMS", 3, "Suzhou Industrial Park GDP ¥400B (2024); city industrial output >¥4.7T; high-tech 54.7%.", ["Samsung", "Foxconn", "Bosch"]),
+            cl("FDI electronics & EMS", 3, "Suzhou Industrial Park GDP ¥400B (2024); city industrial output >¥4.7T; high-tech 54.7%.", ["Samsung", "Foxconn", "Luxshare", "Flex", "USI", "Bosch"]),
             cl("Semiconductor packaging / OSAT", 2, "Major OSAT cluster — Samsung Suzhou DRAM packaging + Taiwanese OSAT.", ["Samsung Semi Suzhou", "ASE"]),
             cl("PCB & electronic materials", 2, "Kunshan Taiwanese PCB makers; Dongshan Precision (top domestic PCB/precision group).", ["Dongshan Precision", "Unimicron"]),
             cl("Optical / precision instruments", 2, "ZEISS R&D+mfg site (2024); Sodick precision EDM.", ["ZEISS", "Sodick"]),
@@ -424,7 +424,7 @@ CITIES = [
         "name": "Chengdu", "name_zh": "成都", "lon": 104.07, "lat": 30.57, "dom": "ELEC",
         "tagline": "China's western EMS-plus-packaging node — Foxconn assembles MacBooks/iPads, Intel runs its China chip-packaging expansion, plus growing IC design and a top gaming hub.",
         "clusters": [
-            cl("EMS — consumer electronics", 3, "Foxconn (iPads since 2010, MacBooks, Apple Watch); higher-value SKU mix.", ["Foxconn", "Pegatron"]),
+            cl("EMS — consumer electronics", 3, "Foxconn (iPads since 2010, MacBooks, Apple Watch); higher-value SKU mix.", ["Foxconn", "Pegatron", "Compal", "Jabil"]),
             cl("Semi packaging & test", 2, "Intel Chengdu $300M expansion (server-chip packaging) + customer centre.", ["Intel", "JCET"]),
             cl("IC design", 2, "China's 'fourth IC city'; AMEC ¥3.05B equipment base; automotive-chip cluster in Tianfu.", ["AMEC", "Fujitsu Semi design"]),
             cl("Gaming & software", 3, "Largest gaming hub after Shanghai/Shenzhen (Tencent/NetEase/miHoYo) — drives GPU/datacentre demand.", ["Tencent", "NetEase"]),
@@ -443,7 +443,7 @@ CITIES = [
         "name": "Chongqing", "name_zh": "重庆", "lon": 106.55, "lat": 29.56, "dom": "ELEC",
         "tagline": "World's largest laptop-production city (~30% of global notebooks, #1 for 11+ years), now layering NEV auto-electronics and display on its EMS base.",
         "clusters": [
-            cl("Laptop / notebook EMS", 3, "~80M laptops + 100M+ smart terminals/yr; ~30% of global notebooks; HP/Dell/Lenovo/Acer/Asus.", ["Quanta", "Inventec", "Foxconn", "Wistron"]),
+            cl("Laptop / notebook EMS", 3, "~80M laptops + 100M+ smart terminals/yr; ~30% of global notebooks; HP/Dell/Lenovo/Acer/Asus.", ["Quanta", "Inventec", "Compal", "Foxconn", "Wistron"]),
             cl("NEV & automotive electronics", 3, "2.54M vehicles (2024), 953k NEV (+90.5%); #3 in China.", ["Changan", "AVATR", "Seres"]),
             cl("Semiconductor packaging", 2, "SK hynix Chongqing back-end packaging plant.", ["SK hynix"]),
             cl("Display", 2, "BOE line; part of the Chengdu-Chongqing display corridor.", ["BOE"]),
@@ -462,7 +462,7 @@ CITIES = [
         "name": "Dongguan", "name_zh": "东莞", "lon": 113.75, "lat": 23.02, "dom": "ELEC",
         "tagline": "The PRD's mass-production backbone — ~32 specialized towns; Chang'an outputs ~195 phones/minute and the city makes ~1 in 5 of the world's mobile phones; competes on tooling speed + supplier density, not brands or chip IP.",
         "clusters": [
-            cl("Smartphone / consumer OEM-ODM", 3, "Chang'an electronics output ¥232.6B (2024); ~1/5 of world phones since 1995.", ["OPPO", "vivo (BBK)"]),
+            cl("Smartphone / consumer OEM-ODM", 3, "Chang'an electronics output ¥232.6B (2024); ~1/5 of world phones since 1995.", ["OPPO", "vivo (BBK)", "Luxshare", "Huaqin"]),
             cl("PCB & PCBA", 2, "One of China's 3 biggest PCB hubs (Houjie/Hengli/Dalang); linked to Shenzhen design houses.", ["Kinwong", "Agilian"]),
             cl("Battery packs", 2, "Cell-to-pack for phones/TWS/power tools (cells from Shenzhen/Huizhou).", ["BYD", "EVE"]),
             cl("Precision stamping & molds", 3, "Chang'an/Houjie mold cluster (~¥50B); molds exported globally.", ["SME tool-and-die"]),
