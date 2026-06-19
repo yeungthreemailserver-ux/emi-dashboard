@@ -1,0 +1,165 @@
+"""Build the APAC single-country bundles: web/singapore-bundle.js and web/malaysia-bundle.js
+(each window.COUNTRY). Rendered by the shared web/country.js (reuses china.css). English-only.
+
+Singapore = a city-state → one country-level "Key clusters" dossier (no city selector).
+Malaysia  = country + key-city dossiers (Penang, Kulim, Klang Valley, Johor).
+
+Phase 2 adds the city/cluster dossiers. Macro & role figures are widely-cited official /
+industry sources, each labelled with source + period. No live fetch.
+"""
+import json
+from pathlib import Path
+
+WEB = Path(__file__).resolve().parent.parent / "web"
+
+GLOSSARY = {
+    "GDP growth": "Real gross domestic product growth, year-over-year.",
+    "Core CPI": "Core consumer inflation (excludes accommodation & private transport) — MAS's main price gauge.",
+    "CPI": "Headline consumer price inflation, year-over-year.",
+    "NODX": "Non-Oil Domestic Exports — Singapore's key export gauge (locally-made goods, ex-oil); electronics is a big share.",
+    "Electronics PMI": "Electronics-sector Purchasing Managers' Index (SIPMM) — >50 = the chip cluster is expanding.",
+    "Unemployment": "Resident unemployment rate (seasonally adjusted).",
+    "OPR": "Overnight Policy Rate — Bank Negara Malaysia's benchmark interest rate.",
+    "E&E exports": "Electrical & electronics exports — Malaysia's largest export category (~40% of total), incl. semiconductors.",
+    "OSAT": "Outsourced Semiconductor Assembly & Test — the chip 'back-end': packaging & testing finished wafers into usable chips.",
+    "ATP": "Assembly, Test & Packaging — the semiconductor back-end (same idea as OSAT).",
+    "Advanced packaging": "High-density chip packaging (2.5D/3D, chiplets) — where more performance gains now come from; Malaysia is only now building it.",
+    "IC design": "Designing the chip itself (the high-value front-of-chain step) — minimal in SE-Asia, which is mostly mid-stream.",
+    "Semiconductor equipment": "The tools that make chips (deposition, etch, test handlers) — Singapore is a major production base.",
+    "Wafer fab": "Front-end chip fabrication (turning silicon wafers into circuits); SE-Asia runs mainly mature/specialty fabs.",
+    "SiC": "Silicon carbide — a wide-bandgap power semiconductor for efficient EV/industrial power electronics.",
+    "leading-edge logic": "The most advanced chips (≤7nm) for CPUs/GPUs/AI — fabricated only in Taiwan & Korea, not SE-Asia.",
+    "HBM": "High-Bandwidth Memory — stacked DRAM for AI accelerators; designed/made by SK hynix, Samsung & Micron.",
+    "substrate": "The package base that connects a chip die to the circuit board — a tight global bottleneck (mostly Japan/Korea/Taiwan).",
+}
+
+# ---- macro tiles (view.good: high / band / low / none) ----
+SG_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+4.8%", "as_of": "2025", "source": "MTI", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 9.7], ["2022", 3.8], ["2023", 1.1], ["2024", 4.4], ["2025", 4.8]]},
+    {"key": "cpi", "k": "Core CPI", "v": "+1.0%", "as_of": "2025", "source": "MAS", "glo": "Core CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 2.5]}, "series": [["2021", 0.9], ["2022", 4.1], ["2023", 4.2], ["2024", 2.8], ["2025", 1.0]]},
+    {"key": "nodx", "k": "NODX", "v": "+4.8%", "as_of": "2025", "source": "Enterprise SG", "glo": "NODX", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 12.0], ["2022", 3.0], ["2023", -13.1], ["2024", 0.2], ["2025", 4.8]]},
+    {"key": "unemp", "k": "Unemployment", "v": "1.9%", "as_of": "2025", "source": "MOM", "glo": "Unemployment",
+     "view": {"metric": "value", "ref": 2.5, "good": "low"}, "series": [["2021", 2.7], ["2022", 2.1], ["2023", 1.9], ["2024", 1.9], ["2025", 1.9]]},
+    {"key": "epmi", "k": "Electronics PMI", "v": "50.9", "as_of": "Dec 2025", "source": "SIPMM", "glo": "Electronics PMI",
+     "view": {"metric": "value", "ref": 50, "good": "high"}, "series": [["Dec 2025", 50.9]]},
+]
+MY_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+4.9%", "as_of": "2025", "source": "DOSM / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 3.3], ["2022", 8.9], ["2023", 3.6], ["2024", 5.1], ["2025", 4.9]]},
+    {"key": "cpi", "k": "CPI", "v": "+1.4%", "as_of": "2025", "source": "DOSM", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 3.0]}, "series": [["2021", 2.5], ["2022", 3.3], ["2023", 2.5], ["2024", 1.8], ["2025", 1.4]]},
+    {"key": "ee", "k": "E&E exports", "v": "RM711B", "as_of": "2025", "source": "MITI / MATRADE", "glo": "E&E exports",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 455], ["2022", 593], ["2023", 575], ["2024", 601], ["2025", 711]]},
+    {"key": "opr", "k": "OPR", "v": "2.75%", "as_of": "2025", "source": "BNM", "glo": "OPR", "note": "eased Jul 2025",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": [["2021", 1.75], ["2022", 2.75], ["2023", 3.0], ["2024", 3.0], ["2025", 2.75]]},
+]
+
+# ---- role maps (global share per node; "hold" = strength, "gap" = mid-stream/limited; no 50% line) ----
+SG_ROLE = [
+    {"node": "Semiconductor equipment", "scope": "global output", "share": 20, "disp": "~20%", "type": "hold", "source": "A*STAR / industry", "year": "2024", "glo": "Semiconductor equipment"},
+    {"node": "Semiconductor output", "scope": "global total", "share": 10, "disp": "~10%", "type": "hold", "source": "A*STAR", "year": "2024", "glo": "Wafer fab"},
+    {"node": "Wafer fab capacity", "scope": "mature / specialty", "share": 5, "disp": "~5%", "type": "hold", "source": "A*STAR", "year": "2024", "glo": "Wafer fab"},
+    {"node": "Leading-edge logic", "scope": "≤7nm · GF tops out ~12nm", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2024", "glo": "leading-edge logic"},
+    {"node": "Advanced memory (HBM)", "scope": "design & lead supply elsewhere", "share": 1, "disp": "~1%", "type": "gap", "source": "industry", "year": "2024", "glo": "HBM"},
+]
+SG_ROLE_TAKE = ("Singapore is the region's high-value front: ~20% of global semiconductor equipment output, ~10% of "
+                "world chip output and ~5% of wafer-fab capacity (mature/specialty), plus the equipment that makes chips. "
+                "It doesn't do leading-edge logic or advanced memory — those stay in Taiwan & Korea.")
+
+MY_ROLE = [
+    {"node": "Assembly, test & packaging", "scope": "global back-end (Penang/Kulim)", "share": 13, "disp": "~13%", "type": "hold", "source": "MSIA / MIDA", "year": "2024", "glo": "ATP"},
+    {"node": "Advanced packaging", "scope": "7% target by 2035", "share": 1, "disp": "~0%", "type": "gap", "source": "MIDA / MAPC", "year": "2024", "glo": "Advanced packaging"},
+    {"node": "Wafer fabrication", "scope": "SilTerra + new Kulim fabs", "share": 1, "disp": "~1%", "type": "gap", "source": "industry", "year": "2024", "glo": "Wafer fab"},
+    {"node": "IC design", "scope": "front-of-chain · moving upstream", "share": 2, "disp": "~2%", "type": "gap", "source": "AMRO", "year": "2024", "glo": "IC design"},
+    {"node": "Leading-edge logic", "scope": "≤7nm · none", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2024", "glo": "leading-edge logic"},
+]
+MY_ROLE_TAKE = ("Malaysia is the world's back-end powerhouse — ~13% of global assembly, test & packaging and the 6th-largest "
+                "chip exporter — and the prime 'China+1' destination. Its push now is upstream: advanced packaging (a 7%-by-2035 "
+                "target), wafer fabs and IC design, where it's still minimal.")
+
+# ---- Malaysia key-city dossiers (anchor = "Local Co" string OR {"n":"MNC","o":"US"} for foreign HQ) ----
+MY_CITIES = [
+    {"name": "Penang", "area": "George Town · Bayan Lepas FIZ", "tagline": "“Silicon Valley of the East” — the back-end heart: chip assembly/test/packaging, homegrown test-equipment champions and EMS.",
+     "clusters": [
+        {"seg": "Semiconductor assembly & test (OSAT)", "level": 3, "what": "Intel's first overseas plant (1972) seeded a dense MNC + homegrown back-end cluster.", "anchors": [{"n": "Intel", "o": "US"}, {"n": "AMD", "o": "US"}, {"n": "Broadcom", "o": "US"}, {"n": "Micron", "o": "US"}, {"n": "ASE", "o": "TW"}, "Unisem", "Carsem"]},
+        {"seg": "Test equipment & automation", "level": 3, "what": "Homegrown champions in ATE, machine vision & factory automation — a genuine local IP base.", "anchors": ["Inari Amertron", "ViTrox", "Pentamaster", "Greatech", "Globetronics"]},
+        {"seg": "EMS & test instruments", "level": 2, "what": "Contract manufacturing plus test & measurement.", "anchors": [{"n": "Jabil", "o": "US"}, {"n": "Flex", "o": "US"}, {"n": "Plexus", "o": "US"}, {"n": "Keysight", "o": "US"}]},
+        {"seg": "Medical devices", "level": 2, "what": "Growing MNC medtech base diversifying the cluster.", "anchors": [{"n": "B. Braun", "o": "DE"}, {"n": "Boston Scientific", "o": "US"}]},
+     ],
+     "valuechain": "Mid-stream back-end: imports finished wafers, substrates & bonding materials → assembles, packages & tests → exports packaged devices and (uniquely) the test/inspection equipment itself.",
+     "sourcing": {"buy": ["Wafers & dies", "substrates / leadframes", "bonding wire, mould compound", "test sockets & handlers"], "sell": ["Packaged & tested ICs", "RF / optoelectronic modules", "test & inspection equipment", "EMS assemblies"]},
+     "stats": [{"k": "Role", "v": "OSAT / back-end"}, {"k": "Anchor zone", "v": "Bayan Lepas FIZ"}]},
+    {"name": "Kulim", "area": "Kedah · Kulim Hi-Tech Park", "tagline": "Kulim Hi-Tech Park — power & compound semis and wafer fabs; home to Infineon's global silicon-carbide hub.",
+     "clusters": [
+        {"seg": "Power & compound semis (SiC)", "level": 3, "what": "Infineon's Kulim site — among the world's largest 200mm SiC power-fab investments.", "anchors": [{"n": "Infineon", "o": "DE"}, {"n": "Fuji Electric", "o": "JP"}]},
+        {"seg": "Wafer fab & logic", "level": 2, "what": "One of the few Malaysian sites doing front-end fabrication.", "anchors": [{"n": "Intel", "o": "US"}, "SilTerra"]},
+        {"seg": "IC substrate", "level": 2, "what": "Package-substrate capacity — a global bottleneck being built out here.", "anchors": [{"n": "AT&S", "o": "AT"}]},
+        {"seg": "Solar", "level": 2, "what": "PV cell / module manufacturing.", "anchors": [{"n": "First Solar", "o": "US"}]},
+     ],
+     "valuechain": "Malaysia's main move UPSTREAM — wafer fabrication, power-device (SiC) front-end and IC substrates, beyond the Penang back-end.",
+     "sourcing": {"buy": ["SiC / Si wafers", "gases & chemicals", "fab equipment", "substrate materials"], "sell": ["SiC / Si power devices", "logic wafers", "IC substrates", "PV modules"]},
+     "stats": [{"k": "Park", "v": "Kulim Hi-Tech Park"}, {"k": "Focus", "v": "Power / SiC / fab"}]},
+    {"name": "Klang Valley", "area": "Kuala Lumpur · Selangor · Cyberjaya", "tagline": "The demand & integration hub — hyperscale data centres, contract EMS and the MNC regional-HQ / distribution base.",
+     "clusters": [
+        {"seg": "Data centres / cloud", "level": 3, "what": "Hyperscale build-out across Selangor & Cyberjaya.", "anchors": [{"n": "Microsoft", "o": "US"}, {"n": "Google", "o": "US"}, {"n": "AWS", "o": "US"}, "Bridge Data Centres"]},
+        {"seg": "EMS / box-build", "level": 2, "what": "Local contract manufacturers serving global brands.", "anchors": ["VS Industry", "SKP Resources", "ATA IMS"]},
+        {"seg": "Storage & electronics", "level": 2, "what": "Data-storage & components manufacturing.", "anchors": [{"n": "Western Digital", "o": "US"}]},
+     ],
+     "valuechain": "A net CONSUMER of components — data-centre capacity, EMS box-build and regional HQ/distribution around the capital.",
+     "sourcing": {"buy": ["Servers, GPUs, networking", "power & cooling gear", "components for EMS"], "sell": ["Cloud / DC capacity", "finished electronic products", "EMS box-build"]},
+     "stats": [{"k": "Role", "v": "Data centres + EMS + HQ"}, {"k": "Hub", "v": "Selangor / Cyberjaya"}]},
+    {"name": "Johor", "area": "Iskandar · Kulai · Johor-Singapore SEZ", "tagline": "The diversification frontier — SE-Asia's hottest data-centre market and a “China+1” electronics magnet, riding the Singapore spillover.",
+     "clusters": [
+        {"seg": "AI data centres", "level": 3, "what": "Fastest-growing DC cluster in SE-Asia, absorbing Singapore's power/land spillover.", "anchors": [{"n": "Nvidia", "o": "US"}, "YTL Power", {"n": "Microsoft", "o": "US"}, {"n": "GDS", "o": "CN"}]},
+        {"seg": "Electronics & China+1", "level": 2, "what": "Relocated assembly & component investment under the Johor-Singapore SEZ.", "anchors": [{"n": "Simmtech", "o": "KR"}, "China+1 EMS"]},
+     ],
+     "valuechain": "The frontier absorbing China+1 and Singapore-adjacent demand — data centres, substrates and relocated assembly.",
+     "sourcing": {"buy": ["Servers / GPUs", "substrate & assembly inputs", "construction & power"], "sell": ["DC capacity", "relocated electronics output", "substrates"]},
+     "stats": [{"k": "Role", "v": "Data centres / China+1"}, {"k": "Zone", "v": "Iskandar / JS-SEZ"}]},
+]
+
+# ---- Singapore country-level "Key clusters" (one dossier, no city selector) ----
+SG_CLUSTERS = [
+    {"seg": "Wafer fabrication (mature / specialty)", "level": 3, "what": "A top global hub for mature & specialty-node fabs.", "anchors": [{"n": "GlobalFoundries", "o": "US"}, {"n": "UMC", "o": "TW"}, {"n": "Micron", "o": "US"}, {"n": "Soitec", "o": "FR"}, {"n": "Vanguard (VIS)", "o": "TW"}]},
+    {"seg": "Semiconductor equipment", "level": 3, "what": "~20% of global chip-equipment output; a major MNC tool & sub-system base.", "anchors": [{"n": "Applied Materials", "o": "US"}, {"n": "Lam Research", "o": "US"}, {"n": "ASML", "o": "NL"}]},
+    {"seg": "Memory & storage", "level": 2, "what": "NAND assembly/test plus the data-storage cluster.", "anchors": [{"n": "Micron", "o": "US"}, {"n": "Western Digital", "o": "US"}, {"n": "Seagate", "o": "US"}]},
+    {"seg": "Analog / power / RF", "level": 2, "what": "MNC fabs and design centres.", "anchors": [{"n": "STMicroelectronics", "o": "EU"}, {"n": "Infineon", "o": "DE"}, {"n": "NXP", "o": "NL"}]},
+]
+SG_VALUECHAIN = ("High-value front-of-chain for the region — mature/specialty wafer fabs, the equipment that makes chips, "
+                 "and memory/storage; an MNC magnet and regional-HQ base. Net exporter of wafers, equipment & storage.")
+SG_SOURCING = {"buy": ["Silicon wafers, gases, chemicals", "fab sub-systems & parts", "photomasks"], "sell": ["Mature/specialty wafers & ICs", "semiconductor equipment & parts", "NAND / storage devices"]}
+
+SINGAPORE = {
+    "name": "Singapore", "code": "sg",
+    "tagline": "Advanced fabs, semiconductor equipment & HQ hub — the high-value front of the SE-Asia chip chain.",
+    "macro": SG_MACRO, "role": SG_ROLE, "role_take": SG_ROLE_TAKE,
+    "clusters": SG_CLUSTERS, "valuechain": SG_VALUECHAIN, "sourcing": SG_SOURCING,
+    "glossary": GLOSSARY,
+}
+MALAYSIA = {
+    "name": "Malaysia", "code": "my",
+    "tagline": "Penang/Kulim back-end powerhouse — ~13% of global assembly, test & packaging; the “China+1” magnet now pushing upstream.",
+    "macro": MY_MACRO, "role": MY_ROLE, "role_take": MY_ROLE_TAKE,
+    "cities": MY_CITIES,
+    "glossary": GLOSSARY,
+}
+
+
+def write(name, obj):
+    blob = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
+    (WEB / f"{name}-bundle.js").write_text("window.COUNTRY = " + blob + ";\n", encoding="utf-8")
+    kb = len((WEB / f"{name}-bundle.js").read_text(encoding="utf-8")) // 1024
+    extra = f"{len(obj.get('cities', []))} cities" if obj.get("cities") else f"{len(obj.get('clusters', []))} clusters"
+    print(f"wrote web/{name}-bundle.js ({kb} KB) — {len(obj['macro'])} macro, {len(obj['role'])} role, {extra}")
+
+
+def main():
+    write("singapore", SINGAPORE)
+    write("malaysia", MALAYSIA)
+
+
+if __name__ == "__main__":
+    main()
