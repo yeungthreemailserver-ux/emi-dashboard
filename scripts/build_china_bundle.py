@@ -34,8 +34,8 @@ GLOSSARY = {
     "Solar modules": "Finished photovoltaic panels (cells laminated into a module).",
     "Display (LCD)": "Flat-panel display manufacturing — LCD/OLED panels for TVs, monitors, phones.",
     "High-tech exports": "Exports of R&D-intensive goods — aerospace, computers, pharma, instruments, electrical machinery (World Bank definition).",
-    "Caixin Mfg PMI": "Purchasing Managers' Index (Caixin/S&P Global); >50 = factory expansion, <50 = contraction. Skews to smaller private exporters vs the official NBS PMI.",
-    "Mfg PMI": "Manufacturing Purchasing Managers' Index; >50 = factory activity expanding, <50 = contracting. This tile uses the OFFICIAL NBS (CFLP) PMI — ~3,200 mostly large/state firms. The Caixin PMI, compiled by S&P Global from ~500 smaller private exporters, is a separate gauge and can diverge.",
+    "Caixin Mfg PMI": "Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended); >50 = expansion. Reported separately from, and often above, the official NBS PMI.",
+    "NBS PMI": "Official PMI from China's NBS (National Bureau of Statistics) & CFLP — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Tends to run below the private Caixin/RatingDog PMI; >50 = expansion.",
     "CPI": "Consumer Price Index — headline consumer inflation, year-over-year.",
     "PPI": "Producer Price Index — factory-gate inflation; leads CPI and signals industrial demand.",
     "Industrial production": "Output of 'above-scale' factories, mines & utilities, year-over-year — a core activity gauge.",
@@ -71,8 +71,8 @@ GLOSSARY_ZH = {
     "Solar modules": "成品光伏组件(电池片层压成组件)。",
     "Display (LCD)": "平板显示制造 — 用于电视/显示器/手机的 LCD/OLED 面板。",
     "High-tech exports": "研发密集型产品出口 — 航空、计算机、医药、仪器、电气机械(世界银行定义)。",
-    "Caixin Mfg PMI": "财新/标普制造业采购经理人指数;>50=扩张,<50=收缩。相比官方 PMI 更偏中小民营出口商。",
-    "Mfg PMI": "制造业采购经理人指数;>50=扩张,<50=收缩。本卡用官方 NBS(中物联)PMI — 约 3,200 家多为大型/国企。财新 PMI(由标普全球编制、约 500 家中小民营出口商)为另一独立指标,可能背离。",
+    "Caixin Mfg PMI": "财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名「RatingDog」);>50=扩张。与官方 NBS PMI 分别统计,且常高于后者。",
+    "NBS PMI": "中国官方 PMI(国家统计局与中物联)— 调查约 3,200 家多为大型/国企,最受政策关注。通常低于民营的财新/RatingDog PMI;>50=扩张。",
     "CPI": "消费者物价指数 — 居民消费通胀,同比。",
     "PPI": "工业生产者出厂价格指数 — 工厂端通胀;领先 CPI,反映工业需求。",
     "Industrial production": "规模以上工厂、矿业、公用事业的产出,同比 — 核心活动指标。",
@@ -570,6 +570,13 @@ def main():
         CHINA_MACRO["more"] = cm["more"]
     else:
         _attach_series()  # fallback to curated if the real pull hasn't run
+    # Simplified-Chinese dossier translations (Sonnet) merged onto each city as c["zh"].
+    zhf = ROOT / "data" / "china_cities_zh.json"
+    if zhf.exists():
+        zmap = json.loads(zhf.read_text(encoding="utf-8"))
+        for c in CITIES:
+            if c["name"] in zmap:
+                c["zh"] = zmap[c["name"]]
     geo = json.loads((WEB / "vendor" / "china.geo.json").read_text(encoding="utf-8"))
     out = {"as_of": None, "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY, "glossary_zh": GLOSSARY_ZH,
            "provinces": PROVINCES, "layers": LAYERS, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}

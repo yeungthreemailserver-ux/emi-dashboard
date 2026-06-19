@@ -1,0 +1,1772 @@
+[
+ {
+  "name": "Ningbo",
+  "name_zh": "宁波",
+  "lon": 121.55,
+  "lat": 29.87,
+  "dom": "COMP",
+  "tagline": "Not a chip town — a components, specialty-materials & Tier-1 auto-electronics powerhouse; overwhelmingly private, port-driven (world's #1 cargo port).",
+  "tagline_zh": "并非芯片之城 — 而是元件、特殊材料与汽车电子 Tier-1 重镇;民营主导、依托全球第一大货运港。",
+  "clusters": [
+   {
+    "seg": "Rare-earth NdFeB magnets",
+    "level": 3,
+    "what": "China's 'Magnet Capital' — 40%+ of national output; for EV/wind/robot motors. Geopolitically hot (2025 rare-earth export controls).",
+    "anchors": [
+     "Yunsheng (韵升) — ~25% China NEV traction-magnet share",
+     "Ketian",
+     "Newland"
+    ]
+   },
+   {
+    "seg": "Automotive electronics / Tier-1",
+    "level": 3,
+    "what": "China's densest private Tier-1 cluster; ~5,000 auto-parts firms within 50km; 4 in global top-100.",
+    "anchors": [
+     "Joyson 均胜 (¥55.9B, #2 global passive safety)",
+     "Tuopu 拓普 (thermal/NVH, Tesla Optimus actuators)",
+     "Minth 敏实 (EV battery enclosures #1)",
+     "Huaxiang",
+     "Jifeng"
+    ]
+   },
+   {
+    "seg": "Battery materials",
+    "level": 3,
+    "what": "World #1 in artificial-graphite anode and high-nickel cathode.",
+    "anchors": [
+     "Shanshan 杉杉 (anode + LCD polarizer)",
+     "Ronbay 容百 (high-nickel cathode)"
+    ]
+   },
+   {
+    "seg": "Precision optics",
+    "level": 3,
+    "what": "1-in-3 Android camera modules; #1 automotive lens.",
+    "anchors": [
+     "Sunny Optical 舜宇 (Yuyao)",
+     "Exciton 激智 (optical films)"
+    ]
+   },
+   {
+    "seg": "Relays / connectors / low-voltage",
+    "level": 3,
+    "what": "Relay output 200M+/yr; Guanhaiwei = world's largest European-socket base.",
+    "anchors": [
+     "Forward 先锋",
+     "Huaguan 华冠",
+     "Tianbo 天波",
+     "Bull 公牛 (sockets ~50% China)"
+    ]
+   },
+   {
+    "seg": "Small appliances",
+    "level": 3,
+    "what": "Cixi makes ~60% of the world's small appliances (irons 60%, hair dryers 30%).",
+    "anchors": [
+     "Fotile 方太",
+     "Bull 公牛"
+    ]
+   },
+   {
+    "seg": "Molds / plastics + injection machines",
+    "level": 3,
+    "what": "Yuyao = China's Plastics City / mold capital; injection-molding machines #1 world.",
+    "anchors": [
+     "Haitian 海天 International"
+    ]
+   },
+   {
+    "seg": "Inverters / ESS + PV",
+    "level": 2,
+    "what": "Major inverter/storage exporters; HJT solar.",
+    "anchors": [
+     "Deye 德业",
+     "Risen 东方日升"
+    ]
+   },
+   {
+    "seg": "Semiconductor materials / OSAT",
+    "level": 2,
+    "what": "Sputtering targets #1 world; OSAT #14 global (Yuyao).",
+    "anchors": [
+     "Jiangfeng 江丰",
+     "Yongsi 甬矽"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Cixi 慈溪",
+    "focus": "Small appliances + sockets/connectors + bearings; magnets"
+   },
+   {
+    "name": "Yuyao 余姚",
+    "focus": "Plastics City + mold capital; Sunny Optical; semi targets"
+   },
+   {
+    "name": "Beilun 北仑",
+    "focus": "Deep-water port; auto-parts parks; magnets; steel"
+   },
+   {
+    "name": "Yinzhou 鄞州",
+    "focus": "HQ district — Yunsheng, Shanshan, Ronbay; auto Tier-1"
+   },
+   {
+    "name": "Zhenhai 镇海",
+    "focus": "Sinopec ZRCC — China's largest refinery (plastics/film feedstock)"
+   },
+   {
+    "name": "Jiangbei 江北",
+    "focus": "Optical-film hub; sensors"
+   }
+  ],
+  "valuechain": "Sits at the components / specialty-materials / Tier-1 sub-system layer — not chips, not final assembly, not design. Private-enterprise DNA (民企 96.7% of entities, 85% of jobs); export+port-driven.",
+  "sourcing": {
+   "buy": [
+    "Relays, connectors, low-voltage electrical",
+    "NdFeB magnets & assemblies",
+    "Precision plastic enclosures / molds",
+    "Camera modules & optical films",
+    "Battery anode/cathode materials"
+   ],
+   "sell": [
+    "Automotive MCUs / power semis / SiC-GaN (to Joyson, Tuopu)",
+    "Connectors for auto harnesses",
+    "Specialty graphite/silicon (to Shanshan)",
+    "Test & measurement equipment"
+   ]
+  },
+  "tags": {
+   "Components": 3,
+   "Optical": 3,
+   "Battery": 3,
+   "Automotive": 3,
+   "Precision": 3,
+   "Materials": 3,
+   "Appliances": 3,
+   "Semiconductor": 1
+  },
+  "stats": [
+   {
+    "k": "2024 trade",
+    "v": "¥1.42T (China #5)"
+   },
+   {
+    "k": "Mfg champions",
+    "v": "104+ (#1 city)"
+   },
+   {
+    "k": "Port",
+    "v": "#1 cargo / #3 container"
+   }
+  ],
+  "note": "AI-deep-researched, cross-verified (caught common errors: Delixi=Wenzhou, Vatti=Guangdong, Fuyao=Fujian — not Ningbo)."
+ },
+ {
+  "name": "Guangzhou",
+  "name_zh": "广州",
+  "lon": 113.26,
+  "lat": 23.13,
+  "dom": "AUTO",
+  "tagline": "China's auto-manufacturing capital + commerce/trade gateway (Canton Fair) + 'World Display Capital' — SOE/JV-led & assembly-oriented, the opposite of Shenzhen's private design ecosystem.",
+  "tagline_zh": "中国汽车制造之都 + 贸易门户(广交会)+ '世界显示之都';以国企/合资和整车组装为主,与深圳的民营设计生态相反。",
+  "clusters": [
+   {
+    "seg": "Automobiles & NEV",
+    "level": 3,
+    "what": "A top auto-output city — ~3.18M vehicles in 2024 (38% NEV), full ICE+hybrid+BEV across six OEM brands; growing car-export hub via Nansha.",
+    "anchors": [
+     "GAC Group 广汽 (2.0M units)",
+     "GAC-Toyota (756k)",
+     "GAC-Honda",
+     "Dongfeng Nissan (Huadu)",
+     "GAC Aion (EV, Panyu)",
+     "XPeng 小鹏 (HQ Tianhe)"
+    ]
+   },
+   {
+    "seg": "Display panels / Ultra-HD",
+    "level": 3,
+    "what": "'World Display Capital' — TCL CSOT T9 8.6-gen fab (180k sheets/mo, ~¥30B/yr) + buying LG Display's Guangzhou LCD plant. #2 global TV panel.",
+    "anchors": [
+     "TCL CSOT 华星光电 (T9 8.6G)",
+     "LG Display GZ (→CSOT)"
+    ]
+   },
+   {
+    "seg": "Auto parts / automotive electronics",
+    "level": 2,
+    "what": "Deep Tier-1/Tier-2 supplier clusters (Huadu, Panyu) feeding local assembly + export.",
+    "anchors": [
+     "Guangzhou Auto Parts City (Huadu)",
+     "Bosch / Continental / Denso (regional supply)"
+    ]
+   },
+   {
+    "seg": "Biomedicine / pharma",
+    "level": 2,
+    "what": "Major biopharma cluster — Bio Island, 4,000+ firms, ¥210B revenue.",
+    "anchors": [
+     "Guangzhou Pharma 广药",
+     "Bio Island"
+    ]
+   },
+   {
+    "seg": "Petrochemicals",
+    "level": 2,
+    "what": "Pearl-River-mouth refining (smaller than Maoming/Zhanjiang).",
+    "anchors": [
+     "Sinopec Guangzhou",
+     "CNOOC refinery"
+    ]
+   },
+   {
+    "seg": "Semiconductor (mature-node)",
+    "level": 1,
+    "what": "GZ's only significant fab — specialty analog/power/display-driver (180–55nm); revenue +53% to ¥2.58B (2025) but deeply loss-making, ChiNext IPO pending.",
+    "anchors": [
+     "CanSemi / Yuexin 粤芯半导体"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Huangpu / GDD 黄埔",
+    "focus": "Flagship advanced-mfg zone — ~40% of GZ industrial output; CanSemi fabs, GAC-Honda NEV plant, biopharma"
+   },
+   {
+    "name": "Nansha 南沙",
+    "focus": "Port/FTZ (20.5M TEU, world top-10); GAC-Toyota; petrochem; auto exports +68%"
+   },
+   {
+    "name": "Panyu 番禺",
+    "focus": "GAC Aion EV plant + R&D; XPeng (incl. Aeroht flying-car trial plant)"
+   },
+   {
+    "name": "Huadu 花都",
+    "focus": "Dongfeng Nissan plants + Guangzhou Auto Parts City"
+   },
+   {
+    "name": "Zengcheng 增城",
+    "focus": "Precision metal stamping / connector-terminal manufacturing"
+   },
+   {
+    "name": "Tianhe 天河",
+    "focus": "XPeng HQ campus + corporate/tech services"
+   }
+  ],
+  "valuechain": "Assembly + trade-gateway + heavy-industry tier — a net CONSUMER of chips, sensors, power devices and panels (assembles them into cars), not a component originator. More SOE/JV-led than private Shenzhen (GAC, Sinopec, CNOOC, Guangzhou Pharma). Canton Fair = China's largest B2B export-matching platform.",
+  "sourcing": {
+   "buy": [
+    "CanSemi mature-node wafers (180–55nm analog/power/display-driver)",
+    "Connector terminals / precision stamping (Zengcheng)",
+    "Display ecosystem parts (OCA / FPC / backlight)"
+   ],
+   "sell": [
+    "Automotive semis — MCU / power / ADAS / CAN-LIN for GAC's 2M+ vehicles",
+    "EV power devices — SiC / IGBT / gate drivers for Aion & XPeng",
+    "Display driver ICs + PMIC for CSOT T9",
+    "BMS & AI-compute SoC / LiDAR driver for XPeng smart-EV"
+   ]
+  },
+  "tags": {
+   "Components": 1,
+   "Optical": 3,
+   "Battery": 2,
+   "Automotive": 3,
+   "Precision": 2,
+   "Materials": 1,
+   "Appliances": 1,
+   "Semiconductor": 1
+  },
+  "stats": [
+   {
+    "k": "GDP 2024",
+    "v": "¥3.1T (China #4)"
+   },
+   {
+    "k": "Vehicles 2024",
+    "v": "~3.18M (38% NEV)"
+   },
+   {
+    "k": "Nansha port",
+    "v": "20.5M TEU (top-10)"
+   }
+  ],
+  "note": "AI-deep-researched (Sonnet), cross-verified — flagged: XPeng mfg split GZ+Zhaoqing; Dongfeng Nissan parent HQ'd in Wuhan; the planned Nansha ethylene cracker was relocated to Zhanjiang."
+ },
+ {
+  "name": "Shanghai",
+  "name_zh": "上海",
+  "lon": 121.47,
+  "lat": 31.23,
+  "dom": "SEMI",
+  "tagline": "China's only city with a complete vertically-integrated semiconductor stack — foundry, advanced IC design, materials & equipment — anchored by SMIC & Hua Hong in Zhangjiang; plus Tesla EV.",
+  "clusters": [
+   {
+    "seg": "Foundry / wafer fab",
+    "level": 3,
+    "what": "SMIC (HQ; record 2024 revenue ¥57.8B, +27.7%, ~5.5% global foundry share) + Hua Hong; new Lingang fab JV.",
+    "anchors": [
+     "SMIC",
+     "Hua Hong"
+    ]
+   },
+   {
+    "seg": "IC design",
+    "level": 3,
+    "what": "China's #1 IC-design city — ~¥179.5B in 2024 (~27% of national ¥668.9B); hundreds of Zhangjiang design houses.",
+    "anchors": [
+     "Zhaoxin",
+     "Awinic",
+     "HiSilicon (R&D)"
+    ]
+   },
+   {
+    "seg": "Semi equipment & materials",
+    "level": 2,
+    "what": "Growing domestic tool/material firms in Zhangjiang & Lingang bonded zone.",
+    "anchors": [
+     "AMEC",
+     "NAURA (Beijing)"
+    ]
+   },
+   {
+    "seg": "Automotive / EV",
+    "level": 2,
+    "what": "Tesla Gigafactory Shanghai ~950k vehicles/yr (3-millionth Nov 2024); SAIC.",
+    "anchors": [
+     "Tesla",
+     "SAIC",
+     "NIO"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Zhangjiang 张江",
+    "focus": "IC design + SMIC/Hua Hong fabs ('China's Silicon Valley')"
+   },
+   {
+    "name": "Lingang 临港",
+    "focus": "New SMIC fab JV + Tesla Gigafactory; bonded-zone semi incentives"
+   },
+   {
+    "name": "Jinqiao 金桥",
+    "focus": "Hua Hong 8-inch fabs, electronics EMS"
+   }
+  ],
+  "valuechain": "Design → fab → packaging at mature-node depth (China leader, 14-28nm); SOE/state-backed at the fab layer (SMIC), private & FDI at design and EMS.",
+  "sourcing": {
+   "buy": [
+    "Mature-node logic ICs (28-90nm), MCUs, power & analog",
+    "8-inch wafers",
+    "domestic EDA licenses"
+   ],
+   "sell": [
+    "Semiconductor equipment",
+    "advanced-packaging materials",
+    "OSAT services",
+    "PCB substrates"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 1,
+   "Battery": 1,
+   "Automotive": 2,
+   "Precision": 2,
+   "Materials": 2,
+   "Appliances": 0,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "SMIC 2024",
+    "v": "¥57.8B (+27.7%)"
+   },
+   {
+    "k": "IC design 2024",
+    "v": "¥179.5B (#1 city)"
+   },
+   {
+    "k": "GDP 2024",
+    "v": ">¥5T"
+   }
+  ],
+  "note": "Tesla is US-HQ, Foxconn Taiwan-HQ; Hua Hong's leading 12-inch fabs are in Wuxi, not Shanghai."
+ },
+ {
+  "name": "Shenzhen",
+  "name_zh": "深圳",
+  "lon": 114.06,
+  "lat": 22.54,
+  "dom": "ELEC",
+  "tagline": "China's hardware Silicon Valley — fabless chip design (HiSilicon), finished electronics (DJI), vertically-integrated EV (BYD) and the Huaqiangbei component market coexist; Dongguan assembles what Shenzhen designs.",
+  "clusters": [
+   {
+    "seg": "Fabless IC / AI chip design",
+    "level": 3,
+    "what": "HiSilicon designs Kirin SoCs & Ascend AI accelerators; >25,000 national hi-tech firms (12/km²).",
+    "anchors": [
+     "HiSilicon",
+     "Huawei"
+    ]
+   },
+   {
+    "seg": "Intelligent terminals / consumer electronics",
+    "level": 3,
+    "what": "Foxconn Longhua iPhone OEM (~300k workers); DJI >70% of global consumer drones.",
+    "anchors": [
+     "DJI",
+     "Foxconn",
+     "Skyworth"
+    ]
+   },
+   {
+    "seg": "NEV & EV supply chain",
+    "level": 3,
+    "what": "BYD 10-millionth NEV Nov 2024; Shenzhen = 22.3% of China NEV output; in-city cells + IGBT.",
+    "anchors": [
+     "BYD",
+     "BYD Semiconductor"
+    ]
+   },
+   {
+    "seg": "Software / internet / cloud",
+    "level": 3,
+    "what": "Tencent; strategic emerging industries = 42.3% of GDP; R&D 6.46% of GDP (#1 city).",
+    "anchors": [
+     "Tencent",
+     "ZTE",
+     "Ping An"
+    ]
+   },
+   {
+    "seg": "Component spot-market",
+    "level": 2,
+    "what": "Huaqiangbei — world's largest electronics-component market; same-day BOM fulfilment.",
+    "anchors": [
+     "Huaqiangbei (SEG)"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Nanshan 南山",
+    "focus": "Tencent, DJI, Huawei HQ; hi-tech park; VC cluster"
+   },
+   {
+    "name": "Longhua 龙华",
+    "focus": "Foxconn iPhone final assembly"
+   },
+   {
+    "name": "Pingshan 坪山",
+    "focus": "BYD auto/NEV + IGBT power semiconductor"
+   },
+   {
+    "name": "Futian 福田",
+    "focus": "Huaqiangbei component market; finance"
+   },
+   {
+    "name": "Guangming 光明",
+    "focus": "Semi equipment, advanced materials, PV"
+   }
+  ],
+  "valuechain": "Design + brand + integration apex of the PRD chain; overwhelmingly private (Huawei/BYD/DJI/Tencent); net exporter of IP-rich finished products.",
+  "sourcing": {
+   "buy": [
+    "Bare-die chips (TSMC via Taiwan)",
+    "precision molds (Dongguan)",
+    "battery cells",
+    "PCBs",
+    "rare-earth magnets"
+   ],
+   "sell": [
+    "Smartphones, drones, NEVs, 5G base stations, AI servers, IoT — via ¥4.5T export (#1 city)"
+   ]
+  },
+  "tags": {
+   "Components": 3,
+   "Optical": 2,
+   "Battery": 3,
+   "Automotive": 3,
+   "Precision": 2,
+   "Materials": 1,
+   "Appliances": 1,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "GDP 2024",
+    "v": "¥3.68T (+5.8%)"
+   },
+   {
+    "k": "Exports 2024",
+    "v": "¥4.5T (#1 city)"
+   },
+   {
+    "k": "NEV share",
+    "v": "22.3% of China"
+   }
+  ],
+  "note": "Foxconn HQ Taiwan (Shenzhen = its largest ops); HiSilicon is a Huawei subsidiary."
+ },
+ {
+  "name": "Beijing",
+  "name_zh": "北京",
+  "lon": 116.4,
+  "lat": 39.9,
+  "dom": "SEMI",
+  "tagline": "China's semiconductor R&D + equipment capital (not a volume-fab city) — Naura (#1 domestic equipment), SMIC Beijing fab, the Zhongguancun IC-design cluster, BOE HQ, and the most-permissioned robotaxi zone.",
+  "clusters": [
+   {
+    "seg": "Semiconductor equipment",
+    "level": 3,
+    "what": "Naura — #6 globally in fab equipment (2024), revenue ¥29.8B (+35%); ~25% of China's etch/deposition WFE.",
+    "anchors": [
+     "Naura",
+     "Huafeng Test"
+    ]
+   },
+   {
+    "seg": "IC design (fabless)",
+    "level": 3,
+    "what": "Haidian IC revenue ¥43B (2024, +13%); GigaDevice = world #2 SPI NOR Flash; Cambricon AI NPUs.",
+    "anchors": [
+     "GigaDevice",
+     "Cambricon",
+     "Montage"
+    ]
+   },
+   {
+    "seg": "Wafer fabrication",
+    "level": 2,
+    "what": "SMIC Beijing FAB4 (Yizhuang) — mature nodes ≥28nm, part of SMIC's 1.2M+ wpm network.",
+    "anchors": [
+     "SMIC"
+    ]
+   },
+   {
+    "seg": "Display",
+    "level": 2,
+    "what": "BOE global HQ (management/R&D-heavy; advanced OLED production is in Chengdu/Wuhan).",
+    "anchors": [
+     "BOE"
+    ]
+   },
+   {
+    "seg": "Autonomous driving / AI",
+    "level": 2,
+    "what": "Yizhuang — Baidu Apollo Go + China's first driverless robotaxi permits (>17M cumulative rides).",
+    "anchors": [
+     "Baidu Apollo",
+     "Horizon Robotics"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Haidian / Zhongguancun 海淀",
+    "focus": "IC design, EDA, AI, university spinouts (Tsinghua, PKU, CAS)"
+   },
+   {
+    "name": "Yizhuang / BDA 亦庄",
+    "focus": "Naura, SMIC Beijing fab, BOE line, Baidu Apollo Park"
+   }
+  ],
+  "valuechain": "Upstream R&D + equipment layer — private fabless (GigaDevice, Cambricon) + state-backed equipment (Naura) & foundry (SMIC); 'Big Fund' capital.",
+  "sourcing": {
+   "buy": [
+    "Silicon wafers, specialty gases, photomasks, packaging substrates"
+   ],
+   "sell": [
+    "Fab equipment (domestic + export)",
+    "NOR Flash chips",
+    "AI / edge NPUs",
+    "display panels (via BOE HQ)",
+    "robotaxi services"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 1,
+   "Battery": 0,
+   "Automotive": 1,
+   "Precision": 2,
+   "Materials": 1,
+   "Appliances": 0,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "Naura 2024",
+    "v": "¥29.8B (#6 global equip.)"
+   },
+   {
+    "k": "Haidian IC",
+    "v": "¥43B (+13%)"
+   },
+   {
+    "k": "GigaDevice",
+    "v": "#2 global NOR Flash"
+   }
+  ],
+  "note": "Hua Hong has NO Beijing fab (all in Shanghai). BOE's most advanced OLED is in Chengdu/Wuhan, not Beijing."
+ },
+ {
+  "name": "Tianjin",
+  "name_zh": "天津",
+  "lon": 117.2,
+  "lat": 39.13,
+  "dom": "AUTO",
+  "tagline": "North China's port-industrial base — automobiles (FAW-Toyota), Airbus A320 final-assembly, petrochemicals and emerging EV/electronics, anchored by Tianjin Port and the Binhai New Area.",
+  "clusters": [
+   {
+    "seg": "Automobiles",
+    "level": 2,
+    "what": "FAW-Toyota + FAW heritage; growing NEV assembly in the northern auto belt.",
+    "anchors": [
+     "FAW Toyota",
+     "FAW"
+    ]
+   },
+   {
+    "seg": "Aerospace",
+    "level": 2,
+    "what": "Airbus A320 Final Assembly Line — the first outside Europe; aerospace & rocket plants.",
+    "anchors": [
+     "Airbus Tianjin",
+     "CASIC"
+    ]
+   },
+   {
+    "seg": "Petrochemicals",
+    "level": 2,
+    "what": "Large refining & chemical base (Nangang petrochemical zone).",
+    "anchors": [
+     "Sinopec",
+     "PetroChina"
+    ]
+   },
+   {
+    "seg": "Electronics / EV components",
+    "level": 1,
+    "what": "Display, EV battery/components and electronics in Binhai/TEDA (Samsung presence reduced).",
+    "anchors": []
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Binhai New Area 滨海新区",
+    "focus": "Port, petrochem, aerospace, electronics"
+   },
+   {
+    "name": "TEDA 经开区",
+    "focus": "Autos, electronics, FDI manufacturing"
+   }
+  ],
+  "valuechain": "Heavy-industry + assembly + port logistics; SOE-heavy (FAW, Sinopec, PetroChina) with FDI in autos/aerospace.",
+  "sourcing": {
+   "buy": [
+    "Auto components",
+    "petrochemical feedstock",
+    "electronics"
+   ],
+   "sell": [
+    "Automotive semiconductors / EV power devices",
+    "industrial electronics"
+   ]
+  },
+  "tags": {
+   "Components": 1,
+   "Optical": 0,
+   "Battery": 1,
+   "Automotive": 2,
+   "Precision": 1,
+   "Materials": 2,
+   "Appliances": 1,
+   "Semiconductor": 0
+  },
+  "stats": [
+   {
+    "k": "Role",
+    "v": "Auto + Airbus A320 FAL + port"
+   },
+   {
+    "k": "GDP",
+    "v": "~¥1.8T"
+   }
+  ],
+  "note": "Curated (lighter than the deep-researched cities) — Tianjin is more heavy-industry/port than electronics; flag for a deeper pass if needed."
+ },
+ {
+  "name": "Suzhou",
+  "name_zh": "苏州",
+  "lon": 120.62,
+  "lat": 31.32,
+  "dom": "ELEC",
+  "tagline": "China's top FDI-driven electronics & advanced-components belt ('Sunan model') — Samsung, Bosch, ZEISS + thousands of Taiwanese firms in PCB, OSAT, precision components and biomedicine.",
+  "clusters": [
+   {
+    "seg": "FDI electronics & EMS",
+    "level": 3,
+    "what": "Suzhou Industrial Park GDP ¥400B (2024); city industrial output >¥4.7T; high-tech 54.7%.",
+    "anchors": [
+     "Samsung",
+     "Foxconn",
+     "Bosch"
+    ]
+   },
+   {
+    "seg": "Semiconductor packaging / OSAT",
+    "level": 2,
+    "what": "Major OSAT cluster — Samsung Suzhou DRAM packaging + Taiwanese OSAT.",
+    "anchors": [
+     "Samsung Semi Suzhou",
+     "ASE"
+    ]
+   },
+   {
+    "seg": "PCB & electronic materials",
+    "level": 2,
+    "what": "Kunshan Taiwanese PCB makers; Dongshan Precision (top domestic PCB/precision group).",
+    "anchors": [
+     "Dongshan Precision",
+     "Unimicron"
+    ]
+   },
+   {
+    "seg": "Optical / precision instruments",
+    "level": 2,
+    "what": "ZEISS R&D+mfg site (2024); Sodick precision EDM.",
+    "anchors": [
+     "ZEISS",
+     "Sodick"
+    ]
+   },
+   {
+    "seg": "Biomedicine",
+    "level": 2,
+    "what": "BioBAY — China's leading biomedical cluster, >1,200 firms.",
+    "anchors": [
+     "Roche",
+     "Hengrui"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Suzhou Industrial Park (SIP)",
+    "focus": "Semi, biotech, R&D — GDP ¥400B (2024)"
+   },
+   {
+    "name": "Kunshan 昆山",
+    "focus": "Taiwanese PCB/EMS/servers (¥100B AI-server target 2027)"
+   },
+   {
+    "name": "Wuzhong 吴中",
+    "focus": "Dongshan Precision; auto-electronics suppliers"
+   }
+  ],
+  "valuechain": "FDI + Taiwan capital at mid-to-advanced electronics tiers; strong back-end semi + sub-assembly; SOE role limited ('Sunan model').",
+  "sourcing": {
+   "buy": [
+    "DRAM packaging",
+    "SMT/EMS sub-assembly",
+    "rigid & flex PCB",
+    "precision machined parts",
+    "optical coatings"
+   ],
+   "sell": [
+    "Semiconductor capital equipment",
+    "ABF/BT substrates",
+    "cleanroom consumables",
+    "automation systems"
+   ]
+  },
+  "tags": {
+   "Components": 3,
+   "Optical": 2,
+   "Battery": 1,
+   "Automotive": 2,
+   "Precision": 2,
+   "Materials": 2,
+   "Appliances": 1,
+   "Semiconductor": 2
+  },
+  "stats": [
+   {
+    "k": "GDP 2024",
+    "v": "¥2,672B (+6%)"
+   },
+   {
+    "k": "High-tech output",
+    "v": "¥2,572B (54.7%)"
+   },
+   {
+    "k": "SIP GDP",
+    "v": "¥400B"
+   }
+  ],
+  "note": "Samsung (KR), ZEISS (DE), Foxconn (TW), ASE (TW), Unimicron (TW) are foreign/Taiwan-HQ."
+ },
+ {
+  "name": "Wuxi",
+  "name_zh": "无锡",
+  "lon": 120.3,
+  "lat": 31.57,
+  "dom": "SEMI",
+  "tagline": "China's #1 IC packaging/test base + Hua Hong's newest 12-inch specialty foundry + SK hynix's DRAM fab + the nation's sole state-designated IoT cluster.",
+  "clusters": [
+   {
+    "seg": "IC packaging & test (OSAT)",
+    "level": 3,
+    "what": "#1 nationally; Hi-Tech District IC output >¥170B (2024); 500+ IC firms.",
+    "anchors": [
+     "Changdian / JCET"
+    ]
+   },
+   {
+    "seg": "Foundry (12-inch specialty)",
+    "level": 3,
+    "what": "Hua Hong Wuxi phase-2 (40nm MCU/eNVM), targeting 83k wpm; STMicro 40nm eNVM transfer.",
+    "anchors": [
+     "Hua Hong",
+     "STMicroelectronics"
+    ]
+   },
+   {
+    "seg": "DRAM / memory",
+    "level": 2,
+    "what": "SK hynix Wuxi DRAM ~180-190k wpm, ~90% on 1a DDR5; 49.9% stake sold to Wuxi state (2024).",
+    "anchors": [
+     "SK hynix",
+     "WIDG"
+    ]
+   },
+   {
+    "seg": "IoT / sensors",
+    "level": 3,
+    "what": "China's sole national IoT advanced-mfg cluster; >3,000 IoT firms; ¥401B (2022).",
+    "anchors": [
+     "China Mobile IoT",
+     "CAS Wuxi"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Wuxi National Hi-Tech District (Xinwu) 新吴",
+    "focus": "IC foundry + packaging + IoT; 500+ IC firms"
+   }
+  ],
+  "valuechain": "Full-stack semiconductor: design (light) → foundry → OSAT → IoT app layer; fab & IoT SOE-guided, packaging large-cap private (Changdian).",
+  "sourcing": {
+   "buy": [
+    "Packaged ICs / OSAT services",
+    "specialty 12-inch wafers (MCU/power/NVM)",
+    "DRAM modules",
+    "IoT sensor modules"
+   ],
+   "sell": [
+    "Packaging equipment & materials (wire-bond, flip-chip, WLP)",
+    "precision leadframes",
+    "IoT connectivity modules"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 1,
+   "Battery": 0,
+   "Automotive": 1,
+   "Precision": 2,
+   "Materials": 1,
+   "Appliances": 0,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "Hi-Tech IC output",
+    "v": ">¥170B (#2 nat'l 3yr)"
+   },
+   {
+    "k": "SK hynix Wuxi",
+    "v": "~180-190k wpm"
+   },
+   {
+    "k": "IoT (2022)",
+    "v": "¥401B"
+   }
+  ],
+  "note": "Hua Hong HQ Shanghai (Wuxi = its largest production base); SK hynix HQ Korea (partial stake now Chinese state)."
+ },
+ {
+  "name": "Hefei",
+  "name_zh": "合肥",
+  "lon": 117.23,
+  "lat": 31.82,
+  "dom": "SEMI",
+  "tagline": "China's boldest 'state-as-VC' city — municipal bets on BOE (display), CXMT (DRAM) and NIO/VW (EV) made it a triple leader in memory, large-panel display and premium EV.",
+  "clusters": [
+   {
+    "seg": "DRAM / memory",
+    "level": 3,
+    "what": "CXMT — China's sole volume DRAM producer; ~160k wpm; ~7.7% global share; DDR5 ramping (~80% yield).",
+    "anchors": [
+     "CXMT"
+    ]
+   },
+   {
+    "seg": "Large-panel display",
+    "level": 3,
+    "what": "BOE (Hefei-backed since 2008) — LCD G8.5 + WOLED.",
+    "anchors": [
+     "BOE"
+    ]
+   },
+   {
+    "seg": "EV / automotive",
+    "level": 3,
+    "what": "NIO (Hefei JV) + VW Anhui (€2.5B); ~1.37M NEV in 2024 (8.3% of China's output).",
+    "anchors": [
+     "NIO",
+     "VW Anhui",
+     "JAC"
+    ]
+   },
+   {
+    "seg": "Home appliances",
+    "level": 2,
+    "what": "Midea / Gree Hefei plants.",
+    "anchors": [
+     "Midea",
+     "Gree"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Xinzhan Hi-Tech 新站",
+    "focus": "BOE + CXMT fabs, semiconductor cluster"
+   },
+   {
+    "name": "Neo Park 新桥",
+    "focus": "NIO EV manufacturing + supply-chain park"
+   },
+   {
+    "name": "HETA 经开区",
+    "focus": "VW Anhui; home appliances"
+   }
+  ],
+  "valuechain": "State-directed at every anchor (Hefei gov holds equity in CXMT, NIO, BOE, VW Anhui) — the most interventionist municipal model; operating cos are listed/private/JV.",
+  "sourcing": {
+   "buy": [
+    "DRAM (DDR4/5, LPDDR5X)",
+    "large LCD/OLED panels",
+    "EV battery packs & drivetrain"
+   ],
+   "sell": [
+    "DRAM & display fab equipment",
+    "EV manufacturing automation",
+    "semiconductor materials"
+   ]
+  },
+  "tags": {
+   "Components": 1,
+   "Optical": 1,
+   "Battery": 2,
+   "Automotive": 3,
+   "Precision": 1,
+   "Materials": 1,
+   "Appliances": 2,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "GDP 2024",
+    "v": "¥1,350B (+6.1%)"
+   },
+   {
+    "k": "NEV 2024",
+    "v": "1.37M (8.3% China)"
+   },
+   {
+    "k": "CXMT",
+    "v": "~7.7% global DRAM"
+   }
+  ],
+  "note": "NIO HQ Shanghai; BOE HQ Beijing; VW HQ Germany — Hefei is the manufacturing base + major state investor."
+ },
+ {
+  "name": "Wuhan",
+  "name_zh": "武汉",
+  "lon": 114.3,
+  "lat": 30.59,
+  "dom": "SEMI",
+  "tagline": "China's only vertically-integrated memory-plus-photonics hub — YMTC's 3D NAND anchors the world's densest fibre-optic / optoelectronics cluster ('Optics Valley').",
+  "clusters": [
+   {
+    "seg": "3D NAND flash memory",
+    "level": 3,
+    "what": "YMTC ~130k wpm (→200k+ post-Phase III); targeting ~15% global NAND share by 2026.",
+    "anchors": [
+     "YMTC"
+    ]
+   },
+   {
+    "seg": "Fibre optics & cable",
+    "level": 3,
+    "what": "Optics Valley ~40% of global fibre-preform output; YOFC = global #3 fibre maker.",
+    "anchors": [
+     "YOFC",
+     "Fiberhome",
+     "Accelink"
+    ]
+   },
+   {
+    "seg": "Display LCD / OLED",
+    "level": 2,
+    "what": "BOE + TCL CSOT fabs; CSOT t8 Gen-8.6 inkjet-printed OLED (world-first).",
+    "anchors": [
+     "BOE",
+     "TCL CSOT"
+    ]
+   },
+   {
+    "seg": "Optoelectronics & lasers",
+    "level": 2,
+    "what": ">15,000 firms; ¥600B industry (2024); fibre lasers, LiDAR, photonic chips.",
+    "anchors": [
+     "Raycus",
+     "Accelink"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "East Lake Hi-Tech / Optics Valley 光谷",
+    "focus": "Fibre, YMTC, display, laser — >¥1.2T output"
+   },
+   {
+    "name": "WEDZ 车谷",
+    "focus": "Automotive & EV assembly"
+   }
+  ],
+  "valuechain": "Upstream-to-mid in memory (YMTC full-stack NAND) + photonics (preform → cable → device); state-backed, limited FDI post-sanctions.",
+  "sourcing": {
+   "buy": [
+    "NAND flash (YMTC)",
+    "optical fibre & cable",
+    "optoelectronic modules",
+    "display panels"
+   ],
+   "sell": [
+    "Storage chips to OEMs",
+    "fibre to telecom carriers",
+    "panels to TV/auto brands"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 3,
+   "Battery": 0,
+   "Automotive": 1,
+   "Precision": 2,
+   "Materials": 2,
+   "Appliances": 0,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "YMTC",
+    "v": "~130k wpm (→200k+)"
+   },
+   {
+    "k": "Fibre preform",
+    "v": "~40% of global"
+   },
+   {
+    "k": "Optoelectronics",
+    "v": "¥600B (2024)"
+   }
+  ],
+  "note": "YMTC on US Entity List since 2022; BOE/CSOT are branch fabs (HQ Beijing/Shenzhen); YMTC volumes are analyst estimates."
+ },
+ {
+  "name": "Xi'an",
+  "name_zh": "西安",
+  "lon": 108.94,
+  "lat": 34.34,
+  "dom": "SEMI",
+  "tagline": "The only Chinese city pairing Samsung's largest non-Korea NAND complex (~40% of Samsung NAND) with LONGi's world-leading solar campus and a deep aerospace-defence electronics base.",
+  "clusters": [
+   {
+    "seg": "NAND flash",
+    "level": 3,
+    "what": "Samsung Xi'an (X1+X2) = ~40% of Samsung's global NAND; ramping 236→286-layer V9.",
+    "anchors": [
+     "Samsung"
+    ]
+   },
+   {
+    "seg": "Solar wafer & cell",
+    "level": 3,
+    "what": "LONGi HQ — ¥45.2B expansion toward 100GW wafer + 50GW cell capacity.",
+    "anchors": [
+     "LONGi"
+    ]
+   },
+   {
+    "seg": "Aerospace & defence electronics",
+    "level": 2,
+    "what": "AVIC Xi'an Aircraft; radiation-hardened ICs for space.",
+    "anchors": [
+     "AVIC",
+     "Xi'an Microelectronics (CASC)"
+    ]
+   },
+   {
+    "seg": "Semiconductor packaging",
+    "level": 1,
+    "what": "Micron back-end (status uncertain after the 2023 CAC review).",
+    "anchors": [
+     "Micron"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Xi'an ETDZ",
+    "focus": "LONGi HQ + manufacturing"
+   },
+   {
+    "name": "Xi'an Hi-Tech Zone",
+    "focus": "Samsung fab complex, IC design"
+   },
+   {
+    "name": "Chang'an / NW corridor",
+    "focus": "AVIC, CASC defence electronics"
+   }
+  ],
+  "valuechain": "Split: Samsung fab = export FDI; LONGi = private global champion; defence/aerospace = SOE with closed supply chains.",
+  "sourcing": {
+   "buy": [
+    "NAND flash (Samsung)",
+    "solar wafers/cells (LONGi)",
+    "avionics/radar",
+    "space-grade ICs"
+   ],
+   "sell": [
+    "NAND to global storage OEMs",
+    "solar wafers/cells to module makers"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 1,
+   "Battery": 2,
+   "Automotive": 0,
+   "Precision": 3,
+   "Materials": 2,
+   "Appliances": 0,
+   "Semiconductor": 3
+  },
+  "stats": [
+   {
+    "k": "Samsung Xi'an",
+    "v": "~40% of Samsung NAND"
+   },
+   {
+    "k": "LONGi expansion",
+    "v": "¥45.2B"
+   },
+   {
+    "k": "LONGi target",
+    "v": "100GW wafer"
+   }
+  ],
+  "note": "Samsung HQ Korea (holds a US export exemption); LONGi solar defines Xi'an though it's not classic semiconductor."
+ },
+ {
+  "name": "Chengdu",
+  "name_zh": "成都",
+  "lon": 104.07,
+  "lat": 30.57,
+  "dom": "ELEC",
+  "tagline": "China's western EMS-plus-packaging node — Foxconn assembles MacBooks/iPads, Intel runs its China chip-packaging expansion, plus growing IC design and a top gaming hub.",
+  "clusters": [
+   {
+    "seg": "EMS — consumer electronics",
+    "level": 3,
+    "what": "Foxconn (iPads since 2010, MacBooks, Apple Watch); higher-value SKU mix.",
+    "anchors": [
+     "Foxconn",
+     "Pegatron"
+    ]
+   },
+   {
+    "seg": "Semi packaging & test",
+    "level": 2,
+    "what": "Intel Chengdu $300M expansion (server-chip packaging) + customer centre.",
+    "anchors": [
+     "Intel",
+     "JCET"
+    ]
+   },
+   {
+    "seg": "IC design",
+    "level": 2,
+    "what": "China's 'fourth IC city'; AMEC ¥3.05B equipment base; automotive-chip cluster in Tianfu.",
+    "anchors": [
+     "AMEC",
+     "Fujitsu Semi design"
+    ]
+   },
+   {
+    "seg": "Gaming & software",
+    "level": 3,
+    "what": "Largest gaming hub after Shanghai/Shenzhen (Tencent/NetEase/miHoYo) — drives GPU/datacentre demand.",
+    "anchors": [
+     "Tencent",
+     "NetEase"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Chengdu Hi-Tech Zone",
+    "focus": "Intel, Foxconn, IC design, AMEC"
+   },
+   {
+    "name": "Tianfu New Area 天府新区",
+    "focus": "IC-design startups, automotive chips"
+   }
+  ],
+  "valuechain": "Mid-to-downstream: final assembly (Foxconn) is largest; Intel packaging adds back-end depth; IC design early-stage; FDI-heavy mfg + private IC/gaming.",
+  "sourcing": {
+   "buy": [
+    "OSAT/packaging (Intel)",
+    "consumer-electronics assembly (Foxconn)",
+    "IC design",
+    "semi equipment (AMEC)"
+   ],
+   "sell": [
+    "Tablets/notebooks/MacBooks",
+    "packaged server chips"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 0,
+   "Battery": 0,
+   "Automotive": 1,
+   "Precision": 2,
+   "Materials": 0,
+   "Appliances": 1,
+   "Semiconductor": 2
+  },
+  "stats": [
+   {
+    "k": "Intel Chengdu",
+    "v": "+$300M (server packaging)"
+   },
+   {
+    "k": "Foxconn",
+    "v": "iPad / MacBook base"
+   },
+   {
+    "k": "AMEC base",
+    "v": "¥3.05B"
+   }
+  ],
+  "note": "Foxconn (TW), Intel (US), Pegatron (TW) are branch ops; no confirmed UMC Chengdu fab found."
+ },
+ {
+  "name": "Chongqing",
+  "name_zh": "重庆",
+  "lon": 106.55,
+  "lat": 29.56,
+  "dom": "ELEC",
+  "tagline": "World's largest laptop-production city (~30% of global notebooks, #1 for 11+ years), now layering NEV auto-electronics and display on its EMS base.",
+  "clusters": [
+   {
+    "seg": "Laptop / notebook EMS",
+    "level": 3,
+    "what": "~80M laptops + 100M+ smart terminals/yr; ~30% of global notebooks; HP/Dell/Lenovo/Acer/Asus.",
+    "anchors": [
+     "Quanta",
+     "Inventec",
+     "Foxconn",
+     "Wistron"
+    ]
+   },
+   {
+    "seg": "NEV & automotive electronics",
+    "level": 3,
+    "what": "2.54M vehicles (2024), 953k NEV (+90.5%); #3 in China.",
+    "anchors": [
+     "Changan",
+     "AVATR",
+     "Seres"
+    ]
+   },
+   {
+    "seg": "Semiconductor packaging",
+    "level": 2,
+    "what": "SK hynix Chongqing back-end packaging plant.",
+    "anchors": [
+     "SK hynix"
+    ]
+   },
+   {
+    "seg": "Display",
+    "level": 2,
+    "what": "BOE line; part of the Chengdu-Chongqing display corridor.",
+    "anchors": [
+     "BOE"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Xiyong Bonded Zone 西永",
+    "focus": "Laptop ODMs + Chongqing-Europe rail freight"
+   },
+   {
+    "name": "Liangjiang New Area 两江",
+    "focus": "Changan auto, NEV, advanced mfg"
+   }
+  ],
+  "valuechain": "Final-assembly + packaging (FDI Taiwanese ODMs for laptops, Korean back-end for memory); auto shifting toward a domestic chain; rail-logistics edge.",
+  "sourcing": {
+   "buy": [
+    "Notebooks (Quanta/Inventec)",
+    "NEVs (Changan/AVATR/Seres)",
+    "DRAM/NAND packaging",
+    "display panels"
+   ],
+   "sell": [
+    "Laptops to OEM brands",
+    "NEVs",
+    "packaged memory chips"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 0,
+   "Battery": 1,
+   "Automotive": 3,
+   "Precision": 1,
+   "Materials": 0,
+   "Appliances": 1,
+   "Semiconductor": 2
+  },
+  "stats": [
+   {
+    "k": "Laptops",
+    "v": "~30% global (#1 11yr)"
+   },
+   {
+    "k": "NEV 2024",
+    "v": "953k (+90.5%)"
+   },
+   {
+    "k": "GDP 2024",
+    "v": "¥3.22T"
+   }
+  ],
+  "note": "Quanta/Inventec/Foxconn (TW), SK hynix (KR) are branch ops; HP/Dell are brand clients, not manufacturers."
+ },
+ {
+  "name": "Dongguan",
+  "name_zh": "东莞",
+  "lon": 113.75,
+  "lat": 23.02,
+  "dom": "ELEC",
+  "tagline": "The PRD's mass-production backbone — ~32 specialized towns; Chang'an outputs ~195 phones/minute and the city makes ~1 in 5 of the world's mobile phones; competes on tooling speed + supplier density, not brands or chip IP.",
+  "clusters": [
+   {
+    "seg": "Smartphone / consumer OEM-ODM",
+    "level": 3,
+    "what": "Chang'an electronics output ¥232.6B (2024); ~1/5 of world phones since 1995.",
+    "anchors": [
+     "OPPO",
+     "vivo (BBK)"
+    ]
+   },
+   {
+    "seg": "PCB & PCBA",
+    "level": 2,
+    "what": "One of China's 3 biggest PCB hubs (Houjie/Hengli/Dalang); linked to Shenzhen design houses.",
+    "anchors": [
+     "Kinwong",
+     "Agilian"
+    ]
+   },
+   {
+    "seg": "Battery packs",
+    "level": 2,
+    "what": "Cell-to-pack for phones/TWS/power tools (cells from Shenzhen/Huizhou).",
+    "anchors": [
+     "BYD",
+     "EVE"
+    ]
+   },
+   {
+    "seg": "Precision stamping & molds",
+    "level": 3,
+    "what": "Chang'an/Houjie mold cluster (~¥50B); molds exported globally.",
+    "anchors": [
+     "SME tool-and-die"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Chang'an 长安",
+    "focus": "Smartphone OEM/ODM + molds — GDP >¥105B"
+   },
+   {
+    "name": "Houjie 厚街",
+    "focus": "PCB sub-cluster (+ furniture)"
+   },
+   {
+    "name": "Liaobu 寮步",
+    "focus": "Battery-pack assembly, precision hardware"
+   }
+  ],
+  "valuechain": "Classic Tier-1/2 OEM — converts Shenzhen designs/components into finished assemblies; private SME-heavy, thin margins, diversifying to smart-manufacturing.",
+  "sourcing": {
+   "buy": [
+    "ICs/modules (Huaqiangbei/import)",
+    "bare PCBs",
+    "battery cells",
+    "stampings",
+    "displays"
+   ],
+   "sell": [
+    "Assembled phones, TWS, power-tool packs, PCBA — to Shenzhen brands / export"
+   ]
+  },
+  "tags": {
+   "Components": 3,
+   "Optical": 1,
+   "Battery": 2,
+   "Automotive": 1,
+   "Precision": 3,
+   "Materials": 1,
+   "Appliances": 1,
+   "Semiconductor": 0
+  },
+  "stats": [
+   {
+    "k": "GDP 2024",
+    "v": "¥1,228B (+4.6%)"
+   },
+   {
+    "k": "Chang'an electronics",
+    "v": "¥232.6B"
+   },
+   {
+    "k": "Output",
+    "v": "~195 phones/min"
+   }
+  ],
+  "note": "OPPO/vivo are anchored in Chang'an (BBK group); the '1/5 of world phones' figure is order-of-magnitude."
+ },
+ {
+  "name": "Foshan",
+  "name_zh": "佛山",
+  "lon": 113.12,
+  "lat": 23.02,
+  "dom": "APPL",
+  "tagline": "The PRD's appliance + industrial-materials heartland — Shunde houses Midea (appliances + KUKA robotics) and Galanz, the largest white-goods concentration on earth; Foshan makes what goes inside homes.",
+  "clusters": [
+   {
+    "seg": "Home appliances / white goods",
+    "level": 3,
+    "what": "Shunde output ~¥370B; 25% of global rice cookers, 48% of microwaves; Midea revenue ¥409B (2024).",
+    "anchors": [
+     "Midea",
+     "Galanz"
+    ]
+   },
+   {
+    "seg": "Industrial robotics",
+    "level": 3,
+    "what": "Midea-KUKA Shunde park — China's largest industrial-robot base (>80,000 delivered).",
+    "anchors": [
+     "KUKA",
+     "Midea Robotics"
+    ]
+   },
+   {
+    "seg": "Ceramic tiles",
+    "level": 3,
+    "what": "~54% of China / ~25% of world output; 350+ makers, ~1.2B m²/yr.",
+    "anchors": [
+     "Dongpeng / Marco Polo"
+    ]
+   },
+   {
+    "seg": "Aluminum profiles",
+    "level": 2,
+    "what": "Nanhai — China's leading architectural aluminum-extrusion hub.",
+    "anchors": [
+     "NAPA members"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Shunde 顺德",
+    "focus": "Appliances — Midea/Galanz/KUKA"
+   },
+   {
+    "name": "Chancheng 禅城",
+    "focus": "Ceramic tiles"
+   },
+   {
+    "name": "Nanhai 南海",
+    "focus": "Aluminum extrusions, furniture hardware"
+   }
+  ],
+  "valuechain": "Mid-to-finished consumer durables + construction materials; heavily private (Midea/Galanz); Midea vertically integrated (makes own compressors/motors/chips).",
+  "sourcing": {
+   "buy": [
+    "Steel & compressor parts",
+    "copper wire",
+    "aluminum ingot",
+    "rare-earth motors",
+    "MCU/SoC for smart appliances (via Shenzhen)"
+   ],
+   "sell": [
+    "Air-con/washers/rice cookers/microwaves",
+    "industrial robots",
+    "ceramic tiles",
+    "aluminum profiles"
+   ]
+  },
+  "tags": {
+   "Components": 1,
+   "Optical": 0,
+   "Battery": 0,
+   "Automotive": 1,
+   "Precision": 2,
+   "Materials": 3,
+   "Appliances": 3,
+   "Semiconductor": 0
+  },
+  "stats": [
+   {
+    "k": "Midea 2024",
+    "v": "¥409B revenue"
+   },
+   {
+    "k": "Ceramics",
+    "v": "54% China / 25% world"
+   },
+   {
+    "k": "KUKA",
+    "v": ">80,000 robots"
+   }
+  ],
+  "note": "KUKA HQ Germany (Shunde = mfg base); Hisense HQ Qingdao (has Foshan plants, not Foshan-HQ)."
+ },
+ {
+  "name": "Ningde",
+  "name_zh": "宁德",
+  "lon": 119.52,
+  "lat": 26.66,
+  "dom": "BAT",
+  "tagline": "The world's most concentrated single-city battery ecosystem — a purpose-built battery capital around CATL where upstream materials, cell production and recycling co-locate; >¥300B output.",
+  "clusters": [
+   {
+    "seg": "Battery cells (power + storage)",
+    "level": 3,
+    "what": "CATL HQ — world #1 EV battery 9 years running, 39.2% global share (2025); 661 GWh sold.",
+    "anchors": [
+     "CATL"
+    ]
+   },
+   {
+    "seg": "Battery supply chain",
+    "level": 3,
+    "what": ">90 upstream/downstream firms; >60% local materials (cathode/anode/separator/electrolyte).",
+    "anchors": [
+     "Xiamen Tungsten New Energy",
+     "Shanshan Energy"
+    ]
+   },
+   {
+    "seg": "Energy storage",
+    "level": 2,
+    "what": "CATL ESS shipments 36 GWh in Q3 2025; Tener / Shenxing cells.",
+    "anchors": [
+     "CATL ESS"
+    ]
+   },
+   {
+    "seg": "Battery recycling",
+    "level": 2,
+    "what": "BRUNP (CATL) recycles end-of-life cells into precursors.",
+    "anchors": [
+     "BRUNP"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Jiaocheng 蕉城",
+    "focus": "CATL main campus + HQ, gigafactories"
+   },
+   {
+    "name": "Dongqiao Industrial Zone",
+    "focus": "Battery supply-chain & materials"
+   }
+  ],
+  "valuechain": "Almost entirely private (CATL, Zeng Yuqun-controlled); cell + materials manufacturing; sells cells to global OEMs; very little SOE presence.",
+  "sourcing": {
+   "buy": [
+    "Lithium, cobalt, nickel",
+    "graphite anode",
+    "PVDF binder",
+    "electrolyte solvents"
+   ],
+   "sell": [
+    "EV power cells/packs (NMC/LFP/Kirin)",
+    "grid ESS systems",
+    "recycled precursor materials"
+   ]
+  },
+  "tags": {
+   "Components": 1,
+   "Optical": 0,
+   "Battery": 3,
+   "Automotive": 1,
+   "Precision": 1,
+   "Materials": 2,
+   "Appliances": 0,
+   "Semiconductor": 0
+  },
+  "stats": [
+   {
+    "k": "Cluster output 2025",
+    "v": "¥300B+"
+   },
+   {
+    "k": "CATL 2025",
+    "v": "¥423.7B rev / ¥72.2B profit"
+   },
+   {
+    "k": "Share",
+    "v": "39.2% global, #1 9yr"
+   }
+  ],
+  "note": "CATL also has fabs in Liyang/Qingdao/Yichun etc.; the '330 GWh' figure is group-wide, not Ningde-only."
+ },
+ {
+  "name": "Changzhou",
+  "name_zh": "常州",
+  "lon": 119.97,
+  "lat": 31.79,
+  "dom": "BAT",
+  "tagline": "The most complete EV new-energy supply chain of any city outside Shenzhen — CATL, SVOLT, CALB (cells), Li Auto (assembly) and Trina Solar (PV) all manufacture here.",
+  "clusters": [
+   {
+    "seg": "Battery cell manufacturing",
+    "level": 3,
+    "what": "Three makers in parallel — CATL Liyang, SVOLT (HQ Jintan), CALB (HQ Changzhou); Jintan alone 108.5 GWh (~20% of China).",
+    "anchors": [
+     "CATL",
+     "SVOLT",
+     "CALB"
+    ]
+   },
+   {
+    "seg": "EV assembly",
+    "level": 3,
+    "what": "Li Auto main plant (Wujin); city NEV output 678k (2023) → 800k+ (2024).",
+    "anchors": [
+     "Li Auto"
+    ]
+   },
+   {
+    "seg": "Solar PV",
+    "level": 3,
+    "what": "Trina Solar HQ — top-5 module maker; 2024 revenue $11.27B; H1 2024 34GW shipped.",
+    "anchors": [
+     "Trina Solar"
+    ]
+   },
+   {
+    "seg": "EV supply-chain components",
+    "level": 2,
+    "what": "Deep Tier-1/2 — electrolyte, thermal, BMS, power electronics; new-energy output ¥768B (2023).",
+    "anchors": [
+     "ArcelorMittal Changzhou"
+    ]
+   }
+  ],
+  "subdistricts": [
+   {
+    "name": "Jintan 金坛",
+    "focus": "SVOLT HQ — largest Jiangsu battery base"
+   },
+   {
+    "name": "Liyang 溧阳",
+    "focus": "CATL + CALB cells; battery materials"
+   },
+   {
+    "name": "Wujin 武进",
+    "focus": "Li Auto EV assembly"
+   },
+   {
+    "name": "Xinbei 新北",
+    "focus": "Trina Solar HQ; PV module production"
+   }
+  ],
+  "valuechain": "Mixed SOE/private; mid-stream cell manufacturing + finished assembly; sources materials regionally, exports via the Yangtze River Delta.",
+  "sourcing": {
+   "buy": [
+    "LFP/NMC cathode",
+    "anode graphite",
+    "copper foil, Al casing",
+    "silicon wafers, EVA/backsheet"
+   ],
+   "sell": [
+    "EV cells/packs",
+    "EVs / EREVs (Li Auto)",
+    "PV modules (100+ countries)",
+    "ESS systems"
+   ]
+  },
+  "tags": {
+   "Components": 2,
+   "Optical": 1,
+   "Battery": 3,
+   "Automotive": 3,
+   "Precision": 1,
+   "Materials": 1,
+   "Appliances": 0,
+   "Semiconductor": 0
+  },
+  "stats": [
+   {
+    "k": "New-energy output",
+    "v": "¥768B (2023, →¥1T)"
+   },
+   {
+    "k": "EV 2024",
+    "v": "800k+ units"
+   },
+   {
+    "k": "Trina 2024",
+    "v": "$11.27B"
+   }
+  ],
+  "note": "Li Auto HQ Beijing (mfg in Changzhou); CALB relocated from Luoyang (2015); CATL HQ Ningde."
+ }
+]

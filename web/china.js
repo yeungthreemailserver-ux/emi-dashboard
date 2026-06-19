@@ -42,7 +42,7 @@ const layerLabel = (l) => (Z() ? (l.label_zh || l.label) : l.label);
 const curLayer = () => DATA.layers.find((l) => l.key === STATE.layer) || DATA.layers[0];
 const gloDef = (term) => (Z() ? (DATA.glossary_zh[term] || DATA.glossary[term]) : DATA.glossary[term]);
 const cityName = (c) => (Z() ? (c.name_zh || c.name) : c.name);
-const cityTagline = (c) => (Z() ? (c.tagline_zh || c.tagline) : c.tagline);
+const cityTagline = (c) => Z() ? ((c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline_zh || c.tagline)) : c.tagline;
 const mk = (it) => (Z() ? (it.k_zh || it.k) : it.k);          // macro/industry label
 const mnote = (it) => (Z() ? (it.note_zh || it.note) : it.note);
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
@@ -267,30 +267,32 @@ function openKpiModal(it) {
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeKpiModal(); });
 
 // ---- dossier ----
-function clusterHTML(cl) {
+function clusterHTML(cl, z) {
   const anch = (cl.anchors || []).map((a) => `<span class="chip">${glossify(a)}</span>`).join("");
-  return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
-    <div class="cl-what">${glossify(cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
+  return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(z && z.seg ? z.seg : cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
+    <div class="cl-what">${glossify(z && z.what ? z.what : cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
 }
 function renderDossier(c) {
   const el = document.getElementById("dossier");
   if (!c) { el.innerHTML = `<div class="dos-hint">${tt("hint")}</div>`; return; }
+  const z = (Z() && c.zh) ? c.zh : null;
+  const pick = (zv, ev) => glossify((z && zv != null) ? zv : ev);
   let h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span><span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span></div>`;
-  h += `<div class="dos-tag">${glossify(cityTagline(c))}</div>`;
-  if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s) => `<div class="dos-stat"><div class="k">${esc(s.k)}</div><div class="v">${esc(s.v)}</div></div>`).join("")}</div>`;
-  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>${c.clusters.map(clusterHTML).join("")}</div>`;
-  if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${glossify(s.focus)}</span></div>`).join("")}</div>`;
-  if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${glossify(c.valuechain)}</div></div>`;
+  h += `<div class="dos-tag">${glossify(z ? z.tagline : c.tagline)}</div>`;
+  if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
+  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>${c.clusters.map((cl, i) => clusterHTML(cl, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
+  if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s, i) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${pick(z && z.subdistricts && z.subdistricts[i] ? z.subdistricts[i].focus : null, s.focus)}</span></div>`).join("")}</div>`;
+  if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${pick(z ? z.valuechain : null, c.valuechain)}</div></div>`;
   if (c.sourcing) h += `<div class="dos-sec"><h5>${tt("dist")}</h5><div class="src2">
-      <div><div class="lbl">${tt("buy")}</div><ul>${(c.sourcing.buy || []).map((x) => `<li>${glossify(x)}</li>`).join("")}</ul></div>
-      <div><div class="lbl">${tt("sell")}</div><ul>${(c.sourcing.sell || []).map((x) => `<li>${glossify(x)}</li>`).join("")}</ul></div></div></div>`;
+      <div><div class="lbl">${tt("buy")}</div><ul>${(c.sourcing.buy || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.buy ? z.sourcing.buy[i] : null, x)}</li>`).join("")}</ul></div>
+      <div><div class="lbl">${tt("sell")}</div><ul>${(c.sourcing.sell || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.sell ? z.sourcing.sell[i] : null, x)}</li>`).join("")}</ul></div></div></div>`;
   if (c.tags) {
     const cells = DATA.taxonomy.map((t) => { const v = c.tags[t] || 0; const bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
       return `<div class="taxc" style="${bg};color:${TAXFG[v] || "#cbd5e1"}" data-tip="${esc(t)}: ${v ? lvlw(v) : "—"}"><div class="tl">${esc(t.slice(0, 8))}</div><div class="tv">${v ? "●".repeat(v) : "·"}</div></div>`;
     }).join("");
     h += `<div class="dos-sec"><h5>${tt("mfg")}</h5><div class="taxg">${cells}</div></div>`;
   }
-  if (c.note) h += `<div class="dos-note">${esc(c.note)}</div>`;
+  if (c.note) h += `<div class="dos-note">${esc(z && z.note ? z.note : c.note)}</div>`;
   el.innerHTML = h;
 }
 

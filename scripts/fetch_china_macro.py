@@ -26,6 +26,8 @@ DATA = ROOT / "data"
 READ_DATE = "2026-06"
 SRC_NBS = "NBS (via Trading Economics), read Jun 2026"
 SRC_FRED = "FRED (OECD/Customs) via browser"
+SRC_CAIXIN = "Caixin / RatingDog (S&P Global), via TE, read Jun 2026"
+SRC_NBSPMI = "NBS / CFLP (official), via TE, read Jun 2026"
 
 # Latest official prints (NBS), read READ_DATE — the headline value + its reference date.
 CURRENT = {
@@ -34,7 +36,8 @@ CURRENT = {
     "ppi":    {"v": "+3.9%", "as_of": "2026-05", "freq": "monthly"},
     "ind":    {"v": "+4.5%", "as_of": "2026-05", "freq": "monthly"},
     "retail": {"v": "-0.6%", "as_of": "2026-05", "freq": "monthly"},
-    "pmi":    {"v": "51.8",  "as_of": "2026-05", "freq": "monthly"},
+    "pmi":     {"v": "51.8", "as_of": "2026-05", "freq": "monthly"},   # Caixin / RatingDog (S&P) manufacturing
+    "pmi_nbs": {"v": "50.5", "as_of": "2026-05", "freq": "monthly"},   # NBS / CFLP official
     "m2":     {"v": "+8.6%", "as_of": "2026-05", "freq": "monthly"},
     "unemp":  {"v": "5.1%",  "as_of": "2026-05", "freq": "monthly"},
 }
@@ -102,9 +105,12 @@ def main():
         tile("retail", "Retail sales", "社零消费", "retail", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"}, te["retail"], glo="Retail sales",
              detail="Retail sales, YoY (NBS, monthly). A persistent slowdown from 6.4% to -0.6% — consumption turning negative is the key weak spot.",
              detail_zh="社会消费品零售总额,同比(国家统计局,月度)。从 6.4% 持续放缓至 -0.6% — 消费转负是关键弱点。"),
-        tile("pmi", "Mfg PMI (NBS)", "制造业 PMI(官方)", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi"], glo="Mfg PMI",
-             detail="This tile uses the OFFICIAL NBS (CFLP) manufacturing PMI — it surveys ~3,200 mostly large & state-owned firms. It is NOT the Caixin PMI, which is compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers and is often more sensitive to private-sector / export swings — the two gauges can diverge by a point or more. >50 = expansion; currently hovering just above the line.",
-             detail_zh="本卡使用官方 NBS(中物联)制造业 PMI — 调查约 3,200 家多为大型/国企。并非财新 PMI(由标普全球 S&P Global 编制、调查约 500 家中小型民营出口商、对民营与出口更敏感)— 两者可相差一个点以上。>50 = 扩张;目前刚好在荣枯线上方。"),
+        tile("pmi_nbs", "NBS PMI", "官方 PMI", "pmi_nbs", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi_nbs"], glo="NBS PMI", source=SRC_NBSPMI,
+             detail="Official NBS / CFLP PMI — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Barely above 50 = activity essentially flat.",
+             detail_zh="官方 NBS(中物联)PMI — 调查约 3,200 家多为大型/国企,最受政策关注。刚过 50 = 活动基本持平。"),
+        tile("caixin", "Caixin Mfg PMI", "财新制造业 PMI", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi"], glo="Caixin Mfg PMI", source=SRC_CAIXIN,
+             detail="Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended). Running above the official NBS gauge — private / export manufacturers are outperforming.",
+             detail_zh="财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名为「RatingDog」)。高于官方 NBS — 民营/出口制造商表现更强。"),
     ]
 
     # ---- more ----
