@@ -135,6 +135,26 @@ function sparkBars(vw, w, h) {
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="spark" preserveAspectRatio="none">${bars}<line x1="0" y1="${refY}" x2="${w}" y2="${refY}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2"/>${hits}</svg>`;
 }
 
+// ---- per-tile display meta: basis tag (period / time-base), value split, staleness ----
+const NOW_YEAR = 2026;  // dashboard "current" year — data pulled mid-2026
+// basis = the small unit/period tag shown after the value; yoy = the series is a YoY% we can surface in the verdict.
+const TILE_META = {
+  gdp: { basis: "YoY" }, cpi: { basis: "YoY" }, ppi: { basis: "YoY" }, ind: { basis: "YoY" }, retail: { basis: "YoY" }, m2: { basis: "YoY" },
+  exports: { basis: "/mo", yoy: true }, imports: { basis: "/mo", yoy: true }, tbal: { basis: "/mo" },
+  htx: { basis: "/yr", yoy: true }, auto: { basis: "/yr", yoy: true },
+};  // pmi_nbs, caixin, unemp intentionally untagged (index / point-in-time rate)
+function tileMeta(it) { return TILE_META[it.key] || {}; }
+function valHTML(it) {  // big value + small basis tag; strip any inline /mo /yr so it isn't shown twice
+  const v = String(it.v || "").replace(/\s*\/(mo|yr)\s*$/, "");
+  const b = tileMeta(it).basis;
+  return esc(v) + (b ? `<span class="basis">${esc(b)}</span>` : "");
+}
+function staleYears(it) { const mm = /^(\d{4})$/.exec(String(it.as_of || "")); if (!mm) return 0; const lag = NOW_YEAR - (+mm[1]); return lag >= 1 ? lag : 0; }
+function tileFoot(it) {  // as-of / source line + amber "lag" badge for annual series that trail the current year
+  const sy = staleYears(it);
+  return asof(it) + (sy ? ` · <span class="stale">${Z() ? ("滞后 " + sy + " 年") : (sy + "-yr lag")}</span>` : "");
+}
+
 // ---- render ----
 function render() {
   const m = DATA.macro;
@@ -142,24 +162,32 @@ function render() {
     const vw = viewSeries(k), dg = digestStr(k, vw);
     return `<div class="kpi" data-kpi="${i}">
       <div class="lbl">${glossWrap(mk(k), k.glo)}</div>
-      <div class="val">${esc(k.v)}</div>
+      <div class="val">${valHTML(k)}</div>
       <div class="digest" style="color:${dg.color}">${esc(dg.txt)}</div>
       <div class="spk">${sparkBars(vw)}</div>
-      <div class="src">${asof(k)}</div></div>`;
+      <div class="src">${tileFoot(k)}</div></div>`;
   }).join("");
   const more = m.more.map((it, i) => {
     const vw = viewSeries(it), dg = digest(vw), head = `<div class="morec${it.manual ? " man" : ""}" data-more="${i}">`;
     const spk = (it.series && it.series.length > 1) ? `<div class="msp">${sparkBars(vw, 120, 22)}</div>` : "";
-    const verdict = dg.read ? `<div class="digest" style="color:${dg.color}">${esc(dg.read)}</div>` : "";
-    return `${head}<div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${esc(it.v)}</div>${verdict}${spk}
-      <div class="md">${asof(it)}</div></div>`;
+    let vtxt = dg.read;  // surface the YoY growth rate alongside the verdict where the series is a clean YoY%
+    if (tileMeta(it).yoy && vw.latest != null) vtxt = ((vw.latest >= 0 ? "+" : "") + vw.latest + "% YoY") + (dg.read ? " · " + dg.read : "");
+    const verdict = vtxt ? `<div class="digest" style="color:${dg.color}">${esc(vtxt)}</div>` : "";
+    return `${head}<div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${valHTML(it)}</div>${verdict}${spk}
+      <div class="md">${tileFoot(it)}</div></div>`;
   }).join("");
   const ind = m.industry.map((i) => `<div class="ind"><b>${esc(i.v)}</b><span class="il">${glossWrap(mk(i), i.glo)} · ${esc(mnote(i))}</span></div>`).join("");
   const layerBtns = DATA.layers.map((l) => `<button class="mapbtn${l.key === STATE.layer ? " active" : ""}" data-layer="${l.key}">${esc(layerLabel(l))}</button>`).join("");
   const legend = Object.keys(DATA.domains).map((d) => `<span><i style="color:${DATA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
+  const lagItems = m.headline.concat(m.more).filter(staleYears);  // call out annual series that trail the current year
+  const freshLine = lagItems.length
+    ? (Z() ? (lagItems.map(mk).join("、") + " 滞后至 2024 · 其余指标均为当期")
+           : (lagItems.map(mk).join(" & ") + " lag to 2024 · all other indicators are current"))
+    : "";
   document.getElementById("main").innerHTML = `
     <div class="cty-head"><h1>${Z() ? "中国" : "China"} <span style="font-size:12px;color:var(--muted);font-weight:400">${Z() ? "市场 · 产业 · 城市" : "market · industry · cities"}</span></h1>
-      <div class="sub">${esc(Z() ? (m.tagline_zh || m.tagline) : m.tagline)}</div></div>
+      <div class="sub">${esc(Z() ? (m.tagline_zh || m.tagline) : m.tagline)}</div>
+      ${freshLine ? `<div class="fresh">${esc(freshLine)}</div>` : ""}</div>
     <div class="kpis">${kpis}</div>
     <div class="sech">${tt("sub_more")} <span class="dim">${tt("sub_more2")}</span></div>
     <div class="more-grid">${more}</div>
