@@ -91,7 +91,8 @@ function viewSeries(it) {
   const prior = s2.length > 1 ? s2[s2.length - 2][1] : null;
   const ref = v.ref != null ? v.ref : 0;
   const trend = (latest != null && prior != null) ? (latest > prior ? "accelerating" : latest < prior ? "cooling" : "flat") : "flat";
-  return { s2, latest, prior, ref, band: v.band, good: v.good, metric: v.metric, reflbl: v.reflbl, trend };
+  const unit = v.ref === 50 ? "pts" : (it.key === "tbal" ? "$B" : "%");
+  return { s2, latest, prior, ref, band: v.band, good: v.good, metric: v.metric, reflbl: v.reflbl, trend, unit };
 }
 function digest(vw) {
   if (vw.latest == null) return { color: "var(--muted)", read: "" };
@@ -118,14 +119,16 @@ function sparkBars(vw, w, h) {
   const refY = +y(vw.ref).toFixed(1);
   const bw = (w - 2) / s.length;
   const good = (v) => vw.good === "low" ? v <= vw.ref : vw.good === "band" ? (v >= (vw.band[0]) && v <= (vw.band[1])) : v >= vw.ref;
-  let bars = "";
+  const fmt = (v) => vw.unit === "$B" ? ("$" + v + "B") : vw.unit === "pts" ? ("" + v) : ((v >= 0 ? "+" : "") + v + "%");
+  let bars = "", hits = "";
   s.forEach((p, i) => {
     const x = (1 + i * bw).toFixed(1), vy = y(p[1]);
     const top = Math.min(vy, refY).toFixed(1), ht = Math.max(1.5, Math.abs(vy - refY)).toFixed(1);
     const c = good(p[1]) ? "#16a34a" : (vw.good === "band" && p[1] < vw.band[0] ? "#d97706" : "#dc2626");
     bars += `<rect x="${x}" y="${top}" width="${(bw - 1.3).toFixed(1)}" height="${ht}" rx="1" fill="${c}" opacity="0.82"/>`;
+    hits += `<rect x="${x}" y="0" width="${bw.toFixed(1)}" height="${h}" fill="transparent" data-tip="${esc(aslabel(p[0]) + " · " + fmt(p[1]))}"/>`;
   });
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="spark" preserveAspectRatio="none">${bars}<line x1="0" y1="${refY}" x2="${w}" y2="${refY}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2"/></svg>`;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="spark" preserveAspectRatio="none">${bars}<line x1="0" y1="${refY}" x2="${w}" y2="${refY}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2"/>${hits}</svg>`;
 }
 
 // ---- render ----

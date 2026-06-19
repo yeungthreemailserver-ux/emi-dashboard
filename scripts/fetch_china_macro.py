@@ -102,9 +102,9 @@ def main():
         tile("retail", "Retail sales", "社零消费", "retail", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"}, te["retail"], glo="Retail sales",
              detail="Retail sales, YoY (NBS, monthly). A persistent slowdown from 6.4% to -0.6% — consumption turning negative is the key weak spot.",
              detail_zh="社会消费品零售总额,同比(国家统计局,月度)。从 6.4% 持续放缓至 -0.6% — 消费转负是关键弱点。"),
-        tile("pmi", "Mfg PMI", "制造业 PMI", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi"], glo="Caixin Mfg PMI",
-             detail="Official NBS manufacturing PMI (monthly). Oscillating around the 50 boom/bust line — no decisive expansion.",
-             detail_zh="官方制造业 PMI(国家统计局,月度)。在荣枯线 50 附近震荡,缺乏决定性扩张。"),
+        tile("pmi", "Mfg PMI (NBS)", "制造业 PMI(官方)", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi"], glo="Mfg PMI",
+             detail="This tile uses the OFFICIAL NBS (CFLP) manufacturing PMI — it surveys ~3,200 mostly large & state-owned firms. It is NOT the Caixin PMI, which is compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers and is often more sensitive to private-sector / export swings — the two gauges can diverge by a point or more. >50 = expansion; currently hovering just above the line.",
+             detail_zh="本卡使用官方 NBS(中物联)制造业 PMI — 调查约 3,200 家多为大型/国企。并非财新 PMI(由标普全球 S&P Global 编制、调查约 500 家中小型民营出口商、对民营与出口更敏感)— 两者可相差一个点以上。>50 = 扩张;目前刚好在荣枯线上方。"),
     ]
 
     # ---- more ----
