@@ -577,9 +577,12 @@ def main():
         for c in CITIES:
             if c["name"] in zmap:
                 c["zh"] = zmap[c["name"]]
+    # US-restriction flags for anchor companies (Sonnet-researched), keyed by a match substring.
+    sf = ROOT / "data" / "sanctions.json"
+    sanctions = json.loads(sf.read_text(encoding="utf-8")) if sf.exists() else []
     geo = json.loads((WEB / "vendor" / "china.geo.json").read_text(encoding="utf-8"))
     out = {"as_of": None, "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY, "glossary_zh": GLOSSARY_ZH,
-           "provinces": PROVINCES, "layers": LAYERS, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
+           "provinces": PROVINCES, "layers": LAYERS, "sanctions": sanctions, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
     blob = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
     (WEB / "china-bundle.js").write_text("window.CHINA = " + blob + ";\n", encoding="utf-8")
     print(f"wrote web/china-bundle.js ({len(blob)/1024:.0f} KB) — {len(CITIES)} cities, {len(geo['features'])} provinces, {len(PROVINCES)} prov-stats, {len(GLOSSARY)} glossary")

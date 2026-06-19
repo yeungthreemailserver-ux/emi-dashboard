@@ -267,8 +267,13 @@ function openKpiModal(it) {
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeKpiModal(); });
 
 // ---- dossier ----
+function sanctionOf(a) { const al = a.toLowerCase(); return (DATA.sanctions || []).find((s) => s.match && al.indexOf(s.match.toLowerCase()) >= 0) || null; }
 function clusterHTML(cl, z) {
-  const anch = (cl.anchors || []).map((a) => `<span class="chip">${glossify(a)}</span>`).join("");
+  const anch = (cl.anchors || []).map((a) => {
+    const s = sanctionOf(a);
+    if (s) return `<span class="chip sanc" data-tip="${escAttr("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note)}">⚠ ${esc(a)}</span>`;
+    return `<span class="chip">${glossify(a)}</span>`;
+  }).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(z && z.seg ? z.seg : cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
     <div class="cl-what">${glossify(z && z.what ? z.what : cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
 }

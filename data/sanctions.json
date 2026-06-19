@@ -1,0 +1,146 @@
+[
+  {
+    "match": "SMIC",
+    "name": "Semiconductor Manufacturing International Corporation",
+    "list": "BIS Entity List + NS-CMIC + DoD 1260H",
+    "date": "2020-12",
+    "severity": "export-control",
+    "note": "BIS Entity List since Dec 2020 (presumption-of-denial for sub-10nm node items); NS-CMIC investment ban effective 2021-08; DoD 1260H Chinese Military Company designation since Jan 2025 (reaffirmed Jun 2026) — bars DoD procurement from Jun 2026."
+  },
+  {
+    "match": "Huawei",
+    "name": "Huawei Technologies Co., Ltd. / Huawei Investment & Holding Co., Ltd.",
+    "list": "BIS Entity List + NS-CMIC + DoD 1260H",
+    "date": "2019-05",
+    "severity": "export-control",
+    "note": "BIS Entity List since May 2019 (100+ affiliates, Foreign Direct Product Rule applied); NS-CMIC investment ban effective 2021-08; DoD 1260H designation since Jan 2025. Full FDPR means foreign-made chips designed with US EDA tools destined for Huawei require BIS licence."
+  },
+  {
+    "match": "HiSilicon",
+    "name": "HiSilicon Technologies Co., Ltd. (Huawei subsidiary)",
+    "list": "BIS Entity List",
+    "date": "2019-08",
+    "severity": "export-control",
+    "note": "Added to BIS Entity List as a Huawei affiliate in Aug 2019; Huawei Foreign Direct Product Rule (May 2020) covers items designed/produced by HiSilicon, requiring BIS licence even for wholly foreign-made chips."
+  },
+  {
+    "match": "YMTC",
+    "name": "Yangtze Memory Technologies Co., Ltd.",
+    "list": "BIS Entity List + DoD 1260H",
+    "date": "2022-12",
+    "severity": "export-control",
+    "note": "BIS Entity List since Dec 2022 (advanced NAND flash; Footnote 4 FDP rule); DoD 1260H designation Jan 2025, reconfirmed Jun 2026 list. Export of semiconductor mfg equipment and advanced items to YMTC requires BIS licence with presumption of denial."
+  },
+  {
+    "match": "Cambricon",
+    "name": "Cambricon Technologies Corporation Limited",
+    "list": "BIS Entity List",
+    "date": "2022-12",
+    "severity": "export-control",
+    "note": "BIS Entity List since Dec 2022 with Footnote 4 Foreign Direct Product Rule designation; covers AI chip R&D and manufacturing entities. Items produced anywhere with US equipment/software and destined for Cambricon require BIS authorisation."
+  },
+  {
+    "match": "DJI",
+    "name": "SZ DJI Technology Co., Ltd.",
+    "list": "BIS Entity List + NS-CMIC + DoD 1260H",
+    "date": "2020-12",
+    "severity": "export-control",
+    "note": "BIS Entity List since Dec 2020; NS-CMIC investment ban since Dec 2021 (linked to Xinjiang surveillance); DoD 1260H designation since 2022, reaffirmed Jan 2025 and Jun 2026. Court upheld 1260H designation in 2025. US persons barred from trading DJI securities."
+  },
+  {
+    "match": "Fiberhome",
+    "name": "FiberHome Telecommunication Technologies Co., Ltd.",
+    "list": "BIS Entity List",
+    "date": "2020-05",
+    "severity": "export-control",
+    "note": "BIS Entity List since May 2020, cited for aiding surveillance of Uyghur minorities in Xinjiang. All EAR-subject exports require BIS licence; case-by-case review policy."
+  },
+  {
+    "match": "Naura",
+    "name": "NAURA Technology Group Co., Ltd.",
+    "list": "BIS Entity List",
+    "date": "2024-12",
+    "severity": "export-control",
+    "note": "Multiple Naura subsidiaries (Beijing Naura Microelectronics Equipment, Beijing Naura Semiconductor Equipment, Hefei Naura) added to BIS Entity List Dec 2024 for supporting Chinese military-civil fusion and advanced semiconductor production. Presumption of denial for advanced items."
+  },
+  {
+    "match": "CATL",
+    "name": "Contemporary Amperex Technology Co., Limited",
+    "list": "DoD 1260H",
+    "date": "2025-01",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation since Jan 2025, reaffirmed Jun 2026. DoD barred from purchasing CATL batteries effective Oct 2027. Does not restrict commercial sales to non-DoD customers or ban US investment."
+  },
+  {
+    "match": "CXMT",
+    "name": "ChangXin Memory Technologies, Inc.",
+    "list": "DoD 1260H",
+    "date": "2025-01",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation since Jan 2025, confirmed on Jun 2026 list. CXMT is China's leading DRAM maker; BIS Entity List designation was considered but as of Jun 2026 had not been applied."
+  },
+  {
+    "match": "AVIC",
+    "name": "Aviation Industry Corporation of China, Ltd.",
+    "list": "NS-CMIC + DoD 1260H",
+    "date": "2021-06",
+    "severity": "sanction",
+    "note": "NS-CMIC investment ban effective 2021-08 (US persons barred from trading securities); DoD 1260H designation (active since 2021); multiple AVIC subsidiaries on BIS Military End-User list since Dec 2020. AVIC is China's state-owned defence aircraft and aerospace conglomerate."
+  },
+  {
+    "match": "CASIC",
+    "name": "China Aerospace Science and Industry Corporation Limited",
+    "list": "NS-CMIC + DoD 1260H",
+    "date": "2021-06",
+    "severity": "sanction",
+    "note": "NS-CMIC investment ban effective 2021-08; DoD 1260H Chinese Military Company designation (active since 2021, still listed 2026). CASIC is China's largest missile manufacturer, directly owned by SASAC."
+  },
+  {
+    "match": "Tencent",
+    "name": "Tencent Holdings Limited",
+    "list": "DoD 1260H",
+    "date": "2025-01",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation since Jan 2025, reaffirmed Jun 2026. Designation bars DoD procurement; does not restrict US investment or commercial dealings. Tencent disputes the designation."
+  },
+  {
+    "match": "BOE",
+    "name": "BOE Technology Group Co., Ltd.",
+    "list": "DoD 1260H",
+    "date": "2026-06",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation added Jun 2026 (one of 17 new parent-level additions). Bars DoD from direct contracting from Jun 2026 and procurement via third parties from Jun 2027. World's largest display panel maker."
+  },
+  {
+    "match": "Trina Solar",
+    "name": "Trina Solar Co., Ltd.",
+    "list": "DoD 1260H",
+    "date": "2026-06",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation added Jun 2026; cited as a military-civil fusion contributor operating in a MCF enterprise zone and designated a national Single Champion. Bars DoD procurement."
+  },
+  {
+    "match": "NIO",
+    "name": "NIO, Inc.",
+    "list": "DoD 1260H",
+    "date": "2026-06",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation added Jun 2026. NIO disputes the designation and is considering legal action. Bars DoD from direct contracting from Jun 2026; third-party procurement ban from Jun 2027."
+  },
+  {
+    "match": "ZTE",
+    "name": "ZTE Corporation",
+    "list": "DoD 1260H",
+    "date": "2021",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation active since the list's inception in 2021 (still listed as of Jun 2026). Note: ZTE was removed from the BIS Entity List in 2017 after a settlement; it is not currently on the BIS Entity List or NS-CMIC list."
+  },
+  {
+    "match": "BYD",
+    "name": "BYD Company Limited",
+    "list": "DoD 1260H",
+    "date": "2026-06",
+    "severity": "designation",
+    "note": "DoD 1260H Chinese Military Company designation added Jun 2026 (one of 17 new parent-level additions, expanding list to 188 entities). Bars DoD from direct contracting from Jun 2026 and procurement via third parties from Jun 2027. BYD disputes the designation."
+  }
+]
