@@ -1,17 +1,17 @@
-"""Build web/china-macro.json — CURRENT, dated China macro for the China page.
+"""Build web/china-macro.json — CURRENT, dated China macro WITH real trend history.
 
-Senior-exec requirement: latest published prints, each with as_of + source + frequency.
+Senior-exec requirement: latest published prints + a real trend, each tagged as_of + source + freq.
 
-CURRENT values are the latest official releases (NBS — National Bureau of Statistics —
-released monthly/quarterly), read via the browser from Trading Economics' China page
-(which republishes NBS) on the date in READ_DATE. These are point-in-time reads, recorded
-here explicitly so the snapshot is auditable; refresh by re-reading the source.
+Sources (free):
+  - NBS (National Bureau of Statistics), read via the browser from Trading Economics, which
+    republishes NBS and exposes the full Highcharts history. Monthly/quarterly series + the
+    latest value are cached in data/te_china.json (read date in READ_DATE). Refresh = re-read.
+  - FRED (via browser cache data/fred_china.json): exports, imports (monthly) + trade balance.
+  - World Bank (annual, live): high-tech exports.
+  - OICA (manual, annual): auto production.
 
-Sparkline HISTORY comes from free live APIs where available:
-  - World Bank (annual): GDP real growth, high-tech exports
-  - DBnomics / IMF IFS (monthly): CPI index -> YoY
-  - FRED (monthly, via browser cache, data/fred_china.json): exports, imports
-Series we can't get free history for show a single current reading vs the reference line.
+Every indicator records {value, as_of, source, freq, series}. The series is the real recent
+history so the sparkline + expand-modal show an actual trend, not a single block.
 
 Run: python scripts/fetch_china_macro.py
 """
@@ -27,38 +27,26 @@ READ_DATE = "2026-06"
 SRC_NBS = "NBS (via Trading Economics), read Jun 2026"
 SRC_FRED = "FRED (OECD/Customs) via browser"
 
-# --- Latest official prints (NBS), read READ_DATE -------------------------
+# Latest official prints (NBS), read READ_DATE — the headline value + its reference date.
 CURRENT = {
-    "gdp":    {"v": "+5.0%", "val": 5.0,  "as_of": "2026-Q1", "freq": "quarterly"},  # real GDP YoY
-    "cpi":    {"v": "+1.2%", "val": 1.2,  "as_of": "2026-05", "freq": "monthly"},     # CPI YoY
-    "ppi":    {"v": "+3.9%", "val": 3.9,  "as_of": "2026-05", "freq": "monthly"},     # PPI YoY
-    "ind":    {"v": "+4.5%", "val": 4.5,  "as_of": "2026-05", "freq": "monthly"},     # industrial production YoY
-    "retail": {"v": "-0.6%", "val": -0.6, "as_of": "2026-05", "freq": "monthly"},     # retail sales YoY
-    "pmi":    {"v": "51.8",  "val": 51.8, "as_of": "2026-05", "freq": "monthly"},     # NBS manufacturing PMI
-    "m2":     {"v": "+8.6%", "val": 8.6,  "as_of": "2026-05", "freq": "monthly"},     # M2 YoY
-    "unemp":  {"v": "5.1%",  "val": 5.1,  "as_of": "2026-05", "freq": "monthly"},     # surveyed urban unemployment
-    "tbal":   {"v": "+$105B/mo", "val": 105, "as_of": "2026-05", "freq": "monthly"},  # trade balance
+    "gdp":    {"v": "+5.0%", "as_of": "2026-Q1", "freq": "quarterly"},
+    "cpi":    {"v": "+1.2%", "as_of": "2026-05", "freq": "monthly"},
+    "ppi":    {"v": "+3.9%", "as_of": "2026-05", "freq": "monthly"},
+    "ind":    {"v": "+4.5%", "as_of": "2026-05", "freq": "monthly"},
+    "retail": {"v": "-0.6%", "as_of": "2026-05", "freq": "monthly"},
+    "pmi":    {"v": "51.8",  "as_of": "2026-05", "freq": "monthly"},
+    "m2":     {"v": "+8.6%", "as_of": "2026-05", "freq": "monthly"},
+    "unemp":  {"v": "5.1%",  "as_of": "2026-05", "freq": "monthly"},
 }
 
 
 def _get(url, t=25):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (EMI macro)"})
-    return urllib.request.urlopen(req, timeout=t).read()
+    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (EMI)"}), timeout=t).read()
 
 
 def wb(code):
     d = json.loads(_get(f"https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=40"))
-    pts = sorted((p["date"], p["value"]) for p in (d[1] or []) if p["value"] is not None)
-    return [[y, round(v, 2)] for y, v in pts]
-
-
-def dbnomics(sid):
-    try:
-        d = json.loads(_get(f"https://api.db.nomics.world/v22/series/{sid}?observations=1"))
-        docs = d.get("series", {}).get("docs", [])
-        return [[p[:7], v] for p, v in zip(docs[0]["period"], docs[0]["value"]) if v is not None] if docs else []
-    except Exception:  # noqa: BLE001
-        return []
+    return [[y, round(v, 2)] for y, v in sorted((p["date"], p["value"]) for p in (d[1] or []) if p["value"] is not None)]
 
 
 def fred_cache():
@@ -69,12 +57,12 @@ def fred_cache():
 
 
 def parse_csv(csv):
-    rows = []
+    out = []
     for line in csv.strip().split("\n")[1:]:
         p = line.split(",")
         if len(p) == 2 and p[1] not in ("", "."):
-            rows.append([p[0][:7], float(p[1])])
-    return rows
+            out.append([p[0][:7], float(p[1])])
+    return out
 
 
 def yoy(rows):
@@ -88,48 +76,35 @@ def yoy(rows):
     return out
 
 
-def tile(key, k, kz, cur_key, view, glo=None, source=SRC_NBS, series=None, detail="", detail_zh=""):
-    c = CURRENT[cur_key]
-    # default series = single current reading vs reference (when no free history)
-    s = series if series else [[c["as_of"], c["val"]]]
+def tile(key, k, kz, cur, view, series, glo=None, source=SRC_NBS, detail="", detail_zh=""):
+    c = CURRENT[cur]
     return {"key": key, "k": k, "k_zh": kz, "v": c["v"], "as_of": c["as_of"], "source": source,
-            "freq": c["freq"], "glo": glo, "view": view, "series": s, "detail": detail, "detail_zh": detail_zh}
+            "freq": c["freq"], "glo": glo, "view": view, "series": series, "detail": detail, "detail_zh": detail_zh}
 
 
 def main():
+    te = json.loads((DATA / "te_china.json").read_text(encoding="utf-8"))
     out = {"read_date": READ_DATE, "headline": [], "more": []}
 
-    # GDP sparkline history (WB annual real growth) + current quarterly point
-    gdp_hist = wb("NY.GDP.MKTP.KD.ZG")[-10:] + [["2026-Q1", CURRENT["gdp"]["val"]]]
-    # CPI sparkline history (IMF monthly index -> YoY) + current point
-    cpi_idx = dbnomics("IMF/IFS/M.CN.PCPI_IX")
-    cpi_hist = (yoy(cpi_idx)[-18:] if len(cpi_idx) > 13 else []) + [["2026-05", CURRENT["cpi"]["val"]]]
-
     out["headline"] = [
-        tile("gdp", "GDP growth", "GDP 增速", "gdp", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0% = recession"},
-             series=gdp_hist,
-             detail="Real GDP growth, year-over-year (NBS, quarterly). Holding ~5% but cooling from the 2010s.",
-             detail_zh="实质 GDP 同比增速(国家统计局,季度)。维持约 5%,较 2010 年代放缓。"),
-        tile("cpi", "CPI", "CPI 通胀", "cpi", {"metric": "value", "ref": 0, "good": "band", "band": [0, 3], "reflbl": "0-3% healthy"},
-             glo="CPI", series=cpi_hist,
-             detail="Consumer inflation, YoY (NBS, monthly). Recovered from 2025 deflation back into a low-but-positive range.",
+        tile("gdp", "GDP growth", "GDP 增速", "gdp", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0% = recession"}, te["gdp"],
+             detail="Real GDP growth, YoY (NBS, quarterly). The trend shows the cooling wave settling around ~5%.",
+             detail_zh="实质 GDP 同比增速(国家统计局,季度)。趋势显示增速回落、企稳于约 5%。"),
+        tile("cpi", "CPI", "CPI 通胀", "cpi", {"metric": "value", "ref": 0, "good": "band", "band": [0, 3], "reflbl": "0-3% healthy"}, te["cpi"], glo="CPI",
+             detail="Consumer inflation, YoY (NBS, monthly). Climbed out of 2025 deflation back into a low-positive range.",
              detail_zh="消费通胀,同比(国家统计局,月度)。已自 2025 年通缩回升至偏低正区间。"),
-        tile("ppi", "PPI", "PPI 出厂价", "ppi", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"},
-             glo="PPI",
-             detail="Producer (factory-gate) prices, YoY (NBS, monthly). Turned positive after a long deflationary run.",
-             detail_zh="工业生产者出厂价,同比(国家统计局,月度)。在长期通缩后转正。"),
-        tile("ind", "Industrial production", "工业增加值", "ind", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"},
-             glo="Industrial production",
-             detail="Above-scale industrial value-added, YoY (NBS, monthly).",
-             detail_zh="规模以上工业增加值,同比(国家统计局,月度)。"),
-        tile("retail", "Retail sales", "社零消费", "retail", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"},
-             glo="Retail sales",
-             detail="Retail sales of consumer goods, YoY (NBS, monthly). Negative = consumption contracting — a key weak spot.",
-             detail_zh="社会消费品零售总额,同比(国家统计局,月度)。为负 = 消费收缩,是关键弱点。"),
-        tile("pmi", "Mfg PMI", "制造业 PMI", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"},
-             glo="Caixin Mfg PMI",
-             detail="Official NBS manufacturing PMI (monthly). Above 50 = expansion.",
-             detail_zh="官方制造业 PMI(国家统计局,月度)。高于 50 = 扩张。"),
+        tile("ppi", "PPI", "PPI 出厂价", "ppi", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"}, te["ppi"], glo="PPI",
+             detail="Producer (factory-gate) prices, YoY (NBS, monthly). A clear recovery from deep deflation (-3.6%) to positive (+3.9%).",
+             detail_zh="工业生产者出厂价,同比(国家统计局,月度)。从深度通缩(-3.6%)明显回升至正值(+3.9%)。"),
+        tile("ind", "Industrial production", "工业增加值", "ind", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"}, te["ind"], glo="Industrial production",
+             detail="Above-scale industrial value-added, YoY (NBS, monthly). Steady ~5% (Jan combined with Feb for Lunar New Year).",
+             detail_zh="规模以上工业增加值,同比(国家统计局,月度)。维持约 5%(1 月与 2 月合并发布)。"),
+        tile("retail", "Retail sales", "社零消费", "retail", {"metric": "value", "ref": 0, "good": "high", "reflbl": "0%"}, te["retail"], glo="Retail sales",
+             detail="Retail sales, YoY (NBS, monthly). A persistent slowdown from 6.4% to -0.6% — consumption turning negative is the key weak spot.",
+             detail_zh="社会消费品零售总额,同比(国家统计局,月度)。从 6.4% 持续放缓至 -0.6% — 消费转负是关键弱点。"),
+        tile("pmi", "Mfg PMI", "制造业 PMI", "pmi", {"metric": "value", "ref": 50, "good": "high", "reflbl": "50 = boom/bust"}, te["pmi"], glo="Caixin Mfg PMI",
+             detail="Official NBS manufacturing PMI (monthly). Oscillating around the 50 boom/bust line — no decisive expansion.",
+             detail_zh="官方制造业 PMI(国家统计局,月度)。在荣枯线 50 附近震荡,缺乏决定性扩张。"),
     ]
 
     # ---- more ----
@@ -139,36 +114,44 @@ def main():
     if exp:
         out["more"].append({"key": "exports", "k": "Exports", "k_zh": "出口", "v": f"${exp[-1][1] / 1e9:.0f}B/mo",
                             "as_of": exp[-1][0][:7], "source": SRC_FRED, "freq": "monthly",
-                            "view": {"metric": "value", "ref": 0, "good": "high"}, "series": yoy(exp)[-24:]})
+                            "view": {"metric": "value", "ref": 0, "good": "high"}, "series": yoy(exp)[-18:]})
     if imp:
         out["more"].append({"key": "imports", "k": "Imports", "k_zh": "进口", "v": f"${imp[-1][1] / 1e9:.0f}B/mo",
                             "as_of": imp[-1][0][:7], "source": SRC_FRED, "freq": "monthly",
-                            "view": {"metric": "value", "ref": 0, "good": "high"}, "series": yoy(imp)[-24:]})
-    out["more"] += [
-        {"key": "tbal", "k": "Trade balance", "k_zh": "贸易顺差", "v": CURRENT["tbal"]["v"], "glo": "Trade balance",
-         "as_of": CURRENT["tbal"]["as_of"], "source": SRC_NBS, "freq": "monthly",
-         "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [[CURRENT["tbal"]["as_of"], CURRENT["tbal"]["val"]]]},
-        {"key": "m2", "k": "M2 growth", "k_zh": "M2 货币供应", "v": CURRENT["m2"]["v"], "glo": "M2 growth",
-         "as_of": CURRENT["m2"]["as_of"], "source": SRC_NBS, "freq": "monthly",
-         "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [[CURRENT["m2"]["as_of"], CURRENT["m2"]["val"]]]},
-        {"key": "unemp", "k": "Surveyed unemployment", "k_zh": "城镇调查失业率", "v": CURRENT["unemp"]["v"], "glo": "Surveyed unemployment",
-         "as_of": CURRENT["unemp"]["as_of"], "source": SRC_NBS, "freq": "monthly",
-         "view": {"metric": "value", "ref": 5.5, "good": "low"}, "series": [[CURRENT["unemp"]["as_of"], CURRENT["unemp"]["val"]]]},
-    ]
+                            "view": {"metric": "value", "ref": 0, "good": "high"}, "series": yoy(imp)[-18:]})
+    if exp and imp:
+        ied = {ym: v for ym, v in imp}
+        bal = [[ym, round((v - ied[ym]) / 1e9)] for ym, v in exp if ym in ied][-18:]
+        out["more"].append({"key": "tbal", "k": "Trade balance", "k_zh": "贸易顺差", "v": f"+${bal[-1][1]}B/mo", "glo": "Trade balance",
+                            "as_of": exp[-1][0][:7], "source": SRC_FRED, "freq": "monthly",
+                            "view": {"metric": "value", "ref": 0, "good": "high"}, "series": bal})
+
+    # M2 — chart is a level (CNY bn); show month-over-month momentum as the trend, YoY as headline.
+    m2 = te.get("m2_level", [])
+    m2mom = [[m2[i][0], round((m2[i][1] - m2[i - 1][1]) / m2[i - 1][1] * 100, 2)] for i in range(1, len(m2)) if m2[i - 1][1]]
+    out["more"].append({"key": "m2", "k": "M2 growth", "k_zh": "M2 货币供应", "v": CURRENT["m2"]["v"], "glo": "M2 growth",
+                        "as_of": CURRENT["m2"]["as_of"], "source": SRC_NBS, "freq": "monthly",
+                        "view": {"metric": "value", "ref": 0, "good": "high", "reflbl": "MoM %"}, "series": m2mom,
+                        "detail": "Broad money M2, YoY +8.6% (headline). Trend = month-over-month growth, consistently positive (steady monetary expansion).",
+                        "detail_zh": "广义货币 M2,同比 +8.6%(头条)。趋势为环比增速,持续为正(货币稳步扩张)。"})
+    out["more"].append({"key": "unemp", "k": "Surveyed unemployment", "k_zh": "城镇调查失业率", "v": CURRENT["unemp"]["v"], "glo": "Surveyed unemployment",
+                        "as_of": CURRENT["unemp"]["as_of"], "source": SRC_NBS, "freq": "monthly",
+                        "view": {"metric": "value", "ref": 5.5, "good": "low", "reflbl": "5.5% threshold"}, "series": te["unemp"]})
+
     # High-tech exports (WB annual) + Auto (OICA, manual)
     htx = wb("TX.VAL.TECH.CD")[-10:]
     htx_yoy = [[htx[i][0], round((htx[i][1] - htx[i - 1][1]) / htx[i - 1][1] * 100, 1)] for i in range(1, len(htx)) if htx[i - 1][1]]
     out["more"].append({"key": "htx", "k": "High-tech exports", "k_zh": "高科技出口", "v": f"${round(htx[-1][1] / 1e9)}B",
                         "as_of": htx[-1][0], "source": "World Bank", "freq": "annual", "glo": "High-tech exports",
                         "view": {"metric": "value", "ref": 0, "good": "high"}, "series": htx_yoy})
-    out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "31M/yr",
-                        "as_of": "2024", "source": "OICA (manual)", "freq": "annual", "glo": "Auto production", "manual": True,
+    out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "31M/yr", "as_of": "2024",
+                        "source": "OICA (manual)", "freq": "annual", "glo": "Auto production", "manual": True,
                         "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 26.1], ["2022", 27.0], ["2023", 30.2], ["2024", 31.3]]})
 
     (WEB / "china-macro.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"wrote web/china-macro.json (read {READ_DATE})")
     for it in out["headline"] + out["more"]:
-        print(f"  {it['k']:24} {it['v']:>10}  as_of={it['as_of']:<8} {it['freq']:<9} {it['source']}")
+        print(f"  {it['k']:24} {it['v']:>10}  as_of={it['as_of']:<8} {it['freq']:<9} series_n={len(it['series']):<3} {it['source']}")
 
 
 if __name__ == "__main__":

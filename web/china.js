@@ -110,7 +110,7 @@ function digestStr(it, vw) {
   return { color: dg.color, txt: valStr + (dg.read ? " · " + dg.read : "") };
 }
 function sparkBars(vw, w, h) {
-  const s = vw.s2; if (!s || !s.length) return "";
+  const s = vw.s2; if (!s || s.length < 2) return "";  // need a real trend, not a single block
   w = w || 144; h = h || 34;
   const vals = s.map((p) => p[1]).concat([vw.ref]);
   const mn = Math.min(...vals), mx = Math.max(...vals), rng = (mx - mn) || 1;
@@ -140,10 +140,11 @@ function render() {
       <div class="spk">${sparkBars(vw)}</div>
       <div class="src">${asof(k)} · <span class="exp">${tt("tap")} ↗</span></div></div>`;
   }).join("");
-  const more = m.more.map((it) => {
-    const hasS = it.series && it.series.length;
-    if (hasS) { const vw = viewSeries(it), dg = digest(vw); return `<div class="morec${it.manual ? " man" : ""}"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv" style="color:${dg.color}">${esc(it.v)}</div><div class="msp">${sparkBars(vw, 120, 22)}</div><div class="md">${asof(it)}</div></div>`; }
-    return `<div class="morec${it.manual ? " man" : ""}"><div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${esc(it.v)}</div><div class="md">${asof(it)}</div></div>`;
+  const more = m.more.map((it, i) => {
+    const vw = viewSeries(it), dg = digest(vw), head = `<div class="morec${it.manual ? " man" : ""}" data-more="${i}">`;
+    const spk = (it.series && it.series.length > 1) ? `<div class="msp">${sparkBars(vw, 120, 22)}</div>` : "";
+    const col = vw.latest != null ? dg.color : "var(--ink)";
+    return `${head}<div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv" style="color:${col}">${esc(it.v)}</div>${spk}<div class="md">${asof(it)}</div></div>`;
   }).join("");
   const ind = m.industry.map((i) => `<div class="ind"><b>${esc(i.v)}</b><span class="il">${glossWrap(mk(i), i.glo)} · ${esc(mnote(i))}</span></div>`).join("");
   const layerBtns = DATA.layers.map((l) => `<button class="mapbtn${l.key === STATE.layer ? " active" : ""}" data-layer="${l.key}">${esc(layerLabel(l))}</button>`).join("");
@@ -169,6 +170,7 @@ function render() {
       <div class="dossier" id="dossier"></div>
     </div>`;
   document.querySelectorAll(".kpi").forEach((el) => el.addEventListener("click", () => openKpiModal(m.headline[+el.dataset.kpi])));
+  document.querySelectorAll(".morec[data-more]").forEach((el) => el.addEventListener("click", () => openKpiModal(m.more[+el.dataset.more])));
   document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
   document.getElementById("ovlbtn").addEventListener("click", toggleMarkers);
   document.getElementById("resetbtn").addEventListener("click", resetView);
