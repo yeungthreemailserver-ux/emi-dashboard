@@ -99,7 +99,7 @@ function digest(vw) {
   let read, color;
   if (vw.good === "band") { if (x < b[0]) { read = "deflation risk"; color = "var(--amber)"; } else if (x > b[1]) { read = "too hot"; color = "var(--red)"; } else { read = "healthy"; color = "var(--green)"; } }
   else if (vw.good === "low") { read = x <= vw.ref ? "contained" : "elevated"; color = x <= vw.ref ? "var(--green)" : "var(--red)"; }
-  else { color = x >= vw.ref ? "var(--green)" : "var(--red)"; read = x >= vw.ref ? (vw.ref === 50 ? "expansion" : vw.trend) : (vw.ref === 50 ? "contraction" : "negative"); }
+  else { color = x >= vw.ref ? "var(--green)" : "var(--red)"; read = (vw.ref === 50) ? (x >= 50 ? "expansion" : "contraction") : (x < vw.ref ? "negative" : (vw.prior != null ? vw.trend : "positive")); }
   return { color, read: Z() ? (READ_ZH[read] || read) : read };
 }
 function digestStr(it, vw) {
