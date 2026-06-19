@@ -97,7 +97,17 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .citylist{display:flex;flex-wrap:wrap;gap:6px;}
 .citybtn{font-size:12px;font-weight:600;padding:4px 11px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--ink-2);cursor:pointer;}
 .citybtn:hover{border-color:var(--blue);color:var(--blue);}
-.detail .city{transition:r .12s;} .citymap svg{cursor:grab;} .citymap svg:active{cursor:grabbing;}
+/* MapLibre atlas markers (HTML, no glyphs needed) */
+#map{height:560px;border-radius:10px;overflow:hidden;}
+#map .maplibregl-canvas{outline:none;}
+.mk-country{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:20px;padding:2px 9px 2px 7px;font-size:12px;font-weight:700;color:var(--ink);box-shadow:0 1px 5px rgba(15,23,42,.14);white-space:nowrap;}
+.mk-country.live{cursor:pointer;} .mk-country.live:hover{border-color:var(--blue);color:var(--blue);}
+.mk-country.plan{font-weight:500;color:var(--muted);opacity:.92;}
+.mk-country .dot{width:8px;height:8px;border-radius:50%;flex:none;}
+.mk-city{display:flex;align-items:center;gap:6px;cursor:pointer;}
+.mk-city .cdot{width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #1d4ed8;box-shadow:0 1px 4px rgba(15,23,42,.3);flex:none;}
+.mk-city .clab{font-size:11.5px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.82);border-radius:4px;padding:0 4px;white-space:nowrap;}
+.mk-city:hover .clab{color:var(--blue);}
 .dos-dom{font-size:11px;font-weight:700;padding:2px 9px;border-radius:9px;color:#fff;}
 .dos-tag{font-size:12.5px;color:var(--ink-2);margin:6px 0 4px;line-height:1.5;}
 .dos-pending{display:inline-block;font-size:10.5px;font-weight:600;background:#fffbeb;color:#92400e;border:1px solid #fcd34d;border-radius:9px;padding:1px 8px;margin:4px 0;}
