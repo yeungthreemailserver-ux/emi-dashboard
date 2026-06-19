@@ -1,5 +1,21 @@
 [
   {
+    "match": "Hikvision",
+    "name": "Hangzhou Hikvision Digital Technology",
+    "list": "BIS Entity List + FCC Covered List + DoD 1260H",
+    "date": "2019-10",
+    "severity": "export-control",
+    "note": "Added to the BIS Entity List Oct 2019 (Xinjiang human-rights); on the FCC 'Covered List' (US import/authorisation ban for security equipment) and named a DoD 1260H Chinese Military Company. World's largest video-surveillance maker."
+  },
+  {
+    "match": "Dahua",
+    "name": "Zhejiang Dahua Technology",
+    "list": "BIS Entity List + FCC Covered List",
+    "date": "2019-10",
+    "severity": "export-control",
+    "note": "Added to the BIS Entity List Oct 2019 (Xinjiang human-rights) and on the FCC 'Covered List' barring US authorisation/import of its surveillance gear. World's #2 video-surveillance maker."
+  },
+  {
     "match": "SMIC",
     "name": "Semiconductor Manufacturing International Corporation",
     "list": "BIS Entity List + NS-CMIC + DoD 1260H",

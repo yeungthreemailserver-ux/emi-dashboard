@@ -9,7 +9,24 @@ const ORIGIN = { US: "USA", DE: "Germany", JP: "Japan", TW: "Taiwan", KR: "South
 // industry-domain colours + taxonomy shading (matches china.html)
 const TAXFILL = ["", "#E1F5EE", "#5DCAA5", "#0F6E56"], TAXFG = ["", "#0F6E56", "#04342C", "#fff"], LVLW = { 1: "present", 2: "strong", 3: "leading" };
 const domColor = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? CHINA.domains[d][1] : "#1d4ed8";
-const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? CHINA.domains[d][0] : d;
+// ---- i18n (简体中文 toggle; China content has zh data, others fall back to English) ----
+const Z = () => STATE.lang === "zh";
+const READ_ZH = { cooling: "放缓", accelerating: "加速", flat: "持平", positive: "正增长", negative: "负增长", expansion: "扩张", contraction: "收缩", healthy: "健康", "deflation risk": "通缩风险", "too hot": "过热", contained: "受控", elevated: "偏高", rising: "上升", easing: "回落" };
+const COUNTRY_ZH = { cn: "中国", sg: "新加坡", my: "马来西亚", tw: "台湾", kr: "韩国", jp: "日本", vn: "越南", ph: "菲律宾", th: "泰国", in: "印度" };
+const TT = {
+  sub_head: ["one map · zoom in & out by click — Asia → country → city", "一张地图 · 点击放大缩小 — 亚洲 → 国家 → 城市"],
+  colourby: ["Colour by", "着色依据"], chip: ["Chip supply-chain weight", "芯片供应链权重"], gdp: ["GDP growth", "GDP 增速"], zoomout: ["⤢ Zoom out", "⤢ 缩小"], pan: ["scroll = zoom · drag = pan", "滚轮缩放 · 拖动平移"],
+  macrosnap: ["macro snapshot", "宏观快照"], prints: ["latest official prints", "最新官方数据"], more_ind: ["More indicators", "更多指标"], more_sub: ["trade · money · labour", "贸易 · 货币 · 就业"],
+  leverage: ["Supply-chain leverage", "供应链杠杆"], role: ["Supply-chain role", "供应链角色"], leads: ["Where it leads", "领先环节"], lags: ["Where it lags / depends", "受制 / 依赖环节"], t_str: ["· strengths", "· 优势"], t_gap: ["· gaps", "· 短板"],
+  cities: ["Cities", "城市"], clickdrill: ["click to drill", "点击进入"], keyclusters: ["Key clusters", "核心集群"],
+  sig: ["Signature strengths", "核心强项"], subd: ["Sub-district clusters", "次级区域集群"], vc: ["Value-chain role", "价值链定位"], dist: ["For an electronics distributor", "对电子分销商而言"], buy: ["Source here", "可在此采购"], sell: ["Sell into here", "可向此销售"], mfg: ["Manufacturing-type strength", "制造类型强度"],
+  lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US-restricted", "美国管制"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
+  rankby: ["ranked by", "排名依据"], chipw: ["chip supply-chain weight", "芯片供应链权重"], gdpg: ["GDP growth", "GDP 增速"], live: ["live", "在营"], soon: ["soon", "即将"], clickzoom: ["Click a live country on the map or list to zoom in.", "点击地图或列表中在营的国家放大查看。"], mapdots: ["Map dots —", "地图圆点 —"],
+};
+const tt = (k) => { const e = TT[k]; return e ? (Z() ? e[1] : e[0]) : k; };
+const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? (Z() ? (CHINA.domains[d][2] || CHINA.domains[d][0]) : CHINA.domains[d][0]) : d;
+const cityName = (c) => (Z() && c.name_zh) ? c.name_zh : c.name;
+const countryName = (code) => (Z() && COUNTRY_ZH[code]) ? COUNTRY_ZH[code] : (byCode[code] ? byCode[code].name : code);
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 const escA = (s) => esc(s).replace(/"/g, "&quot;");
 const reduce = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -33,7 +50,7 @@ function bbox(f) {
   return [[mnx, mny], [mxx, mxy]];
 }
 
-const STATE = { level: "asia", layer: "chip", country: null, city: null };
+const STATE = { level: "asia", layer: "chip", country: null, city: null, lang: "en" };
 let map, hovered = null, countryMarkers = [], detailMarkers = [], MAP_READY = false, drilledName = null;
 const mapDo = (fn) => { if (MAP_READY && map) { try { fn(); } catch (e) {} } };  // run map ops only once GL is ready
 
@@ -62,7 +79,7 @@ function addCountryMarkers() {
   countryMarkers.forEach((m) => m.remove()); countryMarkers = [];
   CO.forEach((c) => {
     const live = c.status === "live";
-    const html = `<span class="dot" style="background:${live ? "var(--blue)" : "#94a3b8"}"></span>${esc(c.name)}${live ? " ↗" : ""}`;
+    const html = `<span class="dot" style="background:${live ? "var(--blue)" : "#94a3b8"}"></span>${esc(countryName(c.code))}${live ? " ↗" : ""}`;
     const mk = marker(html, "mk-country" + (live ? " live" : " plan"), [c.lon, c.lat], "left", live ? () => drillCountry(c.code) : null);
     countryMarkers.push(mk);
   });
@@ -150,7 +167,7 @@ function addCityDots(code) {
 function cityDot(ct, code) {
   if (ct.lon == null || ct.lat == null) return;
   const col = code === "cn" ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (like china.html)
-  const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(ct.name)}</span>`;
+  const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(cityName(ct))}</span>`;
   detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "left", () => drillCity(code, ct.name)));
 }
 function drillCity(code, name) {
@@ -186,7 +203,7 @@ function digest(vw) {
   if (vw.good === "band") { if (x < b[0]) { read = "deflation risk"; color = "var(--amber)"; } else if (x > b[1]) { read = "too hot"; color = "var(--red)"; } else { read = "healthy"; color = "var(--green)"; } }
   else if (vw.good === "low") { read = x <= vw.ref ? "contained" : "elevated"; color = x <= vw.ref ? "var(--green)" : "var(--red)"; }
   else { color = x >= vw.ref ? "var(--green)" : "var(--red)"; read = (vw.ref === 50) ? (x >= 50 ? "expansion" : "contraction") : (x < vw.ref ? "negative" : (vw.prior != null ? vw.trend : "positive")); }
-  return { color, read };
+  return { color, read: Z() ? (READ_ZH[read] || read) : read };
 }
 function digestStr(it, vw) {
   const dg = digest(vw); if (vw.latest == null || (it.view && it.view.good === "none")) return { color: dg.color, txt: "" };
@@ -208,33 +225,36 @@ function macroTile(it) {
   const vw = viewSeries(it), neutral = it.view && it.view.good === "none", dg = digestStr(it, vw);
   const verdict = neutral ? (it.note ? `<div class="digest" style="color:var(--muted)">${esc(it.note)}</div>` : "") : (dg.txt ? `<div class="digest" style="color:${dg.color}">${esc(dg.txt)}</div>` : "");
   const spk = (vw.s2 && vw.s2.length > 1) ? `<div class="spk">${sparkBars(vw)}</div>` : "";
-  return `<div class="kpi nostatic"><div class="lbl">${esc(it.k || it.label)}</div><div class="val">${esc(it.v)}</div>${verdict}${spk}<div class="src">${tileFoot(it)}</div></div>`;
+  const lbl = Z() ? (it.k_zh || it.k || it.label) : (it.k || it.label);
+  return `<div class="kpi nostatic"><div class="lbl">${esc(lbl)}</div><div class="val">${esc(it.v)}</div>${verdict}${spk}<div class="src">${tileFoot(it)}</div></div>`;
 }
 function leverageHTML(nodes, take) {
   const row = (n) => { const col = n.type === "hold" ? "var(--blue)" : "var(--amber)", pct = Math.max(3, Math.min(100, n.share));
     return `<div class="lev-row"><div class="lev-top"><span class="lev-term">${esc(n.node)}</span><span class="lev-scope">${esc(n.scope || "")}</span><span class="lev-val" style="color:${col}">${esc(n.disp)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${pct}%;background:${col}"></div></div></div>`; };
   const grp = (type, title, cap) => { const r = (nodes || []).filter((n) => n.type === type); return r.length ? `<div class="lev-grp"><div class="lev-h">${title} <span class="lev-cap">${cap}</span></div><div class="lev-rows">${r.map(row).join("")}</div></div>` : ""; };
-  return (take ? `<div class="lev-take">${esc(take)}</div>` : "") + `<div class="levmap">${grp("hold", "Where it leads", "· strengths")}${grp("gap", "Where it lags / depends", "· gaps")}</div>`;
+  return (take ? `<div class="lev-take">${esc(take)}</div>` : "") + `<div class="levmap">${grp("hold", tt("leads"), tt("t_str"))}${grp("gap", tt("lags"), tt("t_gap"))}</div>`;
 }
 function countryTilesHTML(code) {
   if (code === "cn" && CHINA) {
     const head = (CHINA.macro && CHINA.macro.headline) || [], more = (CHINA.macro && CHINA.macro.more) || [];
-    return `<div class="sech">China · macro snapshot <span class="dim">latest official prints</span></div>
+    return `<div class="sech">${countryName("cn")} · ${tt("macrosnap")} <span class="dim">${tt("prints")}</span></div>
       <div class="kpis">${head.map(macroTile).join("")}</div>
-      ${more.length ? `<div class="sech">More indicators <span class="dim">trade · money · labour</span></div><div class="kpis">${more.map(macroTile).join("")}</div>` : ""}
-      <div class="sech">Supply-chain leverage</div>${leverageHTML(CHINA.leverage, "")}`;
+      ${more.length ? `<div class="sech">${tt("more_ind")} <span class="dim">${tt("more_sub")}</span></div><div class="kpis">${more.map(macroTile).join("")}</div>` : ""}
+      <div class="sech">${tt("leverage")}</div>${leverageHTML(CHINA.leverage, "")}`;
   }
   const d = APAC[code]; if (!d) return "";
-  return `<div class="sech">${esc(d.name)} · macro snapshot <span class="dim">latest official prints</span></div>
+  return `<div class="sech">${countryName(code)} · ${tt("macrosnap")} <span class="dim">${tt("prints")}</span></div>
     <div class="kpis">${(d.macro || []).map(macroTile).join("")}</div>
-    <div class="sech">Supply-chain role</div>${leverageHTML(d.role, d.role_take || "")}`;
+    <div class="sech">${tt("role")}</div>${leverageHTML(d.role, d.role_take || "")}`;
 }
 
 // ---- panels (shared, DOM-only) ----
 function anchorChip(a, code) {
-  let name, origin = null, sanc = null;
-  if (a && typeof a === "object") { name = a.n; origin = a.o || null; }
-  else { name = a; if (code === "cn" && CHINA) { const o = (CHINA.origins || {})[a]; if (o && o.cn === false) origin = o.code; sanc = (CHINA.sanctions || []).find((s) => s.match && a.toLowerCase().indexOf(s.match.toLowerCase()) >= 0) || null; } }
+  const raw = (a && typeof a === "object") ? a.n : a;
+  let origin = null, sanc = null;
+  if (a && typeof a === "object") origin = a.o || null;
+  else if (code === "cn" && CHINA) { const o = (CHINA.origins || {})[raw]; if (o && o.cn === false) origin = o.code; sanc = (CHINA.sanctions || []).find((s) => s.match && raw.toLowerCase().indexOf(s.match.toLowerCase()) >= 0) || null; }
+  const name = (Z() && code === "cn" && CHINA && CHINA.company_zh && CHINA.company_zh[raw]) ? CHINA.company_zh[raw] : raw;
   if (sanc) return `<span class="chip sanc" data-tip="${escA("⚠ " + sanc.name + " · US " + sanc.list + " (" + sanc.date + ")")}">⚠ ${esc(name)}</span>`;
   if (origin) return `<span class="chip foreign" data-tip="${escA("HQ: " + (ORIGIN[origin] || origin))}">${esc(name)}<sup class="orig">${esc(origin)}</sup></span>`;
   return `<span class="chip">${esc(name)}</span>`;
@@ -242,40 +262,43 @@ function anchorChip(a, code) {
 function cityCardsHTML(code) {
   const d = code === "cn" ? CHINA : APAC[code]; if (!d) return "";
   const cities = code === "cn" ? (CHINA.cities || []) : (d.cities || []);
-  if (!cities.length && d.clusters) return `<div class="dos-h"><span class="dos-name">Key clusters</span></div>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}`;
-  return `<div class="dos-h"><span class="dos-name">Cities</span><span class="dos-area">${cities.length} · click to drill</span></div>
-    <div class="citycards">${cities.map((c) => `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(c.name)}${c.dom ? ` <span class="cc-dom">${esc(c.dom)}</span>` : ""}</b><span>${esc((c.tagline || c.area || "").slice(0, 92))}</span></button>`).join("")}</div>`;
+  if (!cities.length && d.clusters) return `<div class="dos-h"><span class="dos-name">${tt("keyclusters")}</span></div>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}`;
+  return `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>
+    <div class="citycards">${cities.map((c) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; }).join("")}</div>`;
 }
-function clusterBlock(cl, code) {
+const LVLW_ZH = { 3: "领先", 2: "较强", 1: "具备" };
+function clusterBlock(cl, code, zc) {
+  const seg = (Z() && zc && zc.seg) ? zc.seg : cl.seg, what = (Z() && zc && zc.what) ? zc.what : cl.what;
   const anch = (cl.anchors || []).map((a) => anchorChip(a, code)).join("");
-  return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${esc(cl.seg)}</span><span class="cl-lvl l${cl.level}">${{ 3: "leading", 2: "strong", 1: "present" }[cl.level] || ""}</span></div><div class="cl-what">${esc(cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
+  return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${esc(seg)}</span><span class="cl-lvl l${cl.level}">${(Z() ? LVLW_ZH : LVLW)[cl.level] || ""}</span></div><div class="cl-what">${esc(what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
 }
 function panelAsia() {
   const r = RAMP[STATE.layer], sorted = CO.slice().sort((a, b) => r.val(b) - r.val(a));
   const rows = sorted.map((c) => { const live = c.status === "live", col = ramp(STATE.layer, r.val(c));
-    return `<div class="lev-row arow ${live ? "live" : "planned"}"${live ? ` data-code="${c.code}"` : ""}><div class="lev-top"><span class="lev-term">${esc(c.name)}${live ? " ↗" : ""}</span><span class="lev-scope"><span class="stat-badge ${live ? "live" : "plan"}">${live ? "live" : "soon"}</span></span><span class="lev-val" style="color:${live ? col : "#94a3b8"}">${r.disp(c)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${Math.max(2, r.pct(c)).toFixed(0)}%;background:${col};opacity:${live ? 1 : .5}"></div></div></div>`; }).join("");
-  return `<div class="dos-h"><span class="dos-name">Asia</span><span class="dos-area">ranked by ${r.label}</span></div><div class="arows">${rows}</div><div class="dos-note">Click a live country on the map or list to zoom in.</div>`;
+    return `<div class="lev-row arow ${live ? "live" : "planned"}"${live ? ` data-code="${c.code}"` : ""}><div class="lev-top"><span class="lev-term">${esc(countryName(c.code))}${live ? " ↗" : ""}</span><span class="lev-scope"><span class="stat-badge ${live ? "live" : "plan"}">${live ? tt("live") : tt("soon")}</span></span><span class="lev-val" style="color:${live ? col : "#94a3b8"}">${r.disp(c)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${Math.max(2, r.pct(c)).toFixed(0)}%;background:${col};opacity:${live ? 1 : .5}"></div></div></div>`; }).join("");
+  return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span><span class="dos-area">${tt("rankby")} ${STATE.layer === "chip" ? tt("chipw") : tt("gdpg")}</span></div><div class="arows">${rows}</div><div class="dos-note">${tt("clickzoom")}</div>`;
 }
 function panelCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
   const c = list.find((x) => x.name === name); if (!c) return "";
-  let h = `<div class="dos-h"><span class="dos-name">${esc(c.name)}</span>${c.dom ? `<span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span>` : ""}</div>`;
-  h += `<div class="dos-tag">${esc(c.tagline || "")}</div>`;
-  if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s) => `<div class="dos-stat"><div class="k">${esc(s.k)}</div><div class="v">${esc(s.v)}</div></div>`).join("")}</div>`;
-  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>Signature strengths</h5>
-    <div class="dos-legend"><span><i class="dot cn"></i>Local</span><span><i class="dot for"></i>Foreign HQ</span><span class="sanc-leg">⚠ US-restricted</span><span class="leg-hint">· hover a company for HQ</span></div>
-    ${c.clusters.map((cl) => clusterBlock(cl, code)).join("")}</div>`;
-  if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>Sub-district clusters</h5>${c.subdistricts.map((s) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${esc(s.focus)}</span></div>`).join("")}</div>`;
-  if (c.valuechain) h += `<div class="dos-sec"><h5>Value-chain role</h5><div class="vc">${esc(c.valuechain)}</div></div>`;
-  if (c.sourcing) h += `<div class="dos-sec"><h5>For an electronics distributor</h5><div class="src2">
-    <div><div class="lbl">Source here</div><ul>${(c.sourcing.buy || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
-    <div><div class="lbl">Sell into here</div><ul>${(c.sourcing.sell || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></div>`;
+  const z = (Z() && c.zh) ? c.zh : null, pick = (zv, ev) => esc((z && zv != null) ? zv : ev);
+  let h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span>${c.dom ? `<span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span>` : ""}</div>`;
+  h += `<div class="dos-tag">${pick(z ? z.tagline : null, c.tagline || "")}</div>`;
+  if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
+  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>
+    <div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_local")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>
+    ${c.clusters.map((cl, i) => clusterBlock(cl, code, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
+  if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s, i) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${pick(z && z.subdistricts && z.subdistricts[i] ? z.subdistricts[i].focus : null, s.focus)}</span></div>`).join("")}</div>`;
+  if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${pick(z ? z.valuechain : null, c.valuechain)}</div></div>`;
+  if (c.sourcing) h += `<div class="dos-sec"><h5>${tt("dist")}</h5><div class="src2">
+    <div><div class="lbl">${tt("buy")}</div><ul>${(c.sourcing.buy || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.buy ? z.sourcing.buy[i] : null, x)}</li>`).join("")}</ul></div>
+    <div><div class="lbl">${tt("sell")}</div><ul>${(c.sourcing.sell || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.sell ? z.sourcing.sell[i] : null, x)}</li>`).join("")}</ul></div></div></div>`;
   if (c.tags && CHINA && CHINA.taxonomy) {
     const cells = CHINA.taxonomy.map((t) => { const v = c.tags[t] || 0, bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
       return `<div class="taxc" style="${bg};color:${TAXFG[v] || "#cbd5e1"}" data-tip="${escA(t + ": " + (v ? LVLW[v] : "—"))}"><div class="tl">${esc(t.slice(0, 8))}</div><div class="tv">${v ? "●".repeat(v) : "·"}</div></div>`; }).join("");
-    h += `<div class="dos-sec"><h5>Manufacturing-type strength</h5><div class="taxg">${cells}</div></div>`;
+    h += `<div class="dos-sec"><h5>${tt("mfg")}</h5><div class="taxg">${cells}</div></div>`;
   }
-  if (c.note) h += `<div class="dos-note">${esc(c.note)}</div>`;
+  if (c.note) h += `<div class="dos-note">${esc(z && z.note ? z.note : c.note)}</div>`;
   return h;
 }
 function renderPanel() {
@@ -291,37 +314,50 @@ function renderPanel() {
   const dl = document.getElementById("domlegend");
   if (dl) {
     if (STATE.level !== "asia" && STATE.country === "cn" && CHINA && CHINA.domains) {
-      dl.style.display = ""; dl.innerHTML = `<span class="dim">Map dots —</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(CHINA.domains[d][0])}</span>`).join("");
+      dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("mapdots")}</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
     } else dl.style.display = "none";
   }
 }
 function renderCrumb() {
-  const parts = [`<a data-go="asia">Asia</a>`];
-  if (STATE.country) parts.push(`<a data-go="country">${esc(byCode[STATE.country].name)}</a>`);
-  if (STATE.city) parts.push(`<span>${esc(STATE.city)}</span>`);
+  const parts = [`<a data-go="asia">${Z() ? "亚洲" : "Asia"}</a>`];
+  if (STATE.country) parts.push(`<a data-go="country">${esc(countryName(STATE.country))}</a>`);
+  if (STATE.city) { const list = STATE.country === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[STATE.country] && APAC[STATE.country].cities) || []); const cc = list.find((x) => x.name === STATE.city); parts.push(`<span>${esc(cc ? cityName(cc) : STATE.city)}</span>`); }
   const bc = document.getElementById("crumb"); bc.innerHTML = parts.join('<span class="sep">›</span>');
   bc.querySelectorAll("[data-go]").forEach((a) => a.addEventListener("click", () => { a.dataset.go === "asia" ? goAsia() : up(); }));
 }
 
+function headHTML() {
+  return `<h1>Asia Atlas <span style="font-size:12px;color:var(--muted);font-weight:400">${tt("sub_head")}</span></h1><div class="atlas-crumb" id="crumb"></div>`;
+}
+function toolbarHTML() {
+  return `<span class="mt-label">${tt("colourby")}</span>
+    <button class="mapbtn${STATE.layer === "chip" ? " active" : ""}" data-layer="chip">${tt("chip")}</button>
+    <button class="mapbtn${STATE.layer === "gdp" ? " active" : ""}" data-layer="gdp">${tt("gdp")}</button>
+    <span class="mt-sep"></span><button class="mapbtn" id="outbtn">${tt("zoomout")}</button>
+    <button class="mapbtn" id="langbtn">${Z() ? "EN" : "简体中文"}</button>
+    <span class="mt-label" style="margin-left:auto">${tt("pan")}</span>`;
+}
+function wireToolbar() {
+  document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => {
+    STATE.layer = b.dataset.layer; document.querySelectorAll(".mapbtn[data-layer]").forEach((x) => x.classList.toggle("active", x === b));
+    colorAsia(); mapDo(() => { if (map.getSource("asia")) map.getSource("asia").setData(ASIA.geo); }); renderPanel();
+  }));
+  document.getElementById("outbtn").addEventListener("click", () => up());
+  document.getElementById("langbtn").addEventListener("click", () => { STATE.lang = Z() ? "en" : "zh"; relang(); });
+}
+function relang() {  // re-render content + markers in the new language; don't re-init the map
+  document.querySelector(".cty-head").innerHTML = headHTML();
+  document.getElementById("maptools").innerHTML = toolbarHTML();
+  wireToolbar(); renderPanel(); renderCrumb();
+  mapDo(() => { if (STATE.level === "asia") addCountryMarkers(); else { clearDetailMarkers(); addCityDots(STATE.country); declutterCityLabels(); } });
+}
 function render() {
   document.getElementById("main").innerHTML = `
-    <div class="cty-head"><h1>Asia Atlas <span style="font-size:12px;color:var(--muted);font-weight:400">one map · zoom in & out by click — Asia → country → city</span></h1>
-      <div class="atlas-crumb" id="crumb"></div></div>
-    <div class="maptools"><span class="mt-label">Colour by</span>
-      <button class="mapbtn active" data-layer="chip">Chip supply-chain weight</button>
-      <button class="mapbtn" data-layer="gdp">GDP growth</button>
-      <span class="mt-sep"></span><button class="mapbtn" id="outbtn">⤢ Zoom out</button>
-      <span class="mt-label" style="margin-left:auto">scroll = zoom · drag = pan</span></div>
+    <div class="cty-head">${headHTML()}</div>
+    <div class="maptools" id="maptools">${toolbarHTML()}</div>
     <div class="atlas-tiles" id="tiles" style="display:none"></div>
     <div class="legend" id="domlegend" style="display:none;margin:0 0 8px"></div>
     <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>`;
-  initTip(); renderPanel(); renderCrumb(); initMap();
-  // the timed map.resize() calls inside initMap() cure any 0-size-at-init (flex not yet laid out)
-  document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => {
-    STATE.layer = b.dataset.layer; document.querySelectorAll(".mapbtn[data-layer]").forEach((x) => x.classList.toggle("active", x === b));
-    colorAsia(); mapDo(() => { if (map.getSource("asia")) map.getSource("asia").setData(ASIA.geo); });
-    if (STATE.level === "asia") renderPanel();
-  }));
-  document.getElementById("outbtn").addEventListener("click", () => up());
+  initTip(); wireToolbar(); renderPanel(); renderCrumb(); initMap();
 }
 render();

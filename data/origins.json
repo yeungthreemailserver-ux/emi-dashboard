@@ -1,6 +1,12 @@
 {
   "map": {
     "AMEC": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "Hikvision": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "Dahua": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "Alibaba": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "Ant Group": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "T-Head (Alibaba)": { "cn": true, "code": "CN", "hq": "China (mainland)" },
+    "Supcon": { "cn": true, "code": "CN", "hq": "China (mainland)" },
     "ASE": { "cn": false, "code": "TW", "hq": "Taiwan" },
     "AVATR": { "cn": true, "code": "CN", "hq": "China (mainland)" },
     "AVIC": { "cn": true, "code": "CN", "hq": "China (mainland)" },

@@ -447,6 +447,25 @@ CITIES = [
         "note": "YMTC on US Entity List since 2022; BOE/CSOT are branch fabs (HQ Beijing/Shenzhen); YMTC volumes are analyst estimates.",
     },
     {
+        "name": "Hangzhou", "name_zh": "杭州", "lon": 120.15, "lat": 30.27, "dom": "ELEC",
+        "tagline": "China's digital-economy capital and the world's video-surveillance hub — Alibaba/Ant, Hikvision & Dahua (the global #1/#2 security-camera makers), plus RISC-V chip design (T-Head) and industrial IoT.",
+        "clusters": [
+            cl("Video surveillance & vision AI", 3, "Hikvision & Dahua — the world's #1 & #2 security-camera makers; huge consumers of image sensors & edge-AI SoCs.", ["Hikvision", "Dahua"]),
+            cl("Internet, cloud & digital economy", 3, "Alibaba & Ant HQ + NetEase — China's e-commerce, cloud & fintech heartland.", ["Alibaba", "Ant Group", "NetEase"]),
+            cl("Chip design (RISC-V / SoC)", 2, "Alibaba's T-Head — Yitian server CPU & RISC-V (XuanTie); plus in-house vision SoCs.", ["T-Head (Alibaba)"]),
+            cl("Industrial IoT & automation", 2, "Process-automation & smart-manufacturing base (Binjiang).", ["Supcon"]),
+        ],
+        "subdistricts": [
+            {"name": "Binjiang Hi-Tech 滨江", "focus": "Hikvision, Dahua, security/IoT, chip design"},
+            {"name": "Future Sci-Tech City 未来科技城", "focus": "Alibaba, cloud, AI, e-commerce (Yuhang)"},
+        ],
+        "valuechain": "A net CONSUMER & integrator — surveillance, servers and IoT pull in image sensors, edge-AI SoCs, memory & networking; software/internet-led with fast-growing in-house chip design.",
+        "sourcing": {"buy": ["CMOS image sensors", "edge-AI / vision SoCs", "memory & storage", "networking & power devices"], "sell": ["Surveillance systems & cameras", "cloud & e-commerce platforms", "IoT / industrial devices"]},
+        "tags": {"Components": 2, "Optical": 2, "Battery": 0, "Automotive": 1, "Precision": 1, "Materials": 1, "Appliances": 1, "Semiconductor": 2},
+        "stats": [{"k": "GDP 2024", "v": "~¥2.18T"}, {"k": "Hikvision / Dahua", "v": "#1 & #2 surveillance"}, {"k": "Alibaba / Ant", "v": "global HQ"}],
+        "note": "Internet/security/IoT-led — a major chip CONSUMER + growing design rather than a fab base. Hikvision & Dahua are on the US Entity List.",
+    },
+    {
         "name": "Xi'an", "name_zh": "西安", "lon": 108.94, "lat": 34.34, "dom": "SEMI",
         "tagline": "The only Chinese city pairing Samsung's largest non-Korea NAND complex (~40% of Samsung NAND) with LONGi's world-leading solar campus and a deep aerospace-defence electronics base.",
         "clusters": [
