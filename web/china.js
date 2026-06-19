@@ -1,6 +1,6 @@
 "use strict";
 let DATA = null, MAP = null, KPICHART = null, GTERMS = [];
-const STATE = { city: "Ningbo", layer: "gdp", markers: true, lang: "en" };
+const STATE = { city: "Suzhou", layer: "gdp", markers: true, lang: "en" };
 const LVLW = { 1: "Present", 2: "Strong", 3: "Leading" };
 const LVLW_ZH = { 1: "具备", 2: "较强", 3: "领先" };
 const TAXFILL = ["", "#E1F5EE", "#5DCAA5", "#0F6E56"];
