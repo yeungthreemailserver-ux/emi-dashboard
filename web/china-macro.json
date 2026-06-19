@@ -886,9 +886,9 @@
       "key": "htx",
       "k": "High-tech exports",
       "k_zh": "高科技出口",
-      "v": "$857B",
-      "as_of": "2024",
-      "source": "World Bank",
+      "v": "$735B",
+      "as_of": "2025",
+      "source": "China Customs (GACC)",
       "freq": "annual",
       "glo": "High-tech exports",
       "view": {
@@ -932,16 +932,21 @@
         [
           "2024",
           3.8
+        ],
+        [
+          "2025",
+          13.2
         ]
-      ]
+      ],
+      "manual": true
     },
     {
       "key": "auto",
       "k": "Auto production",
       "k_zh": "汽车产量",
-      "v": "31M/yr",
-      "as_of": "2024",
-      "source": "OICA",
+      "v": "34.5M/yr",
+      "as_of": "2025",
+      "source": "CAAM",
       "freq": "annual",
       "glo": "Auto production",
       "manual": true,
@@ -966,6 +971,10 @@
         [
           "2024",
           31.3
+        ],
+        [
+          "2025",
+          34.5
         ]
       ]
     }

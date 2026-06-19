@@ -146,15 +146,18 @@ def main():
                         "as_of": CURRENT["unemp"]["as_of"], "source": SRC_NBS, "freq": "monthly",
                         "view": {"metric": "value", "ref": 5.5, "good": "low", "reflbl": "5.5% threshold"}, "series": te["unemp"]})
 
-    # High-tech exports (WB annual) + Auto (OICA, manual)
-    htx = wb("TX.VAL.TECH.CD")[-10:]
-    htx_yoy = [[htx[i][0], round((htx[i][1] - htx[i - 1][1]) / htx[i - 1][1] * 100, 1)] for i in range(1, len(htx)) if htx[i - 1][1]]
-    out["more"].append({"key": "htx", "k": "High-tech exports", "k_zh": "高科技出口", "v": f"${round(htx[-1][1] / 1e9)}B",
-                        "as_of": htx[-1][0], "source": "World Bank", "freq": "annual", "glo": "High-tech exports",
+    # High-tech exports + Auto production (both annual, manually maintained from the authoritative
+    # China source — GACC Customs / CAAM — which is more current than the World Bank / OICA mirrors,
+    # whose latest releases lag by 2-3 years). Refresh once a year from the official full-year release.
+    # GACC 2025: high-tech product exports ¥5.25T (+13.2% YoY) ≈ $735B at ~7.15 CNY/USD.
+    htx_yoy = [["2018", 11.8], ["2019", -2.2], ["2020", 5.9], ["2021", 23.6], ["2022", -1.3], ["2023", -10.7], ["2024", 3.8], ["2025", 13.2]]
+    out["more"].append({"key": "htx", "k": "High-tech exports", "k_zh": "高科技出口", "v": "$735B", "as_of": "2025",
+                        "source": "China Customs (GACC)", "freq": "annual", "glo": "High-tech exports", "manual": True,
                         "view": {"metric": "value", "ref": 0, "good": "high"}, "series": htx_yoy})
-    out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "31M/yr", "as_of": "2024",
-                        "source": "OICA", "freq": "annual", "glo": "Auto production", "manual": True,
-                        "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 26.1], ["2022", 27.0], ["2023", 30.2], ["2024", 31.3]]})
+    # CAAM 2025: vehicle production 34.53M units (+10.4% YoY).
+    out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "34.5M/yr", "as_of": "2025",
+                        "source": "CAAM", "freq": "annual", "glo": "Auto production", "manual": True,
+                        "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 26.1], ["2022", 27.0], ["2023", 30.2], ["2024", 31.3], ["2025", 34.5]]})
 
     (WEB / "china-macro.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"wrote web/china-macro.json (read {READ_DATE})")

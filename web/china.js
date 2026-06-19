@@ -149,7 +149,9 @@ function valHTML(it) {  // big value + small basis tag; strip any inline /mo /yr
   const b = tileMeta(it).basis;
   return esc(v) + (b ? `<span class="basis">${esc(b)}</span>` : "");
 }
-function staleYears(it) { const mm = /^(\d{4})$/.exec(String(it.as_of || "")); if (!mm) return 0; const lag = NOW_YEAR - (+mm[1]); return lag >= 1 ? lag : 0; }
+// Flag an annual series only when it's genuinely overdue — i.e. 2+ years behind. Last year's
+// print is normal for annual data (full-year releases land in Q1), so it's not "stale".
+function staleYears(it) { const mm = /^(\d{4})$/.exec(String(it.as_of || "")); if (!mm) return 0; const lag = NOW_YEAR - (+mm[1]); return lag >= 2 ? lag : 0; }
 function tileFoot(it) {  // as-of / source line + amber "lag" badge for annual series that trail the current year
   const sy = staleYears(it);
   return asof(it) + (sy ? ` · <span class="stale">${Z() ? ("滞后 " + sy + " 年") : (sy + "-yr lag")}</span>` : "");
