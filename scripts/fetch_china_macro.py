@@ -24,10 +24,12 @@ WEB = ROOT / "web"
 DATA = ROOT / "data"
 
 READ_DATE = "2026-06"
-SRC_NBS = "NBS (via Trading Economics), read Jun 2026"
-SRC_FRED = "FRED (OECD/Customs) via browser"
-SRC_CAIXIN = "Caixin / RatingDog (S&P Global), via TE, read Jun 2026"
-SRC_NBSPMI = "NBS / CFLP (official), via TE, read Jun 2026"
+# Cite the authoritative source only — not the aggregator/mirror we happened to read it from
+# (Trading Economics / FRED) nor the fetch mechanism. Those are internal plumbing, off the page.
+SRC_NBS = "NBS"
+SRC_FRED = "OECD / China Customs"
+SRC_CAIXIN = "Caixin / RatingDog (S&P Global)"
+SRC_NBSPMI = "NBS / CFLP (official)"
 
 # Latest official prints (NBS), read READ_DATE — the headline value + its reference date.
 CURRENT = {
@@ -151,7 +153,7 @@ def main():
                         "as_of": htx[-1][0], "source": "World Bank", "freq": "annual", "glo": "High-tech exports",
                         "view": {"metric": "value", "ref": 0, "good": "high"}, "series": htx_yoy})
     out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "31M/yr", "as_of": "2024",
-                        "source": "OICA (manual)", "freq": "annual", "glo": "Auto production", "manual": True,
+                        "source": "OICA", "freq": "annual", "glo": "Auto production", "manual": True,
                         "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 26.1], ["2022", 27.0], ["2023", 30.2], ["2024", 31.3]]})
 
     (WEB / "china-macro.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

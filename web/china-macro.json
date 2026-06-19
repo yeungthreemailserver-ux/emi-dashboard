@@ -1,1 +1,973 @@
-{"read_date":"2026-06","headline":[{"key":"gdp","k":"GDP growth","k_zh":"GDP 增速","v":"+5.0%","as_of":"2026-Q1","source":"NBS (via Trading Economics), read Jun 2026","freq":"quarterly","glo":null,"view":{"metric":"value","ref":0,"good":"high","reflbl":"0% = recession"},"series":[["2023-Q2",6.5],["2023-Q3",5],["2023-Q4",5.3],["2024-Q1",5.3],["2024-Q2",4.7],["2024-Q3",4.6],["2024-Q4",5.4],["2025-Q1",5.4],["2025-Q2",5.2],["2025-Q3",4.8],["2025-Q4",4.5],["2026-Q1",5]],"detail":"Real GDP growth, YoY (NBS, quarterly). The trend shows the cooling wave settling around ~5%.","detail_zh":"实质 GDP 同比增速(国家统计局,季度)。趋势显示增速回落、企稳于约 5%。"},{"key":"cpi","k":"CPI","k_zh":"CPI 通胀","v":"+1.2%","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","glo":"CPI","view":{"metric":"value","ref":0,"good":"band","band":[0,3],"reflbl":"0-3% healthy"},"series":[["2025-05",-0.1],["2025-06",0.1],["2025-07",0],["2025-08",-0.4],["2025-09",-0.3],["2025-10",0.2],["2025-11",0.7],["2025-12",0.8],["2026-01",0.2],["2026-02",1.3],["2026-03",1],["2026-04",1.2],["2026-05",1.2]],"detail":"Consumer inflation, YoY (NBS, monthly). Climbed out of 2025 deflation back into a low-positive range.","detail_zh":"消费通胀,同比(国家统计局,月度)。已自 2025 年通缩回升至偏低正区间。"},{"key":"ppi","k":"PPI","k_zh":"PPI 出厂价","v":"+3.9%","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","glo":"PPI","view":{"metric":"value","ref":0,"good":"high","reflbl":"0%"},"series":[["2025-06",-3.6],["2025-07",-3.6],["2025-08",-2.9],["2025-09",-2.3],["2025-10",-2.1],["2025-11",-2.2],["2025-12",-1.9],["2026-01",-1.4],["2026-02",-0.9],["2026-03",0.5],["2026-04",2.8],["2026-05",3.9]],"detail":"Producer (factory-gate) prices, YoY (NBS, monthly). A clear recovery from deep deflation (-3.6%) to positive (+3.9%).","detail_zh":"工业生产者出厂价,同比(国家统计局,月度)。从深度通缩(-3.6%)明显回升至正值(+3.9%)。"},{"key":"ind","k":"Industrial production","k_zh":"工业增加值","v":"+4.5%","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","glo":"Industrial production","view":{"metric":"value","ref":0,"good":"high","reflbl":"0%"},"series":[["2025-05",5.8],["2025-06",6.8],["2025-07",5.7],["2025-08",5.2],["2025-09",6.5],["2025-10",4.9],["2025-11",4.8],["2025-12",5.2],["2026-02",6.3],["2026-03",5.7],["2026-04",4.1],["2026-05",4.5]],"detail":"Above-scale industrial value-added, YoY (NBS, monthly). Steady ~5% (Jan combined with Feb for Lunar New Year).","detail_zh":"规模以上工业增加值,同比(国家统计局,月度)。维持约 5%(1 月与 2 月合并发布)。"},{"key":"retail","k":"Retail sales","k_zh":"社零消费","v":"-0.6%","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","glo":"Retail sales","view":{"metric":"value","ref":0,"good":"high","reflbl":"0%"},"series":[["2025-05",6.4],["2025-06",4.8],["2025-07",3.7],["2025-08",3.4],["2025-09",3],["2025-10",2.9],["2025-11",1.3],["2025-12",0.9],["2026-02",2.8],["2026-03",1.7],["2026-04",0.2],["2026-05",-0.6]],"detail":"Retail sales, YoY (NBS, monthly). A persistent slowdown from 6.4% to -0.6% — consumption turning negative is the key weak spot.","detail_zh":"社会消费品零售总额,同比(国家统计局,月度)。从 6.4% 持续放缓至 -0.6% — 消费转负是关键弱点。"},{"key":"pmi_nbs","k":"NBS PMI","k_zh":"官方 PMI","v":"50.5","as_of":"2026-05","source":"NBS / CFLP (official), via TE, read Jun 2026","freq":"monthly","glo":"NBS PMI","view":{"metric":"value","ref":50,"good":"high","reflbl":"50 = boom/bust"},"series":[["2025-06",50.7],["2025-07",50.2],["2025-08",50.5],["2025-09",50.6],["2025-10",50],["2025-11",49.7],["2025-12",50.7],["2026-01",49.8],["2026-02",49.5],["2026-03",50.5],["2026-04",50.1],["2026-05",50.5]],"detail":"Official NBS / CFLP PMI — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Barely above 50 = activity essentially flat.","detail_zh":"官方 NBS(中物联)PMI — 调查约 3,200 家多为大型/国企,最受政策关注。刚过 50 = 活动基本持平。"},{"key":"caixin","k":"Caixin Mfg PMI","k_zh":"财新制造业 PMI","v":"51.8","as_of":"2026-05","source":"Caixin / RatingDog (S&P Global), via TE, read Jun 2026","freq":"monthly","glo":"Caixin Mfg PMI","view":{"metric":"value","ref":50,"good":"high","reflbl":"50 = boom/bust"},"series":[["2025-06",50.4],["2025-07",49.5],["2025-08",50.5],["2025-09",51.2],["2025-10",50.6],["2025-11",49.9],["2025-12",50.1],["2026-01",50.3],["2026-02",52.1],["2026-03",50.8],["2026-04",52.2],["2026-05",51.8]],"detail":"Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended). Running above the official NBS gauge — private / export manufacturers are outperforming.","detail_zh":"财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名为「RatingDog」)。高于官方 NBS — 民营/出口制造商表现更强。"}],"more":[{"key":"exports","k":"Exports","k_zh":"出口","v":"$360B/mo","as_of":"2026-04","source":"FRED (OECD/Customs) via browser","freq":"monthly","view":{"metric":"value","ref":0,"good":"high"},"series":[["2024-11",8.2],["2024-12",9.2],["2025-01",5.4],["2025-02",0.8],["2025-03",11.6],["2025-04",7.6],["2025-05",5.4],["2025-06",4.3],["2025-07",7.4],["2025-08",5.3],["2025-09",7.4],["2025-10",-0.6],["2025-11",6.8],["2025-12",5.2],["2026-01",11.0],["2026-02",39.6],["2026-03",0.9],["2026-04",13.8]]},{"key":"imports","k":"Imports","k_zh":"进口","v":"$271B/mo","as_of":"2026-04","source":"FRED (OECD/Customs) via browser","freq":"monthly","view":{"metric":"value","ref":0,"good":"high"},"series":[["2024-11",-1.5],["2024-12",-1.7],["2025-01",-14.7],["2025-02",7.3],["2025-03",-4.2],["2025-04",-0.7],["2025-05",-1.0],["2025-06",-1.2],["2025-07",3.2],["2025-08",2.8],["2025-09",4.4],["2025-10",1.3],["2025-11",3.9],["2025-12",3.1],["2026-01",29.4],["2026-02",13.7],["2026-03",25.0],["2026-04",25.1]]},{"key":"tbal","k":"Trade balance","k_zh":"贸易顺差","v":"+$89B/mo","glo":"Trade balance","as_of":"2026-04","source":"FRED (OECD/Customs) via browser","freq":"monthly","view":{"metric":"value","ref":0,"good":"high"},"series":[["2024-11",91],["2024-12",93],["2025-01",111],["2025-02",81],["2025-03",109],["2025-04",100],["2025-05",100],["2025-06",101],["2025-07",94],["2025-08",98],["2025-09",94],["2025-10",93],["2025-11",104],["2025-12",103],["2026-01",88],["2026-02",170],["2026-03",59],["2026-04",89]]},{"key":"m2","k":"M2 growth","k_zh":"M2 货币供应","v":"+8.6%","glo":"M2 growth","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","view":{"metric":"value","ref":0,"good":"high","reflbl":"MoM %"},"series":[["2025-07",-0.1],["2025-08",0.62],["2025-09",1.02],["2025-10",-0.07],["2025-11",0.55],["2025-12",0.98],["2026-01",2.03],["2026-02",0.58],["2026-03",1.33],["2026-04",-0.23],["2026-05",0.18]],"detail":"Broad money M2, YoY +8.6% (headline). Trend = month-over-month growth, consistently positive (steady monetary expansion).","detail_zh":"广义货币 M2,同比 +8.6%(头条)。趋势为环比增速,持续为正(货币稳步扩张)。"},{"key":"unemp","k":"Surveyed unemployment","k_zh":"城镇调查失业率","v":"5.1%","glo":"Surveyed unemployment","as_of":"2026-05","source":"NBS (via Trading Economics), read Jun 2026","freq":"monthly","view":{"metric":"value","ref":5.5,"good":"low","reflbl":"5.5% threshold"},"series":[["2025-06",5],["2025-07",5.2],["2025-08",5.3],["2025-09",5.2],["2025-10",5.1],["2025-11",5.1],["2025-12",5.1],["2026-01",5.2],["2026-02",5.3],["2026-03",5.4],["2026-04",5.2],["2026-05",5.1]]},{"key":"htx","k":"High-tech exports","k_zh":"高科技出口","v":"$857B","as_of":"2024","source":"World Bank","freq":"annual","glo":"High-tech exports","view":{"metric":"value","ref":0,"good":"high"},"series":[["2016",-8.8],["2017",10.0],["2018",11.8],["2019",-2.2],["2020",5.9],["2021",23.6],["2022",-1.3],["2023",-10.7],["2024",3.8]]},{"key":"auto","k":"Auto production","k_zh":"汽车产量","v":"31M/yr","as_of":"2024","source":"OICA (manual)","freq":"annual","glo":"Auto production","manual":true,"view":{"metric":"yoy","ref":0,"good":"high"},"series":[["2021",26.1],["2022",27.0],["2023",30.2],["2024",31.3]]}]}
+{
+  "read_date": "2026-06",
+  "headline": [
+    {
+      "key": "gdp",
+      "k": "GDP growth",
+      "k_zh": "GDP 增速",
+      "v": "+5.0%",
+      "as_of": "2026-Q1",
+      "source": "NBS",
+      "freq": "quarterly",
+      "glo": null,
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high",
+        "reflbl": "0% = recession"
+      },
+      "series": [
+        [
+          "2023-Q2",
+          6.5
+        ],
+        [
+          "2023-Q3",
+          5
+        ],
+        [
+          "2023-Q4",
+          5.3
+        ],
+        [
+          "2024-Q1",
+          5.3
+        ],
+        [
+          "2024-Q2",
+          4.7
+        ],
+        [
+          "2024-Q3",
+          4.6
+        ],
+        [
+          "2024-Q4",
+          5.4
+        ],
+        [
+          "2025-Q1",
+          5.4
+        ],
+        [
+          "2025-Q2",
+          5.2
+        ],
+        [
+          "2025-Q3",
+          4.8
+        ],
+        [
+          "2025-Q4",
+          4.5
+        ],
+        [
+          "2026-Q1",
+          5
+        ]
+      ],
+      "detail": "Real GDP growth, YoY (NBS, quarterly). The trend shows the cooling wave settling around ~5%.",
+      "detail_zh": "实质 GDP 同比增速(国家统计局,季度)。趋势显示增速回落、企稳于约 5%。"
+    },
+    {
+      "key": "cpi",
+      "k": "CPI",
+      "k_zh": "CPI 通胀",
+      "v": "+1.2%",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "glo": "CPI",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "band",
+        "band": [
+          0,
+          3
+        ],
+        "reflbl": "0-3% healthy"
+      },
+      "series": [
+        [
+          "2025-05",
+          -0.1
+        ],
+        [
+          "2025-06",
+          0.1
+        ],
+        [
+          "2025-07",
+          0
+        ],
+        [
+          "2025-08",
+          -0.4
+        ],
+        [
+          "2025-09",
+          -0.3
+        ],
+        [
+          "2025-10",
+          0.2
+        ],
+        [
+          "2025-11",
+          0.7
+        ],
+        [
+          "2025-12",
+          0.8
+        ],
+        [
+          "2026-01",
+          0.2
+        ],
+        [
+          "2026-02",
+          1.3
+        ],
+        [
+          "2026-03",
+          1
+        ],
+        [
+          "2026-04",
+          1.2
+        ],
+        [
+          "2026-05",
+          1.2
+        ]
+      ],
+      "detail": "Consumer inflation, YoY (NBS, monthly). Climbed out of 2025 deflation back into a low-positive range.",
+      "detail_zh": "消费通胀,同比(国家统计局,月度)。已自 2025 年通缩回升至偏低正区间。"
+    },
+    {
+      "key": "ppi",
+      "k": "PPI",
+      "k_zh": "PPI 出厂价",
+      "v": "+3.9%",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "glo": "PPI",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high",
+        "reflbl": "0%"
+      },
+      "series": [
+        [
+          "2025-06",
+          -3.6
+        ],
+        [
+          "2025-07",
+          -3.6
+        ],
+        [
+          "2025-08",
+          -2.9
+        ],
+        [
+          "2025-09",
+          -2.3
+        ],
+        [
+          "2025-10",
+          -2.1
+        ],
+        [
+          "2025-11",
+          -2.2
+        ],
+        [
+          "2025-12",
+          -1.9
+        ],
+        [
+          "2026-01",
+          -1.4
+        ],
+        [
+          "2026-02",
+          -0.9
+        ],
+        [
+          "2026-03",
+          0.5
+        ],
+        [
+          "2026-04",
+          2.8
+        ],
+        [
+          "2026-05",
+          3.9
+        ]
+      ],
+      "detail": "Producer (factory-gate) prices, YoY (NBS, monthly). A clear recovery from deep deflation (-3.6%) to positive (+3.9%).",
+      "detail_zh": "工业生产者出厂价,同比(国家统计局,月度)。从深度通缩(-3.6%)明显回升至正值(+3.9%)。"
+    },
+    {
+      "key": "ind",
+      "k": "Industrial production",
+      "k_zh": "工业增加值",
+      "v": "+4.5%",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "glo": "Industrial production",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high",
+        "reflbl": "0%"
+      },
+      "series": [
+        [
+          "2025-05",
+          5.8
+        ],
+        [
+          "2025-06",
+          6.8
+        ],
+        [
+          "2025-07",
+          5.7
+        ],
+        [
+          "2025-08",
+          5.2
+        ],
+        [
+          "2025-09",
+          6.5
+        ],
+        [
+          "2025-10",
+          4.9
+        ],
+        [
+          "2025-11",
+          4.8
+        ],
+        [
+          "2025-12",
+          5.2
+        ],
+        [
+          "2026-02",
+          6.3
+        ],
+        [
+          "2026-03",
+          5.7
+        ],
+        [
+          "2026-04",
+          4.1
+        ],
+        [
+          "2026-05",
+          4.5
+        ]
+      ],
+      "detail": "Above-scale industrial value-added, YoY (NBS, monthly). Steady ~5% (Jan combined with Feb for Lunar New Year).",
+      "detail_zh": "规模以上工业增加值,同比(国家统计局,月度)。维持约 5%(1 月与 2 月合并发布)。"
+    },
+    {
+      "key": "retail",
+      "k": "Retail sales",
+      "k_zh": "社零消费",
+      "v": "-0.6%",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "glo": "Retail sales",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high",
+        "reflbl": "0%"
+      },
+      "series": [
+        [
+          "2025-05",
+          6.4
+        ],
+        [
+          "2025-06",
+          4.8
+        ],
+        [
+          "2025-07",
+          3.7
+        ],
+        [
+          "2025-08",
+          3.4
+        ],
+        [
+          "2025-09",
+          3
+        ],
+        [
+          "2025-10",
+          2.9
+        ],
+        [
+          "2025-11",
+          1.3
+        ],
+        [
+          "2025-12",
+          0.9
+        ],
+        [
+          "2026-02",
+          2.8
+        ],
+        [
+          "2026-03",
+          1.7
+        ],
+        [
+          "2026-04",
+          0.2
+        ],
+        [
+          "2026-05",
+          -0.6
+        ]
+      ],
+      "detail": "Retail sales, YoY (NBS, monthly). A persistent slowdown from 6.4% to -0.6% — consumption turning negative is the key weak spot.",
+      "detail_zh": "社会消费品零售总额,同比(国家统计局,月度)。从 6.4% 持续放缓至 -0.6% — 消费转负是关键弱点。"
+    },
+    {
+      "key": "pmi_nbs",
+      "k": "NBS PMI",
+      "k_zh": "官方 PMI",
+      "v": "50.5",
+      "as_of": "2026-05",
+      "source": "NBS / CFLP (official)",
+      "freq": "monthly",
+      "glo": "NBS PMI",
+      "view": {
+        "metric": "value",
+        "ref": 50,
+        "good": "high",
+        "reflbl": "50 = boom/bust"
+      },
+      "series": [
+        [
+          "2025-06",
+          50.7
+        ],
+        [
+          "2025-07",
+          50.2
+        ],
+        [
+          "2025-08",
+          50.5
+        ],
+        [
+          "2025-09",
+          50.6
+        ],
+        [
+          "2025-10",
+          50
+        ],
+        [
+          "2025-11",
+          49.7
+        ],
+        [
+          "2025-12",
+          50.7
+        ],
+        [
+          "2026-01",
+          49.8
+        ],
+        [
+          "2026-02",
+          49.5
+        ],
+        [
+          "2026-03",
+          50.5
+        ],
+        [
+          "2026-04",
+          50.1
+        ],
+        [
+          "2026-05",
+          50.5
+        ]
+      ],
+      "detail": "Official NBS / CFLP PMI — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Barely above 50 = activity essentially flat.",
+      "detail_zh": "官方 NBS(中物联)PMI — 调查约 3,200 家多为大型/国企,最受政策关注。刚过 50 = 活动基本持平。"
+    },
+    {
+      "key": "caixin",
+      "k": "Caixin Mfg PMI",
+      "k_zh": "财新制造业 PMI",
+      "v": "51.8",
+      "as_of": "2026-05",
+      "source": "Caixin / RatingDog (S&P Global)",
+      "freq": "monthly",
+      "glo": "Caixin Mfg PMI",
+      "view": {
+        "metric": "value",
+        "ref": 50,
+        "good": "high",
+        "reflbl": "50 = boom/bust"
+      },
+      "series": [
+        [
+          "2025-06",
+          50.4
+        ],
+        [
+          "2025-07",
+          49.5
+        ],
+        [
+          "2025-08",
+          50.5
+        ],
+        [
+          "2025-09",
+          51.2
+        ],
+        [
+          "2025-10",
+          50.6
+        ],
+        [
+          "2025-11",
+          49.9
+        ],
+        [
+          "2025-12",
+          50.1
+        ],
+        [
+          "2026-01",
+          50.3
+        ],
+        [
+          "2026-02",
+          52.1
+        ],
+        [
+          "2026-03",
+          50.8
+        ],
+        [
+          "2026-04",
+          52.2
+        ],
+        [
+          "2026-05",
+          51.8
+        ]
+      ],
+      "detail": "Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended). Running above the official NBS gauge — private / export manufacturers are outperforming.",
+      "detail_zh": "财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名为「RatingDog」)。高于官方 NBS — 民营/出口制造商表现更强。"
+    }
+  ],
+  "more": [
+    {
+      "key": "exports",
+      "k": "Exports",
+      "k_zh": "出口",
+      "v": "$360B/mo",
+      "as_of": "2026-04",
+      "source": "OECD / China Customs",
+      "freq": "monthly",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high"
+      },
+      "series": [
+        [
+          "2024-11",
+          8.2
+        ],
+        [
+          "2024-12",
+          9.2
+        ],
+        [
+          "2025-01",
+          5.4
+        ],
+        [
+          "2025-02",
+          0.8
+        ],
+        [
+          "2025-03",
+          11.6
+        ],
+        [
+          "2025-04",
+          7.6
+        ],
+        [
+          "2025-05",
+          5.4
+        ],
+        [
+          "2025-06",
+          4.3
+        ],
+        [
+          "2025-07",
+          7.4
+        ],
+        [
+          "2025-08",
+          5.3
+        ],
+        [
+          "2025-09",
+          7.4
+        ],
+        [
+          "2025-10",
+          -0.6
+        ],
+        [
+          "2025-11",
+          6.8
+        ],
+        [
+          "2025-12",
+          5.2
+        ],
+        [
+          "2026-01",
+          11
+        ],
+        [
+          "2026-02",
+          39.6
+        ],
+        [
+          "2026-03",
+          0.9
+        ],
+        [
+          "2026-04",
+          13.8
+        ]
+      ]
+    },
+    {
+      "key": "imports",
+      "k": "Imports",
+      "k_zh": "进口",
+      "v": "$271B/mo",
+      "as_of": "2026-04",
+      "source": "OECD / China Customs",
+      "freq": "monthly",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high"
+      },
+      "series": [
+        [
+          "2024-11",
+          -1.5
+        ],
+        [
+          "2024-12",
+          -1.7
+        ],
+        [
+          "2025-01",
+          -14.7
+        ],
+        [
+          "2025-02",
+          7.3
+        ],
+        [
+          "2025-03",
+          -4.2
+        ],
+        [
+          "2025-04",
+          -0.7
+        ],
+        [
+          "2025-05",
+          -1
+        ],
+        [
+          "2025-06",
+          -1.2
+        ],
+        [
+          "2025-07",
+          3.2
+        ],
+        [
+          "2025-08",
+          2.8
+        ],
+        [
+          "2025-09",
+          4.4
+        ],
+        [
+          "2025-10",
+          1.3
+        ],
+        [
+          "2025-11",
+          3.9
+        ],
+        [
+          "2025-12",
+          3.1
+        ],
+        [
+          "2026-01",
+          29.4
+        ],
+        [
+          "2026-02",
+          13.7
+        ],
+        [
+          "2026-03",
+          25
+        ],
+        [
+          "2026-04",
+          25.1
+        ]
+      ]
+    },
+    {
+      "key": "tbal",
+      "k": "Trade balance",
+      "k_zh": "贸易顺差",
+      "v": "+$89B/mo",
+      "glo": "Trade balance",
+      "as_of": "2026-04",
+      "source": "OECD / China Customs",
+      "freq": "monthly",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high"
+      },
+      "series": [
+        [
+          "2024-11",
+          91
+        ],
+        [
+          "2024-12",
+          93
+        ],
+        [
+          "2025-01",
+          111
+        ],
+        [
+          "2025-02",
+          81
+        ],
+        [
+          "2025-03",
+          109
+        ],
+        [
+          "2025-04",
+          100
+        ],
+        [
+          "2025-05",
+          100
+        ],
+        [
+          "2025-06",
+          101
+        ],
+        [
+          "2025-07",
+          94
+        ],
+        [
+          "2025-08",
+          98
+        ],
+        [
+          "2025-09",
+          94
+        ],
+        [
+          "2025-10",
+          93
+        ],
+        [
+          "2025-11",
+          104
+        ],
+        [
+          "2025-12",
+          103
+        ],
+        [
+          "2026-01",
+          88
+        ],
+        [
+          "2026-02",
+          170
+        ],
+        [
+          "2026-03",
+          59
+        ],
+        [
+          "2026-04",
+          89
+        ]
+      ]
+    },
+    {
+      "key": "m2",
+      "k": "M2 growth",
+      "k_zh": "M2 货币供应",
+      "v": "+8.6%",
+      "glo": "M2 growth",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high",
+        "reflbl": "MoM %"
+      },
+      "series": [
+        [
+          "2025-07",
+          -0.1
+        ],
+        [
+          "2025-08",
+          0.62
+        ],
+        [
+          "2025-09",
+          1.02
+        ],
+        [
+          "2025-10",
+          -0.07
+        ],
+        [
+          "2025-11",
+          0.55
+        ],
+        [
+          "2025-12",
+          0.98
+        ],
+        [
+          "2026-01",
+          2.03
+        ],
+        [
+          "2026-02",
+          0.58
+        ],
+        [
+          "2026-03",
+          1.33
+        ],
+        [
+          "2026-04",
+          -0.23
+        ],
+        [
+          "2026-05",
+          0.18
+        ]
+      ],
+      "detail": "Broad money M2, YoY +8.6% (headline). Trend = month-over-month growth, consistently positive (steady monetary expansion).",
+      "detail_zh": "广义货币 M2,同比 +8.6%(头条)。趋势为环比增速,持续为正(货币稳步扩张)。"
+    },
+    {
+      "key": "unemp",
+      "k": "Surveyed unemployment",
+      "k_zh": "城镇调查失业率",
+      "v": "5.1%",
+      "glo": "Surveyed unemployment",
+      "as_of": "2026-05",
+      "source": "NBS",
+      "freq": "monthly",
+      "view": {
+        "metric": "value",
+        "ref": 5.5,
+        "good": "low",
+        "reflbl": "5.5% threshold"
+      },
+      "series": [
+        [
+          "2025-06",
+          5
+        ],
+        [
+          "2025-07",
+          5.2
+        ],
+        [
+          "2025-08",
+          5.3
+        ],
+        [
+          "2025-09",
+          5.2
+        ],
+        [
+          "2025-10",
+          5.1
+        ],
+        [
+          "2025-11",
+          5.1
+        ],
+        [
+          "2025-12",
+          5.1
+        ],
+        [
+          "2026-01",
+          5.2
+        ],
+        [
+          "2026-02",
+          5.3
+        ],
+        [
+          "2026-03",
+          5.4
+        ],
+        [
+          "2026-04",
+          5.2
+        ],
+        [
+          "2026-05",
+          5.1
+        ]
+      ]
+    },
+    {
+      "key": "htx",
+      "k": "High-tech exports",
+      "k_zh": "高科技出口",
+      "v": "$857B",
+      "as_of": "2024",
+      "source": "World Bank",
+      "freq": "annual",
+      "glo": "High-tech exports",
+      "view": {
+        "metric": "value",
+        "ref": 0,
+        "good": "high"
+      },
+      "series": [
+        [
+          "2016",
+          -8.8
+        ],
+        [
+          "2017",
+          10
+        ],
+        [
+          "2018",
+          11.8
+        ],
+        [
+          "2019",
+          -2.2
+        ],
+        [
+          "2020",
+          5.9
+        ],
+        [
+          "2021",
+          23.6
+        ],
+        [
+          "2022",
+          -1.3
+        ],
+        [
+          "2023",
+          -10.7
+        ],
+        [
+          "2024",
+          3.8
+        ]
+      ]
+    },
+    {
+      "key": "auto",
+      "k": "Auto production",
+      "k_zh": "汽车产量",
+      "v": "31M/yr",
+      "as_of": "2024",
+      "source": "OICA",
+      "freq": "annual",
+      "glo": "Auto production",
+      "manual": true,
+      "view": {
+        "metric": "yoy",
+        "ref": 0,
+        "good": "high"
+      },
+      "series": [
+        [
+          "2021",
+          26.1
+        ],
+        [
+          "2022",
+          27
+        ],
+        [
+          "2023",
+          30.2
+        ],
+        [
+          "2024",
+          31.3
+        ]
+      ]
+    }
+  ]
+}
