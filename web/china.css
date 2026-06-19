@@ -123,6 +123,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .citycard b{font-size:13px;color:var(--ink);}
 .citycard span{font-size:10.5px;color:var(--muted);line-height:1.35;}
 .cc-dom{font-size:8.5px;font-weight:700;color:#fff;background:var(--blue);border-radius:6px;padding:1px 5px;vertical-align:middle;}
+.citygrp{margin:0 0 13px;}
+.cg-head{display:flex;align-items:center;gap:7px;margin:0 0 6px;}
+.cg-dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 0 2px rgba(0,0,0,.05);}
+.cg-name{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+.cg-n{font-size:10px;font-weight:700;color:var(--muted);background:#eef2f7;border-radius:10px;padding:1px 7px;}
 .dos-dom{font-size:11px;font-weight:700;padding:2px 9px;border-radius:9px;color:#fff;}
 .dos-tag{font-size:12.5px;color:var(--ink-2);margin:6px 0 4px;line-height:1.5;}
 .dos-pending{display:inline-block;font-size:10.5px;font-weight:600;background:#fffbeb;color:#92400e;border:1px solid #fcd34d;border-radius:9px;padding:1px 8px;margin:4px 0;}

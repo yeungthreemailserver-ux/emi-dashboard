@@ -22,6 +22,7 @@ const TT = {
   sig: ["Signature strengths", "核心强项"], subd: ["Sub-district clusters", "次级区域集群"], vc: ["Value-chain role", "价值链定位"], dist: ["For an electronics distributor", "对电子分销商而言"], buy: ["Source here", "可在此采购"], sell: ["Sell into here", "可向此销售"], mfg: ["Manufacturing-type strength", "制造类型强度"],
   lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US-restricted", "美国管制"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   rankby: ["ranked by", "排名依据"], chipw: ["chip supply-chain weight", "芯片供应链权重"], gdpg: ["GDP growth", "GDP 增速"], live: ["live", "在营"], soon: ["soon", "即将"], clickzoom: ["Click a live country on the map or list to zoom in.", "点击地图或列表中在营的国家放大查看。"], mapdots: ["Map dots —", "地图圆点 —"],
+  switch_hint: ["live ↗ click to switch", "在营 ↗ 点击切换"], planned_hint: ["planned · not yet mapped", "规划中 · 暂未收录"],
 };
 const tt = (k) => { const e = TT[k]; return e ? (Z() ? e[1] : e[0]) : k; };
 const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? (Z() ? (CHINA.domains[d][2] || CHINA.domains[d][0]) : CHINA.domains[d][0]) : d;
@@ -47,6 +48,16 @@ const gdpScale = (g) => ramp("chip", Math.max(8, Math.min(100, (g / 14) * 100)))
 function bbox(f) {
   let mnx = 180, mny = 90, mxx = -180, mxy = -90;
   (function scan(co) { if (typeof co[0] === "number") { mnx = Math.min(mnx, co[0]); mxx = Math.max(mxx, co[0]); mny = Math.min(mny, co[1]); mxy = Math.max(mxy, co[1]); } else co.forEach(scan); })(f.geometry.coordinates);
+  return [[mnx, mny], [mxx, mxy]];
+}
+// Frame the *cities* (where the content is), not the whole country polygon — so drilling into
+// China centres on the populated east instead of leaving it stranded above empty Xinjiang/Tibet.
+function cityBounds(code) {
+  const cities = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
+  const pts = (cities || []).filter((c) => c.lon != null && c.lat != null);
+  if (pts.length < 2) return null;
+  let mnx = 180, mny = 90, mxx = -180, mxy = -90;
+  pts.forEach((c) => { mnx = Math.min(mnx, c.lon); mxx = Math.max(mxx, c.lon); mny = Math.min(mny, c.lat); mxy = Math.max(mxy, c.lat); });
   return [[mnx, mny], [mxx, mxy]];
 }
 
@@ -118,13 +129,19 @@ function initMap() {
     map.addLayer({ id: "asia-fill", type: "fill", source: "asia", paint: { "fill-color": ["get", "color"], "fill-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, ["boolean", ["feature-state", "hover"], false], 1, 0.92] } });
     map.addLayer({ id: "asia-line", type: "line", source: "asia", paint: { "line-color": "#ffffff", "line-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, 1], "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2, 0.8] } });
     map.on("mousemove", "asia-fill", (e) => {
-      if (STATE.level !== "asia") return;   // once drilled in, provinces/city markers own the hover, not the country
-      const f = e.features[0], c = byName[f.properties.name]; map.getCanvas().style.cursor = c && c.status === "live" ? "pointer" : "";
+      const f = e.features[0], c = byName[f.properties.name], drilledIn = STATE.level !== "asia";
+      // the country you're already inside is owned by its provinces / city markers — no country tip for it
+      if (drilledIn && c && c.code === STATE.country) { map.getCanvas().style.cursor = ""; if (hovered != null) { map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = null; } return; }
+      map.getCanvas().style.cursor = c && c.status === "live" ? "pointer" : "";
       if (hovered !== f.id) { if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = f.id; map.setFeatureState({ source: "asia", id: hovered }, { hover: true }); }
-      if (c) showTip(`<b>${esc(c.name)}</b> · <span style="color:${c.status === "live" ? "#2563eb" : "#94a3b8"}">${c.status === "live" ? "live ↗ click to drill" : "planned"}</span><br>chip weight <b>${c.chip}</b>/100 · GDP <b>${c.gdp}%</b><br><span style="color:#475569;white-space:normal;display:inline-block;max-width:250px">${esc(c.headline)}</span>`, e.originalEvent); else hideTip();
+      if (!c) { hideTip(); return; }
+      if (drilledIn)   // drilled in: hint that the other countries on screen are switchable
+        showTip(`<b>${esc(countryName(c.code))}</b> · <span style="color:${c.status === "live" ? "#2563eb" : "#94a3b8"}">${c.status === "live" ? tt("switch_hint") : tt("planned_hint")}</span>`, e.originalEvent);
+      else
+        showTip(`<b>${esc(c.name)}</b> · <span style="color:${c.status === "live" ? "#2563eb" : "#94a3b8"}">${c.status === "live" ? "live ↗ click to drill" : "planned"}</span><br>chip weight <b>${c.chip}</b>/100 · GDP <b>${c.gdp}%</b><br><span style="color:#475569;white-space:normal;display:inline-block;max-width:250px">${esc(c.headline)}</span>`, e.originalEvent);
     });
     map.on("mouseleave", "asia-fill", () => { map.getCanvas().style.cursor = ""; if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = null; hideTip(); });
-    map.on("click", "asia-fill", (e) => { const c = byName[e.features[0].properties.name]; if (c && c.status === "live") drillCountry(c.code); });
+    map.on("click", "asia-fill", (e) => { const c = byName[e.features[0].properties.name]; if (c && c.status === "live" && c.code !== STATE.country) drillCountry(c.code); });
     map.on("move", scheduleDeclutter); map.on("idle", declutterCityLabels);
     MAP_READY = true; addCountryMarkers(); map.resize();
     const s = document.getElementById("mapstatus"); if (s) s.remove();
@@ -141,8 +158,10 @@ function drillCountry(code) {
     clearDetailMarkers(); setMarkersVisible(false);
     if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; }
     if (code === "cn") { map.setFeatureState({ source: "asia", id: c.name }, { drilled: true }); drilledName = c.name; }  // hide China's base fill/outline so its provinces render clean
-    const feat = ASIA.geo.features.find((f) => f.properties.name === c.name);
-    if (feat) map.fitBounds(bbox(feat), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1700, essential: true });
+    const feat = ASIA.geo.features.find((f) => f.properties.name === c.name), cb = cityBounds(code);
+    const pad = { top: 64, bottom: 64, left: 56, right: 56 };
+    if (cb) map.fitBounds(cb, { padding: pad, maxZoom: 7, duration: reduce() ? 0 : 1700, essential: true });
+    else if (feat) map.fitBounds(bbox(feat), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1700, essential: true });
     else map.flyTo({ center: [c.lon, c.lat], zoom: 6.5, duration: reduce() ? 0 : 1700, curve: 1.3, essential: true });
     if (code === "cn" && CHINA && CHINA.geo) {
       colorProvinces();
@@ -178,7 +197,7 @@ function drillCity(code, name) {
   renderPanel(); renderCrumb();
 }
 function up() {
-  if (STATE.level === "city") { STATE.level = "country"; STATE.city = null; const c = byCode[STATE.country], f = ASIA.geo.features.find((x) => x.properties.name === c.name); mapDo(() => { if (f) map.fitBounds(bbox(f), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1400, essential: true }); }); renderPanel(); renderCrumb(); }
+  if (STATE.level === "city") { STATE.level = "country"; STATE.city = null; const code = STATE.country, c = byCode[code], f = ASIA.geo.features.find((x) => x.properties.name === c.name), cb = cityBounds(code); mapDo(() => { if (cb) map.fitBounds(cb, { padding: { top: 64, bottom: 64, left: 56, right: 56 }, maxZoom: 7, duration: reduce() ? 0 : 1400, essential: true }); else if (f) map.fitBounds(bbox(f), { padding: 70, maxZoom: 7, duration: reduce() ? 0 : 1400, essential: true }); }); renderPanel(); renderCrumb(); }
   else if (STATE.level === "country") goAsia();
 }
 function goAsia() {
@@ -263,8 +282,19 @@ function cityCardsHTML(code) {
   const d = code === "cn" ? CHINA : APAC[code]; if (!d) return "";
   const cities = code === "cn" ? (CHINA.cities || []) : (d.cities || []);
   if (!cities.length && d.clusters) return `<div class="dos-h"><span class="dos-name">${tt("keyclusters")}</span></div>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}`;
-  return `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>
-    <div class="citycards">${cities.map((c) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; }).join("")}</div>`;
+  const card = (c, showDom) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${showDom && c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; };
+  const head = `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>`;
+  // China: group cities by focus industry (domain), biggest cluster first — the group header carries the label,
+  // so the per-card domain badge is dropped. Other countries keep the flat grid.
+  if (code === "cn" && CHINA && CHINA.domains) {
+    const groups = {}; cities.forEach((c) => { const k = c.dom || "OTHER"; (groups[k] = groups[k] || []).push(c); });
+    const order = Object.keys(CHINA.domains).filter((k) => groups[k]).sort((a, b) => groups[b].length - groups[a].length);
+    if (groups.OTHER) order.push("OTHER");
+    const blocks = order.map((k) => { const list = groups[k], col = (CHINA.domains[k] && CHINA.domains[k][1]) || "#94a3b8", nm = k === "OTHER" ? (Z() ? "其他" : "Other") : domName(k);
+      return `<div class="citygrp"><div class="cg-head"><span class="cg-dot" style="background:${col}"></span><span class="cg-name">${esc(nm)}</span><span class="cg-n">${list.length}</span></div><div class="citycards">${list.map((c) => card(c, false)).join("")}</div></div>`; }).join("");
+    return head + blocks;
+  }
+  return head + `<div class="citycards">${cities.map((c) => card(c, true)).join("")}</div>`;
 }
 const LVLW_ZH = { 3: "领先", 2: "较强", 1: "具备" };
 function clusterBlock(cl, code, zc) {
