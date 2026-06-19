@@ -40,6 +40,23 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .ind{background:#fafbfd;border:1px solid var(--line);border-radius:8px;padding:6px 11px;}
 .ind b{font-size:14px;color:var(--ink);} .ind .il{font-size:11px;color:var(--muted);margin-left:5px;}
 
+/* supply-chain leverage map */
+.lev-take{font-size:12.5px;color:var(--ink-2);background:#f8fafc;border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:8px;padding:9px 12px;margin:2px 0 14px;line-height:1.5;max-width:1000px;}
+.levmap{margin-bottom:16px;}
+.lev-grp{margin-bottom:14px;}
+.lev-h{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);margin:0 0 9px;}
+.lev-cap{font-weight:500;text-transform:none;letter-spacing:0;color:var(--faint);font-size:10.5px;}
+.lev-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:7px 26px;}
+.lev-row{min-width:0;}
+.lev-top{display:flex;align-items:baseline;gap:6px;font-size:12.5px;}
+.lev-term{font-weight:600;color:var(--ink);}
+.lev-scope{color:var(--faint);font-size:10.5px;}
+.lev-val{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;}
+.lev-bar{position:relative;height:8px;background:#eef2f6;border-radius:5px;margin:4px 0 2px;}
+.lev-fill{position:absolute;left:0;top:0;height:100%;border-radius:5px;min-width:2px;}
+.lev-ref{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#cbd5e1;}
+.lev-src{font-size:9.5px;color:var(--faint);}
+
 .sech{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:8px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--line);}
 .sech .dim{font-weight:500;text-transform:none;letter-spacing:0;color:var(--faint);font-size:11px;margin-left:8px;}
 

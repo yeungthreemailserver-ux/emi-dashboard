@@ -14,7 +14,14 @@ const TT = {
   sub_more: ["More macro indicators", "更多宏观指标"],
   sub_more2: ["hover any term for a definition · NBS / Customs / PBoC headline values", "悬停术语查看定义 · 国家统计局/海关/央行 数据"],
   sub_ind: ["Industry position", "产业地位"],
-  sub_ind2: ["China's share of key electronics / clean-energy supply chains", "中国在关键电子/清洁能源供应链中的占比"],
+  sub_ind2: ["China's leverage across key electronics / clean-energy supply chains", "中国在关键电子/清洁能源供应链中的杠杆地位"],
+  lev_hold: ["Where China dominates", "中国主导的环节"],
+  lev_hold_cap: ["· supply leverage / concentration risk", "· 供应杠杆 / 集中度风险"],
+  lev_gap: ["Where China is locked out", "中国受制的环节"],
+  lev_gap_cap: ["· still import-dependent — its vulnerability", "· 仍需进口 — 自身短板"],
+  lev_take: ["China controls 85–98% of the clean-energy & critical-materials stack — and can weaponise it via export controls — yet holds under ~5% of the leading-edge logic, memory and tools it still must import.",
+             "中国掌握清洁能源与关键材料链的 85–98%(并可通过出口管制施压),但在仍需进口的先进逻辑、内存与设备上占比不足约 5%。"],
+  lev_share: ["China share", "中国占比"],
   sub_map: ["Map — economy & industry by province / city", "地图 — 各省/城市的经济与产业"],
   sub_map2: ["colour = macro layer · dots = industry clusters · click a city to zoom + open its dossier", "颜色=宏观层 · 圆点=产业集群 · 点击城市放大并打开档案"],
   colourby: ["Colour map by", "地图着色"],
@@ -157,6 +164,27 @@ function tileFoot(it) {  // as-of / source line + amber "lag" badge for annual s
   return asof(it) + (sy ? ` · <span class="stale">${Z() ? ("滞后 " + sy + " 年") : (sy + "-yr lag")}</span>` : "");
 }
 
+// ---- supply-chain leverage map: China's global share per critical node, grouped dominance vs gap ----
+function leverageHTML() {
+  const L = DATA.leverage || [];
+  if (!L.length) return "";
+  const row = (n) => {
+    const pct = Math.max(0, Math.min(100, n.share));
+    const col = n.type === "hold" ? "var(--blue)" : "var(--amber)";
+    const name = (Z() && n.node_zh) ? n.node_zh : n.node;
+    const scope = (Z() && n.scope_zh) ? n.scope_zh : n.scope;
+    return `<div class="lev-row">
+      <div class="lev-top"><span class="lev-term">${glossWrap(name, n.glo)}</span><span class="lev-scope">${esc(scope)}</span><span class="lev-val" style="color:${col}">${esc(n.disp)}</span></div>
+      <div class="lev-bar"><div class="lev-fill" style="width:${pct}%;background:${col}"></div><span class="lev-ref"></span></div>
+      <div class="lev-src">${esc(n.source)}${n.year ? " · " + esc(n.year) : ""}</div></div>`;
+  };
+  const grp = (type, title, cap) => {
+    const rows = L.filter((n) => n.type === type).map(row).join("");
+    return rows ? `<div class="lev-grp"><div class="lev-h">${title} <span class="lev-cap">${cap}</span></div><div class="lev-rows">${rows}</div></div>` : "";
+  };
+  return grp("hold", tt("lev_hold"), tt("lev_hold_cap")) + grp("gap", tt("lev_gap"), tt("lev_gap_cap"));
+}
+
 // ---- render ----
 function render() {
   const m = DATA.macro;
@@ -178,7 +206,7 @@ function render() {
     return `${head}<div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${valHTML(it)}</div>${verdict}${spk}
       <div class="md">${tileFoot(it)}</div></div>`;
   }).join("");
-  const ind = m.industry.map((i) => `<div class="ind"><b>${esc(i.v)}</b><span class="il">${glossWrap(mk(i), i.glo)} · ${esc(mnote(i))}</span></div>`).join("");
+  const lev = leverageHTML();
   const layerBtns = DATA.layers.map((l) => `<button class="mapbtn${l.key === STATE.layer ? " active" : ""}" data-layer="${l.key}">${esc(layerLabel(l))}</button>`).join("");
   const legend = Object.keys(DATA.domains).map((d) => `<span><i style="color:${DATA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
   const lagItems = m.headline.concat(m.more).filter(staleYears);  // call out annual series that trail the current year
@@ -194,7 +222,8 @@ function render() {
     <div class="sech">${tt("sub_more")} <span class="dim">${tt("sub_more2")}</span></div>
     <div class="more-grid">${more}</div>
     <div class="sech">${tt("sub_ind")} <span class="dim">${tt("sub_ind2")}</span></div>
-    <div class="indstrip">${ind}</div>
+    <div class="lev-take">${esc(tt("lev_take"))}</div>
+    <div class="levmap">${lev}</div>
     <div class="sech">${tt("sub_map")} <span class="dim">${tt("sub_map2")}</span></div>
     <div class="maptools">
       <span class="mt-label">${tt("colourby")}</span>${layerBtns}

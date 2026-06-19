@@ -33,6 +33,13 @@ GLOSSARY = {
     "Battery cells": "The finished lithium-ion cells assembled into EV and storage battery packs.",
     "Solar modules": "Finished photovoltaic panels (cells laminated into a module).",
     "Display (LCD)": "Flat-panel display manufacturing — LCD/OLED panels for TVs, monitors, phones.",
+    "Polysilicon": "Purified silicon feedstock — the first step in making solar cells (and chips); China makes ~90% of solar-grade poly.",
+    "Solar wafers": "Thin silicon slices cut from ingots — the building block of solar cells; almost entirely made in China.",
+    "Graphite anode": "The negative electrode of a lithium battery; China refines & coats the vast majority of battery-grade graphite.",
+    "Gallium & germanium": "Minor metals critical to chips, optics, fibre & defence; China refines ~98% and curbed exports in 2023.",
+    "EUV lithography": "Extreme-ultraviolet chip-printing — the tool required for ≤7nm logic; made only by ASML and banned from export to China.",
+    "HBM": "High-Bandwidth Memory — stacked DRAM that feeds AI accelerators; supplied by SK hynix, Samsung & Micron, not China.",
+    "EDA": "Electronic Design Automation — the software used to design chips; dominated by Synopsys, Cadence & Siemens (US/EU).",
     "High-tech exports": "Exports of R&D-intensive goods — aerospace, computers, pharma, instruments, electrical machinery (World Bank definition).",
     "Caixin Mfg PMI": "Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended); >50 = expansion. Reported separately from, and often above, the official NBS PMI.",
     "NBS PMI": "Official PMI from China's NBS (National Bureau of Statistics) & CFLP — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Tends to run below the private Caixin/RatingDog PMI; >50 = expansion.",
@@ -70,6 +77,13 @@ GLOSSARY_ZH = {
     "Battery cells": "组装进电动车与储能电池包的成品锂离子电芯。",
     "Solar modules": "成品光伏组件(电池片层压成组件)。",
     "Display (LCD)": "平板显示制造 — 用于电视/显示器/手机的 LCD/OLED 面板。",
+    "Polysilicon": "多晶硅 — 制造太阳能电池(与芯片)的最上游原料;中国约占太阳能级多晶硅 90%。",
+    "Solar wafers": "硅片 — 从硅锭切出的薄片,太阳能电池的基础;几乎全部在中国制造。",
+    "Graphite anode": "石墨负极 — 锂电池的负极材料;中国精炼并包覆了绝大部分电池级石墨。",
+    "Gallium & germanium": "镓与锗 — 芯片、光学、光纤与国防的关键小金属;中国精炼约 98%,并于 2023 年限制出口。",
+    "EUV lithography": "极紫外光刻 — 制造 ≤7nm 逻辑芯片所需的设备;仅 ASML 生产,且被禁止对华出口。",
+    "HBM": "高带宽内存 — 为 AI 加速器供数据的堆叠式 DRAM;由 SK 海力士、三星、美光供应,中国尚无。",
+    "EDA": "电子设计自动化 — 设计芯片所用的软件;由新思 Synopsys、楷登 Cadence、西门子主导(美/欧)。",
     "High-tech exports": "研发密集型产品出口 — 航空、计算机、医药、仪器、电气机械(世界银行定义)。",
     "Caixin Mfg PMI": "财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名「RatingDog」);>50=扩张。与官方 NBS PMI 分别统计,且常高于后者。",
     "NBS PMI": "中国官方 PMI(国家统计局与中物联)— 调查约 3,200 家多为大型/国企,最受政策关注。通常低于民营的财新/RatingDog PMI;>50=扩张。",
@@ -174,6 +188,25 @@ CHINA_MACRO = {
         {"k": "Leading-edge logic", "k_zh": "先进逻辑芯片", "v": "<1%", "note": "export-control constrained", "note_zh": "受出口管制限制", "glo": "leading-edge logic"},
     ],
 }
+
+# ---- Supply-chain leverage map: China's global share of critical electronics / clean-energy nodes.
+# type "hold" = China dominates (its supply leverage / the West's concentration risk);
+# type "gap"  = China is locked out / import-dependent (its vulnerability). One cited source per node;
+# figures are widely-cited industry estimates (rounded), each labelled with its source + year. ----
+LEVERAGE = [
+    {"node": "Gallium & germanium", "node_zh": "镓与锗", "scope": "refined output", "scope_zh": "精炼产量", "share": 98, "disp": "98%", "type": "hold", "source": "USGS", "year": "2024", "glo": "Gallium & germanium"},
+    {"node": "LFP cathode", "node_zh": "磷酸铁锂正极", "scope": "global output", "scope_zh": "全球产量", "share": 98, "disp": "98%", "type": "hold", "source": "Benchmark Mineral Intelligence", "year": "2024", "glo": "LFP cathode"},
+    {"node": "Solar wafers", "node_zh": "太阳能硅片", "scope": "global production", "scope_zh": "全球产量", "share": 97, "disp": "97%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Solar wafers"},
+    {"node": "NdFeB magnets", "node_zh": "钕铁硼磁体", "scope": "sintered output", "scope_zh": "烧结产量", "share": 94, "disp": "94%", "type": "hold", "source": "Adamas Intelligence", "year": "2024", "glo": "NdFeB magnet"},
+    {"node": "Graphite anode", "node_zh": "石墨负极", "scope": "global supply", "scope_zh": "全球供应", "share": 92, "disp": "92%", "type": "hold", "source": "Benchmark Mineral Intelligence", "year": "2024", "glo": "Graphite anode"},
+    {"node": "Polysilicon", "node_zh": "多晶硅", "scope": "global output", "scope_zh": "全球产量", "share": 90, "disp": "90%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Polysilicon"},
+    {"node": "Battery cells", "node_zh": "电池电芯", "scope": "global capacity", "scope_zh": "全球产能", "share": 85, "disp": "85%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Battery cells"},
+    {"node": "Display (LCD)", "node_zh": "LCD 面板", "scope": "global panel output", "scope_zh": "全球面板产量", "share": 65, "disp": "~65%", "type": "hold", "source": "TrendForce", "year": "2024", "glo": "Display (LCD)"},
+    {"node": "EUV lithography", "node_zh": "EUV 光刻机", "scope": "≤7nm tooling", "scope_zh": "≤7nm 设备", "share": 0, "disp": "0%", "type": "gap", "source": "ASML (export-banned)", "year": "2024", "glo": "EUV lithography"},
+    {"node": "HBM memory", "node_zh": "HBM 内存", "scope": "AI-accelerator memory", "scope_zh": "AI 加速器内存", "share": 1, "disp": "~0%", "type": "gap", "source": "TrendForce", "year": "2024", "glo": "HBM"},
+    {"node": "Leading-edge logic", "node_zh": "先进逻辑芯片", "scope": "≤7nm, export-constrained", "scope_zh": "≤7nm,受出口管制", "share": 1, "disp": "<1%", "type": "gap", "source": "SIA", "year": "2024", "glo": "leading-edge logic"},
+    {"node": "EDA tools", "node_zh": "EDA 工具", "scope": "chip-design software", "scope_zh": "芯片设计软件", "share": 5, "disp": "~5%", "type": "gap", "source": "ESD Alliance / SEMI", "year": "2024", "glo": "EDA"},
+]
 
 # ---- City dossiers (curated). Full = Ningbo, Guangzhou. Others = light markers. ----
 def cl(seg, level, what, anchors):
@@ -589,7 +622,7 @@ def main():
     geo = json.loads((WEB / "vendor" / "china.geo.json").read_text(encoding="utf-8"))
     out = {"as_of": None, "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY, "glossary_zh": GLOSSARY_ZH,
            "provinces": PROVINCES, "layers": LAYERS, "sanctions": sanctions, "company_zh": company_zh,
-           "origins": origins, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
+           "origins": origins, "leverage": LEVERAGE, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
     blob = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
     (WEB / "china-bundle.js").write_text("window.CHINA = " + blob + ";\n", encoding="utf-8")
     print(f"wrote web/china-bundle.js ({len(blob)/1024:.0f} KB) — {len(CITIES)} cities, {len(geo['features'])} provinces, {len(PROVINCES)} prov-stats, {len(GLOSSARY)} glossary")
