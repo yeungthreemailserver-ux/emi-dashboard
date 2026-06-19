@@ -6,6 +6,10 @@ const ASIA = window.ASIA, CHINA = window.CHINA || null, APAC = window.APAC || {}
 const CO = ASIA.countries, byName = {}, byCode = {};
 CO.forEach((c) => { byName[c.name] = c; byCode[c.code] = c; });
 const ORIGIN = { US: "USA", DE: "Germany", JP: "Japan", TW: "Taiwan", KR: "South Korea", NL: "Netherlands", FR: "France", EU: "Europe", CH: "Switzerland", AT: "Austria", CN: "China", AU: "Australia", IN: "India" };
+// industry-domain colours + taxonomy shading (matches china.html)
+const TAXFILL = ["", "#E1F5EE", "#5DCAA5", "#0F6E56"], TAXFG = ["", "#0F6E56", "#04342C", "#fff"], LVLW = { 1: "present", 2: "strong", 3: "leading" };
+const domColor = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? CHINA.domains[d][1] : "#1d4ed8";
+const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? CHINA.domains[d][0] : d;
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 const escA = (s) => esc(s).replace(/"/g, "&quot;");
 const reduce = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -142,7 +146,8 @@ function addCityDots(code) {
 }
 function cityDot(ct, code) {
   if (ct.lon == null || ct.lat == null) return;
-  const html = `<span class="cdot"></span><span class="clab">${esc(ct.name)}</span>`;
+  const col = code === "cn" ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (like china.html)
+  const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(ct.name)}</span>`;
   detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "left", () => drillCity(code, ct.name)));
 }
 function drillCity(code, name) {
@@ -246,11 +251,24 @@ function panelAsia() {
 function panelCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
   const c = list.find((x) => x.name === name); if (!c) return "";
-  return `<div class="dos-h"><span class="dos-name">${esc(c.name)}</span>${c.dom ? `<span class="dos-dom" style="background:var(--blue)">${esc(c.dom)}</span>` : ""}</div>
-    <div class="dos-tag">${esc(c.tagline || "")}</div>
-    ${c.stats ? `<div class="dos-stats">${c.stats.map((s) => `<div class="dos-stat"><div class="k">${esc(s.k)}</div><div class="v">${esc(s.v)}</div></div>`).join("")}</div>` : ""}
-    <div class="dos-sec"><h5>Signature strengths</h5>${(c.clusters || []).map((cl) => clusterBlock(cl, code)).join("")}</div>
-    ${c.valuechain ? `<div class="dos-sec"><h5>Value-chain role</h5><div class="vc">${esc(c.valuechain)}</div></div>` : ""}`;
+  let h = `<div class="dos-h"><span class="dos-name">${esc(c.name)}</span>${c.dom ? `<span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span>` : ""}</div>`;
+  h += `<div class="dos-tag">${esc(c.tagline || "")}</div>`;
+  if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s) => `<div class="dos-stat"><div class="k">${esc(s.k)}</div><div class="v">${esc(s.v)}</div></div>`).join("")}</div>`;
+  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>Signature strengths</h5>
+    <div class="dos-legend"><span><i class="dot cn"></i>Local</span><span><i class="dot for"></i>Foreign HQ</span><span class="sanc-leg">⚠ US-restricted</span><span class="leg-hint">· hover a company for HQ</span></div>
+    ${c.clusters.map((cl) => clusterBlock(cl, code)).join("")}</div>`;
+  if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>Sub-district clusters</h5>${c.subdistricts.map((s) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${esc(s.focus)}</span></div>`).join("")}</div>`;
+  if (c.valuechain) h += `<div class="dos-sec"><h5>Value-chain role</h5><div class="vc">${esc(c.valuechain)}</div></div>`;
+  if (c.sourcing) h += `<div class="dos-sec"><h5>For an electronics distributor</h5><div class="src2">
+    <div><div class="lbl">Source here</div><ul>${(c.sourcing.buy || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div><div class="lbl">Sell into here</div><ul>${(c.sourcing.sell || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></div>`;
+  if (c.tags && CHINA && CHINA.taxonomy) {
+    const cells = CHINA.taxonomy.map((t) => { const v = c.tags[t] || 0, bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
+      return `<div class="taxc" style="${bg};color:${TAXFG[v] || "#cbd5e1"}" data-tip="${escA(t + ": " + (v ? LVLW[v] : "—"))}"><div class="tl">${esc(t.slice(0, 8))}</div><div class="tv">${v ? "●".repeat(v) : "·"}</div></div>`; }).join("");
+    h += `<div class="dos-sec"><h5>Manufacturing-type strength</h5><div class="taxg">${cells}</div></div>`;
+  }
+  if (c.note) h += `<div class="dos-note">${esc(c.note)}</div>`;
+  return h;
 }
 function renderPanel() {
   const tilesEl = document.getElementById("tiles"), el = document.getElementById("panel");
@@ -262,6 +280,12 @@ function renderPanel() {
   el.scrollTop = 0;
   el.querySelectorAll(".arow.live[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
   el.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
+  const dl = document.getElementById("domlegend");
+  if (dl) {
+    if (STATE.level !== "asia" && STATE.country === "cn" && CHINA && CHINA.domains) {
+      dl.style.display = ""; dl.innerHTML = `<span class="dim">Map dots —</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(CHINA.domains[d][0])}</span>`).join("");
+    } else dl.style.display = "none";
+  }
 }
 function renderCrumb() {
   const parts = [`<a data-go="asia">Asia</a>`];
@@ -281,6 +305,7 @@ function render() {
       <span class="mt-sep"></span><button class="mapbtn" id="outbtn">⤢ Zoom out</button>
       <span class="mt-label" style="margin-left:auto">scroll = zoom · drag = pan</span></div>
     <div class="atlas-tiles" id="tiles" style="display:none"></div>
+    <div class="legend" id="domlegend" style="display:none;margin:0 0 8px"></div>
     <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>`;
   initTip(); renderPanel(); renderCrumb(); initMap();
   // the timed map.resize() calls inside initMap() cure any 0-size-at-init (flex not yet laid out)
