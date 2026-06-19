@@ -145,14 +145,14 @@ function render() {
       <div class="val">${esc(k.v)}</div>
       <div class="digest" style="color:${dg.color}">${esc(dg.txt)}</div>
       <div class="spk">${sparkBars(vw)}</div>
-      <div class="src">${asof(k)} · <span class="exp">${tt("tap")} ↗</span></div></div>`;
+      <div class="src">${asof(k)}</div></div>`;
   }).join("");
   const more = m.more.map((it, i) => {
     const vw = viewSeries(it), dg = digest(vw), head = `<div class="morec${it.manual ? " man" : ""}" data-more="${i}">`;
     const spk = (it.series && it.series.length > 1) ? `<div class="msp">${sparkBars(vw, 120, 22)}</div>` : "";
     const verdict = dg.read ? `<div class="digest" style="color:${dg.color}">${esc(dg.read)}</div>` : "";
     return `${head}<div class="mk">${glossWrap(mk(it), it.glo)}</div><div class="mv">${esc(it.v)}</div>${verdict}${spk}
-      <div class="md">${asof(it)} · <span class="exp">${tt("tap")} ↗</span></div></div>`;
+      <div class="md">${asof(it)}</div></div>`;
   }).join("");
   const ind = m.industry.map((i) => `<div class="ind"><b>${esc(i.v)}</b><span class="il">${glossWrap(mk(i), i.glo)} · ${esc(mnote(i))}</span></div>`).join("");
   const layerBtns = DATA.layers.map((l) => `<button class="mapbtn${l.key === STATE.layer ? " active" : ""}" data-layer="${l.key}">${esc(layerLabel(l))}</button>`).join("");
