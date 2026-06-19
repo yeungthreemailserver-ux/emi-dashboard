@@ -99,6 +99,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .citybtn:hover{border-color:var(--blue);color:var(--blue);}
 /* MapLibre atlas markers (HTML, no glyphs needed) */
 #map{height:560px;border-radius:10px;overflow:hidden;}
+.map-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;font-size:13px;color:var(--muted);background:rgba(255,255,255,.85);padding:8px 14px;border-radius:8px;max-width:80%;text-align:center;line-height:1.5;}
+.map-status.err{color:#b45309;}
 #map .maplibregl-canvas{outline:none;}
 .mk-country{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:20px;padding:2px 9px 2px 7px;font-size:12px;font-weight:700;color:var(--ink);box-shadow:0 1px 5px rgba(15,23,42,.14);white-space:nowrap;}
 .mk-country.live{cursor:pointer;} .mk-country.live:hover{border-color:var(--blue);color:var(--blue);}

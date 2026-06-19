@@ -69,11 +69,16 @@ function initMap() {
   colorAsia();
   map = new maplibregl.Map({
     container: "map", attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 11, minZoom: 1.4,
-    style: { version: 8, sources: {}, glyphs: undefined, layers: [{ id: "bg", type: "background", paint: { "background-color": "#eef3f8" } }] },
+    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#eef3f8" } }] },
     bounds: ASIA_BOUNDS, fitBoundsOptions: { padding: 24 },
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-  map.on("load", () => {
+  const status = Object.assign(document.createElement("div"), { id: "mapstatus", className: "map-status", textContent: "Loading map…" });
+  document.getElementById("map").appendChild(status);
+  map.on("error", (e) => console.error("[atlas map]", (e && e.error && e.error.message) || e));
+  setTimeout(() => { if (!MAP_READY) { const s = document.getElementById("mapstatus"); if (s) { s.textContent = "Map couldn't initialise — reload; if it persists, open the browser console (F12) and send the error."; s.classList.add("err"); } } }, 2800);
+  const setup = () => {
+    if (MAP_READY || map.getSource("asia")) return;
     map.addSource("asia", { type: "geojson", data: ASIA.geo, promoteId: "name" });
     map.addLayer({ id: "asia-fill", type: "fill", source: "asia", paint: { "fill-color": ["get", "color"], "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.92] } });
     map.addLayer({ id: "asia-line", type: "line", source: "asia", paint: { "line-color": "#ffffff", "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2, 0.8] } });
@@ -84,8 +89,11 @@ function initMap() {
     });
     map.on("mouseleave", "asia-fill", () => { map.getCanvas().style.cursor = ""; if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = null; hideTip(); });
     map.on("click", "asia-fill", (e) => { const c = byName[e.features[0].properties.name]; if (c && c.status === "live") drillCountry(c.code); });
-    MAP_READY = true; addCountryMarkers();
-  });
+    MAP_READY = true; addCountryMarkers(); map.resize();
+    const s = document.getElementById("mapstatus"); if (s) s.remove();
+  };
+  if (map.isStyleLoaded()) setup(); else map.on("load", setup);
+  [120, 450, 1000].forEach((ms) => setTimeout(() => { try { map.resize(); if (map.isStyleLoaded()) setup(); } catch (e) {} }, ms));
 }
 
 // ---- drill ----
@@ -207,7 +215,8 @@ function render() {
       <span class="mt-sep"></span><button class="mapbtn" id="outbtn">⤢ Zoom out</button>
       <span class="mt-label" style="margin-left:auto">scroll = zoom · drag = pan</span></div>
     <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>`;
-  initTip(); initMap(); renderPanel(); renderCrumb();
+  initTip(); renderPanel(); renderCrumb(); initMap();
+  // the timed map.resize() calls inside initMap() cure any 0-size-at-init (flex not yet laid out)
   document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => {
     STATE.layer = b.dataset.layer; document.querySelectorAll(".mapbtn[data-layer]").forEach((x) => x.classList.toggle("active", x === b));
     colorAsia(); mapDo(() => { if (map.getSource("asia")) map.getSource("asia").setData(ASIA.geo); });
