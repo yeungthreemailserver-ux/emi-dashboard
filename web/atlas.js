@@ -147,6 +147,61 @@ function goAsia() {
   renderPanel(); renderCrumb();
 }
 
+// ---- macro digest tiles + leverage (ported from the China page) ----
+function viewSeries(it) {
+  const v = it.view || { metric: "value", ref: 0, good: "high" }, raw = it.series || []; let s2;
+  if (v.metric === "yoy") { s2 = []; for (let i = 1; i < raw.length; i++) { const p = raw[i - 1][1], c = raw[i][1]; if (p) s2.push([raw[i][0], +((c - p) / Math.abs(p) * 100).toFixed(1)]); } }
+  else s2 = raw.map((r) => [r[0], r[1]]);
+  const latest = s2.length ? s2[s2.length - 1][1] : null, prior = s2.length > 1 ? s2[s2.length - 2][1] : null, ref = v.ref != null ? v.ref : 0;
+  const trend = (latest != null && prior != null) ? (latest > prior ? "accelerating" : latest < prior ? "cooling" : "flat") : "flat";
+  return { s2, latest, prior, ref, band: v.band, good: v.good, metric: v.metric, trend };
+}
+function digest(vw) {
+  if (vw.latest == null) return { color: "var(--muted)", read: "" };
+  if (vw.good === "none") return { color: "var(--ink)", read: "" };
+  const x = vw.latest, b = vw.band || [1, 3]; let read, color;
+  if (vw.good === "band") { if (x < b[0]) { read = "deflation risk"; color = "var(--amber)"; } else if (x > b[1]) { read = "too hot"; color = "var(--red)"; } else { read = "healthy"; color = "var(--green)"; } }
+  else if (vw.good === "low") { read = x <= vw.ref ? "contained" : "elevated"; color = x <= vw.ref ? "var(--green)" : "var(--red)"; }
+  else { color = x >= vw.ref ? "var(--green)" : "var(--red)"; read = (vw.ref === 50) ? (x >= 50 ? "expansion" : "contraction") : (x < vw.ref ? "negative" : (vw.prior != null ? vw.trend : "positive")); }
+  return { color, read };
+}
+function digestStr(it, vw) {
+  const dg = digest(vw); if (vw.latest == null || (it.view && it.view.good === "none")) return { color: dg.color, txt: "" };
+  const dunit = vw.ref === 50 ? "" : "%", valStr = vw.metric === "yoy" ? ((vw.latest >= 0 ? "+" : "") + vw.latest + "% YoY") : (vw.latest + dunit);
+  return { color: dg.color, txt: valStr + (dg.read ? " · " + dg.read : "") };
+}
+function sparkBars(vw) {
+  const s = vw.s2; if (!s || s.length < 2) return ""; const w = 150, h = 30;
+  const vals = s.map((p) => p[1]).concat([vw.ref]), mn = Math.min(...vals), mx = Math.max(...vals), rng = (mx - mn) || 1;
+  const y = (v) => h - 3 - ((v - mn) / rng) * (h - 6), refY = +y(vw.ref).toFixed(1), bw = (w - 2) / s.length;
+  const good = (v) => vw.good === "low" ? v <= vw.ref : vw.good === "band" ? (v >= vw.band[0] && v <= vw.band[1]) : v >= vw.ref;
+  let bars = ""; s.forEach((p, i) => { const x = (1 + i * bw).toFixed(1), vy = y(p[1]), top = Math.min(vy, refY).toFixed(1), ht = Math.max(1.5, Math.abs(vy - refY)).toFixed(1);
+    const c = vw.good === "none" ? "#94a3b8" : (good(p[1]) ? "#16a34a" : (vw.good === "band" && p[1] < vw.band[0] ? "#d97706" : "#dc2626"));
+    bars += `<rect x="${x}" y="${top}" width="${(bw - 1.3).toFixed(1)}" height="${ht}" rx="1" fill="${c}" opacity="0.82"/>`; });
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">${bars}<line x1="0" y1="${refY}" x2="${w}" y2="${refY}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2"/></svg>`;
+}
+const tileFoot = (it) => `<span class="asof">as of ${esc(it.as_of)} · ${esc(it.source || "")}</span>`;
+function macroTile(it) {
+  const vw = viewSeries(it), neutral = it.view && it.view.good === "none", dg = digestStr(it, vw);
+  const verdict = neutral ? (it.note ? `<div class="digest" style="color:var(--muted)">${esc(it.note)}</div>` : "") : (dg.txt ? `<div class="digest" style="color:${dg.color}">${esc(dg.txt)}</div>` : "");
+  const spk = (vw.s2 && vw.s2.length > 1) ? `<div class="spk">${sparkBars(vw)}</div>` : "";
+  return `<div class="kpi nostatic"><div class="lbl">${esc(it.k || it.label)}</div><div class="val">${esc(it.v)}</div>${verdict}${spk}<div class="src">${tileFoot(it)}</div></div>`;
+}
+function leverageHTML(nodes, take) {
+  const row = (n) => { const col = n.type === "hold" ? "var(--blue)" : "var(--amber)", pct = Math.max(3, Math.min(100, n.share));
+    return `<div class="lev-row"><div class="lev-top"><span class="lev-term">${esc(n.node)}</span><span class="lev-scope">${esc(n.scope || "")}</span><span class="lev-val" style="color:${col}">${esc(n.disp)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${pct}%;background:${col}"></div></div></div>`; };
+  const grp = (type, title, cap) => { const r = (nodes || []).filter((n) => n.type === type); return r.length ? `<div class="lev-grp"><div class="lev-h">${title} <span class="lev-cap">${cap}</span></div><div class="lev-rows">${r.map(row).join("")}</div></div>` : ""; };
+  return (take ? `<div class="lev-take">${esc(take)}</div>` : "") + `<div class="levmap">${grp("hold", "Where it leads", "· strengths")}${grp("gap", "Where it lags / depends", "· gaps")}</div>`;
+}
+function countryTilesHTML(code) {
+  let name, tiles, lev, take = "";
+  if (code === "cn" && CHINA) { name = "China"; tiles = (CHINA.macro && CHINA.macro.headline) || []; lev = CHINA.leverage || []; }
+  else { const d = APAC[code]; if (!d) return ""; name = d.name; tiles = d.macro || []; lev = d.role || []; take = d.role_take || ""; }
+  return `<div class="sech">${esc(name)} · macro snapshot <span class="dim">latest official prints</span></div>
+    <div class="kpis">${tiles.map(macroTile).join("")}</div>
+    <div class="sech">Supply-chain ${code === "cn" ? "leverage" : "role"}</div>${leverageHTML(lev, take)}`;
+}
+
 // ---- panels (shared, DOM-only) ----
 function anchorChip(a, code) {
   let name, origin = null, sanc = null;
@@ -156,11 +211,13 @@ function anchorChip(a, code) {
   if (origin) return `<span class="chip foreign" data-tip="${escA("HQ: " + (ORIGIN[origin] || origin))}">${esc(name)}<sup class="orig">${esc(origin)}</sup></span>`;
   return `<span class="chip">${esc(name)}</span>`;
 }
-function roleBars(nodes) {
-  return (nodes || []).slice(0, 6).map((n) => { const col = n.type === "hold" ? "var(--blue)" : "var(--amber)", pct = Math.max(3, Math.min(100, n.share));
-    return `<div class="lev-row"><div class="lev-top"><span class="lev-term">${esc(n.node)}</span><span class="lev-val" style="color:${col}">${esc(n.disp)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${pct}%;background:${col}"></div></div></div>`; }).join("");
+function cityCardsHTML(code) {
+  const d = code === "cn" ? CHINA : APAC[code]; if (!d) return "";
+  const cities = code === "cn" ? (CHINA.cities || []) : (d.cities || []);
+  if (!cities.length && d.clusters) return `<div class="dos-h"><span class="dos-name">Key clusters</span></div>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}`;
+  return `<div class="dos-h"><span class="dos-name">Cities</span><span class="dos-area">${cities.length} · click to drill</span></div>
+    <div class="citycards">${cities.map((c) => `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(c.name)}${c.dom ? ` <span class="cc-dom">${esc(c.dom)}</span>` : ""}</b><span>${esc((c.tagline || c.area || "").slice(0, 92))}</span></button>`).join("")}</div>`;
 }
-const macroStrip = (tiles) => `<div class="amx">${(tiles || []).slice(0, 6).map((t) => `<div class="amk"><span>${esc(t.k || t.label)}</span><b>${esc(t.v)}</b></div>`).join("")}</div>`;
 function clusterBlock(cl, code) {
   const anch = (cl.anchors || []).map((a) => anchorChip(a, code)).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${esc(cl.seg)}</span><span class="cl-lvl l${cl.level}">${{ 3: "leading", 2: "strong", 1: "present" }[cl.level] || ""}</span></div><div class="cl-what">${esc(cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
@@ -170,18 +227,6 @@ function panelAsia() {
   const rows = sorted.map((c) => { const live = c.status === "live", col = ramp(STATE.layer, r.val(c));
     return `<div class="lev-row arow ${live ? "live" : "planned"}"${live ? ` data-code="${c.code}"` : ""}><div class="lev-top"><span class="lev-term">${esc(c.name)}${live ? " ↗" : ""}</span><span class="lev-scope"><span class="stat-badge ${live ? "live" : "plan"}">${live ? "live" : "soon"}</span></span><span class="lev-val" style="color:${live ? col : "#94a3b8"}">${r.disp(c)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${Math.max(2, r.pct(c)).toFixed(0)}%;background:${col};opacity:${live ? 1 : .5}"></div></div></div>`; }).join("");
   return `<div class="dos-h"><span class="dos-name">Asia</span><span class="dos-area">ranked by ${r.label}</span></div><div class="arows">${rows}</div><div class="dos-note">Click a live country on the map or list to zoom in.</div>`;
-}
-function panelCountry(code) {
-  if (code === "cn" && CHINA) { const m = CHINA.macro || {};
-    return `<div class="dos-h"><span class="dos-name">China</span><span class="dos-area">macro · leverage · cities</span></div>${macroStrip(m.headline)}
-      <div class="dos-sec"><h5>Supply-chain leverage</h5>${roleBars(CHINA.leverage)}</div>
-      <div class="dos-sec"><h5>Cities <span style="font-weight:400;color:var(--faint)">click a dot or name</span></h5><div class="citylist">${(CHINA.cities || []).map((c) => `<button class="citybtn" data-city="${escA(c.name)}">${esc(c.name)}</button>`).join("")}</div></div>`;
-  }
-  const d = APAC[code]; if (!d) return "";
-  return `<div class="dos-h"><span class="dos-name">${esc(d.name)}</span><span class="dos-area">macro · role${d.cities ? " · cities" : ""}</span></div>
-    <div class="dos-tag">${esc(d.tagline || "")}</div>${macroStrip(d.macro)}
-    <div class="dos-sec"><h5>Supply-chain role</h5>${roleBars(d.role)}</div>
-    ${d.cities ? `<div class="dos-sec"><h5>Cities</h5><div class="citylist">${d.cities.map((c) => `<button class="citybtn" data-city="${escA(c.name)}">${esc(c.name)}</button>`).join("")}</div></div>` : (d.clusters ? `<div class="dos-sec"><h5>Key clusters</h5>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}</div>` : "")}`;
 }
 function panelCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
@@ -193,11 +238,15 @@ function panelCity(code, name) {
     ${c.valuechain ? `<div class="dos-sec"><h5>Value-chain role</h5><div class="vc">${esc(c.valuechain)}</div></div>` : ""}`;
 }
 function renderPanel() {
-  const el = document.getElementById("panel");
-  el.innerHTML = STATE.level === "asia" ? panelAsia() : STATE.level === "country" ? panelCountry(STATE.country) : panelCity(STATE.country, STATE.city);
+  const tilesEl = document.getElementById("tiles"), el = document.getElementById("panel");
+  if (STATE.level === "asia") { tilesEl.style.display = "none"; tilesEl.innerHTML = ""; el.innerHTML = panelAsia(); }
+  else {
+    tilesEl.style.display = ""; tilesEl.innerHTML = countryTilesHTML(STATE.country);
+    el.innerHTML = STATE.level === "country" ? cityCardsHTML(STATE.country) : panelCity(STATE.country, STATE.city);
+  }
   el.scrollTop = 0;
   el.querySelectorAll(".arow.live[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
-  el.querySelectorAll(".citybtn[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
+  el.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
 }
 function renderCrumb() {
   const parts = [`<a data-go="asia">Asia</a>`];
@@ -216,6 +265,7 @@ function render() {
       <button class="mapbtn" data-layer="gdp">GDP growth</button>
       <span class="mt-sep"></span><button class="mapbtn" id="outbtn">⤢ Zoom out</button>
       <span class="mt-label" style="margin-left:auto">scroll = zoom · drag = pan</span></div>
+    <div class="atlas-tiles" id="tiles" style="display:none"></div>
     <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>`;
   initTip(); renderPanel(); renderCrumb(); initMap();
   // the timed map.resize() calls inside initMap() cure any 0-size-at-init (flex not yet laid out)
