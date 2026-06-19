@@ -40,6 +40,12 @@ GLOSSARY = {
     "EUV lithography": "Extreme-ultraviolet chip-printing — the tool required for ≤7nm logic; made only by ASML and banned from export to China.",
     "HBM": "High-Bandwidth Memory — stacked DRAM that feeds AI accelerators; supplied by SK hynix, Samsung & Micron, not China.",
     "EDA": "Electronic Design Automation — the software used to design chips; dominated by Synopsys, Cadence & Siemens (US/EU).",
+    "LED": "Light-emitting diode — chips/packages for displays, lighting & signage; China makes the bulk of global output.",
+    "PCB": "Printed circuit board — the board that carries and interconnects all components; China makes over half the world's output.",
+    "FPGA": "Field-Programmable Gate Array — a reconfigurable logic chip; the market is held by AMD (Xilinx), Altera & Lattice — China minimal.",
+    "MCU": "Microcontroller — a small embedded processor; auto/industrial-grade supply is led by NXP, Renesas, ST, Infineon & Microchip.",
+    "Analog & power": "Analog & power-management ICs — signal-chain, PMICs, gate drivers; led by TI, Analog Devices & Infineon.",
+    "MLCC": "Multilayer ceramic capacitor — the most-used passive; high-end (high-cap / auto-grade) supply is led by Japan's Murata, TDK & Taiyo Yuden.",
     "High-tech exports": "Exports of R&D-intensive goods — aerospace, computers, pharma, instruments, electrical machinery (World Bank definition).",
     "Caixin Mfg PMI": "Caixin China Manufacturing PMI — compiled by S&P Global from ~500 smaller, private, export-oriented manufacturers (rebranded 'RatingDog' in 2025 after Caixin's sponsorship ended); >50 = expansion. Reported separately from, and often above, the official NBS PMI.",
     "NBS PMI": "Official PMI from China's NBS (National Bureau of Statistics) & CFLP — surveys ~3,200 mostly large & state-owned firms; the most policy-watched gauge. Tends to run below the private Caixin/RatingDog PMI; >50 = expansion.",
@@ -84,6 +90,12 @@ GLOSSARY_ZH = {
     "EUV lithography": "极紫外光刻 — 制造 ≤7nm 逻辑芯片所需的设备;仅 ASML 生产,且被禁止对华出口。",
     "HBM": "高带宽内存 — 为 AI 加速器供数据的堆叠式 DRAM;由 SK 海力士、三星、美光供应,中国尚无。",
     "EDA": "电子设计自动化 — 设计芯片所用的软件;由新思 Synopsys、楷登 Cadence、西门子主导(美/欧)。",
+    "LED": "发光二极管 — 用于显示、照明与标识的芯片/封装;中国占全球产量的大部分。",
+    "PCB": "印制电路板 — 承载并互连所有元件的基板;中国占全球产量一半以上。",
+    "FPGA": "现场可编程门阵列 — 可重构逻辑芯片;市场由 AMD(赛灵思)、Altera、Lattice 主导,中国占比极小。",
+    "MCU": "微控制器 — 小型嵌入式处理器;车规/工业级供应由恩智浦、瑞萨、ST、英飞凌、微芯主导。",
+    "Analog & power": "模拟与电源管理芯片 — 信号链、PMIC、栅极驱动;由 TI、ADI、英飞凌主导。",
+    "MLCC": "多层陶瓷电容 — 用量最大的被动元件;高端(高容/车规)供应由日本村田、TDK、太阳诱电主导。",
     "High-tech exports": "研发密集型产品出口 — 航空、计算机、医药、仪器、电气机械(世界银行定义)。",
     "Caixin Mfg PMI": "财新中国制造业 PMI — 由标普全球 S&P Global 编制、调查约 500 家中小型民营出口制造商(2025 年财新冠名结束后更名「RatingDog」);>50=扩张。与官方 NBS PMI 分别统计,且常高于后者。",
     "NBS PMI": "中国官方 PMI(国家统计局与中物联)— 调查约 3,200 家多为大型/国企,最受政策关注。通常低于民营的财新/RatingDog PMI;>50=扩张。",
@@ -194,18 +206,19 @@ CHINA_MACRO = {
 # type "gap"  = China is locked out / import-dependent (its vulnerability). One cited source per node;
 # figures are widely-cited industry estimates (rounded), each labelled with its source + year. ----
 LEVERAGE = [
-    {"node": "Gallium & germanium", "node_zh": "镓与锗", "scope": "refined output", "scope_zh": "精炼产量", "share": 98, "disp": "98%", "type": "hold", "source": "USGS", "year": "2024", "glo": "Gallium & germanium"},
-    {"node": "LFP cathode", "node_zh": "磷酸铁锂正极", "scope": "global output", "scope_zh": "全球产量", "share": 98, "disp": "98%", "type": "hold", "source": "Benchmark Mineral Intelligence", "year": "2024", "glo": "LFP cathode"},
-    {"node": "Solar wafers", "node_zh": "太阳能硅片", "scope": "global production", "scope_zh": "全球产量", "share": 97, "disp": "97%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Solar wafers"},
-    {"node": "NdFeB magnets", "node_zh": "钕铁硼磁体", "scope": "sintered output", "scope_zh": "烧结产量", "share": 94, "disp": "94%", "type": "hold", "source": "Adamas Intelligence", "year": "2024", "glo": "NdFeB magnet"},
-    {"node": "Graphite anode", "node_zh": "石墨负极", "scope": "global supply", "scope_zh": "全球供应", "share": 92, "disp": "92%", "type": "hold", "source": "Benchmark Mineral Intelligence", "year": "2024", "glo": "Graphite anode"},
-    {"node": "Polysilicon", "node_zh": "多晶硅", "scope": "global output", "scope_zh": "全球产量", "share": 90, "disp": "90%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Polysilicon"},
-    {"node": "Battery cells", "node_zh": "电池电芯", "scope": "global capacity", "scope_zh": "全球产能", "share": 85, "disp": "85%", "type": "hold", "source": "BloombergNEF", "year": "2024", "glo": "Battery cells"},
+    # Scoped to the ELECTRONIC-COMPONENT supply chain a distributor actually sources (semis, passives,
+    # interconnect, displays, embedded) — not clean-energy / EV materials. "hold" = China-led commodity
+    # layer (sourcing concentration); "gap" = high-value franchises that stay with US/EU/JP/KR/TW incumbents.
+    {"node": "Gallium & germanium", "node_zh": "镓与锗", "scope": "GaN/GaAs/Ge chip materials", "scope_zh": "GaN/GaAs/Ge 芯片材料", "share": 98, "disp": "98%", "type": "hold", "source": "USGS", "year": "2024", "glo": "Gallium & germanium"},
+    {"node": "LEDs", "node_zh": "LED", "scope": "global output", "scope_zh": "全球产量", "share": 75, "disp": "~75%", "type": "hold", "source": "TrendForce", "year": "2024", "glo": "LED"},
     {"node": "Display (LCD)", "node_zh": "LCD 面板", "scope": "global panel output", "scope_zh": "全球面板产量", "share": 65, "disp": "~65%", "type": "hold", "source": "TrendForce", "year": "2024", "glo": "Display (LCD)"},
-    {"node": "EUV lithography", "node_zh": "EUV 光刻机", "scope": "≤7nm tooling", "scope_zh": "≤7nm 设备", "share": 0, "disp": "0%", "type": "gap", "source": "ASML (export-banned)", "year": "2024", "glo": "EUV lithography"},
-    {"node": "HBM memory", "node_zh": "HBM 内存", "scope": "AI-accelerator memory", "scope_zh": "AI 加速器内存", "share": 1, "disp": "~0%", "type": "gap", "source": "TrendForce", "year": "2024", "glo": "HBM"},
-    {"node": "Leading-edge logic", "node_zh": "先进逻辑芯片", "scope": "≤7nm, export-constrained", "scope_zh": "≤7nm,受出口管制", "share": 1, "disp": "<1%", "type": "gap", "source": "SIA", "year": "2024", "glo": "leading-edge logic"},
-    {"node": "EDA tools", "node_zh": "EDA 工具", "scope": "chip-design software", "scope_zh": "芯片设计软件", "share": 5, "disp": "~5%", "type": "gap", "source": "ESD Alliance / SEMI", "year": "2024", "glo": "EDA"},
+    {"node": "PCBs", "node_zh": "印制电路板", "scope": "global output", "scope_zh": "全球产量", "share": 55, "disp": "~55%", "type": "hold", "source": "Prismark", "year": "2024", "glo": "PCB"},
+    {"node": "Leading-edge logic", "node_zh": "先进逻辑芯片", "scope": "≤7nm · TSMC, Samsung", "scope_zh": "≤7nm · 台积电、三星", "share": 1, "disp": "<1%", "type": "gap", "source": "SIA", "year": "2024", "glo": "leading-edge logic"},
+    {"node": "HBM memory", "node_zh": "HBM 内存", "scope": "AI memory · SK hynix, Micron", "scope_zh": "AI 内存 · SK 海力士、美光", "share": 1, "disp": "~0%", "type": "gap", "source": "TrendForce", "year": "2024", "glo": "HBM"},
+    {"node": "FPGAs", "node_zh": "FPGA", "scope": "AMD, Altera, Lattice", "scope_zh": "AMD、Altera、Lattice", "share": 5, "disp": "~5%", "type": "gap", "source": "industry est.", "year": "2024", "glo": "FPGA"},
+    {"node": "Auto / industrial MCUs", "node_zh": "车规/工业 MCU", "scope": "NXP, Renesas, ST, Infineon", "scope_zh": "恩智浦、瑞萨、ST、英飞凌", "share": 5, "disp": "~5%", "type": "gap", "source": "industry est.", "year": "2024", "glo": "MCU"},
+    {"node": "High-end analog & power", "node_zh": "高端模拟与电源", "scope": "TI, ADI, Infineon", "scope_zh": "TI、ADI、英飞凌", "share": 10, "disp": "~10%", "type": "gap", "source": "industry est.", "year": "2024", "glo": "Analog & power"},
+    {"node": "High-end MLCC", "node_zh": "高端 MLCC", "scope": "Murata, TDK, Taiyo Yuden (JP)", "scope_zh": "村田、TDK、太阳诱电(日)", "share": 10, "disp": "~10%", "type": "gap", "source": "industry est.", "year": "2024", "glo": "MLCC"},
 ]
 
 # ---- City dossiers (curated). Full = Ningbo, Guangzhou. Others = light markers. ----
