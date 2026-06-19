@@ -160,7 +160,7 @@ REGISTRY = {
         {"code": "tw", "name": "Taiwan", "status": "planned", "href": "", "lon": 121, "lat": 23.8, "chip": 98, "gdp": 4.0, "headline": "Leading-edge logic — TSMC, UMC, ASE, MediaTek; the chips China lacks."},
         {"code": "kr", "name": "South Korea", "status": "planned", "href": "", "lon": 127.8, "lat": 36.5, "chip": 90, "gdp": 1.8, "headline": "Memory & display — Samsung, SK hynix (DRAM/NAND/HBM)."},
         {"code": "jp", "name": "Japan", "status": "planned", "href": "", "lon": 138, "lat": 37, "chip": 80, "gdp": 1.0, "headline": "Materials, equipment & passives — Murata, Tokyo Electron, Shin-Etsu, Sony."},
-        {"code": "sg", "name": "Singapore", "status": "live", "href": "singapore.html", "lon": 103.8, "lat": 1.6, "chip": 60, "gdp": 4.8, "headline": "~20% of global chip equipment + mature/specialty fabs; MNC & HQ hub."},
+        {"code": "sg", "name": "Singapore", "status": "live", "href": "singapore.html", "lon": 103.82, "lat": 1.31, "chip": 60, "gdp": 4.8, "headline": "~20% of global chip equipment + mature/specialty fabs; MNC & HQ hub."},
         {"code": "my", "name": "Malaysia", "status": "live", "href": "malaysia.html", "lon": 101.5, "lat": 3.8, "chip": 55, "gdp": 4.9, "headline": "Back-end powerhouse — ~13% of global assembly/test/packaging; China+1 magnet."},
         {"code": "vn", "name": "Vietnam", "status": "planned", "href": "", "lon": 106, "lat": 16, "chip": 45, "gdp": 6.5, "headline": "Fast-rising assembly/EMS base — Samsung, Foxconn, Amkor, Intel ATP."},
         {"code": "ph", "name": "Philippines", "status": "planned", "href": "", "lon": 122, "lat": 13, "chip": 35, "gdp": 5.7, "headline": "Long-standing assembly & test base."},

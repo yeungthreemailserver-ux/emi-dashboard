@@ -64,6 +64,20 @@ function addCountryMarkers() {
   });
 }
 function setMarkersVisible(show) { countryMarkers.forEach((m) => { m.getElement().style.display = show ? "" : "none"; }); }
+// hide city labels that would overlap (greedy by insertion order); re-runs on every map move/idle.
+let declutterRAF = null;
+function declutterCityLabels() {
+  const els = detailMarkers.map((m) => m.getElement()).filter((el) => el && el.classList.contains("mk-city"));
+  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) lab.style.display = "inline-block"; });
+  const placed = [];
+  els.forEach((el) => {
+    const lab = el.querySelector(".clab"); if (!lab) return;
+    const r = lab.getBoundingClientRect(); if (!r.width) return;
+    const hit = placed.some((p) => !(r.right < p.left - 4 || r.left > p.right + 4 || r.bottom < p.top - 2 || r.top > p.bottom + 2));
+    if (hit) lab.style.display = "none"; else placed.push(r);
+  });
+}
+const scheduleDeclutter = () => { if (!declutterRAF) declutterRAF = requestAnimationFrame(() => { declutterRAF = null; declutterCityLabels(); }); };
 
 function initMap() {
   colorAsia();
@@ -89,6 +103,7 @@ function initMap() {
     });
     map.on("mouseleave", "asia-fill", () => { map.getCanvas().style.cursor = ""; if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = null; hideTip(); });
     map.on("click", "asia-fill", (e) => { const c = byName[e.features[0].properties.name]; if (c && c.status === "live") drillCountry(c.code); });
+    map.on("move", scheduleDeclutter); map.on("idle", declutterCityLabels);
     MAP_READY = true; addCountryMarkers(); map.resize();
     const s = document.getElementById("mapstatus"); if (s) s.remove();
   };
