@@ -146,17 +146,11 @@ def main():
                         "as_of": CURRENT["unemp"]["as_of"], "source": SRC_NBS, "freq": "monthly",
                         "view": {"metric": "value", "ref": 5.5, "good": "low", "reflbl": "5.5% threshold"}, "series": te["unemp"]})
 
-    # High-tech exports + Auto production (both annual, manually maintained from the authoritative
-    # China source — GACC Customs / CAAM — which is more current than the World Bank / OICA mirrors,
-    # whose latest releases lag by 2-3 years). Refresh once a year from the official full-year release.
-    # GACC 2025: high-tech product exports ¥5.25T (+13.2% YoY) ≈ $735B at ~7.15 CNY/USD.
-    # Single source only: GACC's own current print. We deliberately do NOT splice the World Bank
-    # "high-technology exports" historical series onto it (different definition + USD methodology,
-    # and WB only runs to 2023) — one indicator, one source. Hence just the current point, no
-    # multi-year sparkline until a clean GACC YoY history is available.
-    out["more"].append({"key": "htx", "k": "High-tech exports", "k_zh": "高科技出口", "v": "$735B", "as_of": "2025",
-                        "source": "China Customs (GACC)", "freq": "annual", "glo": "High-tech exports", "manual": True,
-                        "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2025", 13.2]]})
+    # Auto production (annual, manually maintained from CAAM — the authoritative China source, more
+    # current than the OICA mirror which lags). Refresh once a year from the official full-year release.
+    # NB: a "High-tech exports" tile was dropped — no single source offers both a CURRENT figure and a
+    # multi-year trend (World Bank lags to 2023; GACC gives the current value but no clean YoY history),
+    # and we won't splice two sources or show a trendless/stale tile.
     # CAAM 2025: vehicle production 34.53M units (+10.4% YoY).
     out["more"].append({"key": "auto", "k": "Auto production", "k_zh": "汽车产量", "v": "34.5M/yr", "as_of": "2025",
                         "source": "CAAM", "freq": "annual", "glo": "Auto production", "manual": True,

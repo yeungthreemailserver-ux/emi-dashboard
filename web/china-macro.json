@@ -883,28 +883,6 @@
       ]
     },
     {
-      "key": "htx",
-      "k": "High-tech exports",
-      "k_zh": "高科技出口",
-      "v": "$735B",
-      "as_of": "2025",
-      "source": "China Customs (GACC)",
-      "freq": "annual",
-      "glo": "High-tech exports",
-      "view": {
-        "metric": "value",
-        "ref": 0,
-        "good": "high"
-      },
-      "series": [
-        [
-          "2025",
-          13.2
-        ]
-      ],
-      "manual": true
-    },
-    {
       "key": "auto",
       "k": "Auto production",
       "k_zh": "汽车产量",

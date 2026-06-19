@@ -141,7 +141,7 @@ const NOW_YEAR = 2026;  // dashboard "current" year — data pulled mid-2026
 const TILE_META = {
   gdp: { basis: "YoY" }, cpi: { basis: "YoY" }, ppi: { basis: "YoY" }, ind: { basis: "YoY" }, retail: { basis: "YoY" }, m2: { basis: "YoY" },
   exports: { basis: "/mo", yoy: true }, imports: { basis: "/mo", yoy: true }, tbal: { basis: "/mo" },
-  htx: { basis: "/yr", yoy: true }, auto: { basis: "/yr", yoy: true },
+  auto: { basis: "/yr", yoy: true },
 };  // pmi_nbs, caixin, unemp intentionally untagged (index / point-in-time rate)
 function tileMeta(it) { return TILE_META[it.key] || {}; }
 function valHTML(it) {  // big value + small basis tag; strip any inline /mo /yr so it isn't shown twice
