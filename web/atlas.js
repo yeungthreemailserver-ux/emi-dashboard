@@ -214,12 +214,17 @@ function leverageHTML(nodes, take) {
   return (take ? `<div class="lev-take">${esc(take)}</div>` : "") + `<div class="levmap">${grp("hold", "Where it leads", "· strengths")}${grp("gap", "Where it lags / depends", "· gaps")}</div>`;
 }
 function countryTilesHTML(code) {
-  let name, tiles, lev, take = "";
-  if (code === "cn" && CHINA) { name = "China"; tiles = (CHINA.macro && CHINA.macro.headline) || []; lev = CHINA.leverage || []; }
-  else { const d = APAC[code]; if (!d) return ""; name = d.name; tiles = d.macro || []; lev = d.role || []; take = d.role_take || ""; }
-  return `<div class="sech">${esc(name)} · macro snapshot <span class="dim">latest official prints</span></div>
-    <div class="kpis">${tiles.map(macroTile).join("")}</div>
-    <div class="sech">Supply-chain ${code === "cn" ? "leverage" : "role"}</div>${leverageHTML(lev, take)}`;
+  if (code === "cn" && CHINA) {
+    const head = (CHINA.macro && CHINA.macro.headline) || [], more = (CHINA.macro && CHINA.macro.more) || [];
+    return `<div class="sech">China · macro snapshot <span class="dim">latest official prints</span></div>
+      <div class="kpis">${head.map(macroTile).join("")}</div>
+      ${more.length ? `<div class="sech">More indicators <span class="dim">trade · money · labour</span></div><div class="kpis">${more.map(macroTile).join("")}</div>` : ""}
+      <div class="sech">Supply-chain leverage</div>${leverageHTML(CHINA.leverage, "")}`;
+  }
+  const d = APAC[code]; if (!d) return "";
+  return `<div class="sech">${esc(d.name)} · macro snapshot <span class="dim">latest official prints</span></div>
+    <div class="kpis">${(d.macro || []).map(macroTile).join("")}</div>
+    <div class="sech">Supply-chain role</div>${leverageHTML(d.role, d.role_take || "")}`;
 }
 
 // ---- panels (shared, DOM-only) ----
