@@ -583,10 +583,13 @@ def main():
     # Simplified-Chinese display labels for anchor companies (Sonnet-translated), keyed by the exact anchor string.
     cf = ROOT / "data" / "company_zh.json"
     company_zh = json.loads(cf.read_text(encoding="utf-8")).get("map", {}) if cf.exists() else {}
+    # HQ origin (China-based vs non-China-based, by headquarters), keyed by the exact anchor string.
+    of = ROOT / "data" / "origins.json"
+    origins = json.loads(of.read_text(encoding="utf-8")).get("map", {}) if of.exists() else {}
     geo = json.loads((WEB / "vendor" / "china.geo.json").read_text(encoding="utf-8"))
     out = {"as_of": None, "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY, "glossary_zh": GLOSSARY_ZH,
            "provinces": PROVINCES, "layers": LAYERS, "sanctions": sanctions, "company_zh": company_zh,
-           "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
+           "origins": origins, "macro": CHINA_MACRO, "cities": CITIES, "geo": geo}
     blob = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
     (WEB / "china-bundle.js").write_text("window.CHINA = " + blob + ";\n", encoding="utf-8")
     print(f"wrote web/china-bundle.js ({len(blob)/1024:.0f} KB) — {len(CITIES)} cities, {len(geo['features'])} provinces, {len(PROVINCES)} prov-stats, {len(GLOSSARY)} glossary")

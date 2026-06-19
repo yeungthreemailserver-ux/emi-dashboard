@@ -22,6 +22,10 @@ const TT = {
   reset: ["Reset view", "重置视图"],
   tap: ["tap to expand", "点击展开"],
   sig: ["Signature strengths", "核心强项"],
+  lg_cn: ["China-based", "中国企业"],
+  lg_for: ["Foreign HQ", "境外总部"],
+  lg_sanc: ["US-restricted", "美国管制"],
+  lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   subd: ["Sub-district clusters", "次级区域集群"],
   vc: ["Value-chain role", "价值链定位"],
   dist: ["For an electronics distributor", "对电子分销商而言"],
@@ -271,14 +275,24 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeKpiMo
 function sanctionOf(a) { const al = a.toLowerCase(); return (DATA.sanctions || []).find((s) => s.match && al.indexOf(s.match.toLowerCase()) >= 0) || null; }
 // Simplified-Chinese display name for an anchor company, only when the page is in Chinese mode.
 function anchorZh(a) { return (Z() && DATA.company_zh && DATA.company_zh[a]) ? DATA.company_zh[a] : null; }
+// HQ origin (China-based vs non-China-based, by headquarters).
+function originOf(a) { return (DATA.origins && DATA.origins[a]) || null; }
+const ORIGIN_ZH = { CN: "中国大陆", TW: "台湾", HK: "香港", KR: "韩国", JP: "日本", US: "美国", DE: "德国", EU: "欧洲", NL: "荷兰", LU: "卢森堡", CH: "瑞士", JV: "中外合资", FOR: "外资" };
+function originLabel(o) { if (!o) return ""; return Z() ? ("总部：" + (ORIGIN_ZH[o.code] || o.hq)) : ("HQ: " + o.hq); }
 function clusterHTML(cl, z) {
   const anch = (cl.anchors || []).map((a) => {
     const zh = anchorZh(a);               // Chinese label in zh mode (English original kept in tooltip)
     const label = zh || a;
-    const s = sanctionOf(a);
-    if (s) return `<span class="chip sanc" data-tip="${escAttr("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note)}">⚠ ${esc(label)}</span>`;
-    if (zh) return `<span class="chip" data-tip="${escAttr(a)}">${esc(zh)}</span>`;
-    return `<span class="chip">${glossify(a)}</span>`;
+    const s = sanctionOf(a), o = originOf(a), foreign = !!(o && o.cn === false);
+    const badge = foreign ? `<sup class="orig">${esc(o.code)}</sup>` : "";   // region tag on non-China HQ
+    const tips = [];
+    if (zh) tips.push(a);                  // English original
+    if (foreign) tips.push(originLabel(o));// exact HQ on hover (domestic stays plain)
+    if (s) tips.push("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note);
+    const tip = tips.length ? ` data-tip="${escAttr(tips.join(" · "))}"` : "";
+    if (!s && !foreign && !zh) return `<span class="chip"${tip}>${glossify(a)}</span>`;  // plain domestic keeps glossary tooltips
+    const cls = "chip" + (s ? " sanc" : foreign ? " foreign" : "");
+    return `<span class="${cls}"${tip}>${s ? "⚠ " : ""}${esc(label)}${badge}</span>`;
   }).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(z && z.seg ? z.seg : cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
     <div class="cl-what">${glossify(z && z.what ? z.what : cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
@@ -291,7 +305,7 @@ function renderDossier(c) {
   let h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span><span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span></div>`;
   h += `<div class="dos-tag">${glossify(z ? z.tagline : c.tagline)}</div>`;
   if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
-  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>${c.clusters.map((cl, i) => clusterHTML(cl, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
+  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5><div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_cn")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>${c.clusters.map((cl, i) => clusterHTML(cl, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
   if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s, i) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${pick(z && z.subdistricts && z.subdistricts[i] ? z.subdistricts[i].focus : null, s.focus)}</span></div>`).join("")}</div>`;
   if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${pick(z ? z.valuechain : null, c.valuechain)}</div></div>`;
   if (c.sourcing) h += `<div class="dos-sec"><h5>${tt("dist")}</h5><div class="src2">
