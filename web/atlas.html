@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMI · Asia Atlas — zoomable electronics supply-chain map</title>
+  <script src="vendor/d3.min.js"></script>
+  <link rel="stylesheet" href="china.css?v=035" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><a href="index.html" class="home" title="Back to EMI">◢ EMI</a><span class="sep">›</span><a href="macro.html" class="home">Macro</a><span class="sep">›</span><b>Asia Atlas</b><small>zoom in & out by click</small></div>
+      <div class="spacer"></div>
+      <nav class="pagenav"><a href="china.html">China ↗</a><a href="singapore.html">Singapore ↗</a><a href="malaysia.html">Malaysia ↗</a><a href="macro.html">Macro</a></nav>
+    </header>
+    <main class="main" id="main"><div class="loading">Loading…</div></main>
+  </div>
+  <script src="asia-registry.js?v=035"></script>
+  <script src="china-bundle.js?v=035"></script>
+  <script src="singapore-bundle.js?v=035"></script>
+  <script src="malaysia-bundle.js?v=035"></script>
+  <script src="atlas.js?v=035"></script>
+</body>
+</html>

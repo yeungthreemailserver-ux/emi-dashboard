@@ -82,7 +82,7 @@ MY_ROLE_TAKE = ("Malaysia is the world's back-end powerhouse — ~13% of global 
 
 # ---- Malaysia key-city dossiers (anchor = "Local Co" string OR {"n":"MNC","o":"US"} for foreign HQ) ----
 MY_CITIES = [
-    {"name": "Penang", "area": "George Town · Bayan Lepas FIZ", "tagline": "“Silicon Valley of the East” — the back-end heart: chip assembly/test/packaging, homegrown test-equipment champions and EMS.",
+    {"name": "Penang", "area": "George Town · Bayan Lepas FIZ", "lon": 100.30, "lat": 5.34, "tagline": "“Silicon Valley of the East” — the back-end heart: chip assembly/test/packaging, homegrown test-equipment champions and EMS.",
      "clusters": [
         {"seg": "Semiconductor assembly & test (OSAT)", "level": 3, "what": "Intel's first overseas plant (1972) seeded a dense MNC + homegrown back-end cluster.", "anchors": [{"n": "Intel", "o": "US"}, {"n": "AMD", "o": "US"}, {"n": "Broadcom", "o": "US"}, {"n": "Micron", "o": "US"}, {"n": "ASE", "o": "TW"}, "Unisem", "Carsem"]},
         {"seg": "Test equipment & automation", "level": 3, "what": "Homegrown champions in ATE, machine vision & factory automation — a genuine local IP base.", "anchors": ["Inari Amertron", "ViTrox", "Pentamaster", "Greatech", "Globetronics"]},
@@ -92,7 +92,7 @@ MY_CITIES = [
      "valuechain": "Mid-stream back-end: imports finished wafers, substrates & bonding materials → assembles, packages & tests → exports packaged devices and (uniquely) the test/inspection equipment itself.",
      "sourcing": {"buy": ["Wafers & dies", "substrates / leadframes", "bonding wire, mould compound", "test sockets & handlers"], "sell": ["Packaged & tested ICs", "RF / optoelectronic modules", "test & inspection equipment", "EMS assemblies"]},
      "stats": [{"k": "Role", "v": "OSAT / back-end"}, {"k": "Anchor zone", "v": "Bayan Lepas FIZ"}]},
-    {"name": "Kulim", "area": "Kedah · Kulim Hi-Tech Park", "tagline": "Kulim Hi-Tech Park — power & compound semis and wafer fabs; home to Infineon's global silicon-carbide hub.",
+    {"name": "Kulim", "area": "Kedah · Kulim Hi-Tech Park", "lon": 100.56, "lat": 5.37, "tagline": "Kulim Hi-Tech Park — power & compound semis and wafer fabs; home to Infineon's global silicon-carbide hub.",
      "clusters": [
         {"seg": "Power & compound semis (SiC)", "level": 3, "what": "Infineon's Kulim site — among the world's largest 200mm SiC power-fab investments.", "anchors": [{"n": "Infineon", "o": "DE"}, {"n": "Fuji Electric", "o": "JP"}]},
         {"seg": "Wafer fab & logic", "level": 2, "what": "One of the few Malaysian sites doing front-end fabrication.", "anchors": [{"n": "Intel", "o": "US"}, "SilTerra"]},
@@ -102,7 +102,7 @@ MY_CITIES = [
      "valuechain": "Malaysia's main move UPSTREAM — wafer fabrication, power-device (SiC) front-end and IC substrates, beyond the Penang back-end.",
      "sourcing": {"buy": ["SiC / Si wafers", "gases & chemicals", "fab equipment", "substrate materials"], "sell": ["SiC / Si power devices", "logic wafers", "IC substrates", "PV modules"]},
      "stats": [{"k": "Park", "v": "Kulim Hi-Tech Park"}, {"k": "Focus", "v": "Power / SiC / fab"}]},
-    {"name": "Klang Valley", "area": "Kuala Lumpur · Selangor · Cyberjaya", "tagline": "The demand & integration hub — hyperscale data centres, contract EMS and the MNC regional-HQ / distribution base.",
+    {"name": "Klang Valley", "area": "Kuala Lumpur · Selangor · Cyberjaya", "lon": 101.69, "lat": 3.14, "tagline": "The demand & integration hub — hyperscale data centres, contract EMS and the MNC regional-HQ / distribution base.",
      "clusters": [
         {"seg": "Data centres / cloud", "level": 3, "what": "Hyperscale build-out across Selangor & Cyberjaya.", "anchors": [{"n": "Microsoft", "o": "US"}, {"n": "Google", "o": "US"}, {"n": "AWS", "o": "US"}, "Bridge Data Centres"]},
         {"seg": "EMS / box-build", "level": 2, "what": "Local contract manufacturers serving global brands.", "anchors": ["VS Industry", "SKP Resources", "ATA IMS"]},
@@ -111,7 +111,7 @@ MY_CITIES = [
      "valuechain": "A net CONSUMER of components — data-centre capacity, EMS box-build and regional HQ/distribution around the capital.",
      "sourcing": {"buy": ["Servers, GPUs, networking", "power & cooling gear", "components for EMS"], "sell": ["Cloud / DC capacity", "finished electronic products", "EMS box-build"]},
      "stats": [{"k": "Role", "v": "Data centres + EMS + HQ"}, {"k": "Hub", "v": "Selangor / Cyberjaya"}]},
-    {"name": "Johor", "area": "Iskandar · Kulai · Johor-Singapore SEZ", "tagline": "The diversification frontier — SE-Asia's hottest data-centre market and a “China+1” electronics magnet, riding the Singapore spillover.",
+    {"name": "Johor", "area": "Iskandar · Kulai · Johor-Singapore SEZ", "lon": 103.76, "lat": 1.49, "tagline": "The diversification frontier — SE-Asia's hottest data-centre market and a “China+1” electronics magnet, riding the Singapore spillover.",
      "clusters": [
         {"seg": "AI data centres", "level": 3, "what": "Fastest-growing DC cluster in SE-Asia, absorbing Singapore's power/land spillover.", "anchors": [{"n": "Nvidia", "o": "US"}, "YTL Power", {"n": "Microsoft", "o": "US"}, {"n": "GDS", "o": "CN"}]},
         {"seg": "Electronics & China+1", "level": 2, "what": "Relocated assembly & component investment under the Johor-Singapore SEZ.", "anchors": [{"n": "Simmtech", "o": "KR"}, "China+1 EMS"]},
@@ -172,7 +172,10 @@ REGISTRY = {
 
 def write(name, obj):
     blob = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
-    (WEB / f"{name}-bundle.js").write_text("window.COUNTRY = " + blob + ";\n", encoding="utf-8")
+    # dual-emit: window.COUNTRY for the standalone page (country.js); window.APAC[code] so the
+    # single-page atlas can load every country bundle together without clobbering.
+    js = "window.COUNTRY = " + blob + ";\n(window.APAC=window.APAC||{})['" + obj["code"] + "']=window.COUNTRY;\n"
+    (WEB / f"{name}-bundle.js").write_text(js, encoding="utf-8")
     kb = len((WEB / f"{name}-bundle.js").read_text(encoding="utf-8")) // 1024
     extra = f"{len(obj.get('cities', []))} cities" if obj.get("cities") else f"{len(obj.get('clusters', []))} clusters"
     print(f"wrote web/{name}-bundle.js ({kb} KB) — {len(obj['macro'])} macro, {len(obj['role'])} role, {extra}")

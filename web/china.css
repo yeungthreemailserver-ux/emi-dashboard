@@ -84,6 +84,20 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system
 .stat-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:1px 6px;border-radius:6px;}
 .stat-badge.live{background:#eff6ff;color:#1d4ed8;}
 .stat-badge.plan{background:#f1f5f9;color:#64748b;}
+
+/* Asia Atlas (D3 single-page zoom drill-down) */
+.atlas-crumb{font-size:13px;color:var(--muted);margin:4px 0 2px;}
+.atlas-crumb a{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:none;}
+.atlas-crumb a:hover{text-decoration:underline;}
+.atlas-crumb .sep{color:var(--faint);margin:0 7px;}
+.amx{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:6px;margin:8px 0 4px;}
+.amk{background:#fafbfd;border:1px solid var(--line);border-radius:7px;padding:5px 8px;}
+.amk span{display:block;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;}
+.amk b{font-size:14px;font-variant-numeric:tabular-nums;}
+.citylist{display:flex;flex-wrap:wrap;gap:6px;}
+.citybtn{font-size:12px;font-weight:600;padding:4px 11px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--ink-2);cursor:pointer;}
+.citybtn:hover{border-color:var(--blue);color:var(--blue);}
+.detail .city{transition:r .12s;} .citymap svg{cursor:grab;} .citymap svg:active{cursor:grabbing;}
 .dos-dom{font-size:11px;font-weight:700;padding:2px 9px;border-radius:9px;color:#fff;}
 .dos-tag{font-size:12.5px;color:var(--ink-2);margin:6px 0 4px;line-height:1.5;}
 .dos-pending{display:inline-block;font-size:10.5px;font-weight:600;background:#fffbeb;color:#92400e;border:1px solid #fcd34d;border-radius:9px;padding:1px 8px;margin:4px 0;}
