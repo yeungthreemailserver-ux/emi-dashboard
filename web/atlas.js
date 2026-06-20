@@ -100,15 +100,22 @@ function setMarkersVisible(show) { countryMarkers.forEach((m) => { m.getElement(
 let declutterRAF = null;
 function declutterCityLabels() {
   const els = detailMarkers.map((m) => m.getElement()).filter((el) => el && el.classList.contains("mk-city"));
-  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) lab.style.display = ""; });
-  // seed obstacles with every city dot so a visible label is never drawn on top of another city's dot
+  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) { lab.style.display = ""; lab.classList.remove("clab-right", "clab-bottom", "clab-left"); } });
+  // obstacles: seed with every city dot so a label never lands on another city's dot
   const placed = [];
   els.forEach((el) => { const dot = el.querySelector(".cdot"); if (dot) { const dr = dot.getBoundingClientRect(); if (dr.width) placed.push(dr); } });
+  const clear = (r, p) => (r.right < p.left - 3 || r.left > p.right + 3 || r.bottom < p.top - 2 || r.top > p.bottom + 2);
   els.forEach((el) => {
     const lab = el.querySelector(".clab"); if (!lab) return;
-    const r = lab.getBoundingClientRect(); if (!r.width) return;
-    const hit = placed.some((p) => !(r.right < p.left - 3 || r.left > p.right + 3 || r.bottom < p.top - 2 || r.top > p.bottom + 2));
-    if (hit) lab.style.display = "none"; else placed.push(r);
+    let ok = false;
+    for (const pos of ["top", "right", "bottom", "left"]) {   // try each side; use the first that fits the empty space before giving up
+      lab.classList.remove("clab-right", "clab-bottom", "clab-left");
+      if (pos !== "top") lab.classList.add("clab-" + pos);
+      const r = lab.getBoundingClientRect();
+      if (!r.width) { ok = true; break; }   // unmeasurable (headless preview) — leave the default position visible
+      if (placed.every((p) => clear(r, p))) { placed.push(r); ok = true; break; }
+    }
+    if (!ok) { lab.classList.remove("clab-right", "clab-bottom", "clab-left"); lab.style.display = "none"; }
   });
 }
 const scheduleDeclutter = () => { if (!declutterRAF) declutterRAF = requestAnimationFrame(() => { declutterRAF = null; declutterCityLabels(); }); };
@@ -289,9 +296,9 @@ function cityCardsHTML(code) {
   }
   const card = (c, showDom) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${showDom && c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; };
   const head = `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>`;
-  // China: group cities by focus industry (domain), biggest cluster first — the group header carries the label,
-  // so the per-card domain badge is dropped. Other countries keep the flat grid.
-  if (code === "cn" && CHINA && CHINA.domains) {
+  // Any country whose cities carry a domain: group by focus industry (biggest cluster first). The coloured
+  // group header carries the label, so the per-card domain badge is dropped. Domain-less cities fall to a flat grid.
+  if (cities.some((c) => c.dom) && CHINA && CHINA.domains) {
     const groups = {}; cities.forEach((c) => { const k = c.dom || "OTHER"; (groups[k] = groups[k] || []).push(c); });
     const order = Object.keys(CHINA.domains).filter((k) => groups[k]).sort((a, b) => groups[b].length - groups[a].length);
     if (groups.OTHER) order.push("OTHER");

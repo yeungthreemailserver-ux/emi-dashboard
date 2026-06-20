@@ -113,6 +113,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .mk-city:hover .cdot{transform:scale(1.25);}
 /* labels shown by default; a JS declutter pass hides ones that would overlap a label or another dot (revealed on hover) */
 .mk-city .clab{position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);display:block;font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:5px;padding:1px 5px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.12);pointer-events:none;}
+/* alternate sides the declutter pass falls back to when "above" is taken (uses empty space instead of hiding) */
+.mk-city .clab.clab-right{left:calc(100% + 6px);right:auto;top:50%;bottom:auto;transform:translateY(-50%);}
+.mk-city .clab.clab-bottom{left:50%;right:auto;top:calc(100% + 5px);bottom:auto;transform:translateX(-50%);}
+.mk-city .clab.clab-left{right:calc(100% + 6px);left:auto;top:50%;bottom:auto;transform:translateY(-50%);}
 .mk-city:hover .clab{display:block !important;color:var(--blue);z-index:6;}
 .mk-city:hover{z-index:5;}
 /* atlas country composition (macro tiles + leverage full-width, like china.html) */
