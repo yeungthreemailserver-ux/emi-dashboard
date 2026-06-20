@@ -89,7 +89,7 @@ function colorAsia() {
 function colorProvinces() {
   if (CHINA && CHINA.geo) CHINA.geo.features.forEach((f) => { const pr = (CHINA.provinces || {})[f.properties.name]; f.properties.color = pr ? gdpScale(pr.gdp || 0) : "#cfe0f0"; });
 }
-const ASIA_BOUNDS = [[68, -11], [148, 52]];
+const ASIA_BOUNDS = [[66, -48], [179, 54]];   // Asia-Pacific incl. Australia & New Zealand
 
 function clearDetailMarkers() { detailMarkers.forEach((m) => m.remove()); detailMarkers = []; }
 function marker(html, cls, lnglat, anchor, onClick) {

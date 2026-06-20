@@ -448,6 +448,345 @@ JAPAN = {
     "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
 }
 
+# ============================ VIETNAM ============================
+VN_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+7.5%", "as_of": "2025", "source": "GSO / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 2.6], ["2022", 8.0], ["2023", 5.0], ["2024", 7.1], ["2025", 7.5]]},
+    {"key": "cpi", "k": "CPI", "v": "+3.2%", "as_of": "2025", "source": "GSO", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 4.0]}, "series": [["2021", 1.8], ["2022", 3.2], ["2023", 3.3], ["2024", 3.6], ["2025", 3.2]]},
+    {"key": "elec", "k": "Electronics exports", "v": "US$135B", "as_of": "2025", "source": "Vietnam Customs", "note": "phones + electronics, #1 export",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 108], ["2022", 114], ["2023", 109], ["2024", 126], ["2025", 135]]},
+    {"key": "fdi", "k": "Registered FDI", "v": "US$38B", "as_of": "2025", "source": "MPI", "note": "electronics-led",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+VN_ROLE = [
+    {"node": "Electronics assembly / EMS", "scope": "China+1 powerhouse", "share": 40, "disp": "strong", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Smartphone production", "scope": "Samsung's largest base", "share": 50, "disp": "~½ of Samsung", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Assembly, test & packaging", "scope": "Intel (largest ATP) + Amkor", "share": 8, "disp": "rising", "type": "hold", "source": "industry", "year": "2025", "glo": "ATP"},
+    {"node": "IC design", "scope": "emerging (FPT, MNC centres)", "share": 2, "disp": "nascent", "type": "gap", "source": "industry", "year": "2025", "glo": "IC design"},
+    {"node": "Wafer fabrication", "scope": "none yet", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2025", "glo": "Wafer fab"},
+]
+VN_ROLE_TAKE = ("Vietnam is the assembly powerhouse of the 'China+1' shift — Samsung makes about half its phones here, "
+                "Intel runs its largest assembly-test plant and Amkor is building advanced packaging. Its gaps are "
+                "front-end fabs and chip design, both still nascent.")
+VN_CITIES = [
+    {"name": "Bac Ninh · Thai Nguyen", "dom": "ELEC", "area": "Northern electronics belt", "lon": 106.05, "lat": 21.18,
+     "tagline": "Samsung's twin mega-complexes — the heart of Vietnam's phone & electronics export machine; Amkor's new advanced-packaging plant.",
+     "clusters": [
+        {"seg": "Smartphones & displays", "level": 3, "what": "Samsung's largest phone & display manufacturing outside Korea.", "anchors": [{"n": "Samsung", "o": "KR"}, {"n": "Samsung Display", "o": "KR"}]},
+        {"seg": "Assembly, test & packaging", "level": 2, "what": "Amkor's flagship Bac Ninh advanced-packaging campus.", "anchors": [{"n": "Amkor", "o": "US"}]},
+        {"seg": "Components & EMS", "level": 2, "what": "Acoustic, optical and contract-manufacturing suppliers.", "anchors": [{"n": "Goertek", "o": "CN"}, {"n": "Foxconn", "o": "TW"}, {"n": "Luxshare", "o": "CN"}]},
+     ],
+     "subdistricts": [{"name": "Bac Ninh", "focus": "Samsung phones, Amkor packaging"}, {"name": "Thai Nguyen", "focus": "Samsung complex (SEVT)"}],
+     "valuechain": "Mid-stream assembly — imports chips, displays & components, assembles phones and packages chips, exports finished electronics.",
+     "sourcing": {"buy": ["Chips, displays, camera modules", "passives, connectors, batteries", "substrates & materials"], "sell": ["Smartphones & devices", "packaged chips", "display & acoustic modules"]},
+     "tags": {"Components": 2, "Optical": 2, "Battery": 1, "Automotive": 0, "Precision": 1, "Materials": 0, "Appliances": 1, "Semiconductor": 2},
+     "stats": [{"k": "Samsung", "v": "~½ of its phones"}, {"k": "Amkor", "v": "advanced packaging"}, {"k": "Role", "v": "phone & ATP hub"}],
+     "note": "The single biggest reason 'electronics' is Vietnam's #1 export — concentrated Samsung + supplier ecosystem."},
+    {"name": "Ho Chi Minh City", "dom": "SEMI", "area": "Saigon Hi-Tech Park", "lon": 106.70, "lat": 10.78,
+     "tagline": "The back-end & design south — Intel's largest global assembly-test plant, Samsung's consumer-electronics complex and a growing chip-design scene.",
+     "clusters": [
+        {"seg": "Assembly, test & packaging", "level": 3, "what": "Intel's single largest assembly & test facility worldwide.", "anchors": [{"n": "Intel", "o": "US"}, {"n": "Nidec", "o": "JP"}]},
+        {"seg": "Consumer electronics", "level": 2, "what": "Samsung's CE complex (TVs, appliances).", "anchors": [{"n": "Samsung", "o": "KR"}]},
+        {"seg": "IC design", "level": 2, "what": "A fast-growing design base (local + MNC centres).", "anchors": ["FPT Semiconductor", {"n": "Marvell", "o": "US"}]},
+     ],
+     "subdistricts": [{"name": "Saigon Hi-Tech Park", "focus": "Intel ATP, Samsung CE, Nidec"}, {"name": "District 9 / Thu Duc", "focus": "design & R&D"}],
+     "valuechain": "Back-end assembly-test plus a nascent design layer — the most upstream-leaning part of Vietnam's chain.",
+     "sourcing": {"buy": ["Wafers & dies", "substrates & bonding materials", "test equipment"], "sell": ["Packaged & tested chips", "consumer electronics", "design services"]},
+     "tags": {"Components": 1, "Optical": 1, "Battery": 0, "Automotive": 0, "Precision": 1, "Materials": 0, "Appliances": 1, "Semiconductor": 2},
+     "stats": [{"k": "Intel", "v": "largest ATP worldwide"}, {"k": "Park", "v": "Saigon Hi-Tech Park"}, {"k": "Design", "v": "emerging"}],
+     "note": "Where Vietnam edges upstream — from pure assembly toward test/packaging and design."},
+    {"name": "Hai Phong", "dom": "ELEC", "area": "Northern port industrial zone", "lon": 106.69, "lat": 20.86,
+     "tagline": "The LG cluster & northern port — LG Electronics, LG Display and LG Innotek plus Pegatron; Vietnam's electronics gateway.",
+     "clusters": [
+        {"seg": "Displays & electronics", "level": 2, "what": "LG's integrated display, camera-module and electronics base.", "anchors": [{"n": "LG Electronics", "o": "KR"}, {"n": "LG Display", "o": "KR"}, {"n": "LG Innotek", "o": "KR"}]},
+        {"seg": "EMS / contract manufacturing", "level": 2, "what": "Apple-chain assembly inflow.", "anchors": [{"n": "Pegatron", "o": "TW"}, {"n": "USI", "o": "TW"}]},
+     ],
+     "subdistricts": [{"name": "Trang Due / Deep C zones", "focus": "LG cluster, Pegatron"}],
+     "valuechain": "Display & module manufacturing plus assembly, shipped out through the northern port.",
+     "sourcing": {"buy": ["Panels, modules, components", "camera & acoustic parts", "passives & connectors"], "sell": ["Displays & camera modules", "consumer electronics", "EMS assemblies"]},
+     "tags": {"Components": 2, "Optical": 2, "Battery": 0, "Automotive": 0, "Precision": 1, "Materials": 0, "Appliances": 1, "Semiconductor": 1},
+     "stats": [{"k": "LG", "v": "display + module base"}, {"k": "Port", "v": "northern gateway"}, {"k": "Pegatron", "v": "Apple-chain EMS"}],
+     "note": "Korea's other big Vietnam bet (LG), balancing Samsung's Bac Ninh/Thai Nguyen footprint."},
+]
+VIETNAM = {
+    "name": "Vietnam", "code": "vn", "dom": "ELEC",
+    "tagline": "China+1 assembly powerhouse — Samsung makes ~½ its phones here, Intel runs its largest assembly-test plant; electronics is the #1 export.",
+    "macro": VN_MACRO, "role": VN_ROLE, "role_take": VN_ROLE_TAKE, "cities": VN_CITIES,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
+# ============================ INDIA ============================
+IN_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+6.5%", "as_of": "2025", "source": "MOSPI / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 9.7], ["2022", 7.0], ["2023", 8.2], ["2024", 6.5], ["2025", 6.5]]},
+    {"key": "cpi", "k": "CPI", "v": "+4.5%", "as_of": "2025", "source": "MOSPI", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [2.0, 6.0]}, "series": [["2021", 5.1], ["2022", 6.7], ["2023", 5.4], ["2024", 4.9], ["2025", 4.5]]},
+    {"key": "elec", "k": "Electronics production", "v": "US$130B", "as_of": "FY2025", "source": "MeitY / ICEA", "note": "mobiles ~US$50B; PLI-driven",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 67], ["2022", 87], ["2023", 102], ["2024", 115], ["2025", 130]]},
+    {"key": "repo", "k": "RBI repo rate", "v": "6.0%", "as_of": "2025", "source": "RBI", "note": "easing",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+IN_ROLE = [
+    {"node": "Mobile assembly", "scope": "world #2 phone maker", "share": 30, "disp": "strong", "type": "hold", "source": "ICEA", "year": "2025"},
+    {"node": "Chip design & ER&D", "scope": "Bengaluru talent pool", "share": 20, "disp": "~20% of talent", "type": "hold", "source": "industry", "year": "2025", "glo": "IC design"},
+    {"node": "Assembly, test & packaging", "scope": "Micron Sanand, Tata Assam", "share": 3, "disp": "building", "type": "gap", "source": "industry", "year": "2025", "glo": "ATP"},
+    {"node": "Wafer fabrication", "scope": "first fabs (Tata-PSMC Dholera)", "share": 1, "disp": "first fabs", "type": "gap", "source": "industry", "year": "2025", "glo": "Wafer fab"},
+    {"node": "Components & PCB", "scope": "PLI-driven build-out", "share": 5, "disp": "early", "type": "gap", "source": "industry", "year": "2025"},
+]
+IN_ROLE_TAKE = ("India is the world's #2 phone manufacturer and home to a vast chip-design talent pool (Bengaluru), now "
+                "adding its first back-end (Micron Sanand, Tata Assam) and fabs (Tata-PSMC Dholera). Early in fabrication, "
+                "but huge in assembly, design and end-market.")
+IN_CITIES = [
+    {"name": "Tamil Nadu", "dom": "ELEC", "area": "Chennai · Sriperumbudur · Hosur", "lon": 79.95, "lat": 12.95,
+     "tagline": "India's #1 electronics export state — Apple's iPhone build-out (Foxconn, Tata, Pegatron) plus Samsung, Nokia and a deep EMS base.",
+     "clusters": [
+        {"seg": "Mobile assembly", "level": 3, "what": "The core of India's iPhone manufacturing.", "anchors": [{"n": "Foxconn", "o": "TW"}, "Tata Electronics", {"n": "Pegatron", "o": "TW"}, {"n": "Apple", "o": "US"}]},
+        {"seg": "Electronics & EMS", "level": 2, "what": "Handset, auto-electronics and contract manufacturing.", "anchors": [{"n": "Samsung", "o": "KR"}, {"n": "Nokia", "o": "EU"}, "Dixon"]},
+     ],
+     "subdistricts": [{"name": "Sriperumbudur / Oragadam", "focus": "Foxconn, Pegatron, Samsung"}, {"name": "Hosur", "focus": "Tata iPhone plant"}],
+     "valuechain": "India's leading assembly hub — imports chips, displays & components, exports phones and electronics.",
+     "sourcing": {"buy": ["Chips, displays, camera modules", "passives, connectors, batteries", "enclosures"], "sell": ["Smartphones (incl. iPhone)", "electronics & EMS", "auto electronics"]},
+     "tags": {"Components": 2, "Optical": 1, "Battery": 1, "Automotive": 1, "Precision": 1, "Materials": 0, "Appliances": 1, "Semiconductor": 1},
+     "stats": [{"k": "Apple", "v": "iPhone build-out"}, {"k": "Rank", "v": "#1 export state"}, {"k": "Zone", "v": "Sriperumbudur"}],
+     "note": "The spearhead of 'Make in India' for phones — Apple's fastest-growing assembly base outside China."},
+    {"name": "Gujarat (Dholera · Sanand)", "dom": "SEMI", "area": "Dholera SIR · Sanand", "lon": 72.20, "lat": 22.50,
+     "tagline": "India's fab cluster — Micron's Sanand assembly/test plant and the Tata–PSMC Dholera fab, the country's first leading-ish wafer fab.",
+     "clusters": [
+        {"seg": "Assembly, test & packaging", "level": 3, "what": "Micron's Sanand ATP — one of the world's largest back-end builds.", "anchors": [{"n": "Micron", "o": "US"}, "CG Power"]},
+        {"seg": "Wafer fabrication", "level": 2, "what": "Tata Electronics + PSMC — India's first big fab (mature/specialty).", "anchors": ["Tata Electronics", {"n": "PSMC", "o": "TW"}]},
+     ],
+     "subdistricts": [{"name": "Sanand", "focus": "Micron ATP, CG-Renesas"}, {"name": "Dholera SIR", "focus": "Tata-PSMC fab"}],
+     "valuechain": "India's move into fabrication & back-end — building the front of the chain it has lacked.",
+     "sourcing": {"buy": ["Fab tools, gases, chemicals", "wafers & substrates", "bonding materials"], "sell": ["Packaged & tested chips", "mature-node wafers (from 2026+)"]},
+     "tags": {"Components": 1, "Optical": 0, "Battery": 0, "Automotive": 1, "Precision": 1, "Materials": 1, "Appliances": 0, "Semiconductor": 3},
+     "stats": [{"k": "Micron", "v": "Sanand ATP"}, {"k": "Tata-PSMC", "v": "Dholera fab"}, {"k": "Status", "v": "ramping 2026"}],
+     "note": "The most concrete piece of India's fab ambition — back-end live first, front-end fab following."},
+    {"name": "Bengaluru", "dom": "SEMI", "area": "Karnataka", "lon": 77.59, "lat": 12.97,
+     "tagline": "The chip-design capital — every major chipmaker runs a design centre here; ~20% of the world's chip-design talent.",
+     "clusters": [
+        {"seg": "Chip design & ER&D", "level": 3, "what": "Design centres for the entire industry; vast engineering talent.", "anchors": [{"n": "Intel", "o": "US"}, {"n": "Nvidia", "o": "US"}, {"n": "Qualcomm", "o": "US"}, {"n": "AMD", "o": "US"}, {"n": "Texas Instruments", "o": "US"}]},
+        {"seg": "Defence, space & systems", "level": 2, "what": "Aerospace, defence electronics and space.", "anchors": ["ISRO", "BEL", "HAL"]},
+     ],
+     "subdistricts": [{"name": "Electronic City / Whitefield", "focus": "global chip-design centres"}, {"name": "ITPL corridor", "focus": "ER&D, systems"}],
+     "valuechain": "Front-of-chain design & engineering — India exports chip IP and design services, not (yet) wafers.",
+     "sourcing": {"buy": ["EDA tools & IP", "dev boards & instruments", "compute for design"], "sell": ["Chip designs & IP", "embedded / ER&D services", "defence & space electronics"]},
+     "tags": {"Components": 1, "Optical": 0, "Battery": 0, "Automotive": 1, "Precision": 1, "Materials": 0, "Appliances": 0, "Semiconductor": 2},
+     "stats": [{"k": "Talent", "v": "~20% of world chip design"}, {"k": "Firms", "v": "all majors present"}, {"k": "Also", "v": "ISRO, defence"}],
+     "note": "India's real, mature semiconductor strength today is design talent — the fabs are catching up to it."},
+]
+INDIA = {
+    "name": "India", "code": "in", "dom": "ELEC",
+    "tagline": "World #2 phone maker + a huge chip-design talent pool (Bengaluru); first fabs & back-end now building (Micron Sanand, Tata Dholera).",
+    "macro": IN_MACRO, "role": IN_ROLE, "role_take": IN_ROLE_TAKE, "cities": IN_CITIES,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
+# ============================ THAILAND ============================
+TH_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+2.8%", "as_of": "2025", "source": "NESDC / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 1.6], ["2022", 2.5], ["2023", 1.9], ["2024", 2.5], ["2025", 2.8]]},
+    {"key": "cpi", "k": "CPI", "v": "+1.0%", "as_of": "2025", "source": "MOC", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [0.5, 3.0]}, "series": [["2021", 1.2], ["2022", 6.1], ["2023", 1.2], ["2024", 0.4], ["2025", 1.0]]},
+    {"key": "elec", "k": "Electronics exports", "v": "US$48B", "as_of": "2025", "source": "Thai Customs", "note": "HDD + electronics",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 40], ["2022", 42], ["2023", 40], ["2024", 44], ["2025", 48]]},
+    {"key": "bot", "k": "BOT policy rate", "v": "2.0%", "as_of": "2025", "source": "Bank of Thailand", "note": "easing",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+TH_ROLE = [
+    {"node": "Hard-disk drives / storage", "scope": "WD, Seagate — world hub", "share": 40, "disp": "world hub", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Automotive & EV", "scope": "'Detroit of Asia'", "share": 30, "disp": "strong", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "PCB", "scope": "China+1 inflow boom", "share": 10, "disp": "rising", "type": "hold", "source": "industry", "year": "2025", "glo": "PCB"},
+    {"node": "Appliances & power", "scope": "Delta, appliance makers", "share": 15, "disp": "strong", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Semiconductor fab", "scope": "back-end / discretes only", "share": 3, "disp": "limited", "type": "gap", "source": "industry", "year": "2025", "glo": "Wafer fab"},
+]
+TH_ROLE_TAKE = ("Thailand is the 'Detroit of Asia' (Toyota, Honda, now BYD) and a global hard-disk-drive hub (Western "
+                "Digital, Seagate), with a booming China+1 PCB inflow and a big power-electronics base (Delta). It does "
+                "back-end / discrete semis, not advanced fabrication.")
+TH_CITIES = [
+    {"name": "Eastern Economic Corridor", "dom": "AUTO", "area": "Chonburi · Rayong", "lon": 101.15, "lat": 13.00,
+     "tagline": "The auto & EV heartland plus a China+1 electronics surge — Toyota, Honda, BYD and GWM alongside Delta power electronics and new PCB plants.",
+     "clusters": [
+        {"seg": "Automotive & EV", "level": 3, "what": "South-east Asia's car-making centre, now pivoting to EVs.", "anchors": [{"n": "Toyota", "o": "JP"}, {"n": "Honda", "o": "JP"}, {"n": "BYD", "o": "CN"}, {"n": "Great Wall (GWM)", "o": "CN"}]},
+        {"seg": "Power electronics", "level": 2, "what": "Power, EV and industrial electronics.", "anchors": [{"n": "Delta Electronics", "o": "TW"}]},
+        {"seg": "PCB (China+1)", "level": 2, "what": "A wave of Chinese/Taiwanese PCB makers relocating in.", "anchors": ["KCE", {"n": "Unimicron", "o": "TW"}]},
+     ],
+     "subdistricts": [{"name": "Rayong / Map Ta Phut", "focus": "autos, EV, petrochem"}, {"name": "Chonburi / Laem Chabang", "focus": "EV, electronics, port"}],
+     "valuechain": "Vehicle & power-electronics manufacturing plus fast-growing PCB — a major net consumer of components.",
+     "sourcing": {"buy": ["Auto MCUs, power semis, sensors", "PCB materials & laminates", "passives & connectors"], "sell": ["Vehicles & EVs", "power-electronics products", "PCBs"]},
+     "tags": {"Components": 2, "Optical": 0, "Battery": 1, "Automotive": 3, "Precision": 2, "Materials": 1, "Appliances": 1, "Semiconductor": 1},
+     "stats": [{"k": "Autos", "v": "'Detroit of Asia'"}, {"k": "EV", "v": "BYD, GWM build-out"}, {"k": "PCB", "v": "China+1 inflow"}],
+     "note": "The demand engine — autos & power pulling chips, plus a PCB boom from supply-chain relocation."},
+    {"name": "Central Thailand", "dom": "ELEC", "area": "Bangkok · Ayutthaya · Pathum Thani", "lon": 100.55, "lat": 14.10,
+     "tagline": "The hard-disk-drive & electronics belt — Western Digital and Seagate make a big share of the world's HDDs here, alongside Sony and Canon.",
+     "clusters": [
+        {"seg": "HDD / data storage", "level": 3, "what": "A global hub for hard-disk-drive manufacturing.", "anchors": [{"n": "Western Digital", "o": "US"}, {"n": "Seagate", "o": "US"}]},
+        {"seg": "Electronics & EMS", "level": 2, "what": "Imaging, electronics and contract manufacturing.", "anchors": [{"n": "Sony", "o": "JP"}, {"n": "Canon", "o": "JP"}, "Hana Microelectronics"]},
+     ],
+     "subdistricts": [{"name": "Ayutthaya (Rojana / Hi-Tech)", "focus": "HDD, electronics estates"}, {"name": "Bangkok metro", "focus": "HQ, electronics, KCE PCB"}],
+     "valuechain": "Storage-device & electronics manufacturing — imports components, exports HDDs and electronics.",
+     "sourcing": {"buy": ["Heads, media, motors", "ICs, passives, connectors", "precision components"], "sell": ["Hard-disk drives", "electronics & modules", "EMS assemblies"]},
+     "tags": {"Components": 2, "Optical": 1, "Battery": 0, "Automotive": 0, "Precision": 3, "Materials": 1, "Appliances": 1, "Semiconductor": 1},
+     "stats": [{"k": "HDD", "v": "WD + Seagate hub"}, {"k": "Estates", "v": "Rojana, Hi-Tech"}, {"k": "Also", "v": "Sony, Canon"}],
+     "note": "One of the world's two big HDD-making countries (with China) — precision mechatronics at scale."},
+]
+THAILAND = {
+    "name": "Thailand", "code": "th", "dom": "AUTO",
+    "tagline": "'Detroit of Asia' + a global hard-disk-drive hub (WD, Seagate); booming China+1 PCB inflow and Delta power electronics.",
+    "macro": TH_MACRO, "role": TH_ROLE, "role_take": TH_ROLE_TAKE, "cities": TH_CITIES,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
+# ============================ PHILIPPINES ============================
+PH_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+5.7%", "as_of": "2025", "source": "PSA / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 5.7], ["2022", 7.6], ["2023", 5.5], ["2024", 5.6], ["2025", 5.7]]},
+    {"key": "cpi", "k": "CPI", "v": "+3.0%", "as_of": "2025", "source": "PSA", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [2.0, 4.0]}, "series": [["2021", 3.9], ["2022", 5.8], ["2023", 6.0], ["2024", 3.2], ["2025", 3.0]]},
+    {"key": "elec", "k": "Electronics exports", "v": "US$45B", "as_of": "2025", "source": "SEIPI / PSA", "note": "~60% of total exports",
+     "view": {"metric": "yoy", "ref": 0, "good": "high"}, "series": [["2021", 38], ["2022", 41], ["2023", 39], ["2024", 42], ["2025", 45]]},
+    {"key": "bsp", "k": "BSP policy rate", "v": "5.0%", "as_of": "2025", "source": "BSP", "note": "easing",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+PH_ROLE = [
+    {"node": "Assembly, test & packaging", "scope": "Amkor, TI, ADI, ST, Onsemi", "share": 12, "disp": "long-standing", "type": "hold", "source": "SEIPI", "year": "2025", "glo": "OSAT"},
+    {"node": "EMS / contract mfg", "scope": "IMI + MNCs", "share": 8, "disp": "strong", "type": "hold", "source": "SEIPI", "year": "2025"},
+    {"node": "Semiconductor design", "scope": "small but growing", "share": 2, "disp": "nascent", "type": "gap", "source": "industry", "year": "2025", "glo": "IC design"},
+    {"node": "Wafer fabrication", "scope": "none", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2025", "glo": "Wafer fab"},
+]
+PH_ROLE_TAKE = ("The Philippines is a long-established back-end base — assembly, test & packaging for Amkor, Texas "
+                "Instruments, Analog Devices, STMicro and Onsemi — plus local EMS (IMI). Electronics & semis are ~60% of "
+                "exports; the gaps are fabrication and design.")
+PH_CITIES = [
+    {"name": "Calabarzon", "dom": "SEMI", "area": "Laguna · Cavite · Batangas", "lon": 121.16, "lat": 14.20,
+     "tagline": "The Philippines' electronics belt — the back-end heart: Amkor, Texas Instruments, Analog Devices, STMicro and Onsemi assembly & test.",
+     "clusters": [
+        {"seg": "Assembly, test & packaging", "level": 3, "what": "Decades-deep OSAT base for the world's chipmakers.", "anchors": [{"n": "Amkor", "o": "US"}, {"n": "Analog Devices", "o": "US"}, {"n": "STMicroelectronics", "o": "EU"}, {"n": "Onsemi", "o": "US"}]},
+        {"seg": "EMS / contract mfg", "level": 2, "what": "Local & MNC contract manufacturing.", "anchors": ["IMI", {"n": "Jabil", "o": "US"}]},
+     ],
+     "subdistricts": [{"name": "Laguna (LISP / Calamba)", "focus": "Amkor, ST, Analog Devices"}, {"name": "Cavite / Batangas", "focus": "OSAT, EMS estates"}],
+     "valuechain": "Mid-stream back-end — imports wafers & substrates, packages & tests, exports finished chips.",
+     "sourcing": {"buy": ["Wafers & dies", "substrates, leadframes", "test sockets & handlers"], "sell": ["Packaged & tested chips", "EMS assemblies", "electronic components"]},
+     "tags": {"Components": 2, "Optical": 1, "Battery": 0, "Automotive": 1, "Precision": 2, "Materials": 0, "Appliances": 1, "Semiconductor": 3},
+     "stats": [{"k": "Base", "v": "decades of OSAT"}, {"k": "Anchors", "v": "Amkor, TI, ADI"}, {"k": "Exports", "v": "~60% electronics"}],
+     "note": "Quietly one of Asia's oldest back-end hubs — assembly & test, not fabrication."},
+    {"name": "Cebu · Clark", "dom": "ELEC", "area": "Cebu · Clark · Baguio", "lon": 123.89, "lat": 10.32,
+     "tagline": "The secondary electronics nodes — Cebu's EMS cluster and Texas Instruments' long-running Baguio & Clark plants.",
+     "clusters": [
+        {"seg": "Assembly & test", "level": 2, "what": "Texas Instruments' established northern plants.", "anchors": [{"n": "Texas Instruments", "o": "US"}]},
+        {"seg": "EMS / electronics", "level": 2, "what": "Contract manufacturing & components.", "anchors": ["Ionics", {"n": "Lear", "o": "US"}]},
+     ],
+     "subdistricts": [{"name": "Cebu (MEPZ)", "focus": "EMS, components"}, {"name": "Baguio / Clark", "focus": "Texas Instruments"}],
+     "valuechain": "Additional back-end & EMS capacity beyond the Calabarzon core.",
+     "sourcing": {"buy": ["Dies & substrates", "components & passives", "test equipment"], "sell": ["Packaged chips", "EMS assemblies"]},
+     "tags": {"Components": 2, "Optical": 0, "Battery": 0, "Automotive": 1, "Precision": 1, "Materials": 0, "Appliances": 1, "Semiconductor": 2},
+     "stats": [{"k": "TI", "v": "Baguio / Clark"}, {"k": "Cebu", "v": "EMS cluster"}, {"k": "Role", "v": "back-end + EMS"}],
+     "note": "Spreads the back-end base beyond Luzon's Calabarzon belt."},
+]
+PHILIPPINES = {
+    "name": "Philippines", "code": "ph", "dom": "SEMI",
+    "tagline": "A long-established back-end base — assembly, test & packaging (Amkor, TI, ADI, ST, Onsemi) + local EMS; electronics ~60% of exports.",
+    "macro": PH_MACRO, "role": PH_ROLE, "role_take": PH_ROLE_TAKE, "cities": PH_CITIES,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
+# ============================ AUSTRALIA ============================
+AU_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+1.8%", "as_of": "2025", "source": "ABS / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 5.5], ["2022", 3.9], ["2023", 2.0], ["2024", 1.0], ["2025", 1.8]]},
+    {"key": "cpi", "k": "CPI", "v": "+2.8%", "as_of": "2025", "source": "ABS", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [2.0, 3.0]}, "series": [["2021", 3.5], ["2022", 7.8], ["2023", 4.1], ["2024", 3.2], ["2025", 2.8]]},
+    {"key": "li", "k": "Lithium output", "v": "~50% world", "as_of": "2025", "source": "Geoscience Australia", "note": "world #1 producer",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+    {"key": "rba", "k": "RBA cash rate", "v": "3.85%", "as_of": "2025", "source": "RBA", "note": "easing",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+AU_ROLE = [
+    {"node": "Lithium", "scope": "~50% of world supply", "share": 50, "disp": "world #1", "type": "hold", "source": "USGS / GA", "year": "2025"},
+    {"node": "Rare earths", "scope": "Lynas — largest ex-China", "share": 12, "disp": "ex-China #1", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Defence & quantum tech", "scope": "radar, quantum start-ups", "share": 5, "disp": "niche", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Electronics manufacturing", "scope": "minimal", "share": 2, "disp": "minimal", "type": "gap", "source": "industry", "year": "2025"},
+    {"node": "Semiconductor fab", "scope": "none", "share": 0, "disp": "0%", "type": "gap", "source": "industry", "year": "2025", "glo": "Wafer fab"},
+]
+AU_ROLE_TAKE = ("Australia sits at the raw-material top of the chain — the world's #1 lithium producer and the largest "
+                "rare-earth supplier outside China (Lynas) — plus a developed end-market and niche defence/quantum tech. "
+                "It does almost no volume electronics manufacturing.")
+AU_CITIES = [
+    {"name": "Western Australia", "dom": "BAT", "area": "Perth · Pilbara · Greenbushes", "lon": 117.00, "lat": -28.50,
+     "tagline": "The raw-material engine — the world's biggest lithium mines (Greenbushes, Pilbara) and Lynas rare earths feed the battery & magnet supply chains.",
+     "clusters": [
+        {"seg": "Lithium", "level": 3, "what": "The single largest concentration of hard-rock lithium on Earth.", "anchors": ["Pilbara Minerals", "Mineral Resources", {"n": "Albemarle", "o": "US"}, "IGO"]},
+        {"seg": "Rare earths & critical minerals", "level": 2, "what": "Lynas — the largest rare-earth producer outside China; nickel & cobalt.", "anchors": ["Lynas", "Iluka"]},
+        {"seg": "Downstream processing", "level": 1, "what": "Emerging lithium-hydroxide & refining (Kwinana).", "anchors": ["Tianqi-IGO (Kwinana)"]},
+     ],
+     "subdistricts": [{"name": "Greenbushes / Pilgangoora", "focus": "hard-rock lithium mines"}, {"name": "Kwinana", "focus": "lithium-hydroxide refining"}, {"name": "Mt Weld", "focus": "Lynas rare earths"}],
+     "valuechain": "The very top of the chain — mines and (increasingly) refines the lithium and rare earths that batteries, EVs and magnets depend on.",
+     "sourcing": {"buy": ["Mining & processing equipment", "chemicals & reagents", "automation & sensors"], "sell": ["Lithium (spodumene / hydroxide)", "rare earths & critical minerals", "nickel, cobalt"]},
+     "tags": {"Components": 0, "Optical": 0, "Battery": 3, "Automotive": 1, "Precision": 0, "Materials": 3, "Appliances": 0, "Semiconductor": 0},
+     "stats": [{"k": "Lithium", "v": "~50% of world"}, {"k": "Lynas", "v": "rare earths ex-China #1"}, {"k": "Role", "v": "upstream materials"}],
+     "note": "Australia's real place in the electronics chain is upstream — the raw materials for batteries, EVs and magnets."},
+    {"name": "Sydney · Melbourne", "dom": "ELEC", "area": "NSW · Victoria", "lon": 148.50, "lat": -35.50,
+     "tagline": "The market & deep-tech east — data centres, a developed end-market and a globally notable quantum-computing scene.",
+     "clusters": [
+        {"seg": "Data centres & market", "level": 2, "what": "Hyperscale & colocation plus a wealthy electronics end-market.", "anchors": [{"n": "AWS", "o": "US"}, {"n": "Microsoft", "o": "US"}, "NEXTDC"]},
+        {"seg": "Quantum & deep tech", "level": 2, "what": "A leading quantum-computing cluster and photonics R&D.", "anchors": ["Silicon Quantum Computing", "Diraq", "Q-CTRL"]},
+        {"seg": "Defence & space (Adelaide)", "level": 1, "what": "Defence electronics, radar and space (Adelaide).", "anchors": ["ASC", {"n": "BAE Systems", "o": "EU"}]},
+     ],
+     "subdistricts": [{"name": "Sydney", "focus": "data centres, quantum, market"}, {"name": "Melbourne", "focus": "R&D, photonics, market"}, {"name": "Adelaide", "focus": "defence, space"}],
+     "valuechain": "Demand & deep-tech — a net consumer of electronics, with niche strength in quantum and defence rather than volume manufacturing.",
+     "sourcing": {"buy": ["Servers, GPUs, networking", "power & cooling", "lab & quantum equipment"], "sell": ["Cloud / DC capacity", "quantum & defence tech", "R&D / IP"]},
+     "tags": {"Components": 0, "Optical": 1, "Battery": 0, "Automotive": 0, "Precision": 1, "Materials": 0, "Appliances": 0, "Semiconductor": 1},
+     "stats": [{"k": "Role", "v": "market + deep tech"}, {"k": "Quantum", "v": "global cluster"}, {"k": "Mfg", "v": "minimal"}],
+     "note": "A developed end-market and research strength — not a manufacturing base."},
+]
+AUSTRALIA = {
+    "name": "Australia", "code": "au", "dom": "BAT",
+    "tagline": "The raw-material top of the chain — world #1 lithium, largest rare earths ex-China (Lynas); a developed market & niche quantum/defence tech, little manufacturing.",
+    "macro": AU_MACRO, "role": AU_ROLE, "role_take": AU_ROLE_TAKE, "cities": AU_CITIES,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
+# ============================ NEW ZEALAND (country-level dossier) ============================
+NZ_MACRO = [
+    {"key": "gdp", "k": "GDP growth", "v": "+1.0%", "as_of": "2025", "source": "Stats NZ / IMF", "glo": "GDP growth", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "high"}, "series": [["2021", 5.9], ["2022", 2.4], ["2023", 0.6], ["2024", -0.5], ["2025", 1.0]]},
+    {"key": "cpi", "k": "CPI", "v": "+2.5%", "as_of": "2025", "source": "Stats NZ", "glo": "CPI", "basis": "YoY",
+     "view": {"metric": "value", "ref": 0, "good": "band", "band": [1.0, 3.0]}, "series": [["2021", 3.9], ["2022", 7.2], ["2023", 4.7], ["2024", 2.2], ["2025", 2.5]]},
+    {"key": "rakon", "k": "Rakon", "v": "freq. control", "as_of": "2025", "source": "industry", "note": "global crystal/oscillator leader",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+    {"key": "ocr", "k": "RBNZ OCR", "v": "3.0%", "as_of": "2025", "source": "RBNZ", "note": "easing",
+     "view": {"metric": "value", "ref": 0, "good": "none"}, "series": []},
+]
+NZ_ROLE = [
+    {"node": "Frequency-control components", "scope": "Rakon — global niche leader", "share": 15, "disp": "niche #1", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Healthcare devices", "scope": "Fisher & Paykel Healthcare", "share": 10, "disp": "strong", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Appliances", "scope": "Fisher & Paykel (Haier-owned)", "share": 5, "disp": "niche", "type": "hold", "source": "industry", "year": "2025"},
+    {"node": "Volume electronics mfg", "scope": "minimal", "share": 1, "disp": "minimal", "type": "gap", "source": "industry", "year": "2025"},
+]
+NZ_ROLE_TAKE = ("New Zealand is small but holds a couple of global niches — Rakon in frequency-control components "
+                "(crystals/oscillators for GPS, telecom & aerospace) and Fisher & Paykel in healthcare devices & "
+                "appliances. A small end-market with little volume electronics manufacturing.")
+NZ_CLUSTERS = [
+    {"seg": "Frequency-control components", "level": 3, "what": "Rakon — a world leader in crystals & oscillators for GPS, telecom and aerospace.", "anchors": ["Rakon"]},
+    {"seg": "Healthcare devices", "level": 2, "what": "Fisher & Paykel Healthcare — global respiratory & medical devices.", "anchors": ["Fisher & Paykel Healthcare"]},
+    {"seg": "Appliances & electronics", "level": 2, "what": "Fisher & Paykel Appliances (Haier-owned) plus IoT / electronics design.", "anchors": ["Fisher & Paykel Appliances"]},
+]
+NZ_VALUECHAIN = ("A small, high-income market with a few globally significant niches (frequency control, healthcare "
+                 "devices) rather than volume manufacturing — net importer of most electronics.")
+NZ_SOURCING = {"buy": ["Finished electronics & devices", "components for niche makers", "lab & test equipment"], "sell": ["Crystals & oscillators (Rakon)", "respiratory / medical devices", "appliances & IoT"]}
+NZ_SUBDISTRICTS = [{"name": "Auckland", "focus": "Rakon, F&P, electronics & market"}, {"name": "Christchurch", "focus": "tech & electronics design"}]
+NZ_TAGS = {"Components": 2, "Optical": 1, "Battery": 0, "Automotive": 0, "Precision": 2, "Materials": 0, "Appliances": 2, "Semiconductor": 0}
+NZ_STATS = [{"k": "Rakon", "v": "freq.-control leader"}, {"k": "F&P Health", "v": "respiratory devices"}, {"k": "Role", "v": "niche + market"}]
+NZ_NOTE = "Tiny by volume, but Rakon and Fisher & Paykel give New Zealand a couple of genuine global niches."
+NEWZEALAND = {
+    "name": "New Zealand", "code": "nz", "dom": "COMP",
+    "tagline": "Small but with global niches — Rakon (frequency-control crystals/oscillators) and Fisher & Paykel (healthcare & appliances); a small end-market.",
+    "macro": NZ_MACRO, "role": NZ_ROLE, "role_take": NZ_ROLE_TAKE,
+    "clusters": NZ_CLUSTERS, "subdistricts": NZ_SUBDISTRICTS, "valuechain": NZ_VALUECHAIN, "sourcing": NZ_SOURCING,
+    "tags": NZ_TAGS, "stats": NZ_STATS, "note": NZ_NOTE,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
+}
+
 
 # ---- End-market demand matrix (the Asia landing hero). DISTRIBUTOR ANGLE: which industries manufacture
 # electronics-rich products, where, and how component-hungry they are — not who fabricates the chips.
@@ -500,6 +839,8 @@ ROLES = {
     "th": ("Automotive & appliances", "#0F6E56"),
     "ph": ("Electronics assembly & test", "#888780"),
     "in": ("Mobile, appliances & emerging", "#534AB7"),
+    "au": ("Critical minerals & market", "#B45309"),
+    "nz": ("Niche components & market", "#0E7490"),
 }
 
 # ---- Asia registry: drives the atlas overview map (one row per country). status live|planned.
@@ -516,10 +857,12 @@ REGISTRY = {
         {"code": "jp", "name": "Japan", "status": "live", "href": "japan.html", "lon": 138, "lat": 37, "chip": 80, "gdp": 1.0, "headline": "Materials, equipment & passives — Murata, Tokyo Electron, Shin-Etsu, Sony."},
         {"code": "sg", "name": "Singapore", "status": "live", "href": "singapore.html", "lon": 103.82, "lat": 1.31, "chip": 60, "gdp": 4.8, "headline": "~20% of global chip equipment + mature/specialty fabs; MNC & HQ hub."},
         {"code": "my", "name": "Malaysia", "status": "live", "href": "malaysia.html", "lon": 101.5, "lat": 3.8, "chip": 55, "gdp": 4.9, "headline": "Back-end powerhouse — ~13% of global assembly/test/packaging; China+1 magnet."},
-        {"code": "vn", "name": "Vietnam", "status": "planned", "href": "", "lon": 106, "lat": 16, "chip": 45, "gdp": 6.5, "headline": "Fast-rising assembly/EMS base — Samsung, Foxconn, Amkor, Intel ATP."},
-        {"code": "ph", "name": "Philippines", "status": "planned", "href": "", "lon": 122, "lat": 13, "chip": 35, "gdp": 5.7, "headline": "Long-standing assembly & test base."},
-        {"code": "th", "name": "Thailand", "status": "planned", "href": "", "lon": 101, "lat": 15, "chip": 35, "gdp": 2.8, "headline": "HDD/data-storage & electronics assembly hub."},
-        {"code": "in", "name": "India", "status": "planned", "href": "", "lon": 79, "lat": 22, "chip": 30, "gdp": 6.5, "headline": "Emerging — first fabs/ATP (Tata, Micron Sanand); huge end-market."},
+        {"code": "vn", "name": "Vietnam", "status": "live", "href": "vietnam.html", "lon": 106, "lat": 16, "chip": 45, "gdp": 7.5, "headline": "Fast-rising assembly/EMS base — Samsung, Foxconn, Amkor, Intel ATP."},
+        {"code": "ph", "name": "Philippines", "status": "live", "href": "philippines.html", "lon": 122, "lat": 13, "chip": 35, "gdp": 5.7, "headline": "Long-standing assembly & test base — Amkor, TI, ADI, ST, Onsemi."},
+        {"code": "th", "name": "Thailand", "status": "live", "href": "thailand.html", "lon": 101, "lat": 15, "chip": 35, "gdp": 2.8, "headline": "'Detroit of Asia' + global HDD hub; China+1 PCB & power electronics."},
+        {"code": "in", "name": "India", "status": "live", "href": "india.html", "lon": 79, "lat": 22, "chip": 30, "gdp": 6.5, "headline": "World #2 phone maker + chip-design hub; first fabs/ATP (Tata, Micron)."},
+        {"code": "au", "name": "Australia", "status": "live", "href": "australia.html", "lon": 134, "lat": -25, "chip": 15, "gdp": 1.8, "headline": "Raw-material top of the chain — world #1 lithium, rare earths (Lynas); market & quantum."},
+        {"code": "nz", "name": "New Zealand", "status": "live", "href": "newzealand.html", "lon": 172, "lat": -41, "chip": 8, "gdp": 1.0, "headline": "Small but niche — Rakon (frequency control) & Fisher & Paykel (healthcare/appliances)."},
     ],
 }
 
@@ -541,6 +884,12 @@ def main():
     write("taiwan", TAIWAN)
     write("korea", KOREA)
     write("japan", JAPAN)
+    write("vietnam", VIETNAM)
+    write("india", INDIA)
+    write("thailand", THAILAND)
+    write("philippines", PHILIPPINES)
+    write("australia", AUSTRALIA)
+    write("newzealand", NEWZEALAND)
     for c in REGISTRY["countries"]:
         r = ROLES.get(c["code"])
         if r:
