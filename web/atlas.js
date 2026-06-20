@@ -23,10 +23,10 @@ const TT = {
   lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US-restricted", "美国管制"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   rankby: ["ranked by", "排名依据"], chipw: ["chip supply-chain weight", "芯片供应链权重"], gdpg: ["GDP growth", "GDP 增速"], live: ["live", "在营"], soon: ["soon", "即将"], clickzoom: ["Click a live country on the map or list to zoom in.", "点击地图或列表中在营的国家放大查看。"], mapdots: ["Map dots —", "地图圆点 —"],
   switch_hint: ["live ↗ click to switch", "在营 ↗ 点击切换"], planned_hint: ["planned · not yet mapped", "规划中 · 暂未收录"],
-  role_l: ["Role in the chain", "在链中的角色"], vc_sub: ["the chip value chain at a glance", "芯片价值链速览"],
-  chokes: ["Single-source chokepoints", "单一来源卡脖子点"], explore: ["Explore a live country", "进入在营国家"],
-  vc_title: ["Who controls each stage", "谁掌握每个环节"], vc_titlesub: ["Asia in the global chip value chain · shade = strength · orange = chokepoint", "亚洲在全球芯片价值链中 · 深浅=掌握度 · 橙=卡脖子"],
-  maprole: ["Map colour = primary role —", "地图颜色 = 主要角色 —"], vc_foot: ["CN–MY covered in the atlas · US/NL/EU shown because they own chokepoints", "CN–MY 为本图收录 · US/NL/EU 因掌握卡脖子点而一并显示"],
+  role_l: ["Manufacturing profile", "制造画像"], vc_sub: ["the electronics demand map · by industry", "电子需求地图 · 按行业"],
+  drivers: ["Demand drivers — fastest-rising end-markets", "需求驱动 — 增长最快的终端市场"], explore: ["Explore a live country", "进入在营国家"],
+  vc_title: ["Where each industry manufactures", "各行业的制造分布"], vc_titlesub: ["electronics-consuming manufacturing across Asia · shade = scale of presence", "亚洲电子制造分布 · 深浅 = 规模"],
+  maprole: ["Map colour = manufacturing profile —", "地图颜色 = 制造画像 —"], vc_foot: ["Scale of each industry's electronics manufacturing · hover a cell for OEMs & the components it pulls", "各行业电子制造规模 · 悬停看 OEM 与所需元件"],
 };
 const tt = (k) => { const e = TT[k]; return e ? (Z() ? e[1] : e[0]) : k; };
 const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? (Z() ? (CHINA.domains[d][2] || CHINA.domains[d][0]) : CHINA.domains[d][0]) : d;
@@ -333,8 +333,8 @@ function panelAsia() {
   if (!A || !A.vc) return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span></div><div class="dos-note">${tt("clickzoom")}</div>`;
   let h = `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span><span class="dos-area">${tt("vc_sub")}</span></div>`;
   h += `<div class="vc-thesis">${esc(A.thesis || "")}</div>`;
-  h += `<div class="sech2">${tt("chokes")}</div><div class="vc-chokes">` + (A.vc.chokepoints || []).map((ck) =>
-    `<span class="vc-ck" data-tip="${escA(ck.label + " — " + ck.who + " " + ck.share + " · " + ck.firms + "  (source: " + ck.source + ")")}"><span class="vc-ck-w">${esc(ck.who)}</span><span class="vc-ck-s">${esc(ck.share)}</span><span class="vc-ck-l">${esc(ck.label)}</span></span>`).join("") + `</div>`;
+  h += `<div class="sech2">${tt("drivers")}</div><div class="vc-chokes">` + (A.vc.drivers || []).map((d) =>
+    `<span class="vc-dr" data-tip="${escA(d.label + " — " + d.detail + "  ·  pulls: " + d.parts + "  (source: " + d.source + ")")}"><span class="vc-dr-w">${esc(d.label)}</span><span class="vc-dr-s">${esc(d.size)}</span><span class="vc-dr-l">${esc(d.parts)}</span></span>`).join("") + `</div>`;
   h += `<div class="sech2">${tt("explore")}</div><div class="vc-jump">` + CO.filter((c) => c.status === "live").map((c) =>
     `<button class="vc-jumpbtn" data-code="${c.code}">${esc(countryName(c.code))}<span class="rolepill" style="background:${c.rc || "#888"}">${esc(c.role || "")}</span> ↗</button>`).join("") + `</div>`;
   return h;

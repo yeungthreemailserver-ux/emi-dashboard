@@ -200,53 +200,57 @@ MALAYSIA = {
 }
 
 
-# ---- Value-chain × geography matrix (the Asia landing hero). Shows who controls each stage of the
-# chip value chain + single-source chokepoints. Strength v: 0 none · 1 present · 2 strong · 3 leads.
-# Sourcing: CSIS "Mapping the Semiconductor Supply Chain", ETO chokepoint analysis, WTO GVC report, industry.
-VC_THESIS = ("No country makes an advanced chip alone. The US owns design & EDA; the Netherlands and Japan own the "
-             "tools and materials; Taiwan and Korea own the leading edge and memory; China owns scale, mature nodes "
-             "and raw materials; Southeast Asia owns assembly & test. Every advanced chip crosses all of them.")
+# ---- End-market demand matrix (the Asia landing hero). DISTRIBUTOR ANGLE: which industries manufacture
+# electronics-rich products, where, and how component-hungry they are — not who fabricates the chips.
+# Strength v: 0 none · 1 present · 2 strong · 3 leads. Geography = where that industry's electronics
+# manufacturing concentrates. Sourcing: Mordor Intelligence, Business Research Insights (distribution
+# end-market split: Automotive 28% · Comms&Computing 25% · Industrial 18% · Medical 12%), industry.
+VC_THESIS = ("For a components distributor the market isn't 'chips' — it's every industry now building "
+             "electronics-rich products. Automotive and industrial alone pull ~46% of component demand; an EV "
+             "carries 2–3× the silicon of a petrol car and AI data-centres are the fastest-rising draw. Chip makers "
+             "are themselves a customer. Follow where the factories — and the demand — actually are.")
 VC_STAGES = [
-    ("design", "Chip design"), ("eda", "EDA & IP"), ("equip", "Mfg equipment"), ("materials", "Materials & gases"),
-    ("logic", "Leading-edge logic"), ("mature", "Mature / specialty fab"), ("memory", "Memory (DRAM/NAND/HBM)"),
-    ("atp", "Assembly · test · pack"), ("ems", "EMS / final assembly"),
+    ("auto", "Automotive & EV"), ("compute", "Computing & data centre"), ("mobile", "Mobile & consumer"),
+    ("comms", "Comms & networking"), ("industrial", "Industrial & automation"), ("energy", "Energy & renewables"),
+    ("medical", "Medical & healthcare"), ("aero", "Aerospace & defence"), ("semi", "Semiconductor & equipment"),
 ]
 VC_COLS = [
     ("cn", "China", False), ("tw", "Taiwan", False), ("kr", "South Korea", False), ("jp", "Japan", False),
-    ("sg", "Singapore", False), ("my", "Malaysia", False),
-    ("us", "United States", True), ("nl", "Netherlands", True), ("eu", "Europe", True),
+    ("sg", "Singapore", False), ("my", "Malaysia", False), ("vn", "Vietnam", False), ("th", "Thailand", False),
+    ("in", "India", False),
 ]
 def _c(v, s="", f="", ck=False): return {"v": v, "s": s, "f": f, "ck": ck}
 VC_MATRIX = {
-    "design":    {"cn": _c(2, "constrained by export controls", "HiSilicon, Unisoc"), "tw": _c(3, "fabless leaders", "MediaTek, Novatek"), "kr": _c(2, "", "Samsung LSI"), "jp": _c(1, "", "Sony, Renesas"), "sg": _c(1), "my": _c(1), "us": _c(3, "~46% of global IC design", "Nvidia, Qualcomm, AMD, Broadcom"), "nl": _c(0), "eu": _c(2, "", "Infineon, NXP, ST")},
-    "eda":       {"cn": _c(1, "~3%", "Empyrean"), "tw": _c(1), "kr": _c(1), "jp": _c(1), "sg": _c(0), "my": _c(0), "us": _c(3, "~70% of EDA", "Cadence, Synopsys, Siemens EDA", True), "nl": _c(0), "eu": _c(2, "core IP", "Arm, Imagination")},
-    "equip":     {"cn": _c(1, "<2%, rising fast", "AMEC, Naura"), "tw": _c(1), "kr": _c(2, "", "SEMES"), "jp": _c(3, "~29% of WFE", "Tokyo Electron, Screen, Canon"), "sg": _c(1), "my": _c(1), "us": _c(3, "~40% of WFE", "Applied Materials, Lam, KLA"), "nl": _c(3, "EUV — sole supplier", "ASML", True), "eu": _c(1)},
-    "materials": {"cn": _c(2, "gallium/germanium ~85%+ (export curbs)", ""), "tw": _c(3, "~25% of materials", ""), "kr": _c(2), "jp": _c(3, "EUV resist & coating tracks ~96%", "JSR, TOK, Shin-Etsu, SUMCO", True), "sg": _c(1), "my": _c(1), "us": _c(2), "nl": _c(0), "eu": _c(2, "", "BASF, Merck")},
-    "logic":     {"cn": _c(0, "blocked — no EUV access", ""), "tw": _c(3, "~90% of <7nm logic", "TSMC", True), "kr": _c(2, "3nm", "Samsung Foundry"), "jp": _c(0, "Rapidus building 2nm", ""), "sg": _c(0), "my": _c(0), "us": _c(1, "Intel 18A ramping", "Intel"), "nl": _c(0), "eu": _c(0)},
-    "mature":    {"cn": _c(3, "largest mature-node build-out", "SMIC, Hua Hong"), "tw": _c(3, "", "TSMC, UMC, VIS, PSMC"), "kr": _c(1), "jp": _c(2, "", "Renesas, Rohm"), "sg": _c(2, "", "GlobalFoundries, UMC"), "my": _c(1, "", "SilTerra, Infineon Kulim"), "us": _c(2, "", "GlobalFoundries, TI"), "nl": _c(0), "eu": _c(2, "", "Bosch, Infineon, ST, X-Fab")},
-    "memory":    {"cn": _c(1, "rising", "CXMT, YMTC"), "tw": _c(1, "", "Nanya, Winbond"), "kr": _c(3, "DRAM ~55%, HBM leader", "Samsung, SK hynix", True), "jp": _c(2, "NAND", "Kioxia"), "sg": _c(1, "back-end", ""), "my": _c(0), "us": _c(2, "", "Micron"), "nl": _c(0), "eu": _c(0)},
-    "atp":       {"cn": _c(3, "~28% of OSAT facilities", "JCET, TFME, Tongfu"), "tw": _c(3, "~50% of OSAT", "ASE, SPIL"), "kr": _c(1), "jp": _c(1), "sg": _c(2, "", "UTAC, Micron"), "my": _c(3, "~13% of global ATP", "Inari, Unisem + MNC sites"), "us": _c(1), "nl": _c(0), "eu": _c(0)},
-    "ems":       {"cn": _c(3, "dominant", "Foxconn ops, BYD"), "tw": _c(2, "brands / ODM", "Foxconn HQ, Quanta, Pegatron"), "kr": _c(1), "jp": _c(1), "sg": _c(1), "my": _c(2, "", "VS Industry, DC / EMS"), "us": _c(1), "nl": _c(0), "eu": _c(1)},
+    "auto":       {"cn": _c(3, "world #1 in NEVs", "BYD, CATL, Geely, Bosch"), "tw": _c(1, "ADAS / EV components", "Foxconn EV, Delta"), "kr": _c(2, "", "Hyundai-Kia, LG, Samsung SDI"), "jp": _c(3, "Toyota–Denso ecosystem", "Toyota, Denso, Renesas"), "sg": _c(1), "my": _c(2, "auto-electronics, China+1", "Infineon, Bosch, Continental"), "vn": _c(1, "", "VinFast"), "th": _c(3, "'Detroit of Asia'", "Toyota, Honda, BYD, Delta"), "in": _c(2, "fast-growing", "Tata, Mahindra, Bosch")},
+    "compute":    {"cn": _c(3, "servers, PCs, AI", "Lenovo, Inspur, Huawei"), "tw": _c(3, "world's server / AI-server ODM", "Foxconn, Quanta, Wiwynn, Wistron"), "kr": _c(2, "server memory", "Samsung, SK hynix"), "jp": _c(1), "sg": _c(2, "data-centre & HQ hub", "hyperscalers"), "my": _c(2, "DC boom (Johor)", "Nvidia/MS/GDS DC, EMS"), "vn": _c(1), "th": _c(1), "in": _c(1, "emerging DC")},
+    "mobile":     {"cn": _c(3, "phones, TVs, wearables", "Apple OEM, Xiaomi, OPPO, TCL"), "tw": _c(2, "ODM / brands", "Foxconn, Pegatron"), "kr": _c(2, "", "Samsung, LG"), "jp": _c(2, "imaging / AV", "Sony, Panasonic"), "sg": _c(1), "my": _c(1), "vn": _c(3, "Samsung's largest phone base", "Samsung, LG, Foxconn"), "th": _c(2, "appliances / AV", ""), "in": _c(3, "#2 phone maker", "Apple (Foxconn/Tata), Samsung")},
+    "comms":      {"cn": _c(3, "5G / telecom #1", "Huawei, ZTE"), "tw": _c(2, "networking ODM", "Accton, Zyxel"), "kr": _c(2, "", "Samsung Networks"), "jp": _c(2, "", "NEC, Fujitsu"), "sg": _c(1), "my": _c(1), "vn": _c(1), "th": _c(1), "in": _c(2, "5G rollout")},
+    "industrial": {"cn": _c(3, "largest industrial base", "Inovance, Midea-KUKA"), "tw": _c(2, "IPC / automation", "Advantech, Delta"), "kr": _c(1), "jp": _c(3, "robots & automation", "Fanuc, Yaskawa, Mitsubishi, Keyence"), "sg": _c(2, "precision / automation", ""), "my": _c(1), "vn": _c(1), "th": _c(2, "", ""), "in": _c(2, "")},
+    "energy":     {"cn": _c(3, "solar ~80%+, batteries, inverters", "LONGi, CATL, Sungrow, Huawei"), "tw": _c(1), "kr": _c(2, "EV batteries", "LG, SK, Samsung SDI"), "jp": _c(1), "sg": _c(1), "my": _c(2, "solar PV mfg", "First Solar, Hanwha"), "vn": _c(2, "solar modules", ""), "th": _c(1), "in": _c(2, "solar push", "")},
+    "medical":    {"cn": _c(2, "", ""), "tw": _c(1), "kr": _c(1), "jp": _c(2, "", "Olympus, Terumo"), "sg": _c(3, "med-tech hub", "Medtronic, Siemens Healthineers, GE"), "my": _c(3, "medical devices (Penang)", "B. Braun, Boston Scientific"), "vn": _c(1), "th": _c(1, "medical / gloves", ""), "in": _c(2, "pharma + devices", "")},
+    "aero":       {"cn": _c(2, "", "COMAC, AVIC"), "tw": _c(1), "kr": _c(2, "", "KAI, Hanwha"), "jp": _c(2, "", "Mitsubishi Heavy"), "sg": _c(3, "aerospace / MRO hub", "ST Engineering, P&W, Rolls-Royce MRO"), "my": _c(1), "vn": _c(1), "th": _c(1), "in": _c(2, "defence / space", "HAL, ISRO")},
+    "semi":       {"cn": _c(3, "fabs + equipment buyer", "SMIC, Hua Hong"), "tw": _c(3, "TSMC, OSAT", "TSMC, ASE"), "kr": _c(3, "memory giants", "Samsung, SK hynix"), "jp": _c(3, "equipment & materials", "Tokyo Electron"), "sg": _c(3, "fabs & equipment", "GlobalFoundries, Micron, AMAT"), "my": _c(2, "OSAT / back-end", "Inari, Infineon"), "vn": _c(1), "th": _c(1), "in": _c(1, "first fabs", "Tata, Micron")},
 }
-VC_CHOKES = [
-    {"label": "EUV lithography", "who": "Netherlands", "code": "nl", "share": "~100%", "firms": "ASML — sole supplier", "source": "ASML / ETO", "stage": "equip"},
-    {"label": "EDA software", "who": "United States", "code": "us", "share": "~70%", "firms": "Cadence, Synopsys, Siemens EDA", "source": "CSIS", "stage": "eda"},
-    {"label": "EUV resist & tracks", "who": "Japan", "code": "jp", "share": "~96%", "firms": "JSR, TOK · Tokyo Electron, Screen", "source": "ETO", "stage": "materials"},
-    {"label": "Leading-edge logic ≤7nm", "who": "Taiwan", "code": "tw", "share": "~90%", "firms": "TSMC", "source": "industry", "stage": "logic"},
-    {"label": "HBM / advanced memory", "who": "South Korea", "code": "kr", "share": "DRAM ~55%", "firms": "SK hynix, Samsung", "source": "industry", "stage": "memory"},
+# Demand drivers — the fastest-rising end-markets a distributor should watch (replaces supply chokepoints).
+VC_DRIVERS = [
+    {"label": "Automotive & EV", "size": "~28% of distribution · ~8% CAGR", "parts": "power (SiC/IGBT) · MCU · sensors · connectors", "detail": "EVs & ADAS carry 2–3× the component content of a petrol car — the single biggest demand driver.", "source": "Business Research Insights / Mordor"},
+    {"label": "Computing & AI data centre", "size": "fastest-rising · AI capex surge", "parts": "memory (HBM/DDR5) · power · optical · connectors", "detail": "AI-server build-out is pulling memory, power-delivery and optical interconnect at record rates.", "source": "industry"},
+    {"label": "Industrial & automation", "size": "~18% of distribution", "parts": "MCU · analog · power · sensors", "detail": "Factory automation, robotics and IoT keep MCU, analog and power demand structurally rising.", "source": "Business Research Insights"},
+    {"label": "Energy & renewables", "size": "solar · storage · EV charging", "parts": "power semis · passives · connectors", "detail": "Solar, battery storage and charging infrastructure are a fast-growing power-electronics market.", "source": "industry"},
+    {"label": "Mobile & consumer", "size": "largest base ~34%", "parts": "SoCs · small passives · displays", "detail": "Huge but maturing — still the volume floor of component demand.", "source": "Mordor"},
 ]
-# Each country's primary ROLE in the chain (categorical) — drives the map's role colouring + legend.
+# Each country's manufacturing PROFILE for a distributor (categorical) — drives the map colouring + legend.
 ROLES = {
-    "cn": ("Scale · mature nodes · materials", "#185FA5"),
-    "tw": ("Leading-edge logic", "#D85A30"),
-    "kr": ("Memory", "#7F77DD"),
-    "jp": ("Equipment & materials", "#EF9F27"),
-    "sg": ("Equipment & advanced fabs", "#1D9E75"),
-    "my": ("Assembly & test", "#639922"),
-    "vn": ("Assembly & EMS", "#639922"),
-    "ph": ("Assembly & test", "#639922"),
-    "th": ("Assembly & storage", "#639922"),
-    "in": ("Emerging fab / ATP", "#888780"),
+    "cn": ("World's factory — all end-markets", "#185FA5"),
+    "tw": ("Computing & AI servers (ODM)", "#D85A30"),
+    "kr": ("Memory, displays & batteries", "#7F77DD"),
+    "jp": ("Automotive, industrial & precision", "#EF9F27"),
+    "sg": ("Med-tech, aerospace & semicap", "#1D9E75"),
+    "my": ("EMS, data centre & medical", "#639922"),
+    "vn": ("Mobile, consumer & EMS", "#D4537E"),
+    "th": ("Automotive & appliances", "#0F6E56"),
+    "ph": ("Electronics assembly & test", "#888780"),
+    "in": ("Mobile, appliances & emerging", "#534AB7"),
 }
 
 # ---- Asia registry: drives the atlas overview map (one row per country). status live|planned.
@@ -290,14 +294,14 @@ def main():
         if r:
             c["role"], c["rc"] = r[0], r[1]
     REGISTRY["thesis"] = VC_THESIS
-    REGISTRY["vc"] = {"stages": VC_STAGES, "cols": VC_COLS, "matrix": VC_MATRIX, "chokepoints": VC_CHOKES}
+    REGISTRY["vc"] = {"stages": VC_STAGES, "cols": VC_COLS, "matrix": VC_MATRIX, "drivers": VC_DRIVERS}
     geo_f = WEB / "vendor" / "asia.geo.json"
     if geo_f.exists():
         REGISTRY["geo"] = json.loads(geo_f.read_text(encoding="utf-8"))
     blob = json.dumps(REGISTRY, ensure_ascii=False, separators=(",", ":"))
     (WEB / "asia-registry.js").write_text("window.ASIA = " + blob + ";\n", encoding="utf-8")
     live = sum(1 for c in REGISTRY["countries"] if c["status"] == "live")
-    print(f"wrote web/asia-registry.js — {len(REGISTRY['countries'])} countries ({live} live), {len(VC_STAGES)}×{len(VC_COLS)} value-chain matrix, {len(VC_CHOKES)} chokepoints")
+    print(f"wrote web/asia-registry.js — {len(REGISTRY['countries'])} countries ({live} live), {len(VC_STAGES)}×{len(VC_COLS)} end-market demand matrix, {len(VC_DRIVERS)} demand drivers")
 
 
 if __name__ == "__main__":
