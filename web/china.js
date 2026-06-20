@@ -31,7 +31,7 @@ const TT = {
   sig: ["Signature strengths", "核心强项"],
   lg_cn: ["China-based", "中国企业"],
   lg_for: ["Foreign HQ", "境外总部"],
-  lg_sanc: ["US-restricted", "美国管制"],
+  lg_sanc: ["US export-restricted", "美国出口管制"], lg_dod: ["DoD-listed (sales OK)", "美国防部清单(可售)"],
   lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   subd: ["Sub-district clusters", "次级区域集群"],
   vc: ["Value-chain role", "价值链定位"],
@@ -343,15 +343,16 @@ function clusterHTML(cl, z) {
     const zh = anchorZh(a);               // Chinese label in zh mode (English original kept in tooltip)
     const label = zh || a;
     const s = sanctionOf(a), o = originOf(a), foreign = !!(o && o.cn === false);
-    const badge = foreign ? `<sup class="orig">${esc(o.code)}</sup>` : "";   // region tag on non-China HQ
+    const exportBan = !!(s && /Entity List|NS-CMIC/i.test(s.list || "")), dod = !!(s && !exportBan);  // export ban vs DoD-procurement-only
+    const badge = foreign ? `<sup class="orig">${esc(o.code)}</sup>` : (dod ? `<sup class="dodtag">DoD</sup>` : "");
     const tips = [];
     if (zh) tips.push(a);                  // English original
     if (foreign) tips.push(originLabel(o));// exact HQ on hover (domestic stays plain)
-    if (s) tips.push("⚠ " + s.name + " · US " + s.list + " (" + s.date + ") · " + s.note);
+    if (s) tips.push((exportBan ? "⚠ " : "") + s.name + " · " + s.list + " (" + s.date + ") · " + (exportBan ? "US export/investment restricted" : "DoD procurement list — commercial sales not restricted") + " · " + s.note);
     const tip = tips.length ? ` data-tip="${escAttr(tips.join(" · "))}"` : "";
     if (!s && !foreign && !zh) return `<span class="chip"${tip}>${glossify(a)}</span>`;  // plain domestic keeps glossary tooltips
-    const cls = "chip" + (s ? " sanc" : foreign ? " foreign" : "");
-    return `<span class="${cls}"${tip}>${s ? "⚠ " : ""}${esc(label)}${badge}</span>`;
+    const cls = "chip" + (exportBan ? " sanc" : dod ? " dod" : foreign ? " foreign" : "");
+    return `<span class="${cls}"${tip}>${exportBan ? "⚠ " : ""}${esc(label)}${badge}</span>`;
   }).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${glossify(z && z.seg ? z.seg : cl.seg)}</span><span class="cl-lvl l${cl.level}">${lvlw(cl.level)}</span></div>
     <div class="cl-what">${glossify(z && z.what ? z.what : cl.what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
@@ -364,7 +365,7 @@ function renderDossier(c) {
   let h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span><span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span></div>`;
   h += `<div class="dos-tag">${glossify(z ? z.tagline : c.tagline)}</div>`;
   if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
-  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5><div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_cn")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>${c.clusters.map((cl, i) => clusterHTML(cl, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
+  if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5><div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_cn")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="dod-leg">${tt("lg_dod")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>${c.clusters.map((cl, i) => clusterHTML(cl, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
   if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s, i) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${pick(z && z.subdistricts && z.subdistricts[i] ? z.subdistricts[i].focus : null, s.focus)}</span></div>`).join("")}</div>`;
   if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${pick(z ? z.valuechain : null, c.valuechain)}</div></div>`;
   if (c.sourcing) h += `<div class="dos-sec"><h5>${tt("dist")}</h5><div class="src2">

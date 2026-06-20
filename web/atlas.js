@@ -20,7 +20,7 @@ const TT = {
   leverage: ["Supply-chain leverage", "供应链杠杆"], role: ["Supply-chain role", "供应链角色"], leads: ["Where it leads", "领先环节"], lags: ["Where it lags / depends", "受制 / 依赖环节"], t_str: ["· strengths", "· 优势"], t_gap: ["· gaps", "· 短板"],
   cities: ["Cities", "城市"], clickdrill: ["click to drill", "点击进入"], keyclusters: ["Key clusters", "核心集群"],
   sig: ["Signature strengths", "核心强项"], subd: ["Sub-district clusters", "次级区域集群"], vc: ["Value-chain role", "价值链定位"], dist: ["For an electronics distributor", "对电子分销商而言"], buy: ["Source here", "可在此采购"], sell: ["Sell into here", "可向此销售"], mfg: ["Manufacturing-type strength", "制造类型强度"],
-  lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US-restricted", "美国管制"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
+  lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US export-restricted", "美国出口管制"], lg_dod: ["DoD-listed (sales OK)", "美国防部清单(可售)"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   rankby: ["ranked by", "排名依据"], chipw: ["chip supply-chain weight", "芯片供应链权重"], gdpg: ["GDP growth", "GDP 增速"], live: ["live", "在营"], soon: ["soon", "即将"], clickzoom: ["Click a live country on the map or list to zoom in.", "点击地图或列表中在营的国家放大查看。"], mapdots: ["Map dots —", "地图圆点 —"],
   switch_hint: ["live ↗ click to switch", "在营 ↗ 点击切换"], planned_hint: ["planned · not yet mapped", "规划中 · 暂未收录"],
   role_l: ["Manufacturing profile", "制造画像"], vc_sub: ["the electronics demand map · by industry", "电子需求地图 · 按行业"],
@@ -318,7 +318,11 @@ function anchorChip(a, code) {
   if (a && typeof a === "object") origin = a.o || null;
   else if (code === "cn" && CHINA) { const o = (CHINA.origins || {})[raw]; if (o && o.cn === false) origin = o.code; sanc = (CHINA.sanctions || []).find((s) => s.match && raw.toLowerCase().indexOf(s.match.toLowerCase()) >= 0) || null; }
   const name = (Z() && code === "cn" && CHINA && CHINA.company_zh && CHINA.company_zh[raw]) ? CHINA.company_zh[raw] : raw;
-  if (sanc) return `<span class="chip sanc" data-tip="${escA("⚠ " + sanc.name + " · US " + sanc.list + " (" + sanc.date + ")")}">⚠ ${esc(name)}</span>`;
+  if (sanc) {
+    const exportBan = /Entity List|NS-CMIC/i.test(sanc.list || "");   // genuine export/investment restriction vs DoD-procurement-only list
+    if (exportBan) return `<span class="chip sanc" data-tip="${escA("⚠ " + sanc.name + " · " + sanc.list + " (" + sanc.date + ") — US export/investment restricted" + (sanc.note ? " · " + sanc.note : ""))}">⚠ ${esc(name)}</span>`;
+    return `<span class="chip dod" data-tip="${escA(sanc.name + " · " + sanc.list + " (" + sanc.date + ") — DoD procurement list; commercial sales NOT restricted" + (sanc.note ? " · " + sanc.note : ""))}">${esc(name)}<sup class="dodtag">DoD</sup></span>`;
+  }
   if (origin) return `<span class="chip foreign" data-tip="${escA("HQ: " + (ORIGIN[origin] || origin))}">${esc(name)}<sup class="orig">${esc(origin)}</sup></span>`;
   return `<span class="chip">${esc(name)}</span>`;
 }
@@ -329,7 +333,7 @@ function cityCardsHTML(code) {
     const h = `<div class="dos-h"><span class="dos-name">${esc(countryName(code))}</span>${d.dom ? `<span class="dos-dom" style="background:${domColor(d.dom)}">${esc(domName(d.dom))}</span>` : ""}</div>`;
     return h + dossierSections(d, code, null);
   }
-  const card = (c, showDom) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${showDom && c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; };
+  const card = (c, showDom) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${showDom && c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag)}</span></button>`; };
   const head = `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>`;
   // Any country whose cities carry a domain: group by focus industry (biggest cluster first). The coloured
   // group header carries the label, so the per-card domain badge is dropped. Domain-less cities fall to a flat grid.
@@ -368,7 +372,7 @@ function dossierSections(c, code, z) {
   let h = `<div class="dos-tag">${pick(z ? z.tagline : null, c.tagline || "")}</div>`;
   if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
   if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>
-    <div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_local")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>
+    <div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_local")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="dod-leg">${tt("lg_dod")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>
     ${c.clusters.map((cl, i) => clusterBlock(cl, code, z && z.clusters ? z.clusters[i] : null)).join("")}</div>`;
   if (c.subdistricts && c.subdistricts.length) h += `<div class="dos-sec"><h5>${tt("subd")}</h5>${c.subdistricts.map((s, i) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${pick(z && z.subdistricts && z.subdistricts[i] ? z.subdistricts[i].focus : null, s.focus)}</span></div>`).join("")}</div>`;
   if (c.valuechain) h += `<div class="dos-sec"><h5>${tt("vc")}</h5><div class="vc">${pick(z ? z.valuechain : null, c.valuechain)}</div></div>`;
