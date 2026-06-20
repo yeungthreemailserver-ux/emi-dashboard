@@ -112,24 +112,10 @@ function setMarkersVisible(show) { countryMarkers.forEach((m) => { m.getElement(
 // hide city labels that would overlap (greedy by insertion order); re-runs on every map move/idle.
 let declutterRAF = null;
 function declutterCityLabels() {
-  const els = detailMarkers.map((m) => m.getElement()).filter((el) => el && el.classList.contains("mk-city"));
-  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) { lab.style.display = ""; lab.classList.remove("clab-right", "clab-bottom", "clab-left"); } });
-  // obstacles: seed with every city dot so a label never lands on another city's dot
-  const placed = [];
-  els.forEach((el) => { const dot = el.querySelector(".cdot"); if (dot) { const dr = dot.getBoundingClientRect(); if (dr.width) placed.push(dr); } });
-  const clear = (r, p) => (r.right < p.left - 3 || r.left > p.right + 3 || r.bottom < p.top - 2 || r.top > p.bottom + 2);
-  els.forEach((el) => {
-    const lab = el.querySelector(".clab"); if (!lab) return;
-    let ok = false;
-    for (const pos of ["top", "left", "bottom", "right"]) {   // try each side (prefer left/inland over right/sea); first that fits wins, else hide
-      lab.classList.remove("clab-right", "clab-bottom", "clab-left");
-      if (pos !== "top") lab.classList.add("clab-" + pos);
-      const r = lab.getBoundingClientRect();
-      if (!r.width) { ok = true; break; }   // unmeasurable (headless preview) — leave the default position visible
-      if (placed.every((p) => clear(r, p))) { placed.push(r); ok = true; break; }
-    }
-    if (!ok) { lab.classList.remove("clab-right", "clab-bottom", "clab-left"); lab.style.display = "none"; }
-  });
+  const els = detailMarkers.map((m) => m.getElement()).filter((el) => el && el.classList.contains("citylbl"));
+  els.forEach((el) => { el.style.visibility = ""; });
+  const placed = [], clear = (r, p) => (r.right < p.left - 2 || r.left > p.right + 2 || r.bottom < p.top - 2 || r.top > p.bottom + 2);
+  els.forEach((el) => { const r = el.getBoundingClientRect(); if (!r.width) return; if (placed.every((p) => clear(r, p))) placed.push(r); else el.style.visibility = "hidden"; });
 }
 // same idea for the country pills at the Asia level — hide labels that overlap (greedy by importance);
 // the coloured country shape stays clickable, and hidden labels reappear as you zoom in.
@@ -236,6 +222,14 @@ function addCityDots(code) {
     map.on("mousemove", "citydot", (e) => { const f = e.features[0]; map.getCanvas().style.cursor = "pointer"; showTip(`<b>${esc(f.properties.label)}</b> · <span style="color:#2563eb">click to drill ↗</span>`, e.originalEvent); });
     map.on("mouseleave", "citydot", () => { map.getCanvas().style.cursor = ""; hideTip(); });
   } else { map.getSource("citydots").setData(fc); map.setLayoutProperty("citydot", "visibility", "visible"); }
+  // city name labels — HTML markers anchored "left" (no centre/width offset, so they never drift like the
+  // old anchor-"center" dots did); sit just right of the canvas dot; decluttered (overlaps hidden, shown on zoom).
+  list.forEach((c) => {
+    const el = document.createElement("div"); el.className = "citylbl"; el.textContent = cityName(c);
+    el.addEventListener("click", (ev) => { ev.stopPropagation(); drillCity(code, c.name); });
+    detailMarkers.push(new maplibregl.Marker({ element: el, anchor: "left", offset: [9, 0] }).setLngLat([c.lon, c.lat]).addTo(map));
+  });
+  scheduleDeclutter();
 }
 function hideCityDots() { if (map.getLayer("citydot")) map.setLayoutProperty("citydot", "visibility", "none"); }
 function drillCity(code, name) {
