@@ -5,6 +5,10 @@ const DATA = window.COUNTRY;
 const STATE = { city: (DATA.cities && DATA.cities[0]) ? DATA.cities[0].name : null };
 const ORIGIN = { US: "USA", DE: "Germany", JP: "Japan", TW: "Taiwan", KR: "South Korea", NL: "Netherlands", FR: "France", EU: "Europe", CH: "Switzerland", AT: "Austria", CN: "China", AU: "Australia", IN: "India", SG: "Singapore", MY: "Malaysia" };
 const LVL = { 3: "leading", 2: "strong", 1: "present" };
+// manufacturing-type heatmap shading (same scale as the China page / atlas)
+const TAXFILL = ["", "#E1F5EE", "#5DCAA5", "#0F6E56"], TAXFG = ["", "#0F6E56", "#04342C", "#fff"];
+const domColor = (d) => (DATA.domains && DATA.domains[d]) ? DATA.domains[d][1] : "#1d4ed8";
+const domName = (d) => (DATA.domains && DATA.domains[d]) ? DATA.domains[d][0] : d;
 
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 const escAttr = (s) => esc(s).replace(/"/g, "&quot;");
@@ -110,10 +114,18 @@ function dossierHTML(d) {
   if (d.clusters && d.clusters.length) h += `<div class="dos-sec"><h5>Signature strengths</h5>
     <div class="dos-legend"><span><i class="dot cn"></i>Local (${esc(DATA.name)})</span><span><i class="dot for"></i>Foreign HQ</span><span class="leg-hint">· hover a company for HQ</span></div>
     ${d.clusters.map(clusterHTML).join("")}</div>`;
+  if (d.subdistricts && d.subdistricts.length) h += `<div class="dos-sec"><h5>Sub-district clusters</h5>${d.subdistricts.map((s) => `<div class="sub-row"><b>${esc(s.name)}</b><span>${glossify(s.focus)}</span></div>`).join("")}</div>`;
   if (d.valuechain) h += `<div class="dos-sec"><h5>Value-chain role</h5><div class="vc">${glossify(d.valuechain)}</div></div>`;
   if (d.sourcing) h += `<div class="dos-sec"><h5>For a component distributor</h5><div class="src2">
     <div><div class="lbl">Source here</div><ul>${(d.sourcing.buy || []).map((x) => `<li>${glossify(x)}</li>`).join("")}</ul></div>
     <div><div class="lbl">Sell into here</div><ul>${(d.sourcing.sell || []).map((x) => `<li>${glossify(x)}</li>`).join("")}</ul></div></div></div>`;
+  const tax = DATA.taxonomy || [];
+  if (d.tags && tax.length) {
+    const cells = tax.map((t) => { const v = d.tags[t] || 0, bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
+      return `<div class="taxc" style="${bg};color:${TAXFG[v] || "#cbd5e1"}" data-tip="${escAttr(t + ": " + (v ? LVL[v] : "—"))}"><div class="tl">${esc(t.slice(0, 8))}</div><div class="tv">${v ? "●".repeat(v) : "·"}</div></div>`; }).join("");
+    h += `<div class="dos-sec"><h5>Manufacturing-type strength</h5><div class="taxg">${cells}</div></div>`;
+  }
+  if (d.note) h += `<div class="dos-note">${esc(d.note)}</div>`;
   return h;
 }
 
@@ -127,10 +139,10 @@ function render() {
     const city = D.cities.find((c) => c.name === STATE.city) || D.cities[0];
     lower = `<div class="sech">Key cities <span class="dim">click a city for its cluster dossier</span></div>
       <div class="maptools"><span class="mt-label">City</span>${sel}</div>
-      <div class="dossier citydoss"><div class="dos-h"><span class="dos-name">${esc(city.name)}</span><span class="dos-area">${esc(city.area || "")}</span></div>${dossierHTML(city)}</div>`;
+      <div class="dossier citydoss"><div class="dos-h"><span class="dos-name">${esc(city.name)}</span>${city.dom ? `<span class="dos-dom" style="background:${domColor(city.dom)}">${esc(domName(city.dom))}</span>` : ""}<span class="dos-area">${esc(city.area || "")}</span></div>${dossierHTML(city)}</div>`;
   } else if (D.clusters && D.clusters.length) {
     lower = `<div class="sech">Key clusters <span class="dim">${esc(D.name)}'s chip ecosystem</span></div>
-      <div class="dossier citydoss">${dossierHTML({ clusters: D.clusters, valuechain: D.valuechain, sourcing: D.sourcing })}</div>`;
+      <div class="dossier citydoss">${dossierHTML({ stats: D.stats, clusters: D.clusters, subdistricts: D.subdistricts, valuechain: D.valuechain, sourcing: D.sourcing, tags: D.tags, note: D.note })}</div>`;
   }
   document.getElementById("main").innerHTML = `
     <div class="cty-head"><h1>${esc(D.name)} <span style="font-size:12px;color:var(--muted);font-weight:400">market · industry · supply-chain role</span></h1>

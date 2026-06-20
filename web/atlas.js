@@ -187,7 +187,7 @@ function addCityDots(code) {
 }
 function cityDot(ct, code) {
   if (ct.lon == null || ct.lat == null) return;
-  const col = code === "cn" ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (like china.html)
+  const col = ct.dom ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (China + APAC cities carry .dom)
   const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(cityName(ct))}</span>`;
   detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "center", () => drillCity(code, ct.name)));  // dot on the coord, label floats centred above it
 }
@@ -283,7 +283,10 @@ function anchorChip(a, code) {
 function cityCardsHTML(code) {
   const d = code === "cn" ? CHINA : APAC[code]; if (!d) return "";
   const cities = code === "cn" ? (CHINA.cities || []) : (d.cities || []);
-  if (!cities.length && d.clusters) return `<div class="dos-h"><span class="dos-name">${tt("keyclusters")}</span></div>${d.clusters.map((cl) => clusterBlock(cl, code)).join("")}`;
+  if (!cities.length && (d.clusters || d.tagline)) {  // city-state (Singapore): one full country-level dossier, same sections as a city
+    const h = `<div class="dos-h"><span class="dos-name">${esc(countryName(code))}</span>${d.dom ? `<span class="dos-dom" style="background:${domColor(d.dom)}">${esc(domName(d.dom))}</span>` : ""}</div>`;
+    return h + dossierSections(d, code, null);
+  }
   const card = (c, showDom) => { const tag = (Z() && c.zh && c.zh.tagline) ? c.zh.tagline : (c.tagline || c.area || ""); return `<button class="citycard" data-city="${escA(c.name)}"><b>${esc(cityName(c))}${showDom && c.dom ? ` <span class="cc-dom">${esc(domName(c.dom))}</span>` : ""}</b><span>${esc(tag.slice(0, 92))}</span></button>`; };
   const head = `<div class="dos-h"><span class="dos-name">${tt("cities")}</span><span class="dos-area">${cities.length} · ${tt("clickdrill")}</span></div>`;
   // China: group cities by focus industry (domain), biggest cluster first — the group header carries the label,
@@ -310,12 +313,11 @@ function panelAsia() {
     return `<div class="lev-row arow ${live ? "live" : "planned"}"${live ? ` data-code="${c.code}"` : ""}><div class="lev-top"><span class="lev-term">${esc(countryName(c.code))}${live ? " ↗" : ""}</span><span class="lev-scope"><span class="stat-badge ${live ? "live" : "plan"}">${live ? tt("live") : tt("soon")}</span></span><span class="lev-val" style="color:${live ? col : "#94a3b8"}">${r.disp(c)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${Math.max(2, r.pct(c)).toFixed(0)}%;background:${col};opacity:${live ? 1 : .5}"></div></div></div>`; }).join("");
   return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span><span class="dos-area">${tt("rankby")} ${STATE.layer === "chip" ? tt("chipw") : tt("gdpg")}</span></div><div class="arows">${rows}</div><div class="dos-note">${tt("clickzoom")}</div>`;
 }
-function panelCity(code, name) {
-  const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
-  const c = list.find((x) => x.name === name); if (!c) return "";
-  const z = (Z() && c.zh) ? c.zh : null, pick = (zv, ev) => esc((z && zv != null) ? zv : ev);
-  let h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span>${c.dom ? `<span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span>` : ""}</div>`;
-  h += `<div class="dos-tag">${pick(z ? z.tagline : null, c.tagline || "")}</div>`;
+// the full dossier body (tagline → stats → clusters → sub-districts → value-chain → sourcing → mfg heatmap → note).
+// Shared by city dossiers (China + Malaysia cities) AND the Singapore country-level dossier, so every place reads the same.
+function dossierSections(c, code, z) {
+  const pick = (zv, ev) => esc((z && zv != null) ? zv : ev);
+  let h = `<div class="dos-tag">${pick(z ? z.tagline : null, c.tagline || "")}</div>`;
   if (c.stats && c.stats.length) h += `<div class="dos-stats">${c.stats.map((s, i) => { const sz = (z && z.stats && z.stats[i]) ? z.stats[i] : s; return `<div class="dos-stat"><div class="k">${esc(sz.k)}</div><div class="v">${esc(sz.v)}</div></div>`; }).join("")}</div>`;
   if (c.clusters && c.clusters.length) h += `<div class="dos-sec"><h5>${tt("sig")}</h5>
     <div class="dos-legend"><span><i class="dot cn"></i>${tt("lg_local")}</span><span><i class="dot for"></i>${tt("lg_for")}</span><span class="sanc-leg">⚠ ${tt("lg_sanc")}</span><span class="leg-hint">${tt("lg_hint")}</span></div>
@@ -325,13 +327,21 @@ function panelCity(code, name) {
   if (c.sourcing) h += `<div class="dos-sec"><h5>${tt("dist")}</h5><div class="src2">
     <div><div class="lbl">${tt("buy")}</div><ul>${(c.sourcing.buy || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.buy ? z.sourcing.buy[i] : null, x)}</li>`).join("")}</ul></div>
     <div><div class="lbl">${tt("sell")}</div><ul>${(c.sourcing.sell || []).map((x, i) => `<li>${pick(z && z.sourcing && z.sourcing.sell ? z.sourcing.sell[i] : null, x)}</li>`).join("")}</ul></div></div></div>`;
-  if (c.tags && CHINA && CHINA.taxonomy) {
-    const cells = CHINA.taxonomy.map((t) => { const v = c.tags[t] || 0, bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
+  const tax = (CHINA && CHINA.taxonomy) || (APAC[code] && APAC[code].taxonomy);
+  if (c.tags && tax) {
+    const cells = tax.map((t) => { const v = c.tags[t] || 0, bg = v ? `background:${TAXFILL[v]}` : "background:#fafbfd;border:1px solid var(--line)";
       return `<div class="taxc" style="${bg};color:${TAXFG[v] || "#cbd5e1"}" data-tip="${escA(t + ": " + (v ? LVLW[v] : "—"))}"><div class="tl">${esc(t.slice(0, 8))}</div><div class="tv">${v ? "●".repeat(v) : "·"}</div></div>`; }).join("");
     h += `<div class="dos-sec"><h5>${tt("mfg")}</h5><div class="taxg">${cells}</div></div>`;
   }
   if (c.note) h += `<div class="dos-note">${esc(z && z.note ? z.note : c.note)}</div>`;
   return h;
+}
+function panelCity(code, name) {
+  const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
+  const c = list.find((x) => x.name === name); if (!c) return "";
+  const z = (Z() && c.zh) ? c.zh : null;
+  const h = `<div class="dos-h"><span class="dos-name">${esc(cityName(c))}</span>${c.dom ? `<span class="dos-dom" style="background:${domColor(c.dom)}">${esc(domName(c.dom))}</span>` : ""}</div>`;
+  return h + dossierSections(c, code, z);
 }
 function renderPanel() {
   const tilesEl = document.getElementById("tiles"), el = document.getElementById("panel");
@@ -345,7 +355,8 @@ function renderPanel() {
   el.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
   const dl = document.getElementById("domlegend");
   if (dl) {
-    if (STATE.level !== "asia" && STATE.country === "cn" && CHINA && CHINA.domains) {
+    const cur = STATE.country, ccs = cur === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[cur] && APAC[cur].cities) || []);
+    if (STATE.level !== "asia" && (ccs || []).some((c) => c.dom) && CHINA && CHINA.domains) {  // dot legend wherever cities are colour-coded by domain
       dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("mapdots")}</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
     } else dl.style.display = "none";
   }

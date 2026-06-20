@@ -31,7 +31,22 @@ GLOSSARY = {
     "leading-edge logic": "The most advanced chips (≤7nm) for CPUs/GPUs/AI — fabricated only in Taiwan & Korea, not SE-Asia.",
     "HBM": "High-Bandwidth Memory — stacked DRAM for AI accelerators; designed/made by SK hynix, Samsung & Micron.",
     "substrate": "The package base that connects a chip die to the circuit board — a tight global bottleneck (mostly Japan/Korea/Taiwan).",
+    "FIZ": "Free Industrial Zone — a duty-free manufacturing zone for export industries; Penang's Bayan Lepas FIZ is the original electronics cluster.",
+    "JS-SEZ": "Johor-Singapore Special Economic Zone — a 2025 cross-border zone channelling Singapore's spillover and China+1 investment into Johor.",
+    "KHTP": "Kulim Hi-Tech Park — Malaysia's flagship high-tech park (Kedah), home to power-semiconductor fabs and Infineon's SiC hub.",
 }
+
+# Industry-domain colours + per-city taxonomy — IDENTICAL keys to the China bundle so the atlas
+# colours dots and renders the manufacturing-type heatmap the same way for every country.
+DOMAINS = {
+    "SEMI": ("Semiconductor", "#D85A30", "半导体"),
+    "COMP": ("Components / Materials", "#7F77DD", "元件 / 材料"),
+    "AUTO": ("Automotive / EV", "#EF9F27", "汽车 / 电动车"),
+    "BAT":  ("Battery / Clean-energy", "#1D9E75", "电池 / 清洁能源"),
+    "ELEC": ("Electronics / EMS", "#378ADD", "电子 / EMS"),
+    "APPL": ("Appliances / Precision", "#64748b", "家电 / 精密"),
+}
+TAX = ["Components", "Optical", "Battery", "Automotive", "Precision", "Materials", "Appliances", "Semiconductor"]
 
 # ---- macro tiles (view.good: high / band / low / none) ----
 SG_MACRO = [
@@ -82,43 +97,70 @@ MY_ROLE_TAKE = ("Malaysia is the world's back-end powerhouse — ~13% of global 
 
 # ---- Malaysia key-city dossiers (anchor = "Local Co" string OR {"n":"MNC","o":"US"} for foreign HQ) ----
 MY_CITIES = [
-    {"name": "Penang", "area": "George Town · Bayan Lepas FIZ", "lon": 100.30, "lat": 5.34, "tagline": "“Silicon Valley of the East” — the back-end heart: chip assembly/test/packaging, homegrown test-equipment champions and EMS.",
+    {"name": "Penang", "dom": "SEMI", "area": "George Town · Bayan Lepas FIZ", "lon": 100.30, "lat": 5.34, "tagline": "“Silicon Valley of the East” — the back-end heart: chip assembly/test/packaging, homegrown test-equipment champions and EMS.",
      "clusters": [
         {"seg": "Semiconductor assembly & test (OSAT)", "level": 3, "what": "Intel's first overseas plant (1972) seeded a dense MNC + homegrown back-end cluster.", "anchors": [{"n": "Intel", "o": "US"}, {"n": "AMD", "o": "US"}, {"n": "Broadcom", "o": "US"}, {"n": "Micron", "o": "US"}, {"n": "ASE", "o": "TW"}, "Unisem", "Carsem"]},
         {"seg": "Test equipment & automation", "level": 3, "what": "Homegrown champions in ATE, machine vision & factory automation — a genuine local IP base.", "anchors": ["Inari Amertron", "ViTrox", "Pentamaster", "Greatech", "Globetronics"]},
         {"seg": "EMS & test instruments", "level": 2, "what": "Contract manufacturing plus test & measurement.", "anchors": [{"n": "Jabil", "o": "US"}, {"n": "Flex", "o": "US"}, {"n": "Plexus", "o": "US"}, {"n": "Keysight", "o": "US"}]},
-        {"seg": "Medical devices", "level": 2, "what": "Growing MNC medtech base diversifying the cluster.", "anchors": [{"n": "B. Braun", "o": "DE"}, {"n": "Boston Scientific", "o": "US"}]},
+        {"seg": "Optoelectronics & medical devices", "level": 2, "what": "LED/sensor optoelectronics plus a growing MNC medtech base diversifying the cluster.", "anchors": [{"n": "ams OSRAM", "o": "AT"}, {"n": "B. Braun", "o": "DE"}, {"n": "Boston Scientific", "o": "US"}]},
+     ],
+     "subdistricts": [
+        {"name": "Bayan Lepas FIZ", "focus": "Island free-industrial zone — Intel, AMD, Broadcom, Keysight, ams OSRAM"},
+        {"name": "Batu Kawan", "focus": "Mainland park — Micron, Boston Scientific & newer MNC expansions"},
+        {"name": "Seberang Perai (Prai)", "focus": "Established mainland estate — EMS & supporting industries"},
      ],
      "valuechain": "Mid-stream back-end: imports finished wafers, substrates & bonding materials → assembles, packages & tests → exports packaged devices and (uniquely) the test/inspection equipment itself.",
      "sourcing": {"buy": ["Wafers & dies", "substrates / leadframes", "bonding wire, mould compound", "test sockets & handlers"], "sell": ["Packaged & tested ICs", "RF / optoelectronic modules", "test & inspection equipment", "EMS assemblies"]},
-     "stats": [{"k": "Role", "v": "OSAT / back-end"}, {"k": "Anchor zone", "v": "Bayan Lepas FIZ"}]},
-    {"name": "Kulim", "area": "Kedah · Kulim Hi-Tech Park", "lon": 100.56, "lat": 5.37, "tagline": "Kulim Hi-Tech Park — power & compound semis and wafer fabs; home to Infineon's global silicon-carbide hub.",
+     "tags": {"Components": 2, "Optical": 2, "Battery": 0, "Automotive": 1, "Precision": 3, "Materials": 1, "Appliances": 1, "Semiconductor": 3},
+     "stats": [{"k": "Role", "v": "OSAT / back-end"}, {"k": "Anchor zone", "v": "Bayan Lepas FIZ"}, {"k": "Seeded by", "v": "Intel (1972)"}],
+     "note": "Back-end (assembly/test/packaging), not front-end wafer fab — bare wafers are imported, then packaged & tested here. The genuinely local IP is the test/inspection equipment (Inari, ViTrox, Pentamaster)."},
+    {"name": "Kulim", "dom": "SEMI", "area": "Kedah · Kulim Hi-Tech Park", "lon": 100.56, "lat": 5.37, "tagline": "Kulim Hi-Tech Park — power & compound semis and wafer fabs; home to Infineon's global silicon-carbide hub.",
      "clusters": [
         {"seg": "Power & compound semis (SiC)", "level": 3, "what": "Infineon's Kulim site — among the world's largest 200mm SiC power-fab investments.", "anchors": [{"n": "Infineon", "o": "DE"}, {"n": "Fuji Electric", "o": "JP"}]},
         {"seg": "Wafer fab & logic", "level": 2, "what": "One of the few Malaysian sites doing front-end fabrication.", "anchors": [{"n": "Intel", "o": "US"}, "SilTerra"]},
         {"seg": "IC substrate", "level": 2, "what": "Package-substrate capacity — a global bottleneck being built out here.", "anchors": [{"n": "AT&S", "o": "AT"}]},
         {"seg": "Solar", "level": 2, "what": "PV cell / module manufacturing.", "anchors": [{"n": "First Solar", "o": "US"}]},
      ],
+     "subdistricts": [
+        {"name": "Kulim Hi-Tech Park (KHTP)", "focus": "Infineon SiC power fab, Intel, First Solar, Fuji Electric"},
+        {"name": "KHTP expansion", "focus": "New 200mm SiC & advanced power-device capacity build-out"},
+     ],
      "valuechain": "Malaysia's main move UPSTREAM — wafer fabrication, power-device (SiC) front-end and IC substrates, beyond the Penang back-end.",
      "sourcing": {"buy": ["SiC / Si wafers", "gases & chemicals", "fab equipment", "substrate materials"], "sell": ["SiC / Si power devices", "logic wafers", "IC substrates", "PV modules"]},
-     "stats": [{"k": "Park", "v": "Kulim Hi-Tech Park"}, {"k": "Focus", "v": "Power / SiC / fab"}]},
-    {"name": "Klang Valley", "area": "Kuala Lumpur · Selangor · Cyberjaya", "lon": 101.69, "lat": 3.14, "tagline": "The demand & integration hub — hyperscale data centres, contract EMS and the MNC regional-HQ / distribution base.",
+     "tags": {"Components": 1, "Optical": 0, "Battery": 1, "Automotive": 1, "Precision": 1, "Materials": 2, "Appliances": 0, "Semiconductor": 3},
+     "stats": [{"k": "Park", "v": "Kulim Hi-Tech Park"}, {"k": "Focus", "v": "Power / SiC / wafer fab"}, {"k": "Anchor", "v": "Infineon SiC hub"}],
+     "note": "Front-end (wafer) site — rare for Malaysia, which is overwhelmingly back-end. The SiC power-device fab is the strategic differentiator vs Penang's assembly/test base."},
+    {"name": "Klang Valley", "dom": "ELEC", "area": "Kuala Lumpur · Selangor · Cyberjaya", "lon": 101.69, "lat": 3.14, "tagline": "The demand & integration hub — hyperscale data centres, contract EMS and the MNC regional-HQ / distribution base.",
      "clusters": [
         {"seg": "Data centres / cloud", "level": 3, "what": "Hyperscale build-out across Selangor & Cyberjaya.", "anchors": [{"n": "Microsoft", "o": "US"}, {"n": "Google", "o": "US"}, {"n": "AWS", "o": "US"}, "Bridge Data Centres"]},
         {"seg": "EMS / box-build", "level": 2, "what": "Local contract manufacturers serving global brands.", "anchors": ["VS Industry", "SKP Resources", "ATA IMS"]},
         {"seg": "Storage & electronics", "level": 2, "what": "Data-storage & components manufacturing.", "anchors": [{"n": "Western Digital", "o": "US"}]},
      ],
+     "subdistricts": [
+        {"name": "Cyberjaya", "focus": "Data centres, MSC tech hub, shared-services / BPO"},
+        {"name": "Selangor (Shah Alam · Sepang)", "focus": "EMS box-build, hyperscale DC parks, light electronics"},
+        {"name": "Kuala Lumpur core", "focus": "MNC regional HQ, distribution & finance"},
+     ],
      "valuechain": "A net CONSUMER of components — data-centre capacity, EMS box-build and regional HQ/distribution around the capital.",
      "sourcing": {"buy": ["Servers, GPUs, networking", "power & cooling gear", "components for EMS"], "sell": ["Cloud / DC capacity", "finished electronic products", "EMS box-build"]},
-     "stats": [{"k": "Role", "v": "Data centres + EMS + HQ"}, {"k": "Hub", "v": "Selangor / Cyberjaya"}]},
-    {"name": "Johor", "area": "Iskandar · Kulai · Johor-Singapore SEZ", "lon": 103.76, "lat": 1.49, "tagline": "The diversification frontier — SE-Asia's hottest data-centre market and a “China+1” electronics magnet, riding the Singapore spillover.",
+     "tags": {"Components": 2, "Optical": 0, "Battery": 0, "Automotive": 0, "Precision": 1, "Materials": 1, "Appliances": 1, "Semiconductor": 1},
+     "stats": [{"k": "Role", "v": "Data centres + EMS + HQ"}, {"k": "Hub", "v": "Selangor / Cyberjaya"}, {"k": "Storage", "v": "Western Digital"}],
+     "note": "Demand & integration, not chip making — it buys components (servers, GPUs) rather than exporting them; the value here is cloud capacity, box-build and the regional HQ/distribution base."},
+    {"name": "Johor", "dom": "ELEC", "area": "Iskandar · Kulai · Johor-Singapore SEZ", "lon": 103.76, "lat": 1.49, "tagline": "The diversification frontier — SE-Asia's hottest data-centre market and a “China+1” electronics magnet, riding the Singapore spillover.",
      "clusters": [
         {"seg": "AI data centres", "level": 3, "what": "Fastest-growing DC cluster in SE-Asia, absorbing Singapore's power/land spillover.", "anchors": [{"n": "Nvidia", "o": "US"}, "YTL Power", {"n": "Microsoft", "o": "US"}, {"n": "GDS", "o": "CN"}]},
         {"seg": "Electronics & China+1", "level": 2, "what": "Relocated assembly & component investment under the Johor-Singapore SEZ.", "anchors": [{"n": "Simmtech", "o": "KR"}, "China+1 EMS"]},
      ],
+     "subdistricts": [
+        {"name": "Iskandar · Kulai", "focus": "Hyperscale AI data centres — Nvidia, Microsoft, GDS, YTL Power"},
+        {"name": "Johor-Singapore SEZ (JS-SEZ)", "focus": "China+1 electronics & assembly relocation; Singapore spillover"},
+        {"name": "Pasir Gudang · Tanjung Langsat", "focus": "Port-industrial zone — petrochem & supporting components"},
+     ],
      "valuechain": "The frontier absorbing China+1 and Singapore-adjacent demand — data centres, substrates and relocated assembly.",
      "sourcing": {"buy": ["Servers / GPUs", "substrate & assembly inputs", "construction & power"], "sell": ["DC capacity", "relocated electronics output", "substrates"]},
-     "stats": [{"k": "Role", "v": "Data centres / China+1"}, {"k": "Zone", "v": "Iskandar / JS-SEZ"}]},
+     "tags": {"Components": 1, "Optical": 0, "Battery": 0, "Automotive": 0, "Precision": 1, "Materials": 1, "Appliances": 0, "Semiconductor": 1},
+     "stats": [{"k": "Role", "v": "Data centres / China+1"}, {"k": "Zone", "v": "Iskandar / JS-SEZ"}, {"k": "DC growth", "v": "Fastest in SE-Asia"}],
+     "note": "An emerging frontier, not yet a deep manufacturing base — growth is data centres plus China+1 / Singapore-spillover assembly under the 2025 JS-SEZ; depth in components is still thin."},
 ]
 
 # ---- Singapore country-level "Key clusters" (one dossier, no city selector) ----
@@ -131,20 +173,30 @@ SG_CLUSTERS = [
 SG_VALUECHAIN = ("High-value front-of-chain for the region — mature/specialty wafer fabs, the equipment that makes chips, "
                  "and memory/storage; an MNC magnet and regional-HQ base. Net exporter of wafers, equipment & storage.")
 SG_SOURCING = {"buy": ["Silicon wafers, gases, chemicals", "fab sub-systems & parts", "photomasks"], "sell": ["Mature/specialty wafers & ICs", "semiconductor equipment & parts", "NAND / storage devices"]}
+SG_SUBDISTRICTS = [
+    {"name": "Tampines / Pasir Ris wafer-fab belt", "focus": "GlobalFoundries, Micron, UMC, Soitec fabs"},
+    {"name": "North Coast / Woodlands", "focus": "New mega-fab expansions (UMC, GlobalFoundries Fab 7)"},
+    {"name": "one-north / Fusionopolis", "focus": "A*STAR IME — R&D, IC design & advanced-packaging research"},
+]
+SG_TAGS = {"Components": 2, "Optical": 1, "Battery": 0, "Automotive": 0, "Precision": 3, "Materials": 2, "Appliances": 0, "Semiconductor": 3}
+SG_STATS = [{"k": "Chip equipment", "v": "~20% of global output"}, {"k": "World chip output", "v": "~10%"}, {"k": "Wafer fab", "v": "~5% (mature/specialty)"}]
+SG_NOTE = ("High-value front-of-chain (mature/specialty fabs + the equipment that makes chips), not back-end assembly. "
+           "No leading-edge logic or advanced memory (HBM) — those stay in Taiwan & Korea.")
 
 SINGAPORE = {
-    "name": "Singapore", "code": "sg",
+    "name": "Singapore", "code": "sg", "dom": "SEMI",
     "tagline": "Advanced fabs, semiconductor equipment & HQ hub — the high-value front of the SE-Asia chip chain.",
     "macro": SG_MACRO, "role": SG_ROLE, "role_take": SG_ROLE_TAKE,
-    "clusters": SG_CLUSTERS, "valuechain": SG_VALUECHAIN, "sourcing": SG_SOURCING,
-    "glossary": GLOSSARY,
+    "clusters": SG_CLUSTERS, "subdistricts": SG_SUBDISTRICTS, "valuechain": SG_VALUECHAIN, "sourcing": SG_SOURCING,
+    "tags": SG_TAGS, "stats": SG_STATS, "note": SG_NOTE,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
 }
 MALAYSIA = {
     "name": "Malaysia", "code": "my",
     "tagline": "Penang/Kulim back-end powerhouse — ~13% of global assembly, test & packaging; the “China+1” magnet now pushing upstream.",
     "macro": MY_MACRO, "role": MY_ROLE, "role_take": MY_ROLE_TAKE,
     "cities": MY_CITIES,
-    "glossary": GLOSSARY,
+    "domains": DOMAINS, "taxonomy": TAX, "glossary": GLOSSARY,
 }
 
 
