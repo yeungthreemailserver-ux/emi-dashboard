@@ -222,17 +222,22 @@ function drillCountry(code) {
   renderPanel(); renderCrumb();
 }
 function setProvVisible(v) { ["prov-fill", "prov-line"].forEach((id) => { if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", v ? "visible" : "none"); }); }
+// City dots are a MapLibre CIRCLE LAYER (rendered in the same WebGL pass as the provinces) — not HTML
+// overlay markers — so they can never drift out of sync with the map. Names show on hover + in the panel.
 function addCityDots(code) {
   const cities = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
-  if (code === "sg" && !cities.length) { const sg = byCode.sg; cityDot({ name: "Singapore", lon: sg.lon, lat: sg.lat }, code); return; }
-  cities.forEach((ct) => cityDot(ct, code));
+  let list = (cities || []).filter((c) => c.lon != null && c.lat != null);
+  if (code === "sg" && !list.length) { const sg = byCode.sg; list = [{ name: "Singapore", lon: sg.lon, lat: sg.lat }]; }
+  const fc = { type: "FeatureCollection", features: list.map((c) => ({ type: "Feature", properties: { name: c.name, label: cityName(c), col: c.dom ? domColor(c.dom) : "#1d4ed8" }, geometry: { type: "Point", coordinates: [c.lon, c.lat] } })) };
+  if (!map.getSource("citydots")) {
+    map.addSource("citydots", { type: "geojson", data: fc });
+    map.addLayer({ id: "citydot", type: "circle", source: "citydots", paint: { "circle-radius": 6, "circle-color": ["get", "col"], "circle-stroke-color": "#ffffff", "circle-stroke-width": 2, "circle-pitch-alignment": "map" } });
+    map.on("click", "citydot", (e) => { if (e.features[0]) drillCity(STATE.country, e.features[0].properties.name); });
+    map.on("mousemove", "citydot", (e) => { const f = e.features[0]; map.getCanvas().style.cursor = "pointer"; showTip(`<b>${esc(f.properties.label)}</b> · <span style="color:#2563eb">click to drill ↗</span>`, e.originalEvent); });
+    map.on("mouseleave", "citydot", () => { map.getCanvas().style.cursor = ""; hideTip(); });
+  } else { map.getSource("citydots").setData(fc); map.setLayoutProperty("citydot", "visibility", "visible"); }
 }
-function cityDot(ct, code) {
-  if (ct.lon == null || ct.lat == null) return;
-  const col = ct.dom ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (China + APAC cities carry .dom)
-  const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(cityName(ct))}</span>`;
-  detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "center", () => drillCity(code, ct.name)));  // dot on the coord, label floats centred above it
-}
+function hideCityDots() { if (map.getLayer("citydot")) map.setLayoutProperty("citydot", "visibility", "none"); }
 function drillCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);
   const ct = list.find((x) => x.name === name); if (!ct) return;
@@ -246,7 +251,7 @@ function up() {
 }
 function goAsia() {
   STATE.level = "asia"; STATE.country = null; STATE.city = null; hideTip();
-  mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (map.getLayer("asia-fill")) map.setPaintProperty("asia-fill", "fill-color", ["get", "color"]); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
+  mapDo(() => { clearDetailMarkers(); hideCityDots(); setProvVisible(false); setMarkersVisible(true); if (map.getLayer("asia-fill")) map.setPaintProperty("asia-fill", "fill-color", ["get", "color"]); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
   renderPanel(); renderCrumb();
 }
 
