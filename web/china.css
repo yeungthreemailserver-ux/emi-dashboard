@@ -67,7 +67,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 
 .citywrap{display:flex;gap:14px;align-items:flex-start;}
 @media(max-width:1000px){.citywrap{flex-direction:column;}}
-.citymap{flex:1 1 56%;min-width:0;height:560px;background:var(--card);border:1px solid var(--line-2);border-radius:14px;position:relative;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -14px rgba(15,23,42,.13);}
+.citymap{flex:1 1 56%;min-width:0;height:560px;background:#d9e6f1;border:1px solid var(--line-2);border-radius:14px;position:relative;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -14px rgba(15,23,42,.13);}
 .dossier{flex:1 1 44%;min-width:0;max-height:560px;overflow-y:auto;background:var(--card);border:1px solid var(--line-2);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -14px rgba(15,23,42,.13);}
 
 .dos-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}

@@ -83,7 +83,7 @@ const hideTip = () => { if (tip) tip.style.display = "none"; };
 
 function colorAsia() {
   ASIA.geo.features.forEach((f) => { const c = byName[f.properties.name];
-    f.properties.color = c ? (STATE.layer === "role" ? (c.rc || "#cbd5e1") : ramp(STATE.layer, RAMP[STATE.layer].val(c))) : "#e7edf4";
+    f.properties.color = c ? (c.rc || "#cbd5e1") : "#ece7dc";   // covered → manufacturing-profile colour; other land → neutral (matches world land)
     f.properties.tracked = c ? 1 : 0; });
 }
 function colorProvinces() {
@@ -132,11 +132,17 @@ function declutterCityLabels() {
 }
 const scheduleDeclutter = () => { if (!declutterRAF) declutterRAF = requestAnimationFrame(() => { declutterRAF = null; declutterCityLabels(); }); };
 
+function graticule(step) {   // lat/long grid as GeoJSON line features
+  step = step || 20; const fs = [];
+  for (let lng = -180; lng <= 180; lng += step) { const c = []; for (let lat = -80; lat <= 80; lat += 2) c.push([lng, lat]); fs.push({ type: "Feature", geometry: { type: "LineString", coordinates: c } }); }
+  for (let lat = -80; lat <= 80; lat += step) { const c = []; for (let lng = -180; lng <= 180; lng += 4) c.push([lng, lat]); fs.push({ type: "Feature", geometry: { type: "LineString", coordinates: c } }); }
+  return { type: "FeatureCollection", features: fs };
+}
 function initMap() {
   colorAsia();
   map = new maplibregl.Map({
     container: "map", attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 11, minZoom: 1.4,
-    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#eef3f8" } }] },
+    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#d9e6f1" } }] },
     bounds: ASIA_BOUNDS, fitBoundsOptions: { padding: 24 },
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -146,6 +152,12 @@ function initMap() {
   setTimeout(() => { if (!MAP_READY) { const s = document.getElementById("mapstatus"); if (s) { s.textContent = "Map couldn't initialise — reload; if it persists, open the browser console (F12) and send the error."; s.classList.add("err"); } } }, 2800);
   const setup = () => {
     if (MAP_READY || map.getSource("asia")) return;
+    // graticule (faint grid, drawn over ocean — land covers it) → a subtle "atlas" feel
+    map.addSource("grid", { type: "geojson", data: graticule(20) });
+    map.addLayer({ id: "grid-line", type: "line", source: "grid", paint: { "line-color": "rgba(255,255,255,0.55)", "line-width": 0.6 } });
+    // world land context so countries don't float on blue (Natural Earth, vendored, no key)
+    map.addSource("world", { type: "geojson", data: "vendor/world-land-50m.geojson" });
+    map.addLayer({ id: "world-fill", type: "fill", source: "world", paint: { "fill-color": "#ece7dc" } });
     map.addSource("asia", { type: "geojson", data: ASIA.geo, promoteId: "name" });
     map.addLayer({ id: "asia-fill", type: "fill", source: "asia", paint: { "fill-color": ["get", "color"], "fill-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, ["boolean", ["feature-state", "hover"], false], 1, 0.92] } });
     map.addLayer({ id: "asia-line", type: "line", source: "asia", paint: { "line-color": "#ffffff", "line-opacity": ["case", ["boolean", ["feature-state", "drilled"], false], 0, 1], "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2, 0.8] } });
