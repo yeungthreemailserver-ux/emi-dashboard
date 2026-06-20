@@ -99,17 +99,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .citylist{display:flex;flex-wrap:wrap;gap:6px;}
 .citybtn{font-size:12px;font-weight:600;padding:4px 11px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--ink-2);cursor:pointer;}
 .citybtn:hover{border-color:var(--blue);color:var(--blue);}
-/* map stage holds both the MapLibre map (#map) and the 3D globe (#globe), toggled by drill level */
-#mapstage{overflow:hidden;}
-#map,#globe{position:absolute;inset:0;border-radius:inherit;}
-#globe{display:none;}
-#mapstage.show-globe{background:radial-gradient(circle at 50% 42%,#eef4fb 0%,#dfe8f3 55%,#d4deeb 100%);}
-#mapstage.show-globe #globe{display:block;}
-#mapstage.show-globe #map{visibility:hidden;}
-#mapstage.show-globe .map-status{display:none;}
-#globe canvas{outline:none;display:block;}
 /* MapLibre atlas markers (HTML, no glyphs needed) */
-.map-status-anchor{}
+#map{overflow:hidden;border-radius:inherit;}
 .map-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;font-size:13px;color:var(--muted);background:rgba(255,255,255,.85);padding:8px 14px;border-radius:8px;max-width:80%;text-align:center;line-height:1.5;}
 .map-status.err{color:#b45309;}
 #map .maplibregl-canvas{outline:none;}

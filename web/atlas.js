@@ -175,7 +175,6 @@ function initMap() {
 function drillCountry(code) {
   const c = byCode[code]; if (!c || c.status !== "live") return;
   STATE.level = "country"; STATE.country = code; STATE.city = null; hideTip();
-  setGlobeVisible(false);
   mapDo(() => {
     clearDetailMarkers(); setMarkersVisible(false);
     if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; }
@@ -224,7 +223,6 @@ function up() {
 }
 function goAsia() {
   STATE.level = "asia"; STATE.country = null; STATE.city = null; hideTip();
-  setGlobeVisible(true);
   mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
   renderPanel(); renderCrumb();
 }
@@ -328,8 +326,7 @@ function clusterBlock(cl, code, zc) {
   const anch = (cl.anchors || []).map((a) => anchorChip(a, code)).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${esc(seg)}</span><span class="cl-lvl l${cl.level}">${(Z() ? LVLW_ZH : LVLW)[cl.level] || ""}</span></div><div class="cl-what">${esc(what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
 }
-const colName = (code) => byCode[code] ? countryName(code) : ({ us: Z() ? "美国" : "United States", nl: Z() ? "荷兰" : "Netherlands", eu: Z() ? "欧洲" : "Europe" }[code] || code);
-// ---- Asia landing: thesis + chokepoints + drill list (right panel) and the value-chain matrix (full-width hero) ----
+// ---- Asia landing (right panel): thesis + demand drivers + live-country drill list ----
 function panelAsia() {
   const A = ASIA;
   if (!A || !A.vc) return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span></div><div class="dos-note">${tt("clickzoom")}</div>`;
@@ -339,29 +336,6 @@ function panelAsia() {
     `<span class="vc-dr" data-tip="${escA(d.label + " — " + d.detail + "  ·  pulls: " + d.parts + "  (source: " + d.source + ")")}"><span class="vc-dr-w">${esc(d.label)}</span><span class="vc-dr-s">${esc(d.size)}</span><span class="vc-dr-l">${esc(d.parts)}</span></span>`).join("") + `</div>`;
   h += `<div class="sech2">${tt("explore")}</div><div class="vc-jump">` + CO.filter((c) => c.status === "live").map((c) =>
     `<button class="vc-jumpbtn" data-code="${c.code}">${esc(countryName(c.code))}<span class="rolepill" style="background:${c.rc || "#888"}">${esc(c.role || "")}</span> ↗</button>`).join("") + `</div>`;
-  return h;
-}
-function vcCell(cell, code, stageName, sep) {
-  const v = (cell && cell.v) || 0, ck = cell && cell.ck;
-  let bg = "transparent", col = "var(--faint)", ring = "";
-  if (v === 1) { bg = "rgba(55,138,221,.15)"; col = "#185FA5"; }
-  if (v === 2) { bg = "rgba(55,138,221,.42)"; col = "#0C447C"; }
-  if (v === 3) { bg = "rgba(55,138,221,.85)"; col = "#fff"; }
-  if (ck) { ring = "box-shadow:inset 0 0 0 2px #BA7517;"; if (v >= 3) { bg = "rgba(186,117,23,.9)"; col = "#fff"; } else { bg = "rgba(186,117,23,.22)"; col = "#854F0B"; } }
-  const vlab = ["—", "present", "strong", "leads"][v];
-  const tip = colName(code) + " · " + stageName + " — " + vlab + ((cell && cell.s) ? " (" + cell.s + ")" : "") + ((cell && cell.f) ? "  ·  " + cell.f : "") + (ck ? "   ⚠ single-source chokepoint" : "");
-  return `<div class="vcm-cell${sep ? " sep" : ""}"><div class="vcm-dot" style="background:${bg};color:${col};${ring}" data-tip="${escA(tip)}">${v ? "●".repeat(v) : "·"}</div></div>`;
-}
-function vcMatrixHTML() {
-  const vc = ASIA && ASIA.vc; if (!vc) return "";
-  const cols = vc.cols, stages = vc.stages, M = vc.matrix;
-  let h = `<div class="sech">${tt("vc_title")} <span class="dim">${tt("vc_titlesub")}</span></div>`;
-  h += `<div class="vcm"><div class="vcm-grid" style="grid-template-columns:154px repeat(${cols.length},1fr)"><div></div>`;
-  cols.forEach((col, i) => { const code = col[0], nm = col[1], ref = col[2], c = byCode[code], live = c && c.status === "live", sep = ref && i > 0 && !cols[i - 1][2];
-    h += `<div class="vcm-hd${ref ? " ref" : ""}${live ? " live" : ""}${sep ? " sep" : ""}"${live ? ` data-code="${code}"` : ""} data-tip="${escA(nm + (ref ? " · off-Asia (owns a chokepoint)" : (live ? " · click to drill in" : " · planned")))}">${esc(code.toUpperCase())}${live ? " ↗" : ""}</div>`; });
-  stages.forEach((st) => { const k = st[0], nm = st[1]; h += `<div class="vcm-rl">${esc(nm)}</div>`;
-    cols.forEach((col, i) => { const code = col[0], sep = col[2] && i > 0 && !cols[i - 1][2]; h += vcCell((M[k] || {})[code], code, nm, sep); }); });
-  h += `</div></div><div class="vcm-foot">${tt("vc_foot")}</div>`;
   return h;
 }
 // the full dossier body (tagline → stats → clusters → sub-districts → value-chain → sourcing → mfg heatmap → note).
@@ -396,7 +370,7 @@ function panelCity(code, name) {
 }
 function renderPanel() {
   const tilesEl = document.getElementById("tiles"), el = document.getElementById("panel");
-  if (STATE.level === "asia") { tilesEl.style.display = ""; tilesEl.innerHTML = vcMatrixHTML(); el.innerHTML = panelAsia(); }
+  if (STATE.level === "asia") { tilesEl.style.display = "none"; tilesEl.innerHTML = ""; el.innerHTML = panelAsia(); }
   else {
     tilesEl.style.display = ""; tilesEl.innerHTML = countryTilesHTML(STATE.country);
     el.innerHTML = STATE.level === "country" ? cityCardsHTML(STATE.country) : panelCity(STATE.country, STATE.city);
@@ -404,14 +378,12 @@ function renderPanel() {
   el.scrollTop = 0;
   el.querySelectorAll(".vc-jumpbtn[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
   el.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
-  tilesEl.querySelectorAll(".vcm-hd.live[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
   const dl = document.getElementById("domlegend");
   if (dl) {
-    if (STATE.level === "asia") {  // role legend (map coloured by primary role)
-      if (STATE.layer === "role") { const seen = {}, items = [];
-        CO.forEach((c) => { if (c.role && !seen[c.role]) { seen[c.role] = 1; items.push(c); } });
-        dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("maprole")}</span>` + items.map((c) => `<span><i style="color:${c.rc}">●</i> ${esc(c.role)}</span>`).join("");
-      } else dl.style.display = "none";
+    if (STATE.level === "asia") {  // map coloured by each country's manufacturing profile
+      const seen = {}, items = [];
+      CO.forEach((c) => { if (c.role && !seen[c.role]) { seen[c.role] = 1; items.push(c); } });
+      dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("maprole")}</span>` + items.map((c) => `<span><i style="color:${c.rc}">●</i> ${esc(c.role)}</span>`).join("");
     } else {
       const cur = STATE.country, ccs = cur === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[cur] && APAC[cur].cities) || []);
       if ((ccs || []).some((c) => c.dom) && CHINA && CHINA.domains) {  // dot legend wherever cities are colour-coded by domain
@@ -432,18 +404,11 @@ function headHTML() {
   return `<h1>Asia Atlas <span style="font-size:12px;color:var(--muted);font-weight:400">${tt("sub_head")}</span></h1><div class="atlas-crumb" id="crumb"></div>`;
 }
 function toolbarHTML() {
-  return `<span class="mt-label">${tt("colourby")}</span>
-    <button class="mapbtn${STATE.layer === "role" ? " active" : ""}" data-layer="role">${tt("role_l")}</button>
-    <button class="mapbtn${STATE.layer === "gdp" ? " active" : ""}" data-layer="gdp">${tt("gdp")}</button>
-    <span class="mt-sep"></span><button class="mapbtn" id="outbtn">${tt("zoomout")}</button>
+  return `<button class="mapbtn" id="outbtn">${tt("zoomout")}</button>
     <button class="mapbtn" id="langbtn">${Z() ? "EN" : "简体中文"}</button>
     <span class="mt-label" style="margin-left:auto">${tt("pan")}</span>`;
 }
 function wireToolbar() {
-  document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => {
-    STATE.layer = b.dataset.layer; document.querySelectorAll(".mapbtn[data-layer]").forEach((x) => x.classList.toggle("active", x === b));
-    colorAsia(); mapDo(() => { if (map.getSource("asia")) map.getSource("asia").setData(ASIA.geo); }); renderPanel();
-  }));
   document.getElementById("outbtn").addEventListener("click", () => up());
   document.getElementById("langbtn").addEventListener("click", () => { STATE.lang = Z() ? "en" : "zh"; relang(); });
 }
@@ -451,51 +416,15 @@ function relang() {  // re-render content + markers in the new language; don't r
   document.querySelector(".cty-head").innerHTML = headHTML();
   document.getElementById("maptools").innerHTML = toolbarHTML();
   wireToolbar(); renderPanel(); renderCrumb();
-  if (globe) globe.pointsData(globeData());
   mapDo(() => { if (STATE.level === "asia") addCountryMarkers(); else { clearDetailMarkers(); addCityDots(STATE.country); declutterCityLabels(); } });
-}
-// ---- 3D globe (asia-level hero; vendored globe.gl + NASA Blue Marble, no key). MapLibre still owns country/city. ----
-let globe = null;
-function globeData() { return CO.map((c) => ({ name: countryName(c.code) + (c.role ? " · " + c.role : ""), lat: c.lat, lng: c.lon, color: c.rc || "#94a3b8", code: c.code, live: c.status === "live" })); }
-function globeArcs() {
-  const P = (code) => { const c = byCode[code]; return c ? [c.lat, c.lon] : null; };
-  return [["jp", "cn"], ["tw", "cn"], ["kr", "cn"], ["cn", "my"], ["cn", "vn"], ["tw", "my"], ["jp", "kr"]]
-    .map(([a, b]) => { const s = P(a), e = P(b); return s && e ? { startLat: s[0], startLng: s[1], endLat: e[0], endLng: e[1] } : null; }).filter(Boolean);
-}
-function initGlobe() {
-  if (globe || typeof Globe === "undefined") return;
-  const el = document.getElementById("globe"); if (!el) return;
-  try {
-    globe = Globe()(el)
-      .backgroundColor("rgba(0,0,0,0)")
-      .globeImageUrl("vendor/earth-blue-marble.jpg").bumpImageUrl("vendor/earth-topology.png")
-      .showAtmosphere(true).atmosphereColor("#9ec5ff").atmosphereAltitude(0.16)
-      .polygonsData((ASIA.geo && ASIA.geo.features) || []).polygonCapColor(() => "rgba(0,0,0,0)").polygonSideColor(() => "rgba(0,0,0,0)").polygonStrokeColor(() => "rgba(255,255,255,0.5)").polygonAltitude(0.006).polygonsTransitionDuration(0)
-      .pointsData(globeData()).pointLat("lat").pointLng("lng").pointColor("color")
-      .pointAltitude((d) => d.live ? 0.09 : 0.045).pointRadius((d) => d.live ? 0.62 : 0.42).pointLabel("name")
-      .onPointClick((d) => { if (d && d.live) drillCountry(d.code); })
-      .arcsData(globeArcs()).arcColor(() => ["rgba(255,255,255,0.08)", "rgba(120,180,255,0.85)"]).arcStroke(0.35).arcDashLength(0.4).arcDashGap(0.25).arcDashAnimateTime(2600).arcAltitudeAutoScale(0.45);
-    globe.pointOfView({ lat: 18, lng: 104, altitude: 1.85 }, 0);
-    const ct = globe.controls(); ct.autoRotate = false; ct.enableZoom = true; ct.enablePan = false; ct.minDistance = 140; ct.maxDistance = 520; ct.rotateSpeed = 0.7; ct.zoomSpeed = 0.7;
-    sizeGlobe();
-  } catch (e) { console.error("[atlas globe]", (e && e.message) || e); globe = null; }
-}
-function sizeGlobe() { if (!globe) return; const el = document.getElementById("globe"); if (!el || !el.clientWidth) return; const w = el.clientWidth, h = el.clientHeight; if (globe.width() === w && globe.height() === h) return; globe.width(w); globe.height(h); }   // only resize when it actually changed — never disturbs the user's zoom/rotation
-function setGlobeVisible(v) {
-  const stage = document.getElementById("mapstage"); if (!stage) return;
-  if (v) { initGlobe(); if (!globe) { stage.classList.remove("show-globe"); mapDo(() => map.resize()); return; } stage.classList.add("show-globe"); sizeGlobe(); if (globe.resumeAnimation) globe.resumeAnimation(); }
-  else { stage.classList.remove("show-globe"); if (globe && globe.pauseAnimation) globe.pauseAnimation(); mapDo(() => map.resize()); }
 }
 function render() {
   document.getElementById("main").innerHTML = `
     <div class="cty-head">${headHTML()}</div>
     <div class="maptools" id="maptools">${toolbarHTML()}</div>
-    <div class="citywrap"><div class="citymap" id="mapstage"><div id="map"></div><div id="globe"></div></div><div class="dossier" id="panel"></div></div>
+    <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>
     <div class="legend" id="domlegend" style="display:none;margin:12px 0 0"></div>
     <div class="atlas-tiles atlas-tiles-below" id="tiles" style="display:none"></div>`;
   initTip(); wireToolbar(); renderPanel(); renderCrumb(); initMap();
-  setGlobeVisible(STATE.level === "asia");
-  [220, 650, 1300].forEach((ms) => setTimeout(() => { if (STATE.level === "asia") { initGlobe(); sizeGlobe(); } }, ms));
-  window.addEventListener("resize", sizeGlobe);
 }
 render();
