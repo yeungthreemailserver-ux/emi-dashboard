@@ -106,6 +106,7 @@ function addCountryMarkers() {
     const mk = marker(html, "mk-country" + (live ? " live" : " plan"), [c.lon, c.lat], "left", live ? () => drillCountry(c.code) : null);
     countryMarkers.push(mk);
   });
+  scheduleDeclutter();
 }
 function setMarkersVisible(show) { countryMarkers.forEach((m) => { m.getElement().style.display = show ? "" : "none"; }); }
 // hide city labels that would overlap (greedy by insertion order); re-runs on every map move/idle.
@@ -130,7 +131,16 @@ function declutterCityLabels() {
     if (!ok) { lab.classList.remove("clab-right", "clab-bottom", "clab-left"); lab.style.display = "none"; }
   });
 }
-const scheduleDeclutter = () => { if (!declutterRAF) declutterRAF = requestAnimationFrame(() => { declutterRAF = null; declutterCityLabels(); }); };
+// same idea for the country pills at the Asia level — hide labels that overlap (greedy by importance);
+// the coloured country shape stays clickable, and hidden labels reappear as you zoom in.
+function declutterCountryLabels() {
+  const els = countryMarkers.map((m) => m.getElement()).filter(Boolean);
+  els.forEach((el) => { el.style.visibility = ""; });
+  const placed = [], clear = (r, p) => (r.right < p.left - 2 || r.left > p.right + 2 || r.bottom < p.top - 2 || r.top > p.bottom + 2);
+  els.forEach((el) => { if (el.style.display === "none") return; const r = el.getBoundingClientRect(); if (!r.width) return; if (placed.every((p) => clear(r, p))) placed.push(r); else el.style.visibility = "hidden"; });
+}
+function declutterMarkers() { if (STATE.level === "asia") declutterCountryLabels(); else declutterCityLabels(); }
+const scheduleDeclutter = () => { if (!declutterRAF) declutterRAF = requestAnimationFrame(() => { declutterRAF = null; declutterMarkers(); }); };
 
 function graticule(step) {   // lat/long grid as GeoJSON line features
   step = step || 20; const fs = [];
@@ -175,7 +185,7 @@ function initMap() {
     });
     map.on("mouseleave", "asia-fill", () => { map.getCanvas().style.cursor = ""; if (hovered != null) map.setFeatureState({ source: "asia", id: hovered }, { hover: false }); hovered = null; hideTip(); });
     map.on("click", "asia-fill", (e) => { const c = byName[e.features[0].properties.name]; if (c && c.status === "live" && c.code !== STATE.country) drillCountry(c.code); });
-    map.on("move", scheduleDeclutter); map.on("idle", declutterCityLabels);
+    map.on("move", scheduleDeclutter); map.on("idle", declutterMarkers);
     MAP_READY = true; addCountryMarkers(); map.resize();
     const s = document.getElementById("mapstatus"); if (s) s.remove();
   };
