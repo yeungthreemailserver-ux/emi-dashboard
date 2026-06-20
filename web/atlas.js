@@ -121,7 +121,7 @@ function declutterCityLabels() {
   els.forEach((el) => {
     const lab = el.querySelector(".clab"); if (!lab) return;
     let ok = false;
-    for (const pos of ["top", "right", "bottom", "left"]) {   // try each side; use the first that fits the empty space before giving up
+    for (const pos of ["top", "left", "bottom", "right"]) {   // try each side (prefer left/inland over right/sea); first that fits wins, else hide
       lab.classList.remove("clab-right", "clab-bottom", "clab-left");
       if (pos !== "top") lab.classList.add("clab-" + pos);
       const r = lab.getBoundingClientRect();
