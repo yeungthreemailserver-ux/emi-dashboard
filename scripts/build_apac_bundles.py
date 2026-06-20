@@ -200,7 +200,56 @@ MALAYSIA = {
 }
 
 
-# ---- Asia registry: drives the asia.html overview map (one row per country). status live|planned.
+# ---- Value-chain × geography matrix (the Asia landing hero). Shows who controls each stage of the
+# chip value chain + single-source chokepoints. Strength v: 0 none · 1 present · 2 strong · 3 leads.
+# Sourcing: CSIS "Mapping the Semiconductor Supply Chain", ETO chokepoint analysis, WTO GVC report, industry.
+VC_THESIS = ("No country makes an advanced chip alone. The US owns design & EDA; the Netherlands and Japan own the "
+             "tools and materials; Taiwan and Korea own the leading edge and memory; China owns scale, mature nodes "
+             "and raw materials; Southeast Asia owns assembly & test. Every advanced chip crosses all of them.")
+VC_STAGES = [
+    ("design", "Chip design"), ("eda", "EDA & IP"), ("equip", "Mfg equipment"), ("materials", "Materials & gases"),
+    ("logic", "Leading-edge logic"), ("mature", "Mature / specialty fab"), ("memory", "Memory (DRAM/NAND/HBM)"),
+    ("atp", "Assembly · test · pack"), ("ems", "EMS / final assembly"),
+]
+VC_COLS = [
+    ("cn", "China", False), ("tw", "Taiwan", False), ("kr", "South Korea", False), ("jp", "Japan", False),
+    ("sg", "Singapore", False), ("my", "Malaysia", False),
+    ("us", "United States", True), ("nl", "Netherlands", True), ("eu", "Europe", True),
+]
+def _c(v, s="", f="", ck=False): return {"v": v, "s": s, "f": f, "ck": ck}
+VC_MATRIX = {
+    "design":    {"cn": _c(2, "constrained by export controls", "HiSilicon, Unisoc"), "tw": _c(3, "fabless leaders", "MediaTek, Novatek"), "kr": _c(2, "", "Samsung LSI"), "jp": _c(1, "", "Sony, Renesas"), "sg": _c(1), "my": _c(1), "us": _c(3, "~46% of global IC design", "Nvidia, Qualcomm, AMD, Broadcom"), "nl": _c(0), "eu": _c(2, "", "Infineon, NXP, ST")},
+    "eda":       {"cn": _c(1, "~3%", "Empyrean"), "tw": _c(1), "kr": _c(1), "jp": _c(1), "sg": _c(0), "my": _c(0), "us": _c(3, "~70% of EDA", "Cadence, Synopsys, Siemens EDA", True), "nl": _c(0), "eu": _c(2, "core IP", "Arm, Imagination")},
+    "equip":     {"cn": _c(1, "<2%, rising fast", "AMEC, Naura"), "tw": _c(1), "kr": _c(2, "", "SEMES"), "jp": _c(3, "~29% of WFE", "Tokyo Electron, Screen, Canon"), "sg": _c(1), "my": _c(1), "us": _c(3, "~40% of WFE", "Applied Materials, Lam, KLA"), "nl": _c(3, "EUV — sole supplier", "ASML", True), "eu": _c(1)},
+    "materials": {"cn": _c(2, "gallium/germanium ~85%+ (export curbs)", ""), "tw": _c(3, "~25% of materials", ""), "kr": _c(2), "jp": _c(3, "EUV resist & coating tracks ~96%", "JSR, TOK, Shin-Etsu, SUMCO", True), "sg": _c(1), "my": _c(1), "us": _c(2), "nl": _c(0), "eu": _c(2, "", "BASF, Merck")},
+    "logic":     {"cn": _c(0, "blocked — no EUV access", ""), "tw": _c(3, "~90% of <7nm logic", "TSMC", True), "kr": _c(2, "3nm", "Samsung Foundry"), "jp": _c(0, "Rapidus building 2nm", ""), "sg": _c(0), "my": _c(0), "us": _c(1, "Intel 18A ramping", "Intel"), "nl": _c(0), "eu": _c(0)},
+    "mature":    {"cn": _c(3, "largest mature-node build-out", "SMIC, Hua Hong"), "tw": _c(3, "", "TSMC, UMC, VIS, PSMC"), "kr": _c(1), "jp": _c(2, "", "Renesas, Rohm"), "sg": _c(2, "", "GlobalFoundries, UMC"), "my": _c(1, "", "SilTerra, Infineon Kulim"), "us": _c(2, "", "GlobalFoundries, TI"), "nl": _c(0), "eu": _c(2, "", "Bosch, Infineon, ST, X-Fab")},
+    "memory":    {"cn": _c(1, "rising", "CXMT, YMTC"), "tw": _c(1, "", "Nanya, Winbond"), "kr": _c(3, "DRAM ~55%, HBM leader", "Samsung, SK hynix", True), "jp": _c(2, "NAND", "Kioxia"), "sg": _c(1, "back-end", ""), "my": _c(0), "us": _c(2, "", "Micron"), "nl": _c(0), "eu": _c(0)},
+    "atp":       {"cn": _c(3, "~28% of OSAT facilities", "JCET, TFME, Tongfu"), "tw": _c(3, "~50% of OSAT", "ASE, SPIL"), "kr": _c(1), "jp": _c(1), "sg": _c(2, "", "UTAC, Micron"), "my": _c(3, "~13% of global ATP", "Inari, Unisem + MNC sites"), "us": _c(1), "nl": _c(0), "eu": _c(0)},
+    "ems":       {"cn": _c(3, "dominant", "Foxconn ops, BYD"), "tw": _c(2, "brands / ODM", "Foxconn HQ, Quanta, Pegatron"), "kr": _c(1), "jp": _c(1), "sg": _c(1), "my": _c(2, "", "VS Industry, DC / EMS"), "us": _c(1), "nl": _c(0), "eu": _c(1)},
+}
+VC_CHOKES = [
+    {"label": "EUV lithography", "who": "Netherlands", "code": "nl", "share": "~100%", "firms": "ASML — sole supplier", "source": "ASML / ETO", "stage": "equip"},
+    {"label": "EDA software", "who": "United States", "code": "us", "share": "~70%", "firms": "Cadence, Synopsys, Siemens EDA", "source": "CSIS", "stage": "eda"},
+    {"label": "EUV resist & tracks", "who": "Japan", "code": "jp", "share": "~96%", "firms": "JSR, TOK · Tokyo Electron, Screen", "source": "ETO", "stage": "materials"},
+    {"label": "Leading-edge logic ≤7nm", "who": "Taiwan", "code": "tw", "share": "~90%", "firms": "TSMC", "source": "industry", "stage": "logic"},
+    {"label": "HBM / advanced memory", "who": "South Korea", "code": "kr", "share": "DRAM ~55%", "firms": "SK hynix, Samsung", "source": "industry", "stage": "memory"},
+]
+# Each country's primary ROLE in the chain (categorical) — drives the map's role colouring + legend.
+ROLES = {
+    "cn": ("Scale · mature nodes · materials", "#185FA5"),
+    "tw": ("Leading-edge logic", "#D85A30"),
+    "kr": ("Memory", "#7F77DD"),
+    "jp": ("Equipment & materials", "#EF9F27"),
+    "sg": ("Equipment & advanced fabs", "#1D9E75"),
+    "my": ("Assembly & test", "#639922"),
+    "vn": ("Assembly & EMS", "#639922"),
+    "ph": ("Assembly & test", "#639922"),
+    "th": ("Assembly & storage", "#639922"),
+    "in": ("Emerging fab / ATP", "#888780"),
+}
+
+# ---- Asia registry: drives the atlas overview map (one row per country). status live|planned.
 # chip = curated electronics/chip supply-chain weight (0-100). gdp = 2025 real growth %. lon/lat = map centroid.
 REGISTRY = {
     "layers": [
@@ -236,13 +285,19 @@ def write(name, obj):
 def main():
     write("singapore", SINGAPORE)
     write("malaysia", MALAYSIA)
+    for c in REGISTRY["countries"]:
+        r = ROLES.get(c["code"])
+        if r:
+            c["role"], c["rc"] = r[0], r[1]
+    REGISTRY["thesis"] = VC_THESIS
+    REGISTRY["vc"] = {"stages": VC_STAGES, "cols": VC_COLS, "matrix": VC_MATRIX, "chokepoints": VC_CHOKES}
     geo_f = WEB / "vendor" / "asia.geo.json"
     if geo_f.exists():
         REGISTRY["geo"] = json.loads(geo_f.read_text(encoding="utf-8"))
     blob = json.dumps(REGISTRY, ensure_ascii=False, separators=(",", ":"))
     (WEB / "asia-registry.js").write_text("window.ASIA = " + blob + ";\n", encoding="utf-8")
     live = sum(1 for c in REGISTRY["countries"] if c["status"] == "live")
-    print(f"wrote web/asia-registry.js — {len(REGISTRY['countries'])} countries ({live} live)")
+    print(f"wrote web/asia-registry.js — {len(REGISTRY['countries'])} countries ({live} live), {len(VC_STAGES)}×{len(VC_COLS)} value-chain matrix, {len(VC_CHOKES)} chokepoints")
 
 
 if __name__ == "__main__":

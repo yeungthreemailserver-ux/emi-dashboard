@@ -23,6 +23,10 @@ const TT = {
   lg_local: ["Local", "本土"], lg_for: ["Foreign HQ", "境外总部"], lg_sanc: ["US-restricted", "美国管制"], lg_hint: ["· hover a company for HQ", "· 悬停查看公司总部"],
   rankby: ["ranked by", "排名依据"], chipw: ["chip supply-chain weight", "芯片供应链权重"], gdpg: ["GDP growth", "GDP 增速"], live: ["live", "在营"], soon: ["soon", "即将"], clickzoom: ["Click a live country on the map or list to zoom in.", "点击地图或列表中在营的国家放大查看。"], mapdots: ["Map dots —", "地图圆点 —"],
   switch_hint: ["live ↗ click to switch", "在营 ↗ 点击切换"], planned_hint: ["planned · not yet mapped", "规划中 · 暂未收录"],
+  role_l: ["Role in the chain", "在链中的角色"], vc_sub: ["the chip value chain at a glance", "芯片价值链速览"],
+  chokes: ["Single-source chokepoints", "单一来源卡脖子点"], explore: ["Explore a live country", "进入在营国家"],
+  vc_title: ["Who controls each stage", "谁掌握每个环节"], vc_titlesub: ["Asia in the global chip value chain · shade = strength · orange = chokepoint", "亚洲在全球芯片价值链中 · 深浅=掌握度 · 橙=卡脖子"],
+  maprole: ["Map colour = primary role —", "地图颜色 = 主要角色 —"], vc_foot: ["CN–MY covered in the atlas · US/NL/EU shown because they own chokepoints", "CN–MY 为本图收录 · US/NL/EU 因掌握卡脖子点而一并显示"],
 };
 const tt = (k) => { const e = TT[k]; return e ? (Z() ? e[1] : e[0]) : k; };
 const domName = (d) => (CHINA && CHINA.domains && CHINA.domains[d]) ? (Z() ? (CHINA.domains[d][2] || CHINA.domains[d][0]) : CHINA.domains[d][0]) : d;
@@ -61,18 +65,26 @@ function cityBounds(code) {
   return [[mnx, mny], [mxx, mxy]];
 }
 
-const STATE = { level: "asia", layer: "chip", country: null, city: null, lang: "en" };
+const STATE = { level: "asia", layer: "role", country: null, city: null, lang: "en" };
 let map, hovered = null, countryMarkers = [], detailMarkers = [], MAP_READY = false, drilledName = null;
 const mapDo = (fn) => { if (MAP_READY && map) { try { fn(); } catch (e) {} } };  // run map ops only once GL is ready
 
 // ---- tooltip (#ctip) ----
 let tip;
-function initTip() { tip = document.getElementById("ctip") || document.body.appendChild(Object.assign(document.createElement("div"), { id: "ctip" })); document.addEventListener("mousemove", (e) => { if (tip.style.display === "block") { tip.style.left = Math.min(e.clientX + 14, innerWidth - 320) + "px"; tip.style.top = (e.clientY + 16) + "px"; } }); }
+function initTip() {
+  tip = document.getElementById("ctip") || document.body.appendChild(Object.assign(document.createElement("div"), { id: "ctip" }));
+  document.addEventListener("mousemove", (e) => { if (tip.style.display === "block") { tip.style.left = Math.min(e.clientX + 14, innerWidth - 320) + "px"; tip.style.top = (e.clientY + 16) + "px"; } });
+  // delegated [data-tip] tooltips for panel/matrix DOM (the map sets its own tips directly)
+  document.addEventListener("mouseover", (e) => { const t = e.target.closest ? e.target.closest("[data-tip]") : null; if (t && t.getAttribute("data-tip")) { tip.textContent = t.getAttribute("data-tip"); tip.style.display = "block"; tip.style.left = Math.min(e.clientX + 14, innerWidth - 320) + "px"; tip.style.top = (e.clientY + 16) + "px"; } });
+  document.addEventListener("mouseout", (e) => { if (e.target.closest && e.target.closest("[data-tip]")) hideTip(); });
+}
 const showTip = (html, e) => { tip.innerHTML = html; tip.style.display = "block"; tip.style.left = Math.min(e.clientX + 14, innerWidth - 320) + "px"; tip.style.top = (e.clientY + 16) + "px"; };
 const hideTip = () => { if (tip) tip.style.display = "none"; };
 
 function colorAsia() {
-  ASIA.geo.features.forEach((f) => { const c = byName[f.properties.name]; f.properties.color = c ? ramp(STATE.layer, RAMP[STATE.layer].val(c)) : "#e7edf4"; f.properties.tracked = c ? 1 : 0; });
+  ASIA.geo.features.forEach((f) => { const c = byName[f.properties.name];
+    f.properties.color = c ? (STATE.layer === "role" ? (c.rc || "#cbd5e1") : ramp(STATE.layer, RAMP[STATE.layer].val(c))) : "#e7edf4";
+    f.properties.tracked = c ? 1 : 0; });
 }
 function colorProvinces() {
   if (CHINA && CHINA.geo) CHINA.geo.features.forEach((f) => { const pr = (CHINA.provinces || {})[f.properties.name]; f.properties.color = pr ? gdpScale(pr.gdp || 0) : "#cfe0f0"; });
@@ -314,11 +326,41 @@ function clusterBlock(cl, code, zc) {
   const anch = (cl.anchors || []).map((a) => anchorChip(a, code)).join("");
   return `<div class="cluster l${cl.level}"><div class="cl-top"><span class="cl-seg">${esc(seg)}</span><span class="cl-lvl l${cl.level}">${(Z() ? LVLW_ZH : LVLW)[cl.level] || ""}</span></div><div class="cl-what">${esc(what)}</div>${anch ? `<div class="cl-anch">${anch}</div>` : ""}</div>`;
 }
+const colName = (code) => byCode[code] ? countryName(code) : ({ us: Z() ? "美国" : "United States", nl: Z() ? "荷兰" : "Netherlands", eu: Z() ? "欧洲" : "Europe" }[code] || code);
+// ---- Asia landing: thesis + chokepoints + drill list (right panel) and the value-chain matrix (full-width hero) ----
 function panelAsia() {
-  const r = RAMP[STATE.layer], sorted = CO.slice().sort((a, b) => r.val(b) - r.val(a));
-  const rows = sorted.map((c) => { const live = c.status === "live", col = ramp(STATE.layer, r.val(c));
-    return `<div class="lev-row arow ${live ? "live" : "planned"}"${live ? ` data-code="${c.code}"` : ""}><div class="lev-top"><span class="lev-term">${esc(countryName(c.code))}${live ? " ↗" : ""}</span><span class="lev-scope"><span class="stat-badge ${live ? "live" : "plan"}">${live ? tt("live") : tt("soon")}</span></span><span class="lev-val" style="color:${live ? col : "#94a3b8"}">${r.disp(c)}</span></div><div class="lev-bar"><div class="lev-fill" style="width:${Math.max(2, r.pct(c)).toFixed(0)}%;background:${col};opacity:${live ? 1 : .5}"></div></div></div>`; }).join("");
-  return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span><span class="dos-area">${tt("rankby")} ${STATE.layer === "chip" ? tt("chipw") : tt("gdpg")}</span></div><div class="arows">${rows}</div><div class="dos-note">${tt("clickzoom")}</div>`;
+  const A = ASIA;
+  if (!A || !A.vc) return `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span></div><div class="dos-note">${tt("clickzoom")}</div>`;
+  let h = `<div class="dos-h"><span class="dos-name">${Z() ? "亚洲" : "Asia"}</span><span class="dos-area">${tt("vc_sub")}</span></div>`;
+  h += `<div class="vc-thesis">${esc(A.thesis || "")}</div>`;
+  h += `<div class="sech2">${tt("chokes")}</div><div class="vc-chokes">` + (A.vc.chokepoints || []).map((ck) =>
+    `<span class="vc-ck" data-tip="${escA(ck.label + " — " + ck.who + " " + ck.share + " · " + ck.firms + "  (source: " + ck.source + ")")}"><span class="vc-ck-w">${esc(ck.who)}</span><span class="vc-ck-s">${esc(ck.share)}</span><span class="vc-ck-l">${esc(ck.label)}</span></span>`).join("") + `</div>`;
+  h += `<div class="sech2">${tt("explore")}</div><div class="vc-jump">` + CO.filter((c) => c.status === "live").map((c) =>
+    `<button class="vc-jumpbtn" data-code="${c.code}">${esc(countryName(c.code))}<span class="rolepill" style="background:${c.rc || "#888"}">${esc(c.role || "")}</span> ↗</button>`).join("") + `</div>`;
+  return h;
+}
+function vcCell(cell, code, stageName, sep) {
+  const v = (cell && cell.v) || 0, ck = cell && cell.ck;
+  let bg = "transparent", col = "var(--faint)", ring = "";
+  if (v === 1) { bg = "rgba(55,138,221,.15)"; col = "#185FA5"; }
+  if (v === 2) { bg = "rgba(55,138,221,.42)"; col = "#0C447C"; }
+  if (v === 3) { bg = "rgba(55,138,221,.85)"; col = "#fff"; }
+  if (ck) { ring = "box-shadow:inset 0 0 0 2px #BA7517;"; if (v >= 3) { bg = "rgba(186,117,23,.9)"; col = "#fff"; } else { bg = "rgba(186,117,23,.22)"; col = "#854F0B"; } }
+  const vlab = ["—", "present", "strong", "leads"][v];
+  const tip = colName(code) + " · " + stageName + " — " + vlab + ((cell && cell.s) ? " (" + cell.s + ")" : "") + ((cell && cell.f) ? "  ·  " + cell.f : "") + (ck ? "   ⚠ single-source chokepoint" : "");
+  return `<div class="vcm-cell${sep ? " sep" : ""}"><div class="vcm-dot" style="background:${bg};color:${col};${ring}" data-tip="${escA(tip)}">${v ? "●".repeat(v) : "·"}</div></div>`;
+}
+function vcMatrixHTML() {
+  const vc = ASIA && ASIA.vc; if (!vc) return "";
+  const cols = vc.cols, stages = vc.stages, M = vc.matrix;
+  let h = `<div class="sech">${tt("vc_title")} <span class="dim">${tt("vc_titlesub")}</span></div>`;
+  h += `<div class="vcm"><div class="vcm-grid" style="grid-template-columns:154px repeat(${cols.length},1fr)"><div></div>`;
+  cols.forEach((col, i) => { const code = col[0], nm = col[1], ref = col[2], c = byCode[code], live = c && c.status === "live", sep = ref && i > 0 && !cols[i - 1][2];
+    h += `<div class="vcm-hd${ref ? " ref" : ""}${live ? " live" : ""}${sep ? " sep" : ""}"${live ? ` data-code="${code}"` : ""} data-tip="${escA(nm + (ref ? " · off-Asia (owns a chokepoint)" : (live ? " · click to drill in" : " · planned")))}">${esc(code.toUpperCase())}${live ? " ↗" : ""}</div>`; });
+  stages.forEach((st) => { const k = st[0], nm = st[1]; h += `<div class="vcm-rl">${esc(nm)}</div>`;
+    cols.forEach((col, i) => { const code = col[0], sep = col[2] && i > 0 && !cols[i - 1][2]; h += vcCell((M[k] || {})[code], code, nm, sep); }); });
+  h += `</div></div><div class="vcm-foot">${tt("vc_foot")}</div>`;
+  return h;
 }
 // the full dossier body (tagline → stats → clusters → sub-districts → value-chain → sourcing → mfg heatmap → note).
 // Shared by city dossiers (China + Malaysia cities) AND the Singapore country-level dossier, so every place reads the same.
@@ -352,20 +394,28 @@ function panelCity(code, name) {
 }
 function renderPanel() {
   const tilesEl = document.getElementById("tiles"), el = document.getElementById("panel");
-  if (STATE.level === "asia") { tilesEl.style.display = "none"; tilesEl.innerHTML = ""; el.innerHTML = panelAsia(); }
+  if (STATE.level === "asia") { tilesEl.style.display = ""; tilesEl.innerHTML = vcMatrixHTML(); el.innerHTML = panelAsia(); }
   else {
     tilesEl.style.display = ""; tilesEl.innerHTML = countryTilesHTML(STATE.country);
     el.innerHTML = STATE.level === "country" ? cityCardsHTML(STATE.country) : panelCity(STATE.country, STATE.city);
   }
   el.scrollTop = 0;
-  el.querySelectorAll(".arow.live[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
+  el.querySelectorAll(".vc-jumpbtn[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
   el.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => drillCity(STATE.country, b.dataset.city)));
+  tilesEl.querySelectorAll(".vcm-hd.live[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));
   const dl = document.getElementById("domlegend");
   if (dl) {
-    const cur = STATE.country, ccs = cur === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[cur] && APAC[cur].cities) || []);
-    if (STATE.level !== "asia" && (ccs || []).some((c) => c.dom) && CHINA && CHINA.domains) {  // dot legend wherever cities are colour-coded by domain
-      dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("mapdots")}</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
-    } else dl.style.display = "none";
+    if (STATE.level === "asia") {  // role legend (map coloured by primary role)
+      if (STATE.layer === "role") { const seen = {}, items = [];
+        CO.forEach((c) => { if (c.role && !seen[c.role]) { seen[c.role] = 1; items.push(c); } });
+        dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("maprole")}</span>` + items.map((c) => `<span><i style="color:${c.rc}">●</i> ${esc(c.role)}</span>`).join("");
+      } else dl.style.display = "none";
+    } else {
+      const cur = STATE.country, ccs = cur === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[cur] && APAC[cur].cities) || []);
+      if ((ccs || []).some((c) => c.dom) && CHINA && CHINA.domains) {  // dot legend wherever cities are colour-coded by domain
+        dl.style.display = ""; dl.innerHTML = `<span class="dim">${tt("mapdots")}</span>` + Object.keys(CHINA.domains).map((d) => `<span><i style="color:${CHINA.domains[d][1]}">●</i> ${esc(domName(d))}</span>`).join("");
+      } else dl.style.display = "none";
+    }
   }
 }
 function renderCrumb() {
@@ -381,7 +431,7 @@ function headHTML() {
 }
 function toolbarHTML() {
   return `<span class="mt-label">${tt("colourby")}</span>
-    <button class="mapbtn${STATE.layer === "chip" ? " active" : ""}" data-layer="chip">${tt("chip")}</button>
+    <button class="mapbtn${STATE.layer === "role" ? " active" : ""}" data-layer="role">${tt("role_l")}</button>
     <button class="mapbtn${STATE.layer === "gdp" ? " active" : ""}" data-layer="gdp">${tt("gdp")}</button>
     <span class="mt-sep"></span><button class="mapbtn" id="outbtn">${tt("zoomout")}</button>
     <button class="mapbtn" id="langbtn">${Z() ? "EN" : "简体中文"}</button>
