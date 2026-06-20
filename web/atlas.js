@@ -142,7 +142,7 @@ function initMap() {
   colorAsia();
   map = new maplibregl.Map({
     container: "map", attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 11, minZoom: 1.4,
-    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#d9e6f1" } }] },
+    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#aecbe8" } }] },
     bounds: ASIA_BOUNDS, fitBoundsOptions: { padding: 24 },
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -189,6 +189,7 @@ function drillCountry(code) {
   STATE.level = "country"; STATE.country = code; STATE.city = null; hideTip();
   mapDo(() => {
     clearDetailMarkers(); setMarkersVisible(false);
+    if (map.getLayer("asia-fill")) map.setPaintProperty("asia-fill", "fill-color", "#ece7dc");  // neutralise neighbours while drilled — only the drilled country is the focus
     if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; }
     if (code === "cn") { map.setFeatureState({ source: "asia", id: c.name }, { drilled: true }); drilledName = c.name; }  // hide China's base fill/outline so its provinces render clean
     const feat = ASIA.geo.features.find((f) => f.properties.name === c.name), cb = cityBounds(code);
@@ -235,7 +236,7 @@ function up() {
 }
 function goAsia() {
   STATE.level = "asia"; STATE.country = null; STATE.city = null; hideTip();
-  mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
+  mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (map.getLayer("asia-fill")) map.setPaintProperty("asia-fill", "fill-color", ["get", "color"]); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
   renderPanel(); renderCrumb();
 }
 
