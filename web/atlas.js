@@ -470,20 +470,21 @@ function initGlobe() {
       .backgroundColor("rgba(0,0,0,0)")
       .globeImageUrl("vendor/earth-blue-marble.jpg").bumpImageUrl("vendor/earth-topology.png")
       .showAtmosphere(true).atmosphereColor("#9ec5ff").atmosphereAltitude(0.16)
+      .polygonsData((ASIA.geo && ASIA.geo.features) || []).polygonCapColor(() => "rgba(0,0,0,0)").polygonSideColor(() => "rgba(0,0,0,0)").polygonStrokeColor(() => "rgba(255,255,255,0.5)").polygonAltitude(0.006).polygonsTransitionDuration(0)
       .pointsData(globeData()).pointLat("lat").pointLng("lng").pointColor("color")
       .pointAltitude((d) => d.live ? 0.09 : 0.045).pointRadius((d) => d.live ? 0.62 : 0.42).pointLabel("name")
       .onPointClick((d) => { if (d && d.live) drillCountry(d.code); })
       .arcsData(globeArcs()).arcColor(() => ["rgba(255,255,255,0.08)", "rgba(120,180,255,0.85)"]).arcStroke(0.35).arcDashLength(0.4).arcDashGap(0.25).arcDashAnimateTime(2600).arcAltitudeAutoScale(0.45);
     globe.pointOfView({ lat: 18, lng: 104, altitude: 1.85 }, 0);
-    const ct = globe.controls(); ct.autoRotate = true; ct.autoRotateSpeed = 0.5; ct.enableZoom = true;
+    const ct = globe.controls(); ct.autoRotate = false; ct.enableZoom = true; ct.enablePan = false; ct.minDistance = 140; ct.maxDistance = 520; ct.rotateSpeed = 0.7; ct.zoomSpeed = 0.7;
     sizeGlobe();
   } catch (e) { console.error("[atlas globe]", (e && e.message) || e); globe = null; }
 }
-function sizeGlobe() { if (!globe) return; const el = document.getElementById("globe"); if (el && el.clientWidth) { globe.width(el.clientWidth); globe.height(el.clientHeight); } }
+function sizeGlobe() { if (!globe) return; const el = document.getElementById("globe"); if (!el || !el.clientWidth) return; const w = el.clientWidth, h = el.clientHeight; if (globe.width() === w && globe.height() === h) return; globe.width(w); globe.height(h); }   // only resize when it actually changed — never disturbs the user's zoom/rotation
 function setGlobeVisible(v) {
   const stage = document.getElementById("mapstage"); if (!stage) return;
-  if (v) { initGlobe(); if (!globe) { stage.classList.remove("show-globe"); mapDo(() => map.resize()); return; } stage.classList.add("show-globe"); sizeGlobe(); if (globe.resumeAnimation) globe.resumeAnimation(); const ct = globe.controls && globe.controls(); if (ct) ct.autoRotate = true; }
-  else { stage.classList.remove("show-globe"); if (globe) { const ct = globe.controls && globe.controls(); if (ct) ct.autoRotate = false; if (globe.pauseAnimation) globe.pauseAnimation(); } mapDo(() => map.resize()); }
+  if (v) { initGlobe(); if (!globe) { stage.classList.remove("show-globe"); mapDo(() => map.resize()); return; } stage.classList.add("show-globe"); sizeGlobe(); if (globe.resumeAnimation) globe.resumeAnimation(); }
+  else { stage.classList.remove("show-globe"); if (globe && globe.pauseAnimation) globe.pauseAnimation(); mapDo(() => map.resize()); }
 }
 function render() {
   document.getElementById("main").innerHTML = `
