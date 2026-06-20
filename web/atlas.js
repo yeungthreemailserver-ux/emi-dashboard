@@ -100,12 +100,14 @@ function setMarkersVisible(show) { countryMarkers.forEach((m) => { m.getElement(
 let declutterRAF = null;
 function declutterCityLabels() {
   const els = detailMarkers.map((m) => m.getElement()).filter((el) => el && el.classList.contains("mk-city"));
-  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) lab.style.display = "inline-block"; });
+  els.forEach((el) => { const lab = el.querySelector(".clab"); if (lab) lab.style.display = ""; });
+  // seed obstacles with every city dot so a visible label is never drawn on top of another city's dot
   const placed = [];
+  els.forEach((el) => { const dot = el.querySelector(".cdot"); if (dot) { const dr = dot.getBoundingClientRect(); if (dr.width) placed.push(dr); } });
   els.forEach((el) => {
     const lab = el.querySelector(".clab"); if (!lab) return;
     const r = lab.getBoundingClientRect(); if (!r.width) return;
-    const hit = placed.some((p) => !(r.right < p.left - 4 || r.left > p.right + 4 || r.bottom < p.top - 2 || r.top > p.bottom + 2));
+    const hit = placed.some((p) => !(r.right < p.left - 3 || r.left > p.right + 3 || r.bottom < p.top - 2 || r.top > p.bottom + 2));
     if (hit) lab.style.display = "none"; else placed.push(r);
   });
 }
@@ -187,7 +189,7 @@ function cityDot(ct, code) {
   if (ct.lon == null || ct.lat == null) return;
   const col = code === "cn" ? domColor(ct.dom) : "#1d4ed8";   // colour the dot by industry domain (like china.html)
   const html = `<span class="cdot" style="background:${col};border-color:#fff"></span><span class="clab">${esc(cityName(ct))}</span>`;
-  detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "left", () => drillCity(code, ct.name)));
+  detailMarkers.push(marker(html, "mk-city", [ct.lon, ct.lat], "center", () => drillCity(code, ct.name)));  // dot on the coord, label floats centred above it
 }
 function drillCity(code, name) {
   const list = code === "cn" ? (CHINA ? CHINA.cities : []) : ((APAC[code] && APAC[code].cities) || []);

@@ -107,12 +107,13 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .mk-country.live{cursor:pointer;} .mk-country.live:hover{border-color:var(--blue);color:var(--blue);}
 .mk-country.plan{font-weight:500;color:var(--muted);opacity:.92;}
 .mk-country .dot{width:8px;height:8px;border-radius:50%;flex:none;}
-.mk-city{display:flex;align-items:center;gap:5px;cursor:pointer;}
-.mk-city .cdot{width:10px;height:10px;border-radius:50%;background:#fff;border:2.5px solid #1d4ed8;box-shadow:0 1px 4px rgba(15,23,42,.3);flex:none;transition:transform .12s;}
+/* dot sits exactly on the city coordinate (marker anchored "center"); label floats centred above it */
+.mk-city{position:relative;display:inline-block;line-height:0;cursor:pointer;}
+.mk-city .cdot{display:block;width:13px;height:13px;border-radius:50%;background:#fff;border:2.5px solid #1d4ed8;box-shadow:0 1px 4px rgba(15,23,42,.3);box-sizing:border-box;transition:transform .12s;}
 .mk-city:hover .cdot{transform:scale(1.25);}
-/* labels shown by default; a JS declutter pass hides ones that would overlap (revealed on hover/zoom) */
-.mk-city .clab{display:inline-block;font-size:11.5px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:5px;padding:1px 5px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.12);}
-.mk-city:hover .clab{display:inline-block !important;color:var(--blue);}
+/* labels shown by default; a JS declutter pass hides ones that would overlap a label or another dot (revealed on hover) */
+.mk-city .clab{position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);display:block;font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:5px;padding:1px 5px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.12);pointer-events:none;}
+.mk-city:hover .clab{display:block !important;color:var(--blue);z-index:6;}
 .mk-city:hover{z-index:5;}
 /* atlas country composition (macro tiles + leverage full-width, like china.html) */
 .atlas-tiles{margin:2px 0 12px;}
