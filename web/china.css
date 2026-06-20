@@ -121,6 +121,20 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .mk-city .clab.clab-left{right:calc(100% + 6px);left:auto;top:50%;bottom:auto;transform:translateY(-50%);}
 .mk-city:hover .clab{display:block !important;color:var(--blue);z-index:6;}
 .mk-city:hover{z-index:5;}
+/* shared "In the news" widget (news-widget.js) — appears on country/china/atlas dossiers */
+.newsblock{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-top:20px;}
+.nb-h{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.nb-more{font-size:11px;font-weight:600;color:var(--blue);text-decoration:none;text-transform:none;letter-spacing:0;}
+.nb-more:hover{text-decoration:underline;}
+.nb-item{display:flex;align-items:baseline;gap:8px;padding:5px 0;text-decoration:none;border-top:1px solid var(--line-2);}
+.nb-item:first-of-type{border-top:none;}
+.nb-dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--blue);transform:translateY(-2px);}
+.nb-tt{flex:1;font-size:13px;color:var(--ink);line-height:1.35;}
+.nb-item:hover .nb-tt{color:var(--blue);text-decoration:underline;}
+.nb-src{flex:none;font-size:10.5px;color:var(--faint);font-weight:600;white-space:nowrap;}
+.nb-so{font-size:12px;line-height:1.45;background:#f0f7ff;border:1px solid #dbeafe;border-radius:7px;padding:6px 9px;color:#1e3a5f;margin:6px 0 4px;}
+.nb-so b{color:#1d4ed8;font-weight:700;}
+.nb-foot{font-size:10px;color:var(--faint);margin-top:8px;}
 /* city name label beside the canvas circle dot (anchor "left" marker — never drifts) */
 .citylbl{font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:5px;padding:1px 6px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.14);cursor:pointer;}
 .citylbl:hover{color:var(--blue);border-color:var(--blue);z-index:6;}

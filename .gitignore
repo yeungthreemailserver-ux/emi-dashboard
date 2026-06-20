@@ -27,3 +27,7 @@ data/_topic_*.json
 # local transcript caches (raw text / translations) — not committed, like data/transcripts/
 data/transcripts_en/
 data/paste/
+
+# News module — regenerable each daily run (raw fetch input + run log); the bundle + history are kept
+data/news_raw.json
+data/news_last_run.txt

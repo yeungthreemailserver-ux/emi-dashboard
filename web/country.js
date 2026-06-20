@@ -152,7 +152,8 @@ function render() {
     <div class="sech">Supply-chain role <span class="dim">${esc(D.name)}'s place in the global chip supply chain · global share per node</span></div>
     <div class="lev-take">${esc(D.role_take || "")}</div>
     <div class="levmap">${roleHTML()}</div>
-    ${lower}`;
+    ${lower}
+    ${(window.EMINews && D.code) ? EMINews.block(["geo:" + D.code], D.name + " in the news") : ""}`;
   document.querySelectorAll("[data-city]").forEach((b) => b.addEventListener("click", () => { STATE.city = b.dataset.city; render(); }));
 }
 

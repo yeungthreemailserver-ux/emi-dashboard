@@ -235,7 +235,8 @@ function render() {
     <div class="citywrap">
       <div class="citymap" id="citymap"></div>
       <div class="dossier" id="dossier"></div>
-    </div>`;
+    </div>
+    ${(window.EMINews) ? EMINews.block(["geo:cn"], Z() ? "中国相关新闻" : "China in the news") : ""}`;
   document.querySelectorAll(".kpi").forEach((el) => el.addEventListener("click", () => openKpiModal(m.headline[+el.dataset.kpi])));
   document.querySelectorAll(".morec[data-more]").forEach((el) => el.addEventListener("click", () => openKpiModal(m.more[+el.dataset.more])));
   document.querySelectorAll(".mapbtn[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));

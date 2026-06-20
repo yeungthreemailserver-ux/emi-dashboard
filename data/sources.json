@@ -1,0 +1,43 @@
+{
+  "_doc": "EMI News — structured research-source registry. The collection framework lives here as DATA, not code: add/retune a source = edit a row. fetch_news.py reads this. Every source has: type (trade RSS / aggregator / regional / official / industry), tier (1=high-reliability curated, 2=targeted aggregator, 3=broad), region, and the research area(s) it serves (angles/facets from ontology.json). 'feeds' = direct RSS; 'query_packs' = grouped Google-News search beats by area; 'apis' = structured endpoints. This makes source COVERAGE auditable (by type/tier/region), not just topic coverage.",
+  "version": "2026-06-20",
+  "feeds": [
+    {"id": "semiengineering", "name": "SemiEngineering",       "type": "trade", "tier": 1, "region": "global", "areas": ["all"], "url": "https://semiengineering.com/feed/"},
+    {"id": "eetimes",         "name": "EE Times",              "type": "trade", "tier": 1, "region": "global", "areas": ["all"], "url": "https://www.eetimes.com/feed/"},
+    {"id": "electronicsweekly","name": "Electronics Weekly",   "type": "trade", "tier": 1, "region": "eu",     "areas": ["all"], "url": "https://www.electronicsweekly.com/feed/"},
+    {"id": "edn",             "name": "EDN",                   "type": "trade", "tier": 1, "region": "global", "areas": ["all"], "url": "https://www.edn.com/feed/"},
+    {"id": "epsnews",         "name": "EPSNews",               "type": "trade", "tier": 1, "region": "us",     "areas": ["scm", "channel", "parts"], "url": "https://epsnews.com/feed/"},
+    {"id": "electronicspec",  "name": "Electronic Specifier",  "type": "trade", "tier": 1, "region": "eu",     "areas": ["all"], "url": "https://www.electronicspecifier.com/rss"},
+    {"id": "evertiq",         "name": "Evertiq",               "type": "trade", "tier": 1, "region": "global", "areas": ["scm", "supplier"], "url": "https://evertiq.com/rss/news"},
+    {"id": "powerelec",       "name": "Power Electronics News", "type": "trade", "tier": 1, "region": "global", "areas": ["technology", "parts"], "url": "https://www.powerelectronicsnews.com/feed/"},
+    {"id": "electronics360",  "name": "Electronics360",        "type": "trade", "tier": 1, "region": "global", "areas": ["all"], "url": "https://electronics360.globalspec.com/rss"}
+  ],
+  "query_packs": [
+    {"id": "parts",     "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["parts"],
+     "q": ["electronic component shortage", "semiconductor lead times", "MLCC shortage", "passive components supply", "chip distributor allocation", "memory chip price increase", "component obsolescence end-of-life", "semiconductor inventory correction"]},
+    {"id": "supplier",  "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["supplier"],
+     "q": ["Texas Instruments", "Infineon", "STMicroelectronics", "Microchip Technology", "onsemi", "Nexperia", "Murata", "Renesas semiconductor"]},
+    {"id": "scm",       "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["scm"],
+     "q": ["semiconductor book-to-bill ratio", "component lead times distribution", "electronics supply chain disruption"]},
+    {"id": "macro",     "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["macro"],
+     "q": ["WSTS semiconductor sales forecast", "SIA global semiconductor sales", "electronics PMI demand outlook", "semiconductor cycle recovery outlook"]},
+    {"id": "demand",    "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["demand"],
+     "q": ["automotive semiconductor demand", "industrial automation components demand", "datacenter AI server components", "medical device electronics components", "aerospace defense electronics components", "energy storage power electronics components", "5G base station components", "solar inverter power semiconductor", "EV charging power semiconductor", "battery management IC BMS"]},
+    {"id": "channel",   "type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["channel"],
+     "q": ["electronics distributor results", "electronics distributor acquisition"]},
+    {"id": "technology","type": "aggregator", "tier": 2, "region": "global", "lang": "en", "areas": ["technology"],
+     "q": ["silicon carbide GaN design win", "advanced packaging chiplet"]},
+    {"id": "geo",       "type": "aggregator", "tier": 2, "region": "apac", "lang": "en", "areas": ["geo"],
+     "q": ["Japan semiconductor materials", "Korea memory chip", "India electronics manufacturing", "Southeast Asia electronics manufacturing", "Europe semiconductor", "Vietnam electronics manufacturing", "Thailand electronics manufacturing", "Philippines semiconductor assembly test", "Australia electronics components"]},
+    {"id": "digitimes", "type": "regional",   "tier": 2, "region": "tw", "lang": "en", "areas": ["all"],
+     "q": ["site:digitimes.com semiconductor", "site:digitimes.com components"]},
+    {"id": "china",     "type": "regional",   "tier": 2, "region": "cn", "lang": "zh", "areas": ["all"],
+     "q": ["电子元器件 缺货", "芯片 涨价", "半导体 分销", "MLCC 涨价", "功率半导体 缺货", "存储芯片 价格", "元器件 交期", "site:esmchina.com 元器件", "site:laoyaoba.com 芯片", "site:eet-china.com 半导体"]}
+  ],
+  "apis": [
+    {"id": "gdelt",  "name": "GDELT", "type": "aggregator", "tier": 3, "region": "global", "areas": ["all"],
+     "method": "gdelt", "q": ["electronic components supply chain", "semiconductor shortage allocation"]},
+    {"id": "fedreg", "name": "Federal Register", "type": "official", "tier": 1, "region": "us", "areas": ["geopolitics"],
+     "method": "fedreg", "q": ["semiconductor export control"]}
+  ]
+}

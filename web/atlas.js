@@ -399,7 +399,9 @@ function renderPanel() {
   if (STATE.level === "asia") { tilesEl.style.display = "none"; tilesEl.innerHTML = ""; el.innerHTML = panelAsia(); }
   else {
     tilesEl.style.display = ""; tilesEl.innerHTML = countryTilesHTML(STATE.country);
-    el.innerHTML = STATE.level === "country" ? cityCardsHTML(STATE.country) : panelCity(STATE.country, STATE.city);
+    const cname = (byCode[STATE.country] && byCode[STATE.country].name) || STATE.country.toUpperCase();
+    const newsBlk = (window.EMINews) ? EMINews.block(["geo:" + STATE.country], cname + " in the news") : "";
+    el.innerHTML = (STATE.level === "country" ? cityCardsHTML(STATE.country) : panelCity(STATE.country, STATE.city)) + newsBlk;
   }
   el.scrollTop = 0;
   el.querySelectorAll(".vc-jumpbtn[data-code]").forEach((b) => b.addEventListener("click", () => drillCountry(b.dataset.code)));

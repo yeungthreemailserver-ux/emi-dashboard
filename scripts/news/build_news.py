@@ -1,0 +1,480 @@
+#!/usr/bin/env python3
+"""EMI News — build stage (analysis-first; hybrid extractive→abstractive).
+
+Mirrors the earnings system's analysis DNA (ontology + good/bad verdict + time series +
+forward call + breadth + emergence) instead of dumping a feed:
+  1. tag every raw article against data/ontology.json
+  2. relevance-filter, then dedup into clusters
+  3. score hotness; compute per-concept momentum vs data/news_history.json
+  4. CONCEPTS  — entity-level volume + momentum + verdict + spark (for the treemap)
+  5. RIVER     — per-concept daily volume series (for the themeriver)
+  6. SYNTHESIS — Sonnet rolls the top clusters into 5-7 THEMES, each with a distributor
+                 verdict (tailwind/headwind/watch), drivers, risk, affected names, evidence;
+                 plus a one-paragraph weekly brief.  (extractive pre-select → abstractive synth)
+                 via `claude -p --model claude-sonnet-4-6`; rule-based fallback if CLI absent.
+  7. emit web/news-bundle.js (window.NEWS) + roll history (30 days).
+"""
+import json, os, re, sys, subprocess, datetime as dt
+from email.utils import parsedate_to_datetime
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DATA = os.path.join(ROOT, "data")
+WEB = os.path.join(ROOT, "web")
+ONT = json.load(open(os.path.join(DATA, "ontology.json"), encoding="utf-8"))
+
+SYNTH_INPUT_N = 45      # clusters fed to the synthesis LLM (extractive pre-select)
+MAX_ITEMS = 140         # evidence clusters written to the bundle
+CONCEPTS_N = 22         # concepts for the treemap
+RIVER_N = 7             # concepts tracked in the themeriver
+SOURCE_WEIGHT = {"SemiEngineering": 1.0, "EE Times": 1.0, "Federal Register": 1.0,
+                 "The Register": 0.85, "SCMP Tech": 0.8, "Tom's Hardware": 0.7, "Google News": 0.65}
+THEME_IMPACT = {"export_controls": 1.0, "pricing_supply": 0.95, "capacity_capex": 0.85,
+                "demand_shift": 0.8, "ma_investment": 0.7, "technology": 0.65}
+
+
+def parse_date(s):
+    if not s:
+        return None
+    s = s.strip()
+    try:
+        return parsedate_to_datetime(s)
+    except Exception:
+        pass
+    if re.match(r"^\d{8}T\d{6}Z$", s):
+        return dt.datetime.strptime(s, "%Y%m%dT%H%M%SZ").replace(tzinfo=dt.timezone.utc)
+    for fmt in ("%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d"):
+        try:
+            d = dt.datetime.strptime(s, fmt)
+            return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+        except Exception:
+            continue
+    return None
+
+
+# ---------- tagging (whole-token, lookaround) -------------------------------
+def _rx(term):
+    return re.compile(r"(?<![a-z0-9])" + re.escape(term.lower().strip()) + r"(?![a-z0-9])")
+
+_MATCH = {}
+for facet, field in [("companies", "aliases"), ("end_markets", "kw"), ("components", "kw"),
+                     ("geographies", "aliases"), ("themes", "kw")]:
+    _MATCH[facet] = [(o["id"], [_rx(s) for s in o[field]]) for o in ONT[facet]]
+
+LABELS = {}
+for f, pfx in [("companies", "company"), ("end_markets", "em"), ("components", "comp"),
+               ("geographies", "geo"), ("themes", "theme")]:
+    for o in ONT[f]:
+        LABELS[pfx + ":" + o["id"]] = o.get("label") or o.get("name")
+
+
+def tag(text):
+    t = text.lower()
+    out = {k: [] for k in _MATCH}
+    for facet, entries in _MATCH.items():
+        for eid, rxs in entries:
+            if any(r.search(t) for r in rxs):
+                out[facet].append(eid)
+    return out
+
+
+ROLE_OF = {c["id"]: c.get("role", "") for c in ONT["companies"]}
+SUPPLY_ROLES = {"analog_power", "passives", "memory", "foundry", "equipment", "materials",
+                "osat", "display", "eda_ip", "logic", "distribution"}
+TRUSTED_TIERS = {"trade", "china", "official"}
+KEY_THEMES = {"pricing_supply", "export_controls", "capacity_capex", "demand_shift", "ma_investment"}
+# consumer / gaming / AI-model noise — irrelevant to a parts distributor unless a part signal also fires
+NOISE_RX = re.compile(r"\b(gaming|game console|playstation|ps5|xbox|nintendo|geforce|gaming gpu|"
+                      r"graphics card|fps|smartphone review|foldable|earbuds?|headphones?|tv review|"
+                      r"chatbot|chatgpt|openai|deepseek|gemini|large language model|llm benchmark|"
+                      r"crypto|bitcoin|blockchain|nft|streaming service)\b", re.I)
+# industry-macro signals (often have no part tag, but matter for the Macro lens) — let them through
+MACRO_RX = re.compile(r"\b(book-to-bill|wsts|sia |semiconductor sales|semiconductor billings|"
+                      r"semiconductor forecast|chip sales|semiconductor market|manufacturing pmi|"
+                      r"ism manufacturing|semiconductor cycle|semiconductor outlook)\b", re.I)
+
+
+def relevance(tags, text, tier):
+    """distributor-relevance score; strict gate keeps >= 2.0 (see is_relevant)."""
+    s = 0.0
+    if any(ROLE_OF.get(c) in SUPPLY_ROLES for c in tags["companies"]):
+        s += 2.0                              # a component-supply-side maker / our line-card vendor
+    elif tags["companies"]:
+        s += 0.5                              # only a brand/OEM mention
+    if tags["components"]:
+        s += 2.0                              # an actual part category
+    if set(tags["themes"]) & KEY_THEMES:
+        s += 1.5                              # pricing/supply/policy/M&A signal
+    if tags["end_markets"] and tags["components"]:
+        s += 0.5                              # end-market demand tied to a part
+    if tier in TRUSTED_TIERS:
+        s += 2.0                              # curated component / distribution / regulator source
+    if MACRO_RX.search(text):
+        s += 2.0                              # industry-macro signal (book-to-bill, WSTS, chip sales…)
+    if NOISE_RX.search(text):
+        s -= 3.0
+    return s
+
+
+def is_relevant(tags, text, tier="gnews"):
+    return relevance(tags, text, tier) >= 2.0
+
+
+# ---- angles (the distributor's 360° lenses) --------------------------------
+ANGLE_LABEL = {a["id"]: a["label"] for a in ONT.get("angles", [])}
+ANGLE_KW = {a["id"]: [_rx(k) for k in a.get("kw", [])] for a in ONT.get("angles", [])}
+ANGLE_FROM_THEME = {"pricing_supply": ["parts", "scm"], "export_controls": ["geopolitics"],
+                    "capacity_capex": ["supplier"], "technology": ["technology"],
+                    "demand_shift": ["demand"], "ma_investment": ["supplier"]}
+
+
+def angle_tags(tags, text):
+    A = set()
+    if tags["end_markets"]:
+        A.add("demand")
+    if any(ROLE_OF.get(c) in SUPPLY_ROLES for c in tags["companies"]):
+        A.add("supplier")
+    if tags["components"]:
+        A.add("parts")
+    for th in tags["themes"]:
+        A.update(ANGLE_FROM_THEME.get(th, []))
+    for aid, rxs in ANGLE_KW.items():
+        if any(r.search(text) for r in rxs):
+            A.add(aid)
+    return sorted(A)
+
+
+def tokens(s):
+    """CJK-aware: Latin words (>=3 chars) + Chinese character BIGRAMS — so identical/near
+    Chinese headlines (which have no spaces) cluster instead of each becoming its own item."""
+    s = s.lower()
+    toks = set(re.findall(r"[a-z0-9]{3,}", s))
+    cjk = "".join(re.findall(r"[一-鿿]", s))
+    if len(cjk) == 1:
+        toks.add(cjk)
+    for i in range(len(cjk) - 1):
+        toks.add(cjk[i:i + 2])
+    return toks
+
+
+def cluster(articles):
+    clusters = []
+    for a in articles:
+        tk = tokens(a["title"])
+        placed = False
+        for cl in clusters:
+            inter = len(tk & cl["_tok"])
+            jac = inter / (len(tk | cl["_tok"]) or 1)
+            if jac >= 0.55 or (inter >= 4 and inter >= 0.8 * min(len(tk), len(cl["_tok"]))):
+                cl["members"].append(a); cl["_tok"] |= tk; placed = True; break
+        if not placed:
+            clusters.append({"rep": a, "members": [a], "_tok": tk})
+    return clusters
+
+
+def hotness(cl, now):
+    members = cl["members"]
+    dates = [d for d in (parse_date(m.get("published", "")) for m in members) if d]
+    if dates:
+        age_h = (now - max(dates)).total_seconds() / 3600.0
+        recency = max(0.0, 1.0 - age_h / 168.0)
+    else:
+        age_h = None            # undated — do NOT fabricate a 72h age
+        recency = 0.0           # and give it no fake freshness credit
+    srcs = {m["source"] for m in members}
+    crosssrc = min(1.0, (len(srcs) - 1) / 3.0) if len(srcs) > 1 else (0.15 if len(members) == 1 else 0.4)
+    srcw = max((SOURCE_WEIGHT.get(m["source"], 0.6) for m in members), default=0.6)
+    impact = max((THEME_IMPACT.get(th, 0.5) for th in cl["tags"]["themes"]), default=0.5)
+    score = round(100.0 * (0.34 * recency + 0.26 * crosssrc + 0.18 * srcw + 0.22 * impact), 1)
+    return score, (round(age_h, 1) if age_h is not None else None)
+
+
+def entity_keys(tags):
+    keys = []
+    for cid in tags["companies"]: keys.append("company:" + cid)
+    for eid in tags["end_markets"]: keys.append("em:" + eid)
+    for cid in tags["components"]: keys.append("comp:" + cid)
+    for gid in tags["geographies"]: keys.append("geo:" + gid)
+    for th in tags["themes"]: keys.append("theme:" + th)
+    return keys
+
+
+def momentum_one(cnt, prior_vals):
+    avg = (sum(prior_vals) / len(prior_vals)) if prior_vals else 0.0
+    delta = (cnt - avg) / (avg + 1.0)
+    if not prior_vals:
+        verdict = "active"
+    elif avg == 0 and cnt >= 2:
+        verdict = "breaking"
+    elif delta > 0.4 and cnt >= 2:
+        verdict = "rising"
+    elif delta < -0.4:
+        verdict = "cooling"
+    else:
+        verdict = "steady"
+    return round(avg, 1), round(delta, 2), verdict
+
+
+# ---------- LLM synthesis (Sonnet via Claude Code CLI) ----------------------
+def run_claude(prompt):
+    shell = (os.name == "nt")
+    cmd = ("claude -p --model claude-sonnet-4-6 --output-format json" if shell
+           else ["claude", "-p", "--model", "claude-sonnet-4-6", "--output-format", "json"])
+    res = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
+                         timeout=360, shell=shell, encoding="utf-8")
+    if res.returncode != 0:
+        raise RuntimeError(f"CLI rc={res.returncode}: {res.stderr[:160]}")
+    env = json.loads(res.stdout)
+    txt = env.get("result", "") if isinstance(env, dict) else str(env)
+    txt = re.sub(r"^```(?:json)?|```$", "", txt.strip(), flags=re.M).strip()
+    m = re.search(r"\{.*\}", txt, re.S)
+    return json.loads(m.group(0) if m else txt)
+
+
+def synthesize(top, clusters):
+    """top = list of (idx, cluster). Returns {brief, themes[...]} with evidence idx validated."""
+    lines = []
+    for idx, cl in top:
+        tg = cl["tags"]
+        tagstr = ",".join((tg["companies"] + tg["components"] + tg["themes"] + tg["end_markets"])[:6])
+        lines.append(f'{idx} | {cl["rep"]["title"][:120]} | {tagstr}')
+    prompt = (
+        "You are the lead market-intelligence analyst for an electronic-COMPONENTS DISTRIBUTOR "
+        "(semis, passives, interconnect, displays, embedded). Below are this week's news clusters as "
+        "`index | headline | tags`. Do ANALYSIS, not a summary — produce ranked KEY JUDGMENTS in the "
+        "style of an intelligence brief (bottom-line-up-front + so-what + now-what + indicators).\n\n"
+        "For each judgment:\n"
+        "- direction = the distributor read: tailwind (good for us — rising component demand, pricing "
+        "power, design-in) / headwind (bad — soft demand or prices, shrinking addressable market, "
+        "un-sourceable shock) / watch (mixed or uncertain).\n"
+        "- confidence = high / moderate / low, CONGRUENT with how much corroborating evidence exists "
+        "(a single source = low).\n"
+        "- so_what = the IMPLICATION for the distributor (demand, supply, pricing, sourcing, which "
+        "customers/segments are affected) — diagnostic, not descriptive.\n"
+        "- action = the recommended NEXT STEP, concrete (e.g. pre-book memory allocation, raise safety "
+        "stock on MLCC, pass through price, qualify a second source, brief automotive customers).\n"
+        "- watch = 1-2 leading INDICATORS that would confirm or break the judgment.\n"
+        "- customer_track = one sentence you'd SAY TO A CUSTOMER to show you understand their market.\n"
+        "- supplier_track = one sentence you'd TELL A SUPPLIER — your demand-sensing point of view.\n"
+        "- angles = 1-3 lens ids from: demand, supplier, parts, scm, macro, technology, channel, geopolitics.\n"
+        "Rank by importance to a distributor. Be honest about divergence and uncertainty.\n\n"
+        "Return ONLY this JSON (no prose, no fences):\n"
+        '{"bottom_line":"1-2 sentence BLUF — the single most important thing for a distributor this week",'
+        '"judgments":[{"headline":"the judgment as a claim, <=11 words","direction":"tailwind|headwind|watch",'
+        '"confidence":"high|moderate|low","so_what":"the implication for a distributor",'
+        '"action":"the recommended next step","watch":"1-2 leading indicators",'
+        '"customer_track":"what to say to a customer","supplier_track":"what to tell a supplier",'
+        '"angles":["lens ids"],"why":["diagnostic driver phrase",...up to 3],"risk":"the main risk to this judgment",'
+        '"affected":{"companies":["..."],"end_markets":["..."]},"evidence":[<cluster indices>]}]}\n'
+        "Give 5 to 7 judgments.\n\nClusters:\n" + "\n".join(lines)
+    )
+    out = run_claude(prompt)
+    nmax = len(clusters)
+    themes = []
+    for t in out.get("judgments", out.get("themes", [])):
+        ev = [int(i) for i in t.get("evidence", []) if isinstance(i, (int, float)) and 0 <= int(i) < nmax]
+        if not ev:
+            continue
+        t["evidence"] = ev
+        t["angles"] = [a for a in (t.get("angles") or []) if a in ANGLE_LABEL]
+        themes.append(t)
+    return {"brief": out.get("bottom_line", out.get("brief", "")), "themes": themes}
+
+
+def fallback_themes(concepts, by_entity):
+    """rule-based themes if the LLM is unavailable — top theme/component concepts become minimal themes."""
+    out = []
+    for c in concepts:
+        if c["type"] not in ("theme", "comp", "company"):
+            continue
+        out.append({"headline": c["label"], "direction": "watch", "confidence": "low",
+                    "so_what": "", "action": "", "watch": "", "customer_track": "", "supplier_track": "",
+                    "angles": [], "why": [], "risk": "",
+                    "affected": {"companies": [], "end_markets": []},
+                    "evidence": (by_entity.get(c["key"], []) or [])[:6]})
+        if len(out) >= 6:
+            break
+    return {"brief": "", "themes": out}
+
+
+# ---------- main -------------------------------------------------------------
+def main():
+    raw = json.load(open(os.path.join(DATA, "news_raw.json"), encoding="utf-8"))
+    now = dt.datetime.now(dt.timezone.utc)
+    today_key = now.date().isoformat()
+
+    arts = []
+    for a in raw["articles"]:
+        if not a.get("title") or not a.get("url"):
+            continue
+        text = a["title"] + " " + a.get("summary", "")
+        tags = tag(text)
+        if not is_relevant(tags, text, a.get("tier", "gnews")):
+            continue
+        a["tags"] = tags
+        arts.append(a)
+    print(f"Relevant: {len(arts)}/{len(raw['articles'])} (strict distributor focus)")
+
+    clusters = cluster(arts)
+    for cl in clusters:
+        merged = {k: set() for k in ("companies", "end_markets", "components", "geographies", "themes")}
+        for m in cl["members"]:
+            for k in merged:
+                merged[k].update(m["tags"][k])
+        cl["tags"] = {k: sorted(v) for k, v in merged.items()}
+        cl["hot"], cl["age_h"] = hotness(cl, now)
+    clusters.sort(key=lambda c: c["hot"], reverse=True)
+    print(f"Clusters: {len(clusters)}")
+
+    # history (prior days, before today)
+    hist = {}
+    hp = os.path.join(DATA, "news_history.json")
+    if os.path.exists(hp):
+        hist = json.load(open(hp, encoding="utf-8"))
+    prior_days = [d for k, d in sorted(hist.get("days", {}).items()) if k < today_key][-7:]
+
+    # per-entity counts today
+    today_counts = {}
+    for cl in clusters:
+        for key in set(entity_keys(cl["tags"])):
+            today_counts[key] = today_counts.get(key, 0) + 1
+
+    # items (evidence) — index aligns with clusters order
+    items = []
+    for cl in clusters[:MAX_ITEMS]:
+        rep = cl["rep"]
+        dd = parse_date(rep.get("published", ""))
+        items.append({"title": rep["title"], "url": rep["url"], "source": rep["source"],
+                      "published": rep.get("published", ""), "date": dd.date().isoformat() if dd else "",
+                      "age_h": cl["age_h"], "hot": cl["hot"],
+                      "n": len(cl["members"]), "sources": sorted({m["source"] for m in cl["members"]}),
+                      "tags": cl["tags"],
+                      "angles": angle_tags(cl["tags"], rep["title"] + " " + rep.get("summary", ""))})
+    by_entity = {}
+    for i, it in enumerate(items):
+        for key in set(entity_keys(it["tags"])):
+            by_entity.setdefault(key, []).append(i)
+    by_angle = {}
+    for i, it in enumerate(items):
+        for a in it["angles"]:
+            by_angle.setdefault(a, []).append(i)
+    angles_list = sorted(({"id": a, "label": ANGLE_LABEL.get(a, a), "count": len(v)} for a, v in by_angle.items()),
+                         key=lambda x: x["count"], reverse=True)
+
+    # coverage map — counted over ALL deduped clusters (not just the top-140 shown) so the
+    # completeness check is true; EVERY area incl. zero-count gaps is listed.
+    full_ent, full_ang = {}, {}
+    for cl in clusters:
+        txt = cl["rep"]["title"] + " " + cl["rep"].get("summary", "")
+        for k in set(entity_keys(cl["tags"])):
+            full_ent[k] = full_ent.get(k, 0) + 1
+        for a in set(angle_tags(cl["tags"], txt)):
+            full_ang[a] = full_ang.get(a, 0) + 1
+    def _cov(pfx, members):
+        return sorted(({"id": m["id"], "label": m.get("label") or m.get("name"),
+                        "count": full_ent.get(pfx + ":" + m["id"], 0)} for m in members),
+                      key=lambda x: x["count"], reverse=True)
+    st = {}
+    for a in arts:
+        k = a.get("src_type", "other") or "other"
+        st[k] = st.get(k, 0) + 1
+    coverage = {
+        "angles": sorted(({"id": a["id"], "label": a["label"], "count": full_ang.get(a["id"], 0)} for a in ONT.get("angles", [])),
+                         key=lambda x: x["count"], reverse=True),
+        "end_markets": _cov("em", ONT["end_markets"]),
+        "geographies": _cov("geo", ONT["geographies"]),
+        "sources": sorted(({"id": k, "label": k[:1].upper() + k[1:], "count": v} for k, v in st.items()), key=lambda x: x["count"], reverse=True),
+    }
+
+    # CONCEPTS (treemap) — exclude geo (places are the atlas's job); rank by volume x momentum x type
+    concepts = []
+    for key, cnt in today_counts.items():
+        typ = key.split(":")[0]
+        if typ == "geo" or cnt < 2:
+            continue
+        avg, delta, verdict = momentum_one(cnt, [d.get(key, 0) for d in prior_days])
+        impact = THEME_IMPACT.get(key.split(":")[1], 0.6) if typ == "theme" else 0.6
+        typew = {"company": 1.3, "theme": 1.15, "comp": 1.1, "em": 0.75}.get(typ, 1.0)
+        rscore = cnt * (1 + impact) * typew * {"breaking": 1.6, "rising": 1.3, "active": 1.0, "steady": 1.0, "cooling": 0.6}[verdict]
+        spark = [d.get(key, 0) for d in prior_days] + [cnt]
+        concepts.append({"key": key, "type": typ, "label": LABELS.get(key, key), "count": cnt,
+                         "prev": avg, "delta": delta, "verdict": verdict,
+                         "is_new": (verdict == "breaking"), "spark": spark, "_r": rscore})
+    concepts.sort(key=lambda c: c["_r"], reverse=True)
+    concepts = concepts[:CONCEPTS_N]
+    for c in concepts:
+        c.pop("_r", None)
+
+    # RIVER (themeriver) — daily volume for the top RIVER_N concepts across history+today
+    river_keys = [c["key"] for c in concepts[:RIVER_N]]
+    day_keys = [k for k in sorted(hist.get("days", {}).keys()) if k < today_key] + [today_key]
+    day_map = dict(hist.get("days", {})); day_map[today_key] = today_counts
+    river = {"days": day_keys,
+             "series": [{"key": k, "label": LABELS.get(k, k),
+                         "values": [day_map.get(d, {}).get(k, 0) for d in day_keys]} for k in river_keys]}
+
+    # SYNTHESIS (themes + brief)
+    top = list(enumerate(clusters[:SYNTH_INPUT_N]))
+    try:
+        synth = synthesize(top, clusters[:MAX_ITEMS])
+        print(f"  Synthesis: {len(synth['themes'])} themes + brief via Sonnet")
+    except Exception as e:
+        synth = fallback_themes(concepts, by_entity)
+        print(f"  Synthesis: LLM unavailable ({type(e).__name__}: {str(e)[:110]}) — rule-based fallback")
+
+    # attach evidence items + a volume spark to each theme
+    for t in synth["themes"]:
+        ev = t.get("evidence", [])
+        t["items"] = ev
+        t["volume"] = len(ev)
+        ekeys = set()
+        for i in ev:
+            if i < len(items):
+                for kk in entity_keys(items[i]["tags"]):
+                    if not kk.startswith("geo:"):
+                        ekeys.add(kk)
+        t["spark"] = [sum(day_map.get(d, {}).get(k, 0) for k in ekeys) for d in day_keys] if ekeys else []
+
+    # concept sentiment = distributor read, inherited from the themes a concept appears in
+    # (so the treemap can colour by good/bad on day 1, before momentum history exists)
+    sent = {}
+    for t in synth["themes"]:
+        d = t["direction"] if t.get("direction") in ("tailwind", "headwind", "watch") else "watch"
+        ekeys = set()
+        for i in t.get("items", []):
+            if i < len(items):
+                for k in entity_keys(items[i]["tags"]):
+                    if not k.startswith("geo:"):
+                        ekeys.add(k)
+        for k in ekeys:
+            s = sent.setdefault(k, {"tailwind": 0, "headwind": 0, "watch": 0})
+            s[d] += t.get("volume", 1)
+    for c in concepts:
+        sc = sent.get(c["key"])
+        c["sentiment"] = max(sc, key=sc.get) if sc else "neutral"
+
+    bundle = {
+        "as_of": raw.get("fetched", now.isoformat(timespec="seconds")),
+        "generated": now.isoformat(timespec="seconds"),
+        "counts": {"raw": len(raw["articles"]), "relevant": len(arts), "clusters": len(clusters)},
+        "brief": synth["brief"], "themes": synth["themes"],
+        "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
+        "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
+    }
+    out_path = os.path.join(WEB, "news-bundle.js")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("window.NEWS = " + json.dumps(bundle, ensure_ascii=False) + ";\n")
+    print(f"Wrote {len(synth['themes'])} themes, {len(concepts)} concepts, {len(items)} evidence -> {out_path}")
+
+    hist.setdefault("days", {})[today_key] = today_counts
+    hist["days"] = dict(sorted(hist["days"].items())[-30:])
+    json.dump(hist, open(hp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print(f"History: {len(hist['days'])} day(s) tracked")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

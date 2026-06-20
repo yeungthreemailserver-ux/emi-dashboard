@@ -1,0 +1,1799 @@
+{
+  "_doc": "EMI canonical ontology — the shared spine all four lenses (Macro, Atlas, Company-signals, News) tag against. Five facets: end_markets, components, geographies, themes, companies. 'kw' = lowercase substrings used by the news matcher for relevance/tagging (kept tight to favour precision over recall — the curated-sources choice). 'aliases' = name variants for company/geo matching. IDs are stable; align new content to these. End-markets mirror build_apac_bundles.py VC_STAGES; geographies mirror the atlas registry; companies are a high-signal seed (extensible).",
+  "version": "2026-06-20",
+  "end_markets": [
+    {
+      "id": "auto",
+      "label": "Automotive & EV",
+      "kw": [
+        "ev",
+        "electric vehicle",
+        "automotive",
+        "adas",
+        "autonomous driv",
+        "self-driving",
+        "battery",
+        "powertrain",
+        "lidar",
+        "car maker",
+        "carmaker"
+      ]
+    },
+    {
+      "id": "compute",
+      "label": "Computing & data centre",
+      "kw": [
+        "data center",
+        "data centre",
+        "datacenter",
+        "server",
+        "ai server",
+        "hyperscaler",
+        "cloud",
+        "gpu",
+        "accelerator",
+        "pc ",
+        "laptop",
+        "workstation"
+      ]
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile & consumer",
+      "kw": [
+        "smartphone",
+        "iphone",
+        "handset",
+        "wearable",
+        "tv ",
+        "television",
+        "consumer electronics",
+        "tablet",
+        "appliance"
+      ]
+    },
+    {
+      "id": "comms",
+      "label": "Comms & networking",
+      "kw": [
+        "5g",
+        "6g",
+        "telecom",
+        "networking",
+        "base station",
+        "router",
+        "switch",
+        "optical transceiver",
+        "broadband",
+        "satellite"
+      ]
+    },
+    {
+      "id": "industrial",
+      "label": "Industrial & automation",
+      "kw": [
+        "industrial",
+        "automation",
+        "robot",
+        "factory",
+        "plc",
+        "motion control",
+        "machine vision",
+        "industrial pc"
+      ]
+    },
+    {
+      "id": "energy",
+      "label": "Energy & renewables",
+      "kw": [
+        "solar",
+        "photovoltaic",
+        "pv ",
+        "inverter",
+        "wind",
+        "grid",
+        "energy storage",
+        "ess",
+        "renewable",
+        "power generation"
+      ]
+    },
+    {
+      "id": "medical",
+      "label": "Medical & healthcare",
+      "kw": [
+        "medical device",
+        "healthcare",
+        "medtech",
+        "imaging system",
+        "diagnostic",
+        "implant"
+      ]
+    },
+    {
+      "id": "aero",
+      "label": "Aerospace & defence",
+      "kw": [
+        "aerospace",
+        "defence",
+        "defense",
+        "military",
+        "satellite",
+        "avionics",
+        "missile",
+        "drone"
+      ]
+    },
+    {
+      "id": "semi",
+      "label": "Semiconductor & equipment",
+      "kw": [
+        "semiconductor",
+        "chip",
+        "wafer",
+        "fab ",
+        "foundry",
+        "lithography",
+        "node",
+        "process technology",
+        "advanced packaging"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "foundry",
+      "label": "Foundry / wafer fab",
+      "layer": "L1",
+      "kw": [
+        "foundry",
+        "wafer fab",
+        "2nm",
+        "3nm",
+        "5nm",
+        "7nm",
+        "process node",
+        "fab capacity",
+        "晶圆",
+        "代工",
+        "制程"
+      ]
+    },
+    {
+      "id": "equipment",
+      "label": "Semi equipment",
+      "layer": "L2",
+      "kw": [
+        "lithography",
+        "euv",
+        "etch",
+        "deposition",
+        "metrology",
+        "ion implant",
+        "wafer fab equipment",
+        "wfe",
+        "semiconductor equipment",
+        "光刻",
+        "刻蚀"
+      ]
+    },
+    {
+      "id": "materials",
+      "label": "Materials & gases",
+      "layer": "L2",
+      "kw": [
+        "photoresist",
+        "wafer substrate",
+        "specialty gas",
+        "neon",
+        "gallium",
+        "germanium",
+        "rare earth",
+        "cmp slurry",
+        "abf substrate",
+        "光刻胶",
+        "稀土"
+      ]
+    },
+    {
+      "id": "eda_ip",
+      "label": "EDA & IP",
+      "layer": "L2",
+      "kw": [
+        "eda ",
+        "design ip",
+        "chip design tool",
+        "rtl",
+        "synopsys",
+        "cadence",
+        "arm "
+      ]
+    },
+    {
+      "id": "analog_power",
+      "label": "Analog / power / discrete",
+      "layer": "L3",
+      "kw": [
+        "analog",
+        "power semiconductor",
+        "mosfet",
+        "igbt",
+        "sic",
+        "silicon carbide",
+        "gan",
+        "gallium nitride",
+        "discrete",
+        "mcu",
+        "microcontroller",
+        "模拟芯片",
+        "功率半导体",
+        "功率器件",
+        "碳化硅",
+        "氮化镓",
+        "单片机"
+      ]
+    },
+    {
+      "id": "logic",
+      "label": "Core compute logic",
+      "layer": "L3",
+      "kw": [
+        "cpu",
+        "gpu",
+        "soc",
+        "fpga",
+        "asic",
+        "processor",
+        "accelerator",
+        "ai chip",
+        "处理器"
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "Memory",
+      "layer": "L3",
+      "kw": [
+        "dram",
+        "nand",
+        "hbm",
+        "high bandwidth memory",
+        "flash memory",
+        "ddr5",
+        "memory chip",
+        "ssd",
+        "内存",
+        "存储芯片",
+        "闪存"
+      ]
+    },
+    {
+      "id": "passives",
+      "label": "Passives & interconnect",
+      "layer": "L3",
+      "kw": [
+        "mlcc",
+        "capacitor",
+        "resistor",
+        "inductor",
+        "connector",
+        "interconnect",
+        "pcb",
+        "substrate",
+        "被动元件",
+        "电容",
+        "电阻",
+        "电感",
+        "连接器"
+      ]
+    },
+    {
+      "id": "display",
+      "label": "Displays & optics",
+      "layer": "L3",
+      "kw": [
+        "oled",
+        "lcd",
+        "display panel",
+        "micro-led",
+        "microled",
+        "optical module",
+        "silicon photonics",
+        "image sensor",
+        "面板",
+        "显示"
+      ]
+    },
+    {
+      "id": "ems_odm",
+      "label": "EMS / ODM assembly",
+      "layer": "L4",
+      "kw": [
+        "ems ",
+        "odm",
+        "contract manufactur",
+        "assembly",
+        "foxconn",
+        "final assembly",
+        "代工厂",
+        "组装"
+      ]
+    },
+    {
+      "id": "osat",
+      "label": "OSAT / packaging & test",
+      "layer": "L3",
+      "kw": [
+        "osat",
+        "packaging",
+        "advanced packaging",
+        "cowos",
+        "test house",
+        "back-end",
+        "chiplet",
+        "封装",
+        "封测"
+      ]
+    },
+    {
+      "id": "distribution",
+      "label": "Distribution & channel",
+      "layer": "L0",
+      "kw": [
+        "distributor",
+        "distribution",
+        "channel inventory",
+        "lead time",
+        "book-to-bill",
+        "broadline",
+        "line card",
+        "franchise",
+        "design win",
+        "end-of-life",
+        "eol",
+        "allocation",
+        "分销",
+        "代理商",
+        "元器件",
+        "渠道",
+        "缺货",
+        "交期"
+      ]
+    }
+  ],
+  "geographies": [
+    {
+      "id": "cn",
+      "label": "China",
+      "aliases": [
+        "china",
+        "chinese",
+        "prc",
+        "mainland",
+        "beijing",
+        "shenzhen",
+        "shanghai",
+        "中国",
+        "大陆",
+        "国产"
+      ]
+    },
+    {
+      "id": "tw",
+      "label": "Taiwan",
+      "aliases": [
+        "taiwan",
+        "taiwanese",
+        "taipei",
+        "hsinchu",
+        "台湾",
+        "台积"
+      ]
+    },
+    {
+      "id": "kr",
+      "label": "South Korea",
+      "aliases": [
+        "south korea",
+        "korea",
+        "korean",
+        "seoul",
+        "韩国"
+      ]
+    },
+    {
+      "id": "jp",
+      "label": "Japan",
+      "aliases": [
+        "japan",
+        "japanese",
+        "tokyo",
+        "日本"
+      ]
+    },
+    {
+      "id": "sg",
+      "label": "Singapore",
+      "aliases": [
+        "singapore"
+      ]
+    },
+    {
+      "id": "my",
+      "label": "Malaysia",
+      "aliases": [
+        "malaysia",
+        "malaysian",
+        "penang",
+        "johor",
+        "kulim"
+      ]
+    },
+    {
+      "id": "vn",
+      "label": "Vietnam",
+      "aliases": [
+        "vietnam",
+        "vietnamese",
+        "hanoi"
+      ]
+    },
+    {
+      "id": "th",
+      "label": "Thailand",
+      "aliases": [
+        "thailand",
+        "thai",
+        "bangkok"
+      ]
+    },
+    {
+      "id": "in",
+      "label": "India",
+      "aliases": [
+        "india",
+        "indian",
+        "bengaluru",
+        "bangalore"
+      ]
+    },
+    {
+      "id": "ph",
+      "label": "Philippines",
+      "aliases": [
+        "philippines",
+        "philippine",
+        "manila"
+      ]
+    },
+    {
+      "id": "au",
+      "label": "Australia",
+      "aliases": [
+        "australia",
+        "australian"
+      ]
+    },
+    {
+      "id": "nz",
+      "label": "New Zealand",
+      "aliases": [
+        "new zealand"
+      ]
+    },
+    {
+      "id": "us",
+      "label": "United States",
+      "aliases": [
+        "united states",
+        "u.s.",
+        "america",
+        "washington",
+        "bis ",
+        "commerce department"
+      ]
+    },
+    {
+      "id": "eu",
+      "label": "Europe",
+      "aliases": [
+        "europe",
+        "european union",
+        "eu ",
+        "netherlands",
+        "germany",
+        "brussels"
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "id": "export_controls",
+      "label": "Export controls & geopolitics",
+      "kw": [
+        "export control",
+        "entity list",
+        "sanction",
+        "tariff",
+        "bis ",
+        "ns-cmic",
+        "1260h",
+        "ban ",
+        "restrict",
+        "blacklist",
+        "national security",
+        "decoupling",
+        "出口管制",
+        "制裁",
+        "实体清单",
+        "关税",
+        "禁令"
+      ]
+    },
+    {
+      "id": "capacity_capex",
+      "label": "Capacity & capex",
+      "kw": [
+        "capex",
+        "new fab",
+        "expansion",
+        "groundbreaking",
+        "build plant",
+        "capacity expansion",
+        "billion investment",
+        "new factory",
+        "mega fab",
+        "扩产",
+        "建厂",
+        "产能",
+        "投产"
+      ]
+    },
+    {
+      "id": "pricing_supply",
+      "label": "Pricing, shortage & supply",
+      "kw": [
+        "shortage",
+        "oversupply",
+        "price hike",
+        "price increase",
+        "lead time",
+        "inventory correction",
+        "glut",
+        "supply tight",
+        "allocation",
+        "缺货",
+        "涨价",
+        "短缺",
+        "交期",
+        "库存",
+        "砍单",
+        "紧缺"
+      ]
+    },
+    {
+      "id": "ma_investment",
+      "label": "M&A & investment",
+      "kw": [
+        "acquisition",
+        "acquire",
+        "merger",
+        "buyout",
+        "takeover",
+        "stake",
+        "joint venture",
+        "ipo ",
+        "funding round",
+        "收购",
+        "并购",
+        "合并"
+      ]
+    },
+    {
+      "id": "technology",
+      "label": "Technology & roadmap",
+      "kw": [
+        "breakthrough",
+        "roadmap",
+        "next-gen",
+        "mass production",
+        "tape-out",
+        "yield",
+        "first chip",
+        "unveil",
+        "launch",
+        "world first",
+        "量产",
+        "流片",
+        "新品",
+        "突破"
+      ]
+    },
+    {
+      "id": "demand_shift",
+      "label": "Demand shift",
+      "kw": [
+        "demand surge",
+        "slowdown",
+        "recovery",
+        "downturn",
+        "order cut",
+        "strong demand",
+        "weak demand",
+        "ai boom",
+        "overcapacity",
+        "需求",
+        "回暖",
+        "下滑",
+        "复苏"
+      ]
+    }
+  ],
+  "companies": [
+    {
+      "id": "tsmc",
+      "name": "TSMC",
+      "aliases": [
+        "tsmc",
+        "taiwan semiconductor",
+        "台积电"
+      ],
+      "geo": "tw",
+      "role": "foundry",
+      "end_markets": [
+        "semi",
+        "compute"
+      ]
+    },
+    {
+      "id": "umc",
+      "name": "UMC",
+      "aliases": [
+        "umc",
+        "united microelectronics"
+      ],
+      "geo": "tw",
+      "role": "foundry",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "smic",
+      "name": "SMIC",
+      "aliases": [
+        "smic",
+        "semiconductor manufacturing international",
+        "中芯"
+      ],
+      "geo": "cn",
+      "role": "foundry",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "huahong",
+      "name": "Hua Hong",
+      "aliases": [
+        "hua hong",
+        "huahong",
+        "华虹"
+      ],
+      "geo": "cn",
+      "role": "foundry",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "globalfoundries",
+      "name": "GlobalFoundries",
+      "aliases": [
+        "globalfoundries",
+        "global foundries"
+      ],
+      "geo": "us",
+      "role": "foundry",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung",
+      "aliases": [
+        "samsung",
+        "三星"
+      ],
+      "geo": "kr",
+      "role": "memory",
+      "end_markets": [
+        "semi",
+        "memory",
+        "mobile"
+      ]
+    },
+    {
+      "id": "skhynix",
+      "name": "SK hynix",
+      "aliases": [
+        "sk hynix",
+        "skhynix",
+        "hynix",
+        "海力士"
+      ],
+      "geo": "kr",
+      "role": "memory",
+      "end_markets": [
+        "semi",
+        "memory"
+      ]
+    },
+    {
+      "id": "micron",
+      "name": "Micron",
+      "aliases": [
+        "micron",
+        "美光"
+      ],
+      "geo": "us",
+      "role": "memory",
+      "end_markets": [
+        "semi",
+        "memory"
+      ]
+    },
+    {
+      "id": "ymtc",
+      "name": "YMTC",
+      "aliases": [
+        "ymtc",
+        "yangtze memory",
+        "长江存储"
+      ],
+      "geo": "cn",
+      "role": "memory",
+      "end_markets": [
+        "semi",
+        "memory"
+      ]
+    },
+    {
+      "id": "cxmt",
+      "name": "CXMT",
+      "aliases": [
+        "cxmt",
+        "changxin memory",
+        "长鑫"
+      ],
+      "geo": "cn",
+      "role": "memory",
+      "end_markets": [
+        "semi",
+        "memory"
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "Nvidia",
+      "aliases": [
+        "nvidia",
+        "英伟达"
+      ],
+      "geo": "us",
+      "role": "logic",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "amd",
+      "name": "AMD",
+      "aliases": [
+        "amd",
+        "advanced micro devices"
+      ],
+      "geo": "us",
+      "role": "logic",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "intel",
+      "name": "Intel",
+      "aliases": [
+        "intel",
+        "英特尔"
+      ],
+      "geo": "us",
+      "role": "logic",
+      "end_markets": [
+        "compute",
+        "semi"
+      ]
+    },
+    {
+      "id": "qualcomm",
+      "name": "Qualcomm",
+      "aliases": [
+        "qualcomm",
+        "高通"
+      ],
+      "geo": "us",
+      "role": "logic",
+      "end_markets": [
+        "mobile",
+        "comms"
+      ]
+    },
+    {
+      "id": "mediatek",
+      "name": "MediaTek",
+      "aliases": [
+        "mediatek",
+        "联发科"
+      ],
+      "geo": "tw",
+      "role": "logic",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "broadcom",
+      "name": "Broadcom",
+      "aliases": [
+        "broadcom"
+      ],
+      "geo": "us",
+      "role": "logic",
+      "end_markets": [
+        "compute",
+        "comms"
+      ]
+    },
+    {
+      "id": "cambricon",
+      "name": "Cambricon",
+      "aliases": [
+        "cambricon"
+      ],
+      "geo": "cn",
+      "role": "logic",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "asml",
+      "name": "ASML",
+      "aliases": [
+        "asml"
+      ],
+      "geo": "eu",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "appliedmaterials",
+      "name": "Applied Materials",
+      "aliases": [
+        "applied materials",
+        "amat"
+      ],
+      "geo": "us",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "lam",
+      "name": "Lam Research",
+      "aliases": [
+        "lam research"
+      ],
+      "geo": "us",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "kla",
+      "name": "KLA",
+      "aliases": [
+        "kla "
+      ],
+      "geo": "us",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "tokyoelectron",
+      "name": "Tokyo Electron",
+      "aliases": [
+        "tokyo electron"
+      ],
+      "geo": "jp",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "naura",
+      "name": "Naura",
+      "aliases": [
+        "naura"
+      ],
+      "geo": "cn",
+      "role": "equipment",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "synopsys",
+      "name": "Synopsys",
+      "aliases": [
+        "synopsys"
+      ],
+      "geo": "us",
+      "role": "eda_ip",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "cadence",
+      "name": "Cadence",
+      "aliases": [
+        "cadence"
+      ],
+      "geo": "us",
+      "role": "eda_ip",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "arm",
+      "name": "Arm",
+      "aliases": [
+        "arm holdings",
+        "arm ltd"
+      ],
+      "geo": "eu",
+      "role": "eda_ip",
+      "end_markets": [
+        "semi",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ti",
+      "name": "Texas Instruments",
+      "aliases": [
+        "texas instruments",
+        "ti ",
+        "德州仪器"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "adi",
+      "name": "Analog Devices",
+      "aliases": [
+        "analog devices",
+        "adi ",
+        "亚德诺"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "infineon",
+      "name": "Infineon",
+      "aliases": [
+        "infineon",
+        "英飞凌"
+      ],
+      "geo": "eu",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial",
+        "energy"
+      ]
+    },
+    {
+      "id": "stmicro",
+      "name": "STMicroelectronics",
+      "aliases": [
+        "stmicroelectronics",
+        "stmicro",
+        "意法半导体"
+      ],
+      "geo": "eu",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "nxp",
+      "name": "NXP",
+      "aliases": [
+        "nxp",
+        "恩智浦"
+      ],
+      "geo": "eu",
+      "role": "analog_power",
+      "end_markets": [
+        "auto"
+      ]
+    },
+    {
+      "id": "renesas",
+      "name": "Renesas",
+      "aliases": [
+        "renesas",
+        "瑞萨"
+      ],
+      "geo": "jp",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "onsemi",
+      "name": "onsemi",
+      "aliases": [
+        "onsemi",
+        "on semiconductor"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "energy"
+      ]
+    },
+    {
+      "id": "murata",
+      "name": "Murata",
+      "aliases": [
+        "murata",
+        "村田"
+      ],
+      "geo": "jp",
+      "role": "passives",
+      "end_markets": [
+        "mobile",
+        "auto"
+      ]
+    },
+    {
+      "id": "tdk",
+      "name": "TDK",
+      "aliases": [
+        "tdk"
+      ],
+      "geo": "jp",
+      "role": "passives",
+      "end_markets": [
+        "mobile",
+        "auto"
+      ]
+    },
+    {
+      "id": "boe",
+      "name": "BOE",
+      "aliases": [
+        "boe technology",
+        "boe ",
+        "京东方"
+      ],
+      "geo": "cn",
+      "role": "display",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "sony",
+      "name": "Sony",
+      "aliases": [
+        "sony",
+        "索尼"
+      ],
+      "geo": "jp",
+      "role": "display",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "ase",
+      "name": "ASE",
+      "aliases": [
+        "ase technology",
+        "ase group",
+        "aSE "
+      ],
+      "geo": "tw",
+      "role": "osat",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "amkor",
+      "name": "Amkor",
+      "aliases": [
+        "amkor"
+      ],
+      "geo": "us",
+      "role": "osat",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "jcet",
+      "name": "JCET",
+      "aliases": [
+        "jcet",
+        "changdian"
+      ],
+      "geo": "cn",
+      "role": "osat",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "foxconn",
+      "name": "Foxconn",
+      "aliases": [
+        "foxconn",
+        "hon hai"
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute",
+        "mobile"
+      ]
+    },
+    {
+      "id": "pegatron",
+      "name": "Pegatron",
+      "aliases": [
+        "pegatron"
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute",
+        "mobile"
+      ]
+    },
+    {
+      "id": "quanta",
+      "name": "Quanta",
+      "aliases": [
+        "quanta computer",
+        "quanta "
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "wistron",
+      "name": "Wistron",
+      "aliases": [
+        "wistron"
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "wiwynn",
+      "name": "Wiwynn",
+      "aliases": [
+        "wiwynn"
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "luxshare",
+      "name": "Luxshare",
+      "aliases": [
+        "luxshare"
+      ],
+      "geo": "cn",
+      "role": "ems_odm",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "aliases": [
+        "apple"
+      ],
+      "geo": "us",
+      "role": "ems_odm",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "xiaomi",
+      "name": "Xiaomi",
+      "aliases": [
+        "xiaomi"
+      ],
+      "geo": "cn",
+      "role": "ems_odm",
+      "end_markets": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "lenovo",
+      "name": "Lenovo",
+      "aliases": [
+        "lenovo"
+      ],
+      "geo": "cn",
+      "role": "ems_odm",
+      "end_markets": [
+        "compute"
+      ]
+    },
+    {
+      "id": "huawei",
+      "name": "Huawei",
+      "aliases": [
+        "huawei",
+        "华为"
+      ],
+      "geo": "cn",
+      "role": "logic",
+      "end_markets": [
+        "comms",
+        "mobile",
+        "compute"
+      ]
+    },
+    {
+      "id": "zte",
+      "name": "ZTE",
+      "aliases": [
+        "zte "
+      ],
+      "geo": "cn",
+      "role": "ems_odm",
+      "end_markets": [
+        "comms"
+      ]
+    },
+    {
+      "id": "byd",
+      "name": "BYD",
+      "aliases": [
+        "byd "
+      ],
+      "geo": "cn",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "energy"
+      ]
+    },
+    {
+      "id": "catl",
+      "name": "CATL",
+      "aliases": [
+        "catl",
+        "contemporary amperex"
+      ],
+      "geo": "cn",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "energy"
+      ]
+    },
+    {
+      "id": "delta",
+      "name": "Delta Electronics",
+      "aliases": [
+        "delta electronics"
+      ],
+      "geo": "tw",
+      "role": "analog_power",
+      "end_markets": [
+        "energy",
+        "industrial"
+      ]
+    },
+    {
+      "id": "advantech",
+      "name": "Advantech",
+      "aliases": [
+        "advantech"
+      ],
+      "geo": "tw",
+      "role": "ems_odm",
+      "end_markets": [
+        "industrial"
+      ]
+    },
+    {
+      "id": "inari",
+      "name": "Inari Amertron",
+      "aliases": [
+        "inari"
+      ],
+      "geo": "my",
+      "role": "osat",
+      "end_markets": [
+        "comms",
+        "semi"
+      ]
+    },
+    {
+      "id": "fanuc",
+      "name": "Fanuc",
+      "aliases": [
+        "fanuc"
+      ],
+      "geo": "jp",
+      "role": "ems_odm",
+      "end_markets": [
+        "industrial"
+      ]
+    },
+    {
+      "id": "longi",
+      "name": "LONGi",
+      "aliases": [
+        "longi"
+      ],
+      "geo": "cn",
+      "role": "analog_power",
+      "end_markets": [
+        "energy"
+      ]
+    },
+    {
+      "id": "tata",
+      "name": "Tata Electronics",
+      "aliases": [
+        "tata electronics",
+        "tata "
+      ],
+      "geo": "in",
+      "role": "foundry",
+      "end_markets": [
+        "semi"
+      ]
+    },
+    {
+      "id": "microchip",
+      "name": "Microchip",
+      "aliases": [
+        "microchip technology",
+        "microchip",
+        "微芯"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "nexperia",
+      "name": "Nexperia",
+      "aliases": [
+        "nexperia",
+        "安世"
+      ],
+      "geo": "eu",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "vishay",
+      "name": "Vishay",
+      "aliases": [
+        "vishay",
+        "威世"
+      ],
+      "geo": "us",
+      "role": "passives",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "te",
+      "name": "TE Connectivity",
+      "aliases": [
+        "te connectivity",
+        "tyco electronics",
+        "泰科"
+      ],
+      "geo": "us",
+      "role": "passives",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "molex",
+      "name": "Molex",
+      "aliases": [
+        "molex"
+      ],
+      "geo": "us",
+      "role": "passives",
+      "end_markets": [
+        "comms",
+        "auto"
+      ]
+    },
+    {
+      "id": "amphenol",
+      "name": "Amphenol",
+      "aliases": [
+        "amphenol"
+      ],
+      "geo": "us",
+      "role": "passives",
+      "end_markets": [
+        "comms",
+        "auto"
+      ]
+    },
+    {
+      "id": "bourns",
+      "name": "Bourns",
+      "aliases": [
+        "bourns"
+      ],
+      "geo": "us",
+      "role": "passives",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "littelfuse",
+      "name": "Littelfuse",
+      "aliases": [
+        "littelfuse"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "diodes",
+      "name": "Diodes Inc",
+      "aliases": [
+        "diodes incorporated",
+        "diodes inc"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    },
+    {
+      "id": "qorvo",
+      "name": "Qorvo",
+      "aliases": [
+        "qorvo"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "mobile",
+        "comms"
+      ]
+    },
+    {
+      "id": "skyworks",
+      "name": "Skyworks",
+      "aliases": [
+        "skyworks"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "mobile",
+        "comms"
+      ]
+    },
+    {
+      "id": "rohm",
+      "name": "ROHM",
+      "aliases": [
+        "rohm",
+        "罗姆"
+      ],
+      "geo": "jp",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "industrial"
+      ]
+    },
+    {
+      "id": "wolfspeed",
+      "name": "Wolfspeed",
+      "aliases": [
+        "wolfspeed"
+      ],
+      "geo": "us",
+      "role": "analog_power",
+      "end_markets": [
+        "auto",
+        "energy"
+      ]
+    },
+    {
+      "id": "yageo",
+      "name": "Yageo",
+      "aliases": [
+        "yageo",
+        "国巨"
+      ],
+      "geo": "tw",
+      "role": "passives",
+      "end_markets": [
+        "industrial",
+        "auto"
+      ]
+    }
+  ],
+  "angles": [
+    {
+      "id": "demand",
+      "label": "Demand & end-markets",
+      "from": [
+        "end_markets"
+      ],
+      "kw": [
+        "design win",
+        "design-in",
+        "new program",
+        "production ramp",
+        "订单",
+        "需求"
+      ]
+    },
+    {
+      "id": "supplier",
+      "label": "Suppliers & line-card",
+      "from": [
+        "companies(supply roles)"
+      ],
+      "kw": [
+        "capacity expansion",
+        "capex",
+        "new product",
+        "product launch",
+        "fab",
+        "acquisition",
+        "扩产",
+        "新品"
+      ]
+    },
+    {
+      "id": "parts",
+      "label": "Parts: price & supply",
+      "from": [
+        "components",
+        "theme:pricing_supply"
+      ],
+      "kw": [
+        "price",
+        "shortage",
+        "allocation",
+        "oversupply",
+        "涨价",
+        "缺货"
+      ]
+    },
+    {
+      "id": "scm",
+      "label": "Supply-chain resilience",
+      "from": [
+        "component:distribution"
+      ],
+      "kw": [
+        "book-to-bill",
+        "book to bill",
+        "lead time",
+        "lead-time",
+        "inventory",
+        "logistics",
+        "freight",
+        "shipping",
+        "multi-source",
+        "second source",
+        "dual source",
+        "obsolescence",
+        "end-of-life",
+        "eol",
+        "counterfeit",
+        "traceability",
+        "nearshoring",
+        "reshoring",
+        "china+1",
+        "交期",
+        "库存",
+        "物流",
+        "断供",
+        "多元供应",
+        "停产"
+      ]
+    },
+    {
+      "id": "macro",
+      "label": "Macro & cycle",
+      "from": [],
+      "kw": [
+        "pmi",
+        "interest rate",
+        "rate cut",
+        "rate hike",
+        "inflation",
+        "gdp",
+        "recession",
+        "exchange rate",
+        "forex",
+        "currency",
+        "wsts",
+        "semiconductor cycle",
+        "copper price",
+        "gold price",
+        "oil price",
+        "industrial production",
+        "consumer confidence",
+        "通胀",
+        "利率",
+        "汇率",
+        "半导体周期",
+        "景气",
+        "book-to-bill",
+        "semiconductor sales",
+        "semiconductor billings",
+        "semiconductor forecast",
+        "chip sales",
+        "sia",
+        "semi.org",
+        "global chip",
+        "半导体销售",
+        "景气循环"
+      ]
+    },
+    {
+      "id": "technology",
+      "label": "Technology & roadmap",
+      "from": [
+        "theme:technology"
+      ],
+      "kw": [
+        "silicon carbide",
+        "gallium nitride",
+        "advanced packaging",
+        "chiplet",
+        "2nm",
+        "3nm",
+        "gaa",
+        "edge ai",
+        "ddr6",
+        "pcie",
+        "ucie",
+        "new node",
+        "制程",
+        "封装"
+      ]
+    },
+    {
+      "id": "channel",
+      "label": "Channel & competition",
+      "from": [],
+      "kw": [
+        "arrow electronics",
+        "mouser",
+        "digikey",
+        "digi-key",
+        "wt microelectronics",
+        "wpg",
+        "future electronics",
+        "rutronik",
+        "tti inc",
+        "heilind",
+        "distribution agreement",
+        "line card",
+        "franchise agreement",
+        "marketplace",
+        "代理商",
+        "分销商"
+      ]
+    },
+    {
+      "id": "geopolitics",
+      "label": "Geopolitics & policy",
+      "from": [
+        "theme:export_controls"
+      ],
+      "kw": [
+        "export control",
+        "tariff",
+        "chips act",
+        "inflation reduction act",
+        "rohs",
+        "reach",
+        "pfas",
+        "conflict mineral",
+        "sanction",
+        "entity list",
+        "出口管制",
+        "关税",
+        "制裁",
+        "实体清单"
+      ]
+    }
+  ]
+}
