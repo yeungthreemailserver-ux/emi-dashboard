@@ -31,9 +31,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .stale{color:#b45309;font-weight:600;}
 
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 10px;}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px;}
+.kpi{background:var(--card);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 6px 18px -10px rgba(15,23,42,.10);transition:box-shadow .15s ease,transform .15s ease;}
+.kpi:not(.nostatic):hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(15,23,42,.05),0 12px 26px -10px rgba(15,23,42,.16);}
 .kpi .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;}
-.kpi .val{font-size:20px;font-weight:700;margin:3px 0 1px;font-variant-numeric:tabular-nums;}
+.kpi .val{font-size:22px;font-weight:700;margin:4px 0 1px;font-variant-numeric:tabular-nums;letter-spacing:-0.01em;}
 .kpi .delta{font-size:11px;font-weight:600;color:var(--green);}
 .kpi .src{font-size:10px;color:var(--faint);margin-top:2px;}
 
@@ -66,8 +67,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 
 .citywrap{display:flex;gap:14px;align-items:flex-start;}
 @media(max-width:1000px){.citywrap{flex-direction:column;}}
-.citymap{flex:1 1 56%;min-width:0;height:560px;background:var(--card);border:1px solid var(--line);border-radius:10px;position:relative;}
-.dossier{flex:1 1 44%;min-width:0;max-height:560px;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+.citymap{flex:1 1 56%;min-width:0;height:560px;background:var(--card);border:1px solid var(--line-2);border-radius:14px;position:relative;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -14px rgba(15,23,42,.13);}
+.dossier{flex:1 1 44%;min-width:0;max-height:560px;overflow-y:auto;background:var(--card);border:1px solid var(--line-2);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -14px rgba(15,23,42,.13);}
 
 .dos-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
 .dos-name{font-size:18px;font-weight:700;}
@@ -98,8 +99,17 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .citylist{display:flex;flex-wrap:wrap;gap:6px;}
 .citybtn{font-size:12px;font-weight:600;padding:4px 11px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--ink-2);cursor:pointer;}
 .citybtn:hover{border-color:var(--blue);color:var(--blue);}
+/* map stage holds both the MapLibre map (#map) and the 3D globe (#globe), toggled by drill level */
+#mapstage{overflow:hidden;}
+#map,#globe{position:absolute;inset:0;border-radius:inherit;}
+#globe{display:none;}
+#mapstage.show-globe{background:radial-gradient(circle at 50% 42%,#eef4fb 0%,#dfe8f3 55%,#d4deeb 100%);}
+#mapstage.show-globe #globe{display:block;}
+#mapstage.show-globe #map{visibility:hidden;}
+#mapstage.show-globe .map-status{display:none;}
+#globe canvas{outline:none;display:block;}
 /* MapLibre atlas markers (HTML, no glyphs needed) */
-#map{height:560px;border-radius:10px;overflow:hidden;}
+.map-status-anchor{}
 .map-status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;font-size:13px;color:var(--muted);background:rgba(255,255,255,.85);padding:8px 14px;border-radius:8px;max-width:80%;text-align:center;line-height:1.5;}
 .map-status.err{color:#b45309;}
 #map .maplibregl-canvas{outline:none;}

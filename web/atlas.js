@@ -175,6 +175,7 @@ function initMap() {
 function drillCountry(code) {
   const c = byCode[code]; if (!c || c.status !== "live") return;
   STATE.level = "country"; STATE.country = code; STATE.city = null; hideTip();
+  setGlobeVisible(false);
   mapDo(() => {
     clearDetailMarkers(); setMarkersVisible(false);
     if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; }
@@ -223,6 +224,7 @@ function up() {
 }
 function goAsia() {
   STATE.level = "asia"; STATE.country = null; STATE.city = null; hideTip();
+  setGlobeVisible(true);
   mapDo(() => { clearDetailMarkers(); setProvVisible(false); setMarkersVisible(true); if (drilledName) { map.setFeatureState({ source: "asia", id: drilledName }, { drilled: false }); drilledName = null; } map.fitBounds(ASIA_BOUNDS, { padding: 24, duration: reduce() ? 0 : 1400, essential: true }); });
   renderPanel(); renderCrumb();
 }
@@ -449,15 +451,50 @@ function relang() {  // re-render content + markers in the new language; don't r
   document.querySelector(".cty-head").innerHTML = headHTML();
   document.getElementById("maptools").innerHTML = toolbarHTML();
   wireToolbar(); renderPanel(); renderCrumb();
+  if (globe) globe.pointsData(globeData());
   mapDo(() => { if (STATE.level === "asia") addCountryMarkers(); else { clearDetailMarkers(); addCityDots(STATE.country); declutterCityLabels(); } });
+}
+// ---- 3D globe (asia-level hero; vendored globe.gl + NASA Blue Marble, no key). MapLibre still owns country/city. ----
+let globe = null;
+function globeData() { return CO.map((c) => ({ name: countryName(c.code) + (c.role ? " · " + c.role : ""), lat: c.lat, lng: c.lon, color: c.rc || "#94a3b8", code: c.code, live: c.status === "live" })); }
+function globeArcs() {
+  const P = (code) => { const c = byCode[code]; return c ? [c.lat, c.lon] : null; };
+  return [["jp", "cn"], ["tw", "cn"], ["kr", "cn"], ["cn", "my"], ["cn", "vn"], ["tw", "my"], ["jp", "kr"]]
+    .map(([a, b]) => { const s = P(a), e = P(b); return s && e ? { startLat: s[0], startLng: s[1], endLat: e[0], endLng: e[1] } : null; }).filter(Boolean);
+}
+function initGlobe() {
+  if (globe || typeof Globe === "undefined") return;
+  const el = document.getElementById("globe"); if (!el) return;
+  try {
+    globe = Globe()(el)
+      .backgroundColor("rgba(0,0,0,0)")
+      .globeImageUrl("vendor/earth-blue-marble.jpg").bumpImageUrl("vendor/earth-topology.png")
+      .showAtmosphere(true).atmosphereColor("#9ec5ff").atmosphereAltitude(0.16)
+      .pointsData(globeData()).pointLat("lat").pointLng("lng").pointColor("color")
+      .pointAltitude((d) => d.live ? 0.09 : 0.045).pointRadius((d) => d.live ? 0.62 : 0.42).pointLabel("name")
+      .onPointClick((d) => { if (d && d.live) drillCountry(d.code); })
+      .arcsData(globeArcs()).arcColor(() => ["rgba(255,255,255,0.08)", "rgba(120,180,255,0.85)"]).arcStroke(0.35).arcDashLength(0.4).arcDashGap(0.25).arcDashAnimateTime(2600).arcAltitudeAutoScale(0.45);
+    globe.pointOfView({ lat: 18, lng: 104, altitude: 1.85 }, 0);
+    const ct = globe.controls(); ct.autoRotate = true; ct.autoRotateSpeed = 0.5; ct.enableZoom = true;
+    sizeGlobe();
+  } catch (e) { console.error("[atlas globe]", (e && e.message) || e); globe = null; }
+}
+function sizeGlobe() { if (!globe) return; const el = document.getElementById("globe"); if (el && el.clientWidth) { globe.width(el.clientWidth); globe.height(el.clientHeight); } }
+function setGlobeVisible(v) {
+  const stage = document.getElementById("mapstage"); if (!stage) return;
+  if (v) { initGlobe(); if (!globe) { stage.classList.remove("show-globe"); mapDo(() => map.resize()); return; } stage.classList.add("show-globe"); sizeGlobe(); if (globe.resumeAnimation) globe.resumeAnimation(); const ct = globe.controls && globe.controls(); if (ct) ct.autoRotate = true; }
+  else { stage.classList.remove("show-globe"); if (globe) { const ct = globe.controls && globe.controls(); if (ct) ct.autoRotate = false; if (globe.pauseAnimation) globe.pauseAnimation(); } mapDo(() => map.resize()); }
 }
 function render() {
   document.getElementById("main").innerHTML = `
     <div class="cty-head">${headHTML()}</div>
     <div class="maptools" id="maptools">${toolbarHTML()}</div>
-    <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>
+    <div class="citywrap"><div class="citymap" id="mapstage"><div id="map"></div><div id="globe"></div></div><div class="dossier" id="panel"></div></div>
     <div class="legend" id="domlegend" style="display:none;margin:12px 0 0"></div>
     <div class="atlas-tiles atlas-tiles-below" id="tiles" style="display:none"></div>`;
   initTip(); wireToolbar(); renderPanel(); renderCrumb(); initMap();
+  setGlobeVisible(STATE.level === "asia");
+  [220, 650, 1300].forEach((ms) => setTimeout(() => { if (STATE.level === "asia") { initGlobe(); sizeGlobe(); } }, ms));
+  window.addEventListener("resize", sizeGlobe);
 }
 render();
