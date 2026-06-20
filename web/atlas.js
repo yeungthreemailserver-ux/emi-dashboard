@@ -385,9 +385,9 @@ function render() {
   document.getElementById("main").innerHTML = `
     <div class="cty-head">${headHTML()}</div>
     <div class="maptools" id="maptools">${toolbarHTML()}</div>
-    <div class="atlas-tiles" id="tiles" style="display:none"></div>
-    <div class="legend" id="domlegend" style="display:none;margin:0 0 8px"></div>
-    <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>`;
+    <div class="citywrap"><div class="citymap" id="map"></div><div class="dossier" id="panel"></div></div>
+    <div class="legend" id="domlegend" style="display:none;margin:12px 0 0"></div>
+    <div class="atlas-tiles atlas-tiles-below" id="tiles" style="display:none"></div>`;
   initTip(); wireToolbar(); renderPanel(); renderCrumb(); initMap();
 }
 render();

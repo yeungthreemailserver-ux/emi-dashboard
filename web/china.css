@@ -117,6 +117,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 /* atlas country composition (macro tiles + leverage full-width, like china.html) */
 .atlas-tiles{margin:2px 0 12px;}
 .atlas-tiles .sech:first-child{margin-top:0;}
+/* macro detail now lives BELOW the map+panel hero — separate it so the map stays the stable top */
+.atlas-tiles-below{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
 .citycards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;}
 .citycard{text-align:left;background:#fafbfd;border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:3px;font:inherit;}
 .citycard:hover{border-color:var(--blue);box-shadow:0 1px 6px rgba(0,0,0,.06);}
