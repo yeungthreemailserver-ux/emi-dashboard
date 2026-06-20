@@ -151,7 +151,7 @@ function graticule(step) {   // lat/long grid as GeoJSON line features
 function initMap() {
   colorAsia();
   map = new maplibregl.Map({
-    container: "map", attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 11, minZoom: 1.4,
+    container: "map", attributionControl: false, dragRotate: false, pitchWithRotate: false, maxZoom: 11, minZoom: 1.4, preserveDrawingBuffer: true,
     style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#aecbe8" } }] },
     bounds: ASIA_BOUNDS, fitBoundsOptions: { padding: 24 },
   });
