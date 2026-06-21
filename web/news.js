@@ -3,7 +3,7 @@
   "use strict";
   var N = window.NEWS;
   var main = document.getElementById("main");
-  var STATE = { open: -1, concept: null, angle: null, tree: { components: true }, view: "feed" };
+  var STATE = { open: -1, concept: null, angle: null, tree: { supply: true }, view: "feed" };
   var ANGLEL = {};
   ((window.NEWS && window.NEWS.angles) || []).forEach(function (a) { ANGLEL[a.id] = a.label; });
 
@@ -234,27 +234,76 @@
   }
 
   // ---- browse by structure (ontology tree) ----
-  var TREE_BRANCHES = [
-    { id: "components", pfx: "comp", label: "Components", kicker: "supply · what we sell" },
-    { id: "end_markets", pfx: "em", label: "End-markets", kicker: "demand · who buys" },
-    { id: "geographies", pfx: "geo", label: "Geographies", kicker: "where" },
-    { id: "themes", pfx: "theme", label: "Themes", kicker: "forces" },
-    { id: "companies", pfx: "company", label: "Companies", kicker: "who" }
-  ];
-  function treeHTML() {
-    if (!N.coverage) return "";
-    var branches = TREE_BRANCHES.map(function (b) {
-      var rows = (N.coverage[b.id] || []).filter(function (x) { return x.count > 0; });
-      if (!rows.length) return "";
+  // the framework as a topic-tree hierarchy: branch (Demand/Supply/Forces/Geography)
+  // → group (value-chain stage / region) → leaf (an ontology entity that drills to its
+  // stories). p = "rt" (rail, compact) or "tr" (analysis page). Reuses data-branch/data-cov.
+  function taxoTree(p) {
+    if (!N.taxonomy) return "";
+    var lt = p === "rt" ? "button" : "span";
+    return N.taxonomy.map(function (b) {
       var open = !!STATE.tree[b.id];
-      var body = open ? '<div class="tr-body">' + rows.map(function (x) {
-        return '<span class="tr-leaf" data-cov="' + esc(b.pfx + ":" + x.id) + '">' + esc(x.label) + "<b>" + x.count + "</b></span>";
-      }).join("") + "</div>" : "";
-      return '<div class="tr-branch' + (open ? " open" : "") + '"><div class="tr-head" data-branch="' + b.id + '" role="button" tabindex="0">' +
-        '<span class="tr-chev">' + (open ? "▾" : "▸") + "</span><span class=\"tr-name\">" + esc(b.label) + "</span>" +
-        '<span class="tr-kick">' + esc(b.kicker) + '</span><span class="tr-n">' + rows.length + "</span></div>" + body + "</div>";
+      var body = "";
+      if (open) {
+        body = '<div class="' + p + '-body">' + b.groups.map(function (g) {
+          var leaves = g.leaves.map(function (l) {
+            var cls = p + "-leaf" + (STATE.concept === l.cov ? " on" : "") + (l.count ? "" : " muted");
+            var nb = p === "rt" ? "<span>" + l.count + "</span>" : "<b>" + l.count + "</b>";
+            return "<" + lt + ' class="' + cls + '" data-cov="' + esc(l.cov) + '">' + esc(l.label) + nb + "</" + lt + ">";
+          }).join("");
+          return '<div class="' + p + '-grp"><div class="' + p + '-glabel">' + esc(g.label) + (g.kicker ? ' <i>' + esc(g.kicker) + "</i>" : "") + "</div><div class=\"" + p + "-gleaves\">" + leaves + "</div></div>";
+        }).join("") + "</div>";
+      }
+      var inner = '<span class="' + p + '-chev">' + (open ? "▾" : "▸") + '</span><span class="' + p + '-name">' + esc(b.label) + "</span>" +
+        '<span class="' + p + '-kick">' + esc(b.kicker) + '</span><span class="' + p + '-n">' + b.count + "</span>";
+      var head = p === "rt"
+        ? '<button class="rt-head" data-branch="' + b.id + '">' + inner + "</button>"
+        : '<div class="tr-head" data-branch="' + b.id + '" role="button" tabindex="0">' + inner + "</div>";
+      return '<div class="' + p + '-branch' + (open ? " open" : "") + '">' + head + body + "</div>";
     }).join("");
-    return '<div class="sec-title">Browse by structure</div><div class="sec-sub">the same news, organised as a tree — drill any branch to its stories</div><div class="tree">' + branches + "</div>";
+  }
+  function treeHTML() {
+    if (!N.taxonomy) return "";
+    return '<div class="sec-title">Browse by framework</div><div class="sec-sub">the same news as a topic tree — demand · the value chain · market forces · geography</div><div class="tree">' + taxoTree("tr") + "</div>";
+  }
+
+  // ---- signal board: the news aggregated as structured data (step 3 — AGGREGATE) ----
+  function dirArrows(net) {
+    if (net > 0) return '<span class="sg-up">' + new Array(Math.min(net, 4) + 1).join("▲") + "</span>";
+    if (net < 0) return '<span class="sg-dn">' + new Array(Math.min(-net, 4) + 1).join("▼") + "</span>";
+    return '<span class="sg-fl">▬</span>';
+  }
+  function signalsHTML() {
+    var s = N.signals; if (!s || !s.n_records) return "";
+    var maxT = Math.max.apply(null, s.by_type.map(function (t) { return t.count; }).concat([1]));
+    var types = s.by_type.map(function (t) {
+      var split = (t.up ? '<span class="sg-up">▲' + t.up + "</span>" : "") + (t.down ? ' <span class="sg-dn">▼' + t.down + "</span>" : "");
+      return '<div class="sg-trow" title="' + esc(t.ex.join(" · ")) + '"><span class="sg-tlbl">' + esc(t.label) + "</span>" +
+        '<span class="sg-bar"><span class="sg-fill" style="width:' + Math.round(t.count / maxT * 100) + '%"></span></span>' +
+        '<span class="sg-tn">' + t.count + "</span><span class=\"sg-split\">" + split + "</span></div>";
+    }).join("");
+    var price = (s.price || []).map(function (p) {
+      var sr = (p.series || []).slice(); if (sr.length < 2) sr = [0].concat(sr);
+      return '<button class="sg-prow" data-cov="' + esc(p.cov) + '" title="net direction over the window — click for stories">' +
+        '<span class="sg-plbl">' + esc(p.label) + "</span>" +
+        '<span class="sg-spark">' + spark(sr, p.net >= 0 ? "#15803d" : "#b91c1c") + "</span>" +
+        '<span class="sg-dir">' + dirArrows(p.net) + "</span>" +
+        '<span class="sg-pn">' + (p.up ? "▲" + p.up : "") + (p.down ? " ▼" + p.down : "") + "</span></button>";
+    }).join("") || '<div class="sg-empty">No price / shortage signals in the window yet.</div>';
+    var maxC = Math.max.apply(null, (s.capex_by_region || []).map(function (c) { return c.count; }).concat([1]));
+    var capex = (s.capex_by_region || []).slice(0, 8).map(function (c) {
+      return '<button class="sg-crow" data-cov="' + esc(c.cov) + '" title="capacity / capex events tagged to this region — click for stories">' +
+        '<span class="sg-clbl">' + esc(c.label) + "</span>" +
+        '<span class="sg-bar"><span class="sg-fill cx" style="width:' + Math.round(c.count / maxC * 100) + '%"></span></span>' +
+        '<span class="sg-cn">' + c.count + "</span></button>";
+    }).join("") || '<div class="sg-empty">No capex events tagged to a region yet.</div>';
+    return '<div class="sec-title">Signal board <span class="dim">the news as structured data</span></div>' +
+      '<div class="sec-sub">every major event decomposed into a typed record, then aggregated across the rolling 30-day window — query the fields, not the headlines. ' + s.n_records + ' signal records.</div>' +
+      '<div class="sgboard">' +
+        '<div class="sg-card"><div class="sg-h">Event-type mix</div><div class="sg-body">' + types + "</div></div>" +
+        '<div class="sg-card"><div class="sg-h">Price &amp; supply pressure <span class="dim">by component</span></div><div class="sg-body">' + price + "</div></div>" +
+        '<div class="sg-card"><div class="sg-h">Capacity &amp; capex <span class="dim">by region</span></div><div class="sg-body">' + capex + "</div>" +
+          '<div class="sg-kpi"><span class="sg-kn">' + s.ma_count + '</span><span class="sg-kl">M&amp;A / investment events in the window</span></div></div>' +
+      "</div>";
   }
 
   // ---- corners: focused desks by domain (map onto the angle lenses) ----
@@ -270,16 +319,16 @@
   ];
   function cornerName(a) { var c = CORNERS.filter(function (x) { return x.a === a; })[0]; return c ? c.label : a; }
   function cornersHTML() {
-    var jang = {};
-    (N.themes || []).forEach(function (t) { (t.angles || []).forEach(function (a) { jang[a] = (jang[a] || 0) + 1; }); });
     var all = '<button class="corner' + (STATE.angle ? "" : " on") + '" data-angle=""><span class="cr-kick">everything</span><span class="cr-label">All news</span><span class="cr-n">' + (N.themes || []).length + " judgments</span></button>";
     var cards = CORNERS.map(function (cn) {
-      var n = jang[cn.a] || 0, st = (N.byAngle && N.byAngle[cn.a] ? N.byAngle[cn.a].length : 0);
-      return '<button class="corner' + (STATE.angle === cn.a ? " on" : "") + (n ? "" : " quiet") + '" data-angle="' + cn.a + '">' +
+      var st = (N.byAngle && N.byAngle[cn.a] ? N.byAngle[cn.a].length : 0);
+      var ci = N.corner_insights && N.corner_insights[cn.a];
+      var kp = ci && ci.points ? ci.points.length : 0;
+      return '<button class="corner' + (STATE.angle === cn.a ? " on" : "") + (st ? "" : " quiet") + '" data-angle="' + cn.a + '">' +
         '<span class="cr-kick">' + esc(cn.kick) + '</span><span class="cr-label">' + esc(cn.label) + "</span>" +
-        '<span class="cr-n">' + (n ? n + " judgment" + (n === 1 ? "" : "s") : st + " stories") + "</span></button>";
+        '<span class="cr-n">' + (kp ? kp + " key point" + (kp === 1 ? "" : "s") + " · " : "") + st + " stories</span></button>";
     }).join("");
-    return '<div class="sec-title">Corners</div><div class="sec-sub">jump to a focused desk — each shows that domain’s judgments &amp; stories</div><div class="corners">' + all + cards + "</div>";
+    return '<div class="sec-title">Corners</div><div class="sec-sub">jump to a focused desk — each is combined from its OWN stories, so the desks differ</div><div class="corners">' + all + cards + "</div>";
   }
 
   // ---- Techmeme-style story river, in our framework ----
@@ -317,37 +366,82 @@
   }
   // left rail: category tiles (corners + the ontology tree) that drive the right pane
   function railHTML() {
-    var jang = {};
-    (N.themes || []).forEach(function (t) { (t.angles || []).forEach(function (a) { jang[a] = (jang[a] || 0) + 1; }); });
     var allOn = (!STATE.angle && !STATE.concept) ? " on" : "";
     var items = '<button class="rail-item' + allOn + '" data-angle=""><span class="ri-label">All news</span><span class="ri-n">' + (N.items || []).length + "</span></button>";
     items += CORNERS.map(function (cn) {
-      var n = jang[cn.a] || (N.byAngle && N.byAngle[cn.a] ? N.byAngle[cn.a].length : 0);
+      var n = (N.byAngle && N.byAngle[cn.a] ? N.byAngle[cn.a].length : 0);
       return '<button class="rail-item' + (STATE.angle === cn.a ? " on" : "") + '" data-angle="' + cn.a + '"><span class="ri-label">' + esc(cn.label) + '</span><span class="ri-n">' + n + "</span></button>";
     }).join("");
-    // browse-by-structure tree (leaves filter the right pane)
-    var tree = TREE_BRANCHES.map(function (b) {
-      var rows = (N.coverage && N.coverage[b.id] || []).filter(function (x) { return x.count > 0; });
-      if (!rows.length) return "";
-      var open = !!STATE.tree[b.id];
-      var body = open ? '<div class="rt-body">' + rows.map(function (x) {
-        var key = b.pfx + ":" + x.id;
-        return '<button class="rt-leaf' + (STATE.concept === key ? " on" : "") + '" data-cov="' + esc(key) + '">' + esc(x.label) + "<span>" + x.count + "</span></button>";
-      }).join("") + "</div>" : "";
-      return '<div class="rt-branch"><button class="rt-head" data-branch="' + b.id + '"><span class="rt-chev">' + (open ? "▾" : "▸") + "</span>" + esc(b.label) + "</button>" + body + "</div>";
-    }).join("");
+    // browse-by-framework tree (leaves filter the right pane)
+    var tree = taxoTree("rt");
     return '<div class="rail-grp">Corners</div><div class="rail-list">' + items + "</div>" +
-      '<div class="rail-grp">Browse by structure</div><div class="rail-tree">' + tree + "</div>";
+      '<div class="rail-grp">Browse by framework</div><div class="rail-tree">' + tree + "</div>";
   }
 
+  function sentColor(s) { return s === "tailwind" ? "#15803d" : s === "headwind" ? "#b91c1c" : "#b45309"; }
+  // two scannable highlight cards: the day's defining event + the week's dominant trend.
+  // Shown only on the unfiltered landing — when you drill into a desk, its own key points take over.
+  function highlightStripHTML() {
+    var h = N.highlights; if (!h || (!h.daily && !h.weekly)) return "";
+    var cards = "";
+    if (h.daily) {
+      var d = h.daily, dd = DIR[d.sentiment] || DIR.watch;
+      var m = d.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
+        '<span class="hl2-met ' + m.direction + '">' + (m.direction === "up" ? "▲" : "▼") + (m.magnitude ? " " + esc(m.magnitude) : "") + "</span>" : "";
+      cards += '<div class="hl2-card d-' + esc(d.sentiment) + '">' +
+        '<div class="hl2-kick"><span class="hl2-tag">Today</span><span class="hl2-cap">the defining story</span>' + (d.is_new ? '<span class="hl2-new">new</span>' : "") + "</div>" +
+        '<div class="hl2-hl">' + esc(d.headline) + "</div>" +
+        '<div class="hl2-meta">' + (d.etype ? '<span class="hl2-type">' + esc(d.etype) + "</span>" : "") + met +
+        (d.merged > 1 ? '<span class="hl2-x">' + d.merged + " reports</span>" : "") +
+        '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></div>";
+    }
+    if (h.weekly) {
+      var w = h.weekly, wd = DIR[w.sentiment] || DIR.watch;
+      var sr = (w.spark || []).slice(); if (sr.length < 2) sr = [0].concat(sr);
+      cards += '<div class="hl2-card d-' + esc(w.sentiment) + '">' +
+        '<div class="hl2-kick"><span class="hl2-tag">This week</span><span class="hl2-cap">the dominant trend</span><span class="hl2-trend">' + esc(w.verdict) + "</span></div>" +
+        '<div class="hl2-hl">' + esc(w.label) + (w.headline ? '<span class="hl2-sub">' + esc(w.headline) + "</span>" : "") + "</div>" +
+        '<div class="hl2-meta"><span class="hl2-spark">' + spark(sr, sentColor(w.sentiment)) + "</span>" +
+        '<span class="hl2-x">' + w.total + " mentions · " + w.days + "d tracked</span>" +
+        '<span class="hl2-read ' + wd.c + '">' + wd.i + " " + wd.t + "</span></div></div>";
+    }
+    return '<div class="hl2">' + cards + "</div>";
+  }
+  // single contextual bottom line: global when nothing/an entity is selected, the desk's own
+  // bottom line when a corner is active (Option A).
+  function heroHTML() {
+    var text = N.brief, kick = "The big picture";
+    if (STATE.angle) {
+      var ci = N.corner_insights && N.corner_insights[STATE.angle];
+      if (ci && ci.bottom_line) { text = ci.bottom_line; kick = "The big picture · " + cornerName(STATE.angle) + " desk"; }
+    }
+    if (!text) return "";
+    return '<div class="bluf"><div class="bluf-k">' + esc(kick) + '</div><div class="bluf-t">' + esc(text) + "</div></div>";
+  }
+  function kpRow(headline, dir, so) {
+    var d = DIR[dir] || DIR.watch;
+    return '<div class="kp-row d-' + esc(dir) + '"><span class="kp-dir ' + d.c + '">' + d.i + '</span><div class="kp-b"><div class="kp-hl">' + esc(headline) + "</div>" + (so ? '<div class="kp-so">' + esc(so) + "</div>" : "") + "</div></div>";
+  }
+  // per-corner key points: each desk is combined from ITS OWN bucket of atoms (not the global
+  // pool sliced by angle), so corners say genuinely different things. Falls back to the global
+  // pool only if a desk has no distinct synthesis.
   function keyPointsHTML(angle) {
-    var ts = angle ? (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(angle) >= 0; }) : (N.themes || []);
-    if (!ts.length) return "";
-    return '<div class="kp"><div class="kp-h">Key points' + (angle ? " · " + esc(cornerName(angle)) : " today") + ' <span class="dim">combined from all sources</span></div>' +
-      ts.slice(0, 6).map(function (t) {
-        var d = DIR[t.direction] || DIR.watch;
-        return '<div class="kp-row d-' + esc(t.direction) + '"><span class="kp-dir ' + d.c + '">' + d.i + "</span><div class=\"kp-b\"><div class=\"kp-hl\">" + esc(t.headline) + "</div>" + (t.so_what ? '<div class="kp-so">' + esc(t.so_what) + "</div>" : "") + "</div></div>";
-      }).join("") + "</div>";
+    if (angle) {
+      var ci = N.corner_insights && N.corner_insights[angle];
+      if (ci && ci.points && ci.points.length) {
+        return '<div class="kp">' +
+          '<div class="kp-h">Key points · ' + esc(cornerName(angle)) + ' <span class="dim">combined from this desk’s ' + (ci.n || ci.points.length) + " stories</span></div>" +
+          ci.points.map(function (p) { return kpRow(p.headline, p.direction, p.so_what); }).join("") + "</div>";
+      }
+      var ts = (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(angle) >= 0; });
+      if (!ts.length) return "";
+      return '<div class="kp"><div class="kp-h">Key points · ' + esc(cornerName(angle)) + ' <span class="dim">combined from all sources</span></div>' +
+        ts.slice(0, 6).map(function (t) { return kpRow(t.headline, t.direction, t.so_what); }).join("") + "</div>";
+    }
+    var all = (N.themes || []);
+    if (!all.length) return "";
+    return '<div class="kp"><div class="kp-h">Key points today <span class="dim">combined from all sources</span></div>' +
+      all.slice(0, 6).map(function (t) { return kpRow(t.headline, t.direction, t.so_what); }).join("") + "</div>";
   }
 
   function feedView() {
@@ -355,7 +449,7 @@
     var clear = (STATE.concept || STATE.angle) ? '<button class="fclear" id="feedclear">✕ clear filter</button>' : "";
     return '<div class="split"><aside class="rail">' + railHTML() + "</aside>" +
       '<div class="stream">' +
-      (N.brief ? '<div class="kp-bluf"><span class="kp-bluf-k">Bottom line</span>' + esc(N.brief) + "</div>" : "") +
+      ((!STATE.angle && !STATE.concept) ? highlightStripHTML() : "") +
       keyPointsHTML(STATE.angle) +
       '<div class="sec-title">Stories' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + ' <span class="dim">— sources, de-duplicated</span></div>' +
       '<div class="sec-sub">click a story to open its facts &amp; sources</div>' + clear + feedHTML() + "</div></div>";
@@ -416,26 +510,29 @@
     html += '<div class="view-tabs"><button class="view-tab' + (STATE.view === "feed" ? " on" : "") + '" data-view="feed">Feed</button>' +
       '<button class="view-tab' + (STATE.view !== "feed" ? " on" : "") + '" data-view="analysis">Analysis</button></div>';
 
-    // BLUF — bottom line up front (both modes)
-    if (N.brief) html += '<div class="bluf"><div class="bluf-k">Bottom line</div><div class="bluf-t">' + esc(N.brief) + "</div></div>";
+    // BLUF — one bottom line up front (both modes); swaps to the selected desk's bottom line
+    html += heroHTML();
 
     if (STATE.view === "feed") { html += feedView(); main.innerHTML = html; wire(); return; }
 
     // 2) DAILY 3 HIGHLIGHTS + LATEST TREND + CORNERS
     html += highlightsHTML();
     html += trendHTML();
+    html += signalsHTML();
     html += cornersHTML();
 
-    // 3) KEY JUDGMENTS — filtered to the active corner
+    // 3) KEY JUDGMENTS — a DISTINCT synthesis per corner; rich theme cards for "All news"
     var cn = STATE.angle ? cornerName(STATE.angle) : null;
-    html += '<div class="sec-title">Key judgments' + (cn ? ' · <span class="kj-corner">' + esc(cn) + " corner</span>" : "") + '</div><div class="sec-sub">ranked assessments — what it means, what to do, what to watch · expand for talk-tracks, drivers &amp; evidence</div>';
-    var vis = STATE.angle ? (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(STATE.angle) >= 0; }) : (N.themes || []);
-    if (vis.length) {
-      html += '<div class="themes">' + vis.map(function (t) { return themeCard(t, (N.themes || []).indexOf(t)); }).join("") + "</div>";
-    } else if (STATE.angle) {
+    if (STATE.angle) {
+      var ci = N.corner_insights && N.corner_insights[STATE.angle];
+      html += '<div class="sec-title">Key judgments · <span class="kj-corner">' + esc(cn) + ' desk</span></div><div class="sec-sub">combined from this desk’s own stories — distinct from the other corners</div>';
+      html += keyPointsHTML(STATE.angle);
       var evIdx = (N.byAngle && N.byAngle[STATE.angle]) || [];
-      html += '<div class="corner-empty">No synthesised judgment in the <b>' + esc(cn) + '</b> corner this week — latest stories:</div>' +
+      html += '<div class="sec-title2">Stories on this desk <span class="dim">— de-duplicated</span></div>' +
         (evIdx.length ? '<div class="conc-evid">' + evRows(evIdx) + "</div>" : '<div class="nempty">No stories.</div>');
+    } else {
+      html += '<div class="sec-title">Key judgments</div><div class="sec-sub">ranked assessments — what it means, what to do, what to watch · expand for talk-tracks, drivers &amp; evidence</div>';
+      html += '<div class="themes">' + (N.themes || []).map(function (t, i) { return themeCard(t, i); }).join("") + "</div>";
     }
 
     // signal conflicts (sources disagree) — a credibility/uncertainty check
@@ -490,7 +587,7 @@
     main.querySelectorAll(".corner[data-angle], .cov-chip[data-angle]").forEach(function (b) {
       b.onclick = function () { STATE.angle = b.getAttribute("data-angle") || null; STATE.concept = null; STATE.open = -1; render(); var k = main.querySelector(".corners"); if (k) k.scrollIntoView({ behavior: "smooth", block: "start" }); };
     });
-    main.querySelectorAll(".cov-chip[data-cov], .cf-row[data-cov], .trend-card[data-cov], .tr-leaf[data-cov]").forEach(function (b) {
+    main.querySelectorAll(".cov-chip[data-cov], .cf-row[data-cov], .trend-card[data-cov], .tr-leaf[data-cov], .sg-prow[data-cov], .sg-crow[data-cov]").forEach(function (b) {
       b.onclick = function () { STATE.concept = b.getAttribute("data-cov"); var ce = document.getElementById("concevid"); ce.innerHTML = conceptEvidence(); ce.scrollIntoView({ behavior: "smooth", block: "nearest" }); };
     });
     // daily-3 highlight → open that judgment and scroll to it

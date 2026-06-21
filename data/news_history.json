@@ -172,5 +172,31 @@
    "company:mediatek": 1,
    "company:cadence": 1
   }
+ },
+ "signal_days": {
+  "2026-06-21": {
+   "price_net": {
+    "distribution": 6,
+    "passives": 4,
+    "memory": 3,
+    "analog_power": 2,
+    "equipment": 1,
+    "foundry": 1,
+    "osat": 1
+   },
+   "etype": {
+    "price-move": 5,
+    "results": 4,
+    "shortage": 3,
+    "capacity-capex": 2,
+    "policy": 2,
+    "m&a": 1,
+    "product-launch": 1,
+    "demand-shift": 1,
+    "disruption": 1
+   },
+   "capex_total": 2,
+   "ma": 1
+  }
  }
 }

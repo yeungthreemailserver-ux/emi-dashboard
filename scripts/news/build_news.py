@@ -92,6 +92,10 @@ NOISE_RX = re.compile(r"\b(gaming|game console|playstation|ps5|xbox|nintendo|gef
                       r"graphics card|fps|smartphone review|foldable|earbuds?|headphones?|tv review|"
                       r"chatbot|chatgpt|openai|deepseek|gemini|large language model|llm benchmark|"
                       r"crypto|bitcoin|blockchain|nft|streaming service)\b", re.I)
+# SEO "market research report" mill — keyword-matching spam ("X Market Forecast to 2035", CAGR…)
+REPORTMILL_RX = re.compile(r"\bcagr\b|\bspargers?\b|\bsintered metal mesh\b|"
+                           r"market\b[^.]{0,45}\b20(2[7-9]|3[0-9])\b|"
+                           r"\bmarket (size|share|outlook|trajectory)\b", re.I)
 # industry-macro signals (often have no part tag, but matter for the Macro lens) — let them through
 MACRO_RX = re.compile(r"\b(book-to-bill|wsts|sia |semiconductor sales|semiconductor billings|"
                       r"semiconductor forecast|chip sales|semiconductor market|manufacturing pmi|"
@@ -129,11 +133,47 @@ def relevance(tags, text, tier):
         s += 2.0                              # industry-macro signal (book-to-bill, WSTS, chip sales…)
     if NOISE_RX.search(text):
         s -= 3.0
+    if REPORTMILL_RX.search(text):
+        s -= 5.0                              # SEO report-mill spam — drop it
     return s
 
 
 def is_relevant(tags, text, tier="gnews"):
     return relevance(tags, text, tier) >= 2.0
+
+
+# ---- house guard: our own brands must NEVER surface in the UI -----------------
+# EMI is built for a broadline distributor (Avnet / Farnell perspective) but the dashboard
+# must never NAME them. Scrub any house brand out of every LLM-generated / displayed string;
+# the underlying story stays (as a sector read), only the name is generalised.
+HOUSE_RX = re.compile(r"\b(avnet|farnell|premier\s+farnell|element\s*14|element14|newark\b(?!\s+airport)|silica\s+avnet|ebv\s+elektronik)\b", re.I)
+def scrub_house(s):
+    return HOUSE_RX.sub("a major distributor", s) if isinstance(s, str) and s else s
+def scrub_bundle(b):
+    """Final safety net — generalise house names across every UI-facing text field."""
+    b["brief"] = scrub_house(b.get("brief", ""))
+    for t in b.get("themes", []):
+        for f in ("headline", "so_what", "now_what", "watch", "customer_talk", "supplier_talk"):
+            if t.get(f):
+                t[f] = scrub_house(t[f])
+        t["drivers"] = [scrub_house(x) for x in t.get("drivers", [])]
+    for a, d in (b.get("corner_insights") or {}).items():
+        d["bottom_line"] = scrub_house(d.get("bottom_line", ""))
+        for p in d.get("points", []):
+            p["headline"] = scrub_house(p.get("headline", "")); p["so_what"] = scrub_house(p.get("so_what", ""))
+    for it in b.get("items", []):
+        for f in ("title", "title_en", "digest"):
+            if it.get(f):
+                it[f] = scrub_house(it[f])
+        it["claims"] = [scrub_house(x) for x in it.get("claims", [])]
+        it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
+    hl = b.get("highlights") or {}
+    for side in ("daily", "weekly"):
+        if hl.get(side):
+            for f in ("headline", "digest", "label"):
+                if hl[side].get(f):
+                    hl[side][f] = scrub_house(hl[side][f])
+    return b
 
 
 # ---- angles (the distributor's 360° lenses) --------------------------------
@@ -431,6 +471,217 @@ def fallback_themes(concepts, by_entity):
     return {"brief": "", "themes": out}
 
 
+# ---------- topic tree: the framework as a hierarchy -------------------------
+# Demand (end-markets) · Supply (the value chain, layered L1→L4+channel) · Forces
+# (themes) · Geography (regions). Leaves carry a coverage key (pfx:id) so the page
+# reuses the existing drill-to-stories wiring. Labels/counts come from `coverage`.
+TAXONOMY_SPEC = [
+    ("demand", "Demand", "who buys", [
+        ("End-markets", "the systems our parts go into",
+         ["em:auto", "em:compute", "em:mobile", "em:comms", "em:industrial", "em:energy", "em:medical", "em:aero", "em:semi"])]),
+    ("supply", "Supply", "what we sell · the value chain", [
+        ("Front-end & enablers", "fabs · tools · materials · IP",
+         ["comp:foundry", "comp:equipment", "comp:materials", "comp:eda_ip"]),
+        ("Devices & packaging", "the components on our line-card",
+         ["comp:analog_power", "comp:logic", "comp:memory", "comp:passives", "comp:display", "comp:osat"]),
+        ("Assembly & channel", "who builds the box · how it reaches the board",
+         ["comp:ems_odm", "comp:distribution"])]),
+    ("forces", "Forces", "what moves the market", [
+        ("Themes", "the forces on price, supply & roadmap",
+         ["theme:pricing_supply", "theme:capacity_capex", "theme:demand_shift", "theme:technology", "theme:ma_investment", "theme:export_controls"])]),
+    ("place", "Geography", "where it happens", [
+        ("Greater China", "", ["geo:cn", "geo:tw"]),
+        ("North Asia", "", ["geo:kr", "geo:jp"]),
+        ("SE Asia · China+1", "", ["geo:sg", "geo:my", "geo:vn", "geo:th", "geo:ph"]),
+        ("South Asia & Oceania", "", ["geo:in", "geo:au", "geo:nz"]),
+        ("West", "", ["geo:us", "geo:eu"])]),
+]
+def build_taxonomy(coverage):
+    cnt, lbl = {}, {}
+    for grp, pfx in (("end_markets", "em"), ("components", "comp"), ("themes", "theme"), ("geographies", "geo")):
+        for x in coverage.get(grp, []):
+            cnt[pfx + ":" + x["id"]] = x["count"]
+            lbl[pfx + ":" + x["id"]] = x["label"]
+    tree = []
+    for bid, blabel, bkick, groups in TAXONOMY_SPEC:
+        gout = []
+        for glabel, gkick, covs in groups:
+            leaves = [{"cov": c, "label": lbl.get(c, c.split(":")[1]), "count": cnt.get(c, 0)} for c in covs]
+            gout.append({"label": glabel, "kicker": gkick, "count": sum(l["count"] for l in leaves), "leaves": leaves})
+        tree.append({"id": bid, "label": blabel, "kicker": bkick, "count": sum(g["count"] for g in gout), "groups": gout})
+    return tree
+
+
+# ---------- AGGREGATE: structured Signal Records -> queryable analytics -------
+# Turn the per-event Signal Records (etype, metric, subject/object, tags) into trends
+# that feed the framework — event-type mix, price/supply pressure by component, capacity
+# & capex by region, M&A count — plus a daily roll-up persisted to history (time series).
+EVENT_TYPE_LABEL = {
+    "price-move": "Price moves", "shortage": "Shortage / supply", "capacity-capex": "Capacity & capex",
+    "m&a": "M&A & investment", "product-launch": "Product launches", "disruption": "Disruptions",
+    "policy": "Policy & controls", "demand-shift": "Demand shifts", "partnership": "Partnerships", "results": "Results",
+}
+_DIR_UP = {"up", "rise", "rising", "increase", "increased", "higher", "surge", "+", "▲"}
+_DIR_DN = {"down", "fall", "falling", "decrease", "decreased", "lower", "drop", "-", "▼"}
+def _metric_sign(metric):
+    d = ((metric or {}).get("direction") or "").strip().lower()
+    return 1 if d in _DIR_UP else (-1 if d in _DIR_DN else 0)
+def build_signals(clusters, hist, today_key):
+    recs = [c for c in clusters if c.get("etype")]
+    comp_label = {c["id"]: c["label"] for c in ONT["components"]}
+    geo_label = {g["id"]: g["label"] for g in ONT["geographies"]}
+    # 1) event-type mix (up/down split + examples for the tooltip)
+    bt = {}
+    for c in recs:
+        t = c["etype"]
+        if t not in EVENT_TYPE_LABEL:
+            continue
+        d = bt.setdefault(t, {"etype": t, "label": EVENT_TYPE_LABEL[t], "count": 0, "up": 0, "down": 0, "ex": []})
+        d["count"] += 1
+        s = _metric_sign(c.get("metric"))
+        d["up"] += s > 0; d["down"] += s < 0
+        if len(d["ex"]) < 3:
+            d["ex"].append((c["rep"].get("title_en") or c["rep"]["title"])[:90])
+    by_type = sorted(bt.values(), key=lambda x: -x["count"])
+    # 2) price & supply pressure by component (price-move + shortage; a shortage = upward pressure)
+    pr = {}
+    for c in recs:
+        if c["etype"] not in ("price-move", "shortage"):
+            continue
+        s = _metric_sign(c.get("metric")) or (1 if c["etype"] == "shortage" else 0)
+        for cid in c["tags"].get("components", []):
+            d = pr.setdefault(cid, {"id": cid, "cov": "comp:" + cid, "label": comp_label.get(cid, cid), "up": 0, "down": 0, "n": 0})
+            d["n"] += 1; d["up"] += s > 0; d["down"] += s < 0
+    for d in pr.values():
+        d["net"] = d["up"] - d["down"]
+    price = sorted(pr.values(), key=lambda x: (-x["n"], -x["net"]))
+    # 3) capacity & capex by region
+    cx = {}
+    for c in recs:
+        if c["etype"] != "capacity-capex" and "theme:capacity_capex" not in entity_keys(c["tags"]):
+            continue
+        for gid in c["tags"].get("geographies", []):
+            cx[gid] = cx.get(gid, 0) + 1
+    capex_by_region = sorted(({"id": g, "cov": "geo:" + g, "label": geo_label.get(g, g), "count": n} for g, n in cx.items()),
+                             key=lambda x: -x["count"])
+    # 4) M&A / investment count
+    ma_count = sum(1 for c in recs if c["etype"] == "m&a" or "theme:ma_investment" in entity_keys(c["tags"]))
+    # daily roll-up -> time series (each day's aggregate, rolling 30d)
+    sig_today = {"price_net": {d["id"]: d["net"] for d in price}, "etype": {t["etype"]: t["count"] for t in by_type},
+                 "capex_total": sum(cx.values()), "ma": ma_count}
+    sdays = hist.setdefault("signal_days", {})
+    sdays[today_key] = sig_today
+    hist["signal_days"] = dict(sorted(sdays.items())[-STORE_DAYS:])
+    day_keys = sorted(hist["signal_days"].keys())
+    for d in price[:8]:
+        d["series"] = [hist["signal_days"].get(dk, {}).get("price_net", {}).get(d["id"], 0) for dk in day_keys]
+    return {"as_of": today_key, "days": day_keys, "n_records": len(recs), "by_type": by_type,
+            "price": price[:8], "capex_by_region": capex_by_region, "ma_count": ma_count,
+            "capex_series": [hist["signal_days"].get(dk, {}).get("capex_total", 0) for dk in day_keys],
+            "ma_series": [hist["signal_days"].get(dk, {}).get("ma", 0) for dk in day_keys]}
+
+
+# ---------- HIGHLIGHTS: the day's defining event + the week's dominant trend -------------
+def build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key):
+    def sentiment_of(keys):
+        for k in keys:
+            if sent_dir.get(k) in ("tailwind", "headwind"):
+                return sent_dir[k]
+        return "watch"
+    # DAILY = the single most defining EVENT today (newest + most corroborated, by hotness)
+    todays = [c for c in clusters if c.get("first_seen") == today_key]
+    pool = sorted(todays or clusters, key=lambda c: c.get("hot", 0), reverse=True)
+    daily = None
+    if pool:
+        c = pool[0]
+        keys = [k for k in entity_keys(c["tags"]) if not k.startswith("geo:")]
+        daily = {"headline": c["rep"].get("title_en") or c["rep"]["title"], "digest": c.get("digest", ""),
+                 "etype": c.get("etype", ""), "metric": c.get("metric", {}), "merged": c.get("n_articles", 1),
+                 "is_new": c.get("first_seen") == today_key, "sentiment": sentiment_of(keys)}
+    # WEEKLY = the dominant SUSTAINED trend across the window. Rank by cumulative volume but
+    # weight toward SPECIFIC trends (a component/theme/company), not a broad end-market bucket.
+    def cum(c): return sum(c.get("spark") or [c.get("count", 0)])
+    def active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
+    def wscore(c): return cum(c) * {"company": 1.3, "theme": 1.15, "comp": 1.1, "em": 0.5}.get(c.get("type"), 1.0)
+    sustained = [c for c in concepts if active_days(c) >= 2]
+    wpool = sustained or concepts
+    weekly = None
+    if wpool:
+        c = max(wpool, key=wscore)
+        # representative = the most-corroborated / decomposed story for this trend (not the first match)
+        cand = sorted((items[i] for i in by_entity.get(c["key"], [])),
+                      key=lambda it: (1 if it.get("digest") else 0, it.get("merged", 1), it.get("n", 1)), reverse=True)
+        weekly = {"label": c["label"], "key": c["key"], "type": c.get("type", ""), "total": cum(c),
+                  "spark": c.get("spark", []), "days": active_days(c), "verdict": c.get("verdict", "active"),
+                  "sentiment": c.get("sentiment", "watch"),
+                  "headline": (cand[0].get("title_en") or cand[0]["title"]) if cand else ""}
+    return {"daily": daily, "weekly": weekly}
+
+
+# ---------- COMBINE PER AREA: one synthesis per corner, not a global pool sliced ---------
+# The fix for "every corner looks the same": instead of synthesising ONE global set of
+# judgments and filtering them by angle, we bucket the atoms BY framework area (corner) and
+# combine each bucket on its own lens — so Products, Suppliers and Competitors say different
+# things even about the same event. One Sonnet call sees all desks together so it can keep
+# them DISTINCT (and not repeat a point across desks).
+CORNER_DEFS = [
+    ("parts", "Products", "the PART itself — price, availability, lead time, spec, new part families. NOT a vendor's corporate news."),
+    ("supplier", "Suppliers", "what our LINE-CARD vendors (TI, ADI, Infineon, ST, NXP, Microchip, Nexperia, Renesas, onsemi, Murata, TDK, Vishay...) are DOING — capacity, capex, M&A, launches, allocation policy."),
+    ("demand", "End-industries", "what END-CUSTOMERS (auto, datacentre, mobile, industrial, energy, medical...) are buying or cutting — design-ins, build rates, order cuts."),
+    ("channel", "Competitors", "other DISTRIBUTORS' moves (Arrow, Mouser, DigiKey, WT, Future, TTI, Rutronik, Heilind...) — line-card wins, marketplaces, pricing."),
+    ("scm", "Supply chain", "lead times, inventory/book-to-bill, logistics, allocation, second-sourcing, EOL/obsolescence, nearshoring."),
+    ("geopolitics", "Geopolitics", "export controls, tariffs, sanctions, localisation, compliance (RoHS/REACH/PFAS)."),
+    ("technology", "Technology", "roadmaps, new nodes, SiC/GaN, advanced packaging, next-gen interfaces, design-in cycles."),
+    ("macro", "Macro", "the cycle — chip billings, book-to-bill, rates, FX, PMI, recovery/downturn."),
+]
+def synthesize_corners(clusters):
+    buckets = {a: [] for a, _, _ in CORNER_DEFS}
+    for cl in clusters:
+        txt = (cl["rep"].get("title_en") or cl["rep"]["title"]) + " " + cl["rep"].get("summary", "")
+        for a in angle_tags(cl["tags"], txt):
+            if a in buckets:
+                buckets[a].append(cl)
+    for a in buckets:
+        buckets[a] = sorted(buckets[a], key=lambda c: c.get("hot", 0), reverse=True)[:7]
+    blocks = []
+    for a, label, desc in CORNER_DEFS:
+        if not buckets[a]:
+            continue
+        lines = []
+        for cl in buckets[a]:
+            h = (cl["rep"].get("title_en") or cl["rep"]["title"])[:95]
+            dg = cl.get("digest", "")
+            lines.append("  - " + h + (" — " + dg if dg else ""))
+        blocks.append("[" + a + "] " + label + " — lens: " + desc + "\n" + "\n".join(lines))
+    if not blocks:
+        return {}
+    prompt = ("You are briefing a global electronic-components DISTRIBUTOR. Below are desks, each with its top "
+              "de-duplicated stories. For EACH desk, write 2-3 KEY POINTS that are SPECIFIC to that desk's lens and "
+              "DISTINCT from the other desks. DO NOT repeat the same point on two desks — if one event matters to "
+              "several desks, surface a DIFFERENT implication on each (e.g. a memory price spike is a margin window on "
+              "Products, a Samsung/Micron capacity call on Suppliers, and a smartphone build risk on End-industries). "
+              "Each point: headline (<=12 words), so_what (ONE sentence — the distributor implication or action), "
+              "direction (tailwind=good for a distributor, headwind=bad, watch=uncertain). Plus a desk bottom_line (<=20 words).\n"
+              "NEVER name Avnet, Farnell, element14, Newark or Premier Farnell — they are the house; refer to 'a major distributor' or frame as a sector read.\n"
+              'Return ONLY JSON {"desks":[{"a":"<id>","bottom_line":"...","points":[{"headline":"...","so_what":"...","direction":"tailwind|headwind|watch"}]}]}\n\n'
+              + "\n\n".join(blocks))
+    try:
+        out = run_claude(prompt)
+        res = {}
+        for d in out.get("desks", []):
+            a = d.get("a")
+            if a in buckets and d.get("points"):
+                pts = [{"headline": p.get("headline", ""), "so_what": p.get("so_what", ""),
+                        "direction": p.get("direction") if p.get("direction") in ("tailwind", "headwind", "watch") else "watch"}
+                       for p in d["points"][:3] if p.get("headline")]
+                if pts:
+                    res[a] = {"bottom_line": d.get("bottom_line", ""), "points": pts, "n": len(buckets[a])}
+        return res
+    except Exception as e:
+        print(f"  corners: skipped ({type(e).__name__}: {str(e)[:90]})")
+        return {}
+
+
 # ---------- main -------------------------------------------------------------
 def main():
     raw = json.load(open(os.path.join(DATA, "news_raw.json"), encoding="utf-8"))
@@ -660,6 +911,10 @@ def main():
         sc = sent.get(c["key"])
         c["sentiment"] = max(sc, key=sc.get) if sc else "neutral"
 
+    # HIGHLIGHTS — the day's defining event + the week's dominant trend
+    sent_dir = {k: max(v, key=v.get) for k, v in sent.items()}
+    highlights = build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key)
+
     # CONTRADICTION DETECTION — concepts where the window's sources disagree on supply/price direction
     conflicts = []
     for c in concepts:
@@ -672,15 +927,27 @@ def main():
             conflicts.append({"key": c["key"], "label": c["label"], "type": c["type"], "pos": pos, "neg": neg})
     conflicts.sort(key=lambda x: -(x["pos"] + x["neg"]))
 
+    # AGGREGATE — structured signal records -> queryable analytics (+ daily roll-up to history)
+    signals = build_signals(clusters, hist, today_key)
+    print(f"  signals: {signals['n_records']} records -> {len(signals['by_type'])} types, "
+          f"{len(signals['price'])} price-pressure components, M&A {signals['ma_count']}")
+
+    # COMBINE PER AREA — one distinct synthesis per corner (not the global pool sliced by angle)
+    corner_insights = synthesize_corners(clusters)
+    if corner_insights:
+        print(f"  corners: distinct key points for {len(corner_insights)} desks ({', '.join(corner_insights)})")
+
     bundle = {
         "as_of": raw.get("fetched", now.isoformat(timespec="seconds")),
         "generated": now.isoformat(timespec="seconds"),
         "counts": {"raw": len(raw["articles"]), "relevant": len(arts), "clusters": len(clusters)},
         "brief": synth["brief"], "themes": synth["themes"],
         "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
-        "conflicts": conflicts,
+        "taxonomy": build_taxonomy(coverage), "signals": signals, "highlights": highlights,
+        "corner_insights": corner_insights, "conflicts": conflicts,
         "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
     }
+    scrub_bundle(bundle)  # house-name safety net before anything is written to the page
     out_path = os.path.join(WEB, "news-bundle.js")
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("window.NEWS = " + json.dumps(bundle, ensure_ascii=False) + ";\n")
