@@ -168,6 +168,8 @@ def scrub_bundle(b):
                 it[f] = scrub_house(it[f])
         it["claims"] = [scrub_house(x) for x in it.get("claims", [])]
         it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
+        if it.get("angle_insights"):
+            it["angle_insights"] = {a: scrub_house(v) for a, v in it["angle_insights"].items()}
     def _scrub_cards(cards):
         for it in cards or []:
             for f in ("headline", "insight", "category"):
@@ -651,19 +653,20 @@ def _recency_factor(it):
 def _item_priority(it):
     corrob = 1.0 + 0.12 * len(it.get("src_types", []))
     return (_item_impact(it) ** 1.5) * corrob * math.log1p(it.get("merged", 1) or 1) * _recency_factor(it)
-def _hl_card(i, it, sent_dir, by_key, today_key):
+def _hl_card(i, it, sent_dir, by_key, today_key, angle=None):
     keys = [k for k in entity_keys(it["tags"]) if not k.startswith("geo:")]
     sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
     dom = None  # dominant concept = highest-impact entity present — drives the category chip + sparkline
     for k in sorted((k for k in keys if k in by_key), key=lambda k: _concept_impact(by_key[k]), reverse=True):
         dom = by_key[k]; break
-    insight = it.get("digest") or next(iter(it.get("claims", [])), "") or ""
+    # SAME event, DIFFERENT lens: per-desk insight when on a desk, neutral digest globally.
+    insight = (angle and (it.get("angle_insights") or {}).get(angle)) or it.get("digest") or next(iter(it.get("claims", [])), "") or ""
     return {"i": i, "headline": it.get("title_en") or it["title"], "insight": insight,
             "etype": it.get("etype", ""), "metric": it.get("metric", {}), "merged": it.get("merged", 1),
             "is_new": it.get("first_seen") == today_key, "days_seen": it.get("days_seen", 1),
             "sentiment": sentiment, "category": (dom["label"] if dom else ""),
             "spark": (dom.get("spark") if dom else []) or [], "total": (_cum(dom) if dom else 0)}
-def _top_stories(idx_items, sent_dir, by_key, today_key, k=5, ratio=0.42):
+def _top_stories(idx_items, sent_dir, by_key, today_key, k=5, ratio=0.42, angle=None):
     # ONE ranking over ALL stories — every one above (ratio × top priority), capped at k. No
     # new-vs-old inclusion split (that dropped a story first-seen yesterday but tracked one day);
     # new/tracked is shown as a badge instead.
@@ -678,19 +681,19 @@ def _top_stories(idx_items, sent_dir, by_key, today_key, k=5, ratio=0.42):
         h = it.get("title_en") or it["title"]
         if h in seen:
             continue
-        seen.add(h); out.append(_hl_card(i, it, sent_dir, by_key, today_key))
+        seen.add(h); out.append(_hl_card(i, it, sent_dir, by_key, today_key, angle))
     return out
 def build_highlights(items, concepts, sent_dir, today_key):
     by_key = {c["key"]: c for c in concepts}
     return _top_stories(list(enumerate(items)), sent_dir, by_key, today_key, k=5)
 def build_corner_highlights(items, by_angle, concepts, sent_dir, today_key):
-    """Per-desk highlights — same ranking, restricted to the desk's own stories (by_angle)."""
+    """Per-desk highlights — same ranking + a DESK-SPECIFIC insight on each card (angle lens)."""
     by_key = {c["key"]: c for c in concepts}
     out = {}
     for aid, _label, _desc in CORNER_DEFS:
         idx = [(i, items[i]) for i in by_angle.get(aid, [])]
         if idx:
-            out[aid] = _top_stories(idx, sent_dir, by_key, today_key, k=4)
+            out[aid] = _top_stories(idx, sent_dir, by_key, today_key, k=4, angle=aid)
     return out
 
 
@@ -755,6 +758,45 @@ def synthesize_corners(clusters):
         return res
     except Exception as e:
         print(f"  corners: skipped ({type(e).__name__}: {str(e)[:90]})")
+        return {}
+
+
+def build_angle_insights(items, top_n=16):
+    """For the top highlight-candidate events, write a DESK-SPECIFIC insight per desk the event
+    touches — same event, different lens (Parts=the part, Suppliers=line-card vendor moves,
+    Demand=end-customer build impact, …). One Sonnet call. Returns {item_index: {angle: text}}."""
+    ranked = sorted(enumerate(items), key=lambda p: _item_priority(p[1]), reverse=True)[:top_n]
+    lines, nmap = [], {}
+    for n, (i, it) in enumerate(ranked):
+        txt = (it.get("title_en") or it["title"]) + " " + (it.get("digest", "") or "")
+        desks = [a for a in angle_tags(it["tags"], txt) if a in ANGLE_LABEL]
+        if len(desks) < 2:   # only worth it when an event spans multiple desks
+            continue
+        nmap[n] = i
+        head = (it.get("title_en") or it["title"])[:95]
+        lines.append(f"{n}. desks=[{','.join(desks)}] | {head}" + (f" — {it.get('digest','')}" if it.get("digest") else ""))
+    if not lines:
+        return {}
+    lensmap = "; ".join(f"{a}={desc}" for a, _lbl, desc in CORNER_DEFS)
+    prompt = ("You brief a component distributor's desks. Each numbered event lists the DESKS it touches. "
+              "For EACH listed desk, write ONE <=24-word insight framed through THAT desk's lens — the SAME "
+              "event must give a DIFFERENT implication and focus per desk (never repeat the same sentence). "
+              "Be specific and decision-useful (what it means / what to do for that desk).\n"
+              "Lenses: " + lensmap + "\n"
+              "NEVER name Avnet/Farnell/element14/Newark — refer to 'a major distributor'.\n"
+              'Return ONLY JSON {"events":[{"i":<n>,"angles":{"<desk>":"insight", ...}}]}\n\n' + "\n".join(lines))
+    try:
+        out = run_claude(prompt)
+        res = {}
+        for e in out.get("events", []):
+            n = e.get("i")
+            if n in nmap and isinstance(e.get("angles"), dict):
+                d = {a: v for a, v in e["angles"].items() if a in ANGLE_LABEL and v}
+                if d:
+                    res[nmap[n]] = d
+        return res
+    except Exception as ex:
+        print(f"  angle_insights: skipped ({type(ex).__name__}: {str(ex)[:80]})")
         return {}
 
 
@@ -989,6 +1031,9 @@ def main():
 
     # HIGHLIGHTS — the day's defining event + the week's dominant trend (global + per desk)
     sent_dir = {k: max(v, key=v.get) for k, v in sent.items()}
+    # per-desk angle insights for the top events (same event → different lens per desk)
+    for i, d in build_angle_insights(items).items():
+        items[i]["angle_insights"] = d
     highlights = build_highlights(items, concepts, sent_dir, today_key)
     corner_highlights = build_corner_highlights(items, by_angle, concepts, sent_dir, today_key)
 
