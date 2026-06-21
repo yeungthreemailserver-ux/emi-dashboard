@@ -381,8 +381,9 @@
   function sentColor(s) { return s === "tailwind" ? "#15803d" : s === "headwind" ? "#b91c1c" : "#b45309"; }
   // two scannable highlight cards: the day's defining event + the week's dominant trend.
   // Shown only on the unfiltered landing — when you drill into a desk, its own key points take over.
-  function highlightStripHTML() {
-    var h = N.highlights; if (!h || (!h.daily && !h.weekly)) return "";
+  function highlightStripHTML(angle) {
+    var h = (angle && N.corner_highlights && N.corner_highlights[angle]) ? N.corner_highlights[angle] : N.highlights;
+    if (!h || (!h.daily && !h.weekly)) return "";
     var cards = "";
     if (h.daily) {
       var d = h.daily, dd = DIR[d.sentiment] || DIR.watch;
@@ -449,7 +450,7 @@
     var clear = (STATE.concept || STATE.angle) ? '<button class="fclear" id="feedclear">✕ clear filter</button>' : "";
     return '<div class="split"><aside class="rail">' + railHTML() + "</aside>" +
       '<div class="stream">' +
-      ((!STATE.angle && !STATE.concept) ? highlightStripHTML() : "") +
+      (!STATE.concept ? highlightStripHTML(STATE.angle) : "") +
       keyPointsHTML(STATE.angle) +
       '<div class="sec-title">Stories' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + ' <span class="dim">— sources, de-duplicated</span></div>' +
       '<div class="sec-sub">click a story to open its facts &amp; sources</div>' + clear + feedHTML() + "</div></div>";

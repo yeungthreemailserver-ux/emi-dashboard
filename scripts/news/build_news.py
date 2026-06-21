@@ -167,12 +167,15 @@ def scrub_bundle(b):
                 it[f] = scrub_house(it[f])
         it["claims"] = [scrub_house(x) for x in it.get("claims", [])]
         it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
-    hl = b.get("highlights") or {}
-    for side in ("daily", "weekly"):
-        if hl.get(side):
-            for f in ("headline", "digest", "label"):
-                if hl[side].get(f):
-                    hl[side][f] = scrub_house(hl[side][f])
+    def _scrub_hl(hl):
+        for side in ("daily", "weekly"):
+            if hl and hl.get(side):
+                for f in ("headline", "digest", "label"):
+                    if hl[side].get(f):
+                        hl[side][f] = scrub_house(hl[side][f])
+    _scrub_hl(b.get("highlights") or {})
+    for hl in (b.get("corner_highlights") or {}).values():
+        _scrub_hl(hl)
     return b
 
 
@@ -582,40 +585,54 @@ def build_signals(clusters, hist, today_key):
 
 
 # ---------- HIGHLIGHTS: the day's defining event + the week's dominant trend -------------
+def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
+def _active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
+def _wscore(c): return _cum(c) * {"company": 1.3, "theme": 1.15, "comp": 1.1, "em": 0.5}.get(c.get("type"), 1.0)
+def _daily_highlight(pool, sent_dir, today_key):
+    todays = [c for c in pool if c.get("first_seen") == today_key]
+    p = sorted(todays or pool, key=lambda c: c.get("hot", 0), reverse=True)
+    if not p:
+        return None
+    c = p[0]
+    keys = [k for k in entity_keys(c["tags"]) if not k.startswith("geo:")]
+    sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
+    return {"headline": c["rep"].get("title_en") or c["rep"]["title"], "digest": c.get("digest", ""),
+            "etype": c.get("etype", ""), "metric": c.get("metric", {}), "merged": c.get("n_articles", 1),
+            "is_new": c.get("first_seen") == today_key, "sentiment": sentiment}
+def _weekly_highlight(concept_pool, items, by_entity, restrict=None, drop_em=False):
+    # per-desk drops the broad end-market buckets so the trend is a SPECIFIC component/theme/company
+    pool = [c for c in concept_pool if not (drop_em and c.get("type") == "em")] or concept_pool
+    sustained = [c for c in pool if _active_days(c) >= 2]
+    wpool = sustained or pool
+    if not wpool:
+        return None
+    c = max(wpool, key=_wscore)
+    idxs = by_entity.get(c["key"], [])
+    if restrict is not None:
+        idxs = [i for i in idxs if i in restrict]
+    cand = sorted((items[i] for i in idxs),
+                  key=lambda it: (1 if it.get("digest") else 0, it.get("merged", 1), it.get("n", 1)), reverse=True)
+    return {"label": c["label"], "key": c["key"], "type": c.get("type", ""), "total": _cum(c),
+            "spark": c.get("spark", []), "days": _active_days(c), "verdict": c.get("verdict", "active"),
+            "sentiment": c.get("sentiment", "watch"),
+            "headline": (cand[0].get("title_en") or cand[0]["title"]) if cand else ""}
 def build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key):
-    def sentiment_of(keys):
-        for k in keys:
-            if sent_dir.get(k) in ("tailwind", "headwind"):
-                return sent_dir[k]
-        return "watch"
-    # DAILY = the single most defining EVENT today (newest + most corroborated, by hotness)
-    todays = [c for c in clusters if c.get("first_seen") == today_key]
-    pool = sorted(todays or clusters, key=lambda c: c.get("hot", 0), reverse=True)
-    daily = None
-    if pool:
-        c = pool[0]
-        keys = [k for k in entity_keys(c["tags"]) if not k.startswith("geo:")]
-        daily = {"headline": c["rep"].get("title_en") or c["rep"]["title"], "digest": c.get("digest", ""),
-                 "etype": c.get("etype", ""), "metric": c.get("metric", {}), "merged": c.get("n_articles", 1),
-                 "is_new": c.get("first_seen") == today_key, "sentiment": sentiment_of(keys)}
-    # WEEKLY = the dominant SUSTAINED trend across the window. Rank by cumulative volume but
-    # weight toward SPECIFIC trends (a component/theme/company), not a broad end-market bucket.
-    def cum(c): return sum(c.get("spark") or [c.get("count", 0)])
-    def active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
-    def wscore(c): return cum(c) * {"company": 1.3, "theme": 1.15, "comp": 1.1, "em": 0.5}.get(c.get("type"), 1.0)
-    sustained = [c for c in concepts if active_days(c) >= 2]
-    wpool = sustained or concepts
-    weekly = None
-    if wpool:
-        c = max(wpool, key=wscore)
-        # representative = the most-corroborated / decomposed story for this trend (not the first match)
-        cand = sorted((items[i] for i in by_entity.get(c["key"], [])),
-                      key=lambda it: (1 if it.get("digest") else 0, it.get("merged", 1), it.get("n", 1)), reverse=True)
-        weekly = {"label": c["label"], "key": c["key"], "type": c.get("type", ""), "total": cum(c),
-                  "spark": c.get("spark", []), "days": active_days(c), "verdict": c.get("verdict", "active"),
-                  "sentiment": c.get("sentiment", "watch"),
-                  "headline": (cand[0].get("title_en") or cand[0]["title"]) if cand else ""}
-    return {"daily": daily, "weekly": weekly}
+    return {"daily": _daily_highlight(clusters, sent_dir, today_key),
+            "weekly": _weekly_highlight(concepts, items, by_entity)}
+def build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent_dir, today_key):
+    """Per-desk Today/This-week — each corner shows the event/trend most CHARACTERISTIC of that desk."""
+    by_key = {c["key"]: c for c in concepts}
+    out = {}
+    for aid, _label, _desc in CORNER_DEFS:
+        cc = [c for c in clusters
+              if aid in angle_tags(c["tags"], (c["rep"].get("title_en") or c["rep"]["title"]) + " " + c["rep"].get("summary", ""))]
+        if not cc:
+            continue
+        ckeys = {k for c in cc for k in entity_keys(c["tags"]) if not k.startswith("geo:") and k in by_key}
+        cpool = [by_key[k] for k in ckeys]
+        out[aid] = {"daily": _daily_highlight(cc, sent_dir, today_key),
+                    "weekly": _weekly_highlight(cpool, items, by_entity, set(by_angle.get(aid, [])), drop_em=True)}
+    return out
 
 
 # ---------- COMBINE PER AREA: one synthesis per corner, not a global pool sliced ---------
@@ -911,9 +928,10 @@ def main():
         sc = sent.get(c["key"])
         c["sentiment"] = max(sc, key=sc.get) if sc else "neutral"
 
-    # HIGHLIGHTS — the day's defining event + the week's dominant trend
+    # HIGHLIGHTS — the day's defining event + the week's dominant trend (global + per desk)
     sent_dir = {k: max(v, key=v.get) for k, v in sent.items()}
     highlights = build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key)
+    corner_highlights = build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent_dir, today_key)
 
     # CONTRADICTION DETECTION — concepts where the window's sources disagree on supply/price direction
     conflicts = []
@@ -944,7 +962,7 @@ def main():
         "brief": synth["brief"], "themes": synth["themes"],
         "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
         "taxonomy": build_taxonomy(coverage), "signals": signals, "highlights": highlights,
-        "corner_insights": corner_insights, "conflicts": conflicts,
+        "corner_highlights": corner_highlights, "corner_insights": corner_insights, "conflicts": conflicts,
         "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
     }
     scrub_bundle(bundle)  # house-name safety net before anything is written to the page
