@@ -381,31 +381,34 @@
   function sentColor(s) { return s === "tailwind" ? "#15803d" : s === "headwind" ? "#b91c1c" : "#b45309"; }
   // two scannable highlight cards: the day's defining event + the week's dominant trend.
   // Shown only on the unfiltered landing — when you drill into a desk, its own key points take over.
+  function eventCardHTML(d) {
+    var dd = DIR[d.sentiment] || DIR.watch;
+    var m = d.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
+      '<span class="hl2-met ' + m.direction + '">' + (m.direction === "up" ? "▲" : "▼") + (m.magnitude ? " " + esc(m.magnitude) : "") + "</span>" : "";
+    return '<div class="hl2-card d-' + esc(d.sentiment) + '">' +
+      '<div class="hl2-kick"><span class="hl2-tag">Today</span><span class="hl2-cap">defining story</span>' + (d.is_new ? '<span class="hl2-new">new</span>' : "") + "</div>" +
+      '<div class="hl2-hl">' + esc(d.headline) + "</div>" +
+      '<div class="hl2-meta">' + (d.etype ? '<span class="hl2-type">' + esc(d.etype) + "</span>" : "") + met +
+      (d.merged > 1 ? '<span class="hl2-x">' + d.merged + " reports</span>" : "") +
+      '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></div>";
+  }
+  function trendCardHTML(w) {
+    var wd = DIR[w.sentiment] || DIR.watch;
+    var sr = (w.spark || []).slice(); if (sr.length < 2) sr = [0].concat(sr);
+    return '<div class="hl2-card d-' + esc(w.sentiment) + '">' +
+      '<div class="hl2-kick"><span class="hl2-tag">This week</span><span class="hl2-cap">trend</span><span class="hl2-trend">' + esc(w.verdict) + "</span></div>" +
+      '<div class="hl2-hl">' + esc(w.label) + (w.headline ? '<span class="hl2-sub">' + esc(w.headline) + "</span>" : "") + "</div>" +
+      '<div class="hl2-meta"><span class="hl2-spark">' + spark(sr, sentColor(w.sentiment)) + "</span>" +
+      '<span class="hl2-x">' + w.total + " mentions · " + w.days + "d tracked</span>" +
+      '<span class="hl2-read ' + wd.c + '">' + wd.i + " " + wd.t + "</span></div></div>";
+  }
+  // show EVERY highlight that clears the importance bar (events + trends), not just one of each
   function highlightStripHTML(angle) {
     var h = (angle && N.corner_highlights && N.corner_highlights[angle]) ? N.corner_highlights[angle] : N.highlights;
-    if (!h || (!h.daily && !h.weekly)) return "";
-    var cards = "";
-    if (h.daily) {
-      var d = h.daily, dd = DIR[d.sentiment] || DIR.watch;
-      var m = d.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
-        '<span class="hl2-met ' + m.direction + '">' + (m.direction === "up" ? "▲" : "▼") + (m.magnitude ? " " + esc(m.magnitude) : "") + "</span>" : "";
-      cards += '<div class="hl2-card d-' + esc(d.sentiment) + '">' +
-        '<div class="hl2-kick"><span class="hl2-tag">Today</span><span class="hl2-cap">the defining story</span>' + (d.is_new ? '<span class="hl2-new">new</span>' : "") + "</div>" +
-        '<div class="hl2-hl">' + esc(d.headline) + "</div>" +
-        '<div class="hl2-meta">' + (d.etype ? '<span class="hl2-type">' + esc(d.etype) + "</span>" : "") + met +
-        (d.merged > 1 ? '<span class="hl2-x">' + d.merged + " reports</span>" : "") +
-        '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></div>";
-    }
-    if (h.weekly) {
-      var w = h.weekly, wd = DIR[w.sentiment] || DIR.watch;
-      var sr = (w.spark || []).slice(); if (sr.length < 2) sr = [0].concat(sr);
-      cards += '<div class="hl2-card d-' + esc(w.sentiment) + '">' +
-        '<div class="hl2-kick"><span class="hl2-tag">This week</span><span class="hl2-cap">the dominant trend</span><span class="hl2-trend">' + esc(w.verdict) + "</span></div>" +
-        '<div class="hl2-hl">' + esc(w.label) + (w.headline ? '<span class="hl2-sub">' + esc(w.headline) + "</span>" : "") + "</div>" +
-        '<div class="hl2-meta"><span class="hl2-spark">' + spark(sr, sentColor(w.sentiment)) + "</span>" +
-        '<span class="hl2-x">' + w.total + " mentions · " + w.days + "d tracked</span>" +
-        '<span class="hl2-read ' + wd.c + '">' + wd.i + " " + wd.t + "</span></div></div>";
-    }
+    if (!h) return "";
+    var daily = h.daily || [], weekly = h.weekly || [];
+    if (!daily.length && !weekly.length) return "";
+    var cards = daily.map(eventCardHTML).join("") + weekly.map(trendCardHTML).join("");
     return '<div class="hl2">' + cards + "</div>";
   }
   // single contextual bottom line: global when nothing/an entity is selected, the desk's own

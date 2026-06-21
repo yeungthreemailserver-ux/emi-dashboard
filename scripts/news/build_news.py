@@ -169,10 +169,10 @@ def scrub_bundle(b):
         it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
     def _scrub_hl(hl):
         for side in ("daily", "weekly"):
-            if hl and hl.get(side):
+            for item in (hl.get(side) or []):
                 for f in ("headline", "digest", "label"):
-                    if hl[side].get(f):
-                        hl[side][f] = scrub_house(hl[side][f])
+                    if item.get(f):
+                        item[f] = scrub_house(item[f])
     _scrub_hl(b.get("highlights") or {})
     for hl in (b.get("corner_highlights") or {}).values():
         _scrub_hl(hl)
@@ -610,25 +610,13 @@ def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
 def _active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
 def _wscore(c):
     return (_concept_impact(c) ** 1.5) * _MOM.get(c.get("verdict", "steady"), 1.0) * math.log1p(_cum(c))
-def _daily_highlight(pool, sent_dir, today_key):
-    todays = [c for c in pool if c.get("first_seen") == today_key]
-    p = sorted(todays or pool, key=_cluster_priority, reverse=True)
-    if not p:
-        return None
-    c = p[0]
+def _event_card(c, sent_dir, today_key):
     keys = [k for k in entity_keys(c["tags"]) if not k.startswith("geo:")]
     sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
     return {"headline": c["rep"].get("title_en") or c["rep"]["title"], "digest": c.get("digest", ""),
             "etype": c.get("etype", ""), "metric": c.get("metric", {}), "merged": c.get("n_articles", 1),
             "is_new": c.get("first_seen") == today_key, "sentiment": sentiment}
-def _weekly_highlight(concept_pool, items, by_entity, restrict=None, drop_em=False):
-    # per-desk drops the broad end-market buckets so the trend is a SPECIFIC component/theme/company
-    pool = [c for c in concept_pool if not (drop_em and c.get("type") == "em")] or concept_pool
-    sustained = [c for c in pool if _active_days(c) >= 2]
-    wpool = sustained or pool
-    if not wpool:
-        return None
-    c = max(wpool, key=_wscore)
+def _trend_card(c, items, by_entity, restrict=None):
     idxs = by_entity.get(c["key"], [])
     if restrict is not None:
         idxs = [i for i in idxs if i in restrict]
@@ -638,11 +626,44 @@ def _weekly_highlight(concept_pool, items, by_entity, restrict=None, drop_em=Fal
             "spark": c.get("spark", []), "days": _active_days(c), "verdict": c.get("verdict", "active"),
             "sentiment": c.get("sentiment", "watch"),
             "headline": (cand[0].get("title_en") or cand[0]["title"]) if cand else ""}
+# Show EVERY item that clears the importance bar (>= ratio × the top score), capped at k — not just one.
+def _top_events(pool, sent_dir, today_key, k=3, ratio=0.5):
+    base = [c for c in pool if c.get("first_seen") == today_key] or pool
+    ranked = sorted(base, key=_cluster_priority, reverse=True)
+    if not ranked:
+        return []
+    bar = ratio * (_cluster_priority(ranked[0]) or 1.0)
+    out, seen = [], set()
+    for c in ranked:
+        if _cluster_priority(c) < bar or len(out) >= k:
+            break
+        h = c["rep"].get("title_en") or c["rep"]["title"]
+        if h in seen:
+            continue
+        seen.add(h); out.append(_event_card(c, sent_dir, today_key))
+    return out
+def _top_trends(concept_pool, items, by_entity, restrict=None, drop_em=False, k=3, ratio=0.5, exclude=None):
+    pool = [c for c in concept_pool if not (drop_em and c.get("type") == "em")] or concept_pool
+    sustained = [c for c in pool if _active_days(c) >= 2]
+    ranked = sorted(sustained or pool, key=_wscore, reverse=True)
+    if not ranked:
+        return []
+    bar = ratio * (_wscore(ranked[0]) or 1.0)
+    out, seen = [], set(exclude or [])
+    for c in ranked:
+        if _wscore(c) < bar or len(out) >= k:
+            break
+        card = _trend_card(c, items, by_entity, restrict)
+        if card["headline"] and card["headline"] in seen:
+            continue
+        seen.add(card["headline"]); out.append(card)
+    return out
 def build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key):
-    return {"daily": _daily_highlight(clusters, sent_dir, today_key),
-            "weekly": _weekly_highlight(concepts, items, by_entity)}
+    daily = _top_events(clusters, sent_dir, today_key, k=3)
+    weekly = _top_trends(concepts, items, by_entity, k=3, exclude={d["headline"] for d in daily})
+    return {"daily": daily, "weekly": weekly}
 def build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent_dir, today_key):
-    """Per-desk Today/This-week — each corner shows the event/trend most CHARACTERISTIC of that desk."""
+    """Per-desk Today/This-week — every event/trend on the desk that clears the importance bar."""
     by_key = {c["key"]: c for c in concepts}
     out = {}
     for aid, _label, _desc in CORNER_DEFS:
@@ -652,8 +673,10 @@ def build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent
             continue
         ckeys = {k for c in cc for k in entity_keys(c["tags"]) if not k.startswith("geo:") and k in by_key}
         cpool = [by_key[k] for k in ckeys]
-        out[aid] = {"daily": _daily_highlight(cc, sent_dir, today_key),
-                    "weekly": _weekly_highlight(cpool, items, by_entity, set(by_angle.get(aid, [])), drop_em=True)}
+        daily = _top_events(cc, sent_dir, today_key, k=2)
+        weekly = _top_trends(cpool, items, by_entity, set(by_angle.get(aid, [])), drop_em=True, k=2,
+                             exclude={d["headline"] for d in daily})
+        out[aid] = {"daily": daily, "weekly": weekly}
     return out
 
 
