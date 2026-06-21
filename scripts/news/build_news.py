@@ -246,6 +246,27 @@ def _embedder():
     return _EMB_MODEL
 
 TIER_RANK = {"trade": 0, "official": 1, "industry": 2, "china": 3, "regional": 3, "gnews": 4, "gdelt": 5}
+EVENT_WINDOW_DAYS = 14   # an "event" is a burst; articles >2 weeks apart are DIFFERENT events
+
+
+def _split_by_time(idxs, articles, window=EVENT_WINDOW_DAYS):
+    """A semantic community can lump the same TOPIC across months (a price-hike announcement + an
+    old sales report). Split it into time bursts so each cluster is one real event with a current
+    date, an honest merge count, and time-coherent facts. Undated articles join the newest burst."""
+    dated = sorted(((parse_date(articles[i].get("published", "")), i) for i in idxs
+                    if parse_date(articles[i].get("published", ""))), key=lambda x: x[0], reverse=True)
+    undated = [i for i in idxs if not parse_date(articles[i].get("published", ""))]
+    if not dated:
+        return [idxs]
+    subs = []
+    for d, i in dated:
+        for s in subs:
+            if abs((s["newest"] - d).days) <= window:
+                s["idxs"].append(i); break
+        else:
+            subs.append({"newest": d, "idxs": [i]})
+    subs[0]["idxs"].extend(undated)
+    return [s["idxs"] for s in subs]
 
 
 def _translate_titles(articles):
@@ -292,12 +313,13 @@ def event_cluster(articles, thr=0.72):
         for grp in comm:
             for i in grp:
                 seen.add(i)
-            members = sorted((articles[i] for i in grp), key=lambda m: TIER_RANK.get(m.get("tier"), 9))
-            clusters.append({"rep": members[0], "members": members})
+            for sub in _split_by_time(grp, articles):   # one real-world event per time burst
+                members = sorted((articles[i] for i in sub), key=lambda m: TIER_RANK.get(m.get("tier"), 9))
+                clusters.append({"rep": members[0], "members": members})
         for i in range(len(articles)):
             if i not in seen:
                 clusters.append({"rep": articles[i], "members": [articles[i]]})
-        print(f"  event_cluster: {len(articles)} articles -> {len(clusters)} events (semantic, thr={thr})")
+        print(f"  event_cluster: {len(articles)} articles -> {len(clusters)} events (semantic, thr={thr}, {EVENT_WINDOW_DAYS}d window)")
         return clusters
     except Exception as e:
         print(f"  event_cluster: embeddings unavailable ({type(e).__name__}: {str(e)[:90]}) — lexical fallback")
@@ -381,13 +403,19 @@ def decompose_events(today_clusters):
     for n, cl in enumerate(big):
         heads = " || ".join((m.get("en_title") or m["title"])[:90] for m in cl["members"][:6])
         lines.append(f"{n}. {heads}")
-    prompt = ("Each numbered cluster is MULTIPLE headlines about the SAME event (multi-source, multi-lingual). "
-              "Decompose each into a structured record:\n"
-              "- digest: ONE English sentence summarising the event, <=22 words\n"
+    prompt = ("You are a component-distributor market analyst. Each numbered cluster is headlines about ONE "
+              "event. Decompose each into an analyst-grade structured record:\n"
+              "- digest: ONE English sentence stating the event SPECIFICALLY — who, what, how much, when "
+              "(<=24 words). No vague 'companies announce' without naming them if the sources name them.\n"
               "- type: one of " + EVENT_TYPES + "\n"
-              "- subject: up to 3 main companies\n- object: up to 2 main components/part families\n"
+              "- subject: the SPECIFIC companies the sources name (up to 4); if a headline says 'N companies' "
+              "but names none, leave it and note that in a claim — do NOT invent names.\n"
+              "- object: up to 2 main components/part families\n"
               '- metric: {"direction":"up|down|flat|none","magnitude":"short, e.g. +10x or +688% or \'\'"}\n'
-              "- claims: up to 4 DISTINCT, de-duplicated facts in English, <=16 words each\n"
+              "- claims: up to 4 DISTINCT facts (<=18 words) that DIRECTLY support THIS event and name "
+              "specifics (companies, figures, effective dates). EXCLUDE tangential market statistics, "
+              "stale data from earlier months, or anything not central to the headline. A fact a "
+              "distributor can act on beats a generic market-size number. Do NOT invent figures.\n"
               'Return ONLY JSON {"clusters":[{"i":<n>,"digest":"...","type":"...","subject":[],"object":[],'
               '"metric":{"direction":"","magnitude":""},"claims":[]}]}\n\n' + "\n".join(lines))
     try:
@@ -596,6 +624,11 @@ def _concept_impact(c):
     t, cid = c.get("type"), (c["key"].split(":", 1)[1] if ":" in c.get("key", "") else "")
     return {"theme": THEME_IMPACT.get(cid, 0.6), "company": 0.8, "comp": 0.7, "em": 0.45}.get(t, 0.6)
 def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
+# investor/stock-price framing — relevant to traders, NOT supply-chain intelligence; must not headline
+INVESTOR_RX = re.compile(
+    r"\b(overvalued|undervalued|valuation|price target|moving average|top pick|buy rating|sell rating|"
+    r"outperform|underperform|market cap|closed (up|down)|% ytd|year-to-date|wall ?st)\b"
+    r"|\b(stock|shares)\b.{0,14}\b(up|down|rose|fell|surg\w*|jump\w*|gain\w*|slump\w*|soar\w*|\d)", re.I)
 def _item_impact(it):
     th = max((THEME_IMPACT.get(t, 0.5) for t in it["tags"].get("themes", [])), default=0.5)
     base = max(th, ETYPE_IMPACT.get(it.get("etype", ""), 0.0))
@@ -603,10 +636,21 @@ def _item_impact(it):
     if any(ROLE_OF.get(co) in SUPPLY_ROLES for co in it["tags"].get("companies", [])) \
             and it.get("etype") in ("policy", "disruption", "m&a", "capacity-capex"):
         base = max(base, 0.95)
+    if INVESTOR_RX.search(it.get("title_en") or it.get("title", "")):
+        base = min(base, 0.35)   # stock-price moves are investor noise, not a distributor highlight
     return base
+def _recency_factor(it):
+    a = it.get("age_h")  # published-age in hours (None = undated)
+    if a is None:
+        return 0.8
+    if a <= 168:         # <= 1 week
+        return 1.0
+    if a <= 720:         # <= 30 days
+        return 0.85
+    return 0.55          # older than a month — should not headline as "current"
 def _item_priority(it):
     corrob = 1.0 + 0.12 * len(it.get("src_types", []))
-    return (_item_impact(it) ** 1.5) * corrob * math.log1p(it.get("merged", 1) or 1)
+    return (_item_impact(it) ** 1.5) * corrob * math.log1p(it.get("merged", 1) or 1) * _recency_factor(it)
 def _hl_card(i, it, sent_dir, by_key, today_key):
     keys = [k for k in entity_keys(it["tags"]) if not k.startswith("geo:")]
     sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
