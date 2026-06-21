@@ -208,20 +208,29 @@
       }).join("") + "</div>";
   }
 
-  // ---- latest trend + emerging ----
+  // ---- latest trend + emerging (Exploding-Topics-style metric cards) ----
+  var STATUS = { breaking: { l: "Exploding", c: "st-hot" }, rising: { l: "Rising", c: "st-hot" }, steady: { l: "Steady", c: "st-mid" }, active: { l: "Active", c: "st-mid" }, cooling: { l: "Cooling", c: "st-cool" } };
+  function trendCard(c, isNew) {
+    var s = STATUS[c.verdict] || STATUS.active;
+    var col = (c.verdict === "rising" || c.verdict === "breaking") ? "#b91c1c" : (c.verdict === "cooling" ? "#1d4ed8" : "#94a3b8");
+    var growth = (c.prev > 0) ? ((c.delta >= 0 ? "+" : "") + Math.round(c.delta * 100) + "%") : "new";
+    var gcls = (c.prev > 0 && c.delta < 0) ? "down" : "up";
+    var sp = spark(c.spark, col) || '<div class="tcw-flat">— momentum builds over days —</div>';
+    return '<div class="trend-card" data-cov="' + esc(c.key) + '">' + (isNew ? '<span class="tcw-new">NEW</span>' : "") +
+      '<div class="tcw-top"><span class="tcw-name">' + esc(c.label) + '</span><span class="tcw-status ' + s.c + '">' + s.l + "</span></div>" +
+      '<div class="tcw-metrics"><span class="tcw-vol"><b>' + c.count + "</b> stories</span><span class=\"tcw-growth " + gcls + '">' + growth + " growth</span></div>" +
+      '<div class="tcw-spark">' + sp + "</div></div>";
+  }
   function trendHTML() {
     var cs = (N.concepts || []).slice();
     if (!cs.length) return "";
     var rising = cs.filter(function (c) { return c.verdict === "rising" || c.verdict === "breaking"; }).sort(function (a, b) { return b.delta - a.delta; });
+    var list = (rising.length ? rising : cs).slice(0, 8);
     var emerging = cs.filter(function (c) { return c.is_new; });
-    var list = rising.length ? rising.slice(0, 7) : cs.slice(0, 7);
-    var lbl = rising.length ? "Rising" : "Most active";
-    var chips = list.map(function (c) { return '<span class="trend-chip" data-cov="' + esc(c.key) + '">' + esc(c.label) + (c.verdict === "rising" || c.verdict === "breaking" ? " ▲" : "") + " <b>" + c.count + "</b></span>"; }).join("");
-    var em = emerging.length ? emerging.map(function (c) { return '<span class="trend-chip em" data-cov="' + esc(c.key) + '">' + esc(c.label) + " <b>NEW</b></span>"; }).join("")
-      : '<span class="trend-build">building — needs a few days of history to spot what’s genuinely new</span>';
-    return '<div class="sec-title">Latest trend</div><div class="sec-sub">what’s moving this week · click a concept for its stories</div>' +
-      '<div class="trend-strip"><div class="trend-row"><span class="trend-lbl">' + lbl + '</span><div class="trend-chips">' + chips + "</div></div>" +
-      '<div class="trend-row"><span class="trend-lbl">Emerging</span><div class="trend-chips">' + em + "</div></div></div>";
+    return '<div class="sec-title">Latest trend</div><div class="sec-sub">what’s moving — volume, growth vs the 30-day baseline &amp; momentum · click a card to drill</div>' +
+      '<div class="trend-grid">' + list.map(function (c) { return trendCard(c, false); }).join("") + "</div>" +
+      (emerging.length ? '<div class="trend-emh">Emerging · new vs baseline</div><div class="trend-grid">' + emerging.map(function (c) { return trendCard(c, true); }).join("") + "</div>"
+        : '<div class="trend-build">Emerging: building — needs a few days of history to flag what’s genuinely new.</div>');
   }
 
   // ---- browse by structure (ontology tree) ----
@@ -294,10 +303,15 @@
       var more = (it.n > 1) ? '<div class="fd-more">+ ' + it.n + " reports · " + esc(it.sources.join(", ")) + "</div>" : "";
       var trk = (it.days_seen > 1) ? " · <span class=\"ev-track\">tracked " + it.days_seen + "d</span>" : "";
       var op = Math.min(1, (it.hot || 0) / 85 + 0.3).toFixed(2);
+      var head = esc(it.title_en || it.title);
+      var dig = it.digest ? '<div class="fd-dig">' + esc(it.digest) + "</div>" : "";
+      var typ = it.etype ? '<span class="fd-type">' + esc(it.etype) + "</span>" : "";
+      var mdir = it.metric && it.metric.direction;
+      var met = (mdir === "up" || mdir === "down") ? '<span class="fd-metric ' + mdir + '">' + (mdir === "up" ? "▲" : "▼") + (it.metric.magnitude ? " " + esc(it.metric.magnitude) : "") + "</span>" : "";
       return '<div class="fd-item" data-i="' + i + '"><span class="fd-dot" style="opacity:' + op + '"></span>' +
-        '<div class="fd-body"><span class="fd-head">' + esc(it.title) + "</span>" +
-        '<div class="fd-meta"><span class="fd-src">' + esc(it.sources[0]) + "</span> · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + ' · <span class="fd-corr">' + (it.sources ? it.sources.length : 1) + " src</span>" + trk + "</div>" +
-        read + '<div class="fd-tags">' + itemTagsFeed(it) + "</div>" + more + "</div></div>";
+        '<div class="fd-body"><div class="fd-headrow"><span class="fd-head">' + head + "</span>" + typ + met + "</div>" +
+        '<div class="fd-meta"><span class="fd-src">' + esc(it.sources[0]) + "</span> · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + ' · <span class="fd-corr">' + (it.sources ? it.sources.length : 1) + " src</span>" + (it.merged > 1 ? ' · <span class="fd-merged">' + it.merged + " articles</span>" : "") + (it.claims && it.claims.length ? ' · ' + it.claims.length + " facts" : "") + trk + "</div>" +
+        dig + '<div class="fd-tags">' + itemTagsFeed(it) + "</div>" + more + "</div></div>";
     }).join("");
     return '<div class="feed">' + (rows || '<div class="nempty">No stories.</div>') + "</div>";
   }
@@ -326,12 +340,25 @@
       '<div class="rail-grp">Browse by structure</div><div class="rail-tree">' + tree + "</div>";
   }
 
+  function keyPointsHTML(angle) {
+    var ts = angle ? (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(angle) >= 0; }) : (N.themes || []);
+    if (!ts.length) return "";
+    return '<div class="kp"><div class="kp-h">Key points' + (angle ? " · " + esc(cornerName(angle)) : " today") + ' <span class="dim">combined from all sources</span></div>' +
+      ts.slice(0, 6).map(function (t) {
+        var d = DIR[t.direction] || DIR.watch;
+        return '<div class="kp-row d-' + esc(t.direction) + '"><span class="kp-dir ' + d.c + '">' + d.i + "</span><div class=\"kp-b\"><div class=\"kp-hl\">" + esc(t.headline) + "</div>" + (t.so_what ? '<div class="kp-so">' + esc(t.so_what) + "</div>" : "") + "</div></div>";
+      }).join("") + "</div>";
+  }
+
   function feedView() {
     var lbl = STATE.concept ? ((N.labels && N.labels[STATE.concept]) || STATE.concept) : (STATE.angle ? cornerName(STATE.angle) : null);
     var clear = (STATE.concept || STATE.angle) ? '<button class="fclear" id="feedclear">✕ clear filter</button>' : "";
     return '<div class="split"><aside class="rail">' + railHTML() + "</aside>" +
-      '<div class="stream"><div class="sec-title">Story river' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + '</div>' +
-      '<div class="sec-sub">pick a category on the left · click a story to open it</div>' + clear + feedHTML() + "</div></div>";
+      '<div class="stream">' +
+      (N.brief ? '<div class="kp-bluf"><span class="kp-bluf-k">Bottom line</span>' + esc(N.brief) + "</div>" : "") +
+      keyPointsHTML(STATE.angle) +
+      '<div class="sec-title">Stories' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + ' <span class="dim">— sources, de-duplicated</span></div>' +
+      '<div class="sec-sub">click a story to open its facts &amp; sources</div>' + clear + feedHTML() + "</div></div>";
   }
 
   // ---- news detail modal (overlay; keeps the page underneath) ----
@@ -354,15 +381,23 @@
       (jm.watch ? '<div class="mr-line"><b>Watch</b> ' + esc(jm.watch) + "</div>" : "") + "</div>" : "";
     var rel = relatedItems(i);
     var relHTML = rel.length ? '<div class="modal-relh">Related stories</div><div class="modal-rel">' + rel.map(function (j) {
-      var rj = N.items[j]; return '<button class="mrel" data-i="' + j + '"><span class="mrel-t">' + esc(rj.title) + '</span><span class="mrel-s">' + esc(rj.sources[0]) + (rj.date ? " · " + esc(rj.date) : "") + "</span></button>";
+      var rj = N.items[j]; return '<button class="mrel" data-i="' + j + '"><span class="mrel-t">' + esc(rj.title_en || rj.title) + '</span><span class="mrel-s">' + esc(rj.sources[0]) + (rj.date ? " · " + esc(rj.date) : "") + "</span></button>";
     }).join("") + "</div>" : "";
+    var mdir = it.metric && it.metric.direction, sig = "";
+    if (it.etype) sig += '<span class="msig-type">' + esc(it.etype) + "</span>";
+    if (mdir === "up" || mdir === "down") sig += '<span class="msig-met ' + mdir + '">' + (mdir === "up" ? "▲" : "▼") + (it.metric.magnitude ? " " + esc(it.metric.magnitude) : "") + "</span>";
+    (it.subject || []).forEach(function (s) { sig += '<span class="msig-e">' + esc(s) + "</span>"; });
+    (it.object || []).forEach(function (o) { sig += '<span class="msig-e obj">' + esc(o) + "</span>"; });
+    var sigHTML = sig ? '<div class="modal-sig">' + sig + "</div>" : "";
     var ov = document.createElement("div");
     ov.className = "modal-ov"; ov.id = "newsmodal";
     ov.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-label="News detail">' +
       '<button class="modal-x" aria-label="Close">✕</button>' +
       '<div class="modal-meta"><span class="fd-src">' + esc(it.sources[0]) + "</span> · " + (it.date ? esc(it.date) : "undated") +
-      ' · <span class="fd-corr">' + (it.sources ? it.sources.length : 1) + " src</span>" + (it.days_seen > 1 ? " · tracked " + it.days_seen + "d" : "") + "</div>" +
-      '<a class="modal-head" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' + esc(it.title) + "</a>" +
+      ' · <span class="fd-corr">' + (it.sources ? it.sources.length : 1) + " src</span>" + (it.merged > 1 ? ' · <span class="fd-merged">merged ' + it.merged + " articles</span>" : "") + (it.days_seen > 1 ? " · tracked " + it.days_seen + "d" : "") + "</div>" +
+      '<a class="modal-head" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' + esc(it.title_en || it.title) + "</a>" +
+      (it.digest ? '<div class="modal-digest">' + esc(it.digest) + "</div>" : "") + sigHTML +
+      (it.claims && it.claims.length ? '<div class="modal-factsh">Key facts · de-duplicated</div><ul class="modal-facts">' + it.claims.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "") +
       read + '<div class="modal-tags">' + itemTagsFeed(it) + "</div>" + relHTML +
       '<a class="modal-open" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">Open original ↗</a></div>';
     document.body.appendChild(ov); document.body.style.overflow = "hidden";
@@ -455,7 +490,7 @@
     main.querySelectorAll(".corner[data-angle], .cov-chip[data-angle]").forEach(function (b) {
       b.onclick = function () { STATE.angle = b.getAttribute("data-angle") || null; STATE.concept = null; STATE.open = -1; render(); var k = main.querySelector(".corners"); if (k) k.scrollIntoView({ behavior: "smooth", block: "start" }); };
     });
-    main.querySelectorAll(".cov-chip[data-cov], .cf-row[data-cov], .trend-chip[data-cov], .tr-leaf[data-cov]").forEach(function (b) {
+    main.querySelectorAll(".cov-chip[data-cov], .cf-row[data-cov], .trend-card[data-cov], .tr-leaf[data-cov]").forEach(function (b) {
       b.onclick = function () { STATE.concept = b.getAttribute("data-cov"); var ce = document.getElementById("concevid"); ce.innerHTML = conceptEvidence(); ce.scrollIntoView({ behavior: "smooth", block: "nearest" }); };
     });
     // daily-3 highlight → open that judgment and scroll to it

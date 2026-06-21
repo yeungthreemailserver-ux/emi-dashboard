@@ -194,6 +194,73 @@ def cluster(articles):
     return clusters
 
 
+_EMB_MODEL = None
+def _embedder():
+    global _EMB_MODEL
+    if _EMB_MODEL is None:
+        from sentence_transformers import SentenceTransformer
+        _EMB_MODEL = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    return _EMB_MODEL
+
+TIER_RANK = {"trade": 0, "official": 1, "industry": 2, "china": 3, "regional": 3, "gnews": 4, "gdelt": 5}
+
+
+def _translate_titles(articles):
+    """Normalise non-English headlines to English (one Sonnet call/chunk) so embedding happens in a
+    single language space — the multilingual model has a language bias that otherwise lumps all
+    Chinese news into one blob. Also stored as `en_title` for a readable UI. Falls back to original."""
+    idx = [i for i, a in enumerate(articles) if any(ord(c) > 0x2E00 for c in a["title"])]
+    out = {}
+    for s in range(0, len(idx), 80):
+        sub = idx[s:s + 80]
+        lines = [f"{j}. {articles[i]['title'][:120]}" for j, i in enumerate(sub)]
+        prompt = ("Translate each numbered news headline to concise English. Keep company, product and "
+                  "part names verbatim (TSMC, MLCC, DRAM…). Return ONLY JSON "
+                  '{"t":[{"i":<n>,"en":"..."}]}.\n\n' + "\n".join(lines))
+        try:
+            r = run_claude(prompt)
+            for o in r.get("t", []):
+                k = int(o.get("i", -1))
+                if 0 <= k < len(sub) and o.get("en"):
+                    out[sub[k]] = o["en"]
+        except Exception as e:
+            print(f"  translate: chunk skipped ({type(e).__name__})")
+    return out
+
+
+def event_cluster(articles, thr=0.72):
+    """L1 — group the SAME real-world event across sources AND languages. Non-English titles are
+    translated to English first (kills the multilingual model's language bias), then clustered by
+    embedding cosine. Falls back to the lexical cluster() if the model/lib isn't available."""
+    if len(articles) < 2:
+        return cluster(articles)
+    try:
+        from sentence_transformers import util
+        model = _embedder()
+        tr = _translate_titles(articles)
+        if tr:
+            print(f"  translate: normalised {len(tr)} non-English titles to English")
+            for i, en in tr.items():
+                articles[i]["en_title"] = en
+        texts = [(articles[i].get("en_title") or articles[i]["title"]) + ". " + (articles[i].get("summary", "") or "")[:160] for i in range(len(articles))]
+        emb = model.encode(texts, normalize_embeddings=True, batch_size=64, show_progress_bar=False)
+        comm = util.community_detection(emb, threshold=thr, min_community_size=1)
+        seen, clusters = set(), []
+        for grp in comm:
+            for i in grp:
+                seen.add(i)
+            members = sorted((articles[i] for i in grp), key=lambda m: TIER_RANK.get(m.get("tier"), 9))
+            clusters.append({"rep": members[0], "members": members})
+        for i in range(len(articles)):
+            if i not in seen:
+                clusters.append({"rep": articles[i], "members": [articles[i]]})
+        print(f"  event_cluster: {len(articles)} articles -> {len(clusters)} events (semantic, thr={thr})")
+        return clusters
+    except Exception as e:
+        print(f"  event_cluster: embeddings unavailable ({type(e).__name__}: {str(e)[:90]}) — lexical fallback")
+        return cluster(articles)
+
+
 def hotness(cl, now):
     members = cl["members"]
     dates = [d for d in (parse_date(m.get("published", "")) for m in members) if d]
@@ -257,6 +324,45 @@ def run_claude(prompt):
     txt = re.sub(r"^```(?:json)?|```$", "", txt.strip(), flags=re.M).strip()
     m = re.search(r"\{.*\}", txt, re.S)
     return json.loads(m.group(0) if m else txt)
+
+
+EVENT_TYPES = "price-move|shortage|capacity-capex|m&a|product-launch|disruption|policy|demand-shift|partnership|results"
+def decompose_events(today_clusters):
+    """DECOMPOSE the top merged events into structured Signal Records — one Sonnet call.
+    Returns {cluster_key: {digest,etype,subject[],object[],metric{},claims[]}} for analytics + a clean
+    English digest per event. Skipped gracefully if the CLI is absent."""
+    big = sorted([cl for cl in today_clusters if len(cl["members"]) >= 2], key=lambda c: len(c["members"]), reverse=True)[:20]
+    if not big:
+        return {}
+    lines = []
+    for n, cl in enumerate(big):
+        heads = " || ".join((m.get("en_title") or m["title"])[:90] for m in cl["members"][:6])
+        lines.append(f"{n}. {heads}")
+    prompt = ("Each numbered cluster is MULTIPLE headlines about the SAME event (multi-source, multi-lingual). "
+              "Decompose each into a structured record:\n"
+              "- digest: ONE English sentence summarising the event, <=22 words\n"
+              "- type: one of " + EVENT_TYPES + "\n"
+              "- subject: up to 3 main companies\n- object: up to 2 main components/part families\n"
+              '- metric: {"direction":"up|down|flat|none","magnitude":"short, e.g. +10x or +688% or \'\'"}\n'
+              "- claims: up to 4 DISTINCT, de-duplicated facts in English, <=16 words each\n"
+              'Return ONLY JSON {"clusters":[{"i":<n>,"digest":"...","type":"...","subject":[],"object":[],'
+              '"metric":{"direction":"","magnitude":""},"claims":[]}]}\n\n' + "\n".join(lines))
+    try:
+        out = run_claude(prompt)
+        res = {}
+        for c in out.get("clusters", []):
+            if "i" not in c:
+                continue
+            i = int(c["i"])
+            if 0 <= i < len(big):
+                res[cluster_key(big[i]["rep"]["title"])] = {
+                    "digest": c.get("digest", ""), "etype": c.get("type", ""),
+                    "subject": c.get("subject", []) or [], "object": c.get("object", []) or [],
+                    "metric": c.get("metric", {}) or {}, "claims": c.get("claims", []) or []}
+        return res
+    except Exception as e:
+        print(f"  decompose: skipped ({type(e).__name__}: {str(e)[:80]})")
+        return {}
 
 
 def synthesize(top, clusters):
@@ -343,7 +449,7 @@ def main():
         arts.append(a)
     print(f"Relevant: {len(arts)}/{len(raw['articles'])} (strict distributor focus)")
 
-    today_clusters = cluster(arts)
+    today_clusters = event_cluster(arts)
     for cl in today_clusters:
         merged = {k: set() for k in ("companies", "end_markets", "components", "geographies", "themes")}
         for m in cl["members"]:
@@ -351,6 +457,10 @@ def main():
                 merged[k].update(m["tags"][k])
         cl["tags"] = {k: sorted(v) for k, v in merged.items()}
     print(f"Today clusters: {len(today_clusters)}")
+
+    signal_map = decompose_events(today_clusters)
+    if signal_map:
+        print(f"  decompose: structured signal records for {len(signal_map)} merged events")
 
     # ---- accumulating store: merge today into a rolling 30-day window so the result is DYNAMIC ----
     sp = os.path.join(DATA, "news_store.json")
@@ -369,14 +479,21 @@ def main():
             e["last_seen"] = today_key
             e["sources"] = sorted(set(e.get("sources", [])) | set(srcs))
             e["src_types"] = sorted(set(e.get("src_types", [])) | set(stypes))
-            e["tags"] = cl["tags"]
+            e["tags"] = cl["tags"]; e["n_articles"] = len(cl["members"])
+            e["title_en"] = rep.get("en_title") or rep["title"]
+            if signal_map.get(k):
+                e.update(signal_map[k])
             nd, od = parse_date(rep.get("published", "")), parse_date(e.get("published", ""))
             if nd and (not od or nd > od):
                 e.update({"title": rep["title"], "url": rep["url"], "source": rep["source"], "published": rep["published"]})
         else:
-            ent[k] = {"title": rep["title"], "url": rep["url"], "source": rep["source"],
+            sig = signal_map.get(k, {})
+            ent[k] = {"title": rep["title"], "title_en": rep.get("en_title") or rep["title"],
+                      "url": rep["url"], "source": rep["source"],
                       "published": rep.get("published", ""), "summary": rep.get("summary", ""),
-                      "tags": cl["tags"], "sources": srcs, "src_types": stypes,
+                      "tags": cl["tags"], "sources": srcs, "src_types": stypes, "n_articles": len(cl["members"]),
+                      "digest": sig.get("digest", ""), "etype": sig.get("etype", ""), "subject": sig.get("subject", []),
+                      "object": sig.get("object", []), "metric": sig.get("metric", {}), "claims": sig.get("claims", []),
                       "first_seen": today_key, "last_seen": today_key, "days_seen": 1}
     cutoff = (now.date() - dt.timedelta(days=STORE_DAYS)).isoformat()
     ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff}
@@ -385,10 +502,12 @@ def main():
     clusters = []
     for k, e in ent.items():
         srcs = e.get("sources") or [e["source"]]
-        cl = {"rep": {"title": e["title"], "url": e["url"], "source": e["source"],
+        cl = {"rep": {"title": e["title"], "title_en": e.get("title_en") or e["title"], "url": e["url"], "source": e["source"],
                       "published": e.get("published", ""), "summary": e.get("summary", "")},
               "tags": e["tags"], "members": [{"source": s, "published": e.get("published", "")} for s in srcs],
-              "src_types": e.get("src_types", []),
+              "src_types": e.get("src_types", []), "claims": e.get("claims", []), "n_articles": e.get("n_articles", len(srcs)),
+              "digest": e.get("digest", ""), "etype": e.get("etype", ""), "subject": e.get("subject", []),
+              "object": e.get("object", []), "metric": e.get("metric", {}),
               "first_seen": e.get("first_seen", today_key), "days_seen": e.get("days_seen", 1)}
         cl["hot"], cl["age_h"] = hotness(cl, now)
         clusters.append(cl)
@@ -418,6 +537,10 @@ def main():
                       "age_h": cl["age_h"], "hot": cl["hot"],
                       "n": len(cl["members"]), "sources": sorted({m["source"] for m in cl["members"]}),
                       "tags": cl["tags"], "src_types": cl.get("src_types", []),
+                      "title_en": rep.get("title_en") or rep["title"], "digest": cl.get("digest", ""),
+                      "etype": cl.get("etype", ""), "metric": cl.get("metric", {}),
+                      "subject": cl.get("subject", []), "object": cl.get("object", []),
+                      "claims": cl.get("claims", []), "merged": cl.get("n_articles", 1),
                       "first_seen": cl.get("first_seen", today_key), "days_seen": cl.get("days_seen", 1),
                       "angles": angle_tags(cl["tags"], rep["title"] + " " + rep.get("summary", ""))})
     by_entity = {}

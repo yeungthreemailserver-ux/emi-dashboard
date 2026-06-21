@@ -1,0 +1,7 @@
+# EMI News module — extra dependency for L1 semantic event clustering.
+# fetch_news.py / build_news.py are otherwise stdlib-only; this enables event_cluster()
+# (build falls back to lexical clustering if it's not installed, so the daily task never breaks).
+#   pip install -r scripts/news/requirements.txt
+sentence-transformers>=5.0
+# model downloaded on first run (cached under ~/.cache/huggingface):
+#   paraphrase-multilingual-MiniLM-L12-v2   (non-English titles are translated to English first)
