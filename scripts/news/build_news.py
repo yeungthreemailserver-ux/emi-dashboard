@@ -453,6 +453,9 @@ def main():
                          key=lambda x: x["count"], reverse=True),
         "end_markets": _cov("em", ONT["end_markets"]),
         "geographies": _cov("geo", ONT["geographies"]),
+        "components": _cov("comp", ONT["components"]),
+        "themes": _cov("theme", ONT["themes"]),
+        "companies": [x for x in _cov("company", ONT["companies"]) if x["count"] > 0],
         "sources": sorted(({"id": k, "label": k[:1].upper() + k[1:], "count": v} for k, v in st.items()), key=lambda x: x["count"], reverse=True),
     }
 
