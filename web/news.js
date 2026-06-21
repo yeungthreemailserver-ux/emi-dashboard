@@ -380,29 +380,57 @@
 
   function sentColor(s) { return s === "tailwind" ? "#15803d" : s === "headwind" ? "#b91c1c" : "#b45309"; }
   // two scannable highlight cards: the day's defining event + the week's dominant trend.
-  // Shown only on the unfiltered landing — when you drill into a desk, its own key points take over.
-  // one card type — every highlight is a real STORY (clickable to detail), with a 2nd-tier insight.
-  function hlCardHTML(c) {
-    var dd = DIR[c.sentiment] || DIR.watch;
-    var m = c.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
-      '<span class="hl2-met ' + m.direction + '">' + (m.direction === "up" ? "▲" : "▼") + (m.magnitude ? " " + esc(m.magnitude) : "") + "</span>" : "";
-    var badge = c.is_new ? '<span class="hl2-new">new</span>'
-      : (c.days_seen > 1 ? '<span class="hl2-track">tracked ' + c.days_seen + "d</span>" : "");
-    var sr = (c.spark || []).slice(); if (sr.length && sr.length < 2) sr = [0].concat(sr);
-    var sparkHTML = (sr.length > 1 && c.total > 1) ? '<span class="hl2-spark">' + spark(sr, sentColor(c.sentiment)) + "</span>" : "";
-    var cat = c.category ? '<span class="hl2-cat">' + esc(c.category) + "</span>" : "";
-    var insight = c.insight ? '<div class="hl2-ins">' + esc(c.insight) + "</div>" : "";
-    return '<button class="hl2-card d-' + esc(c.sentiment) + '" data-i="' + c.i + '" aria-label="Open story">' +
-      '<div class="hl2-kick">' + (c.etype ? '<span class="hl2-type">' + esc(c.etype) + "</span>" : "") + cat + badge + "</div>" +
-      '<div class="hl2-hl">' + esc(c.headline) + "</div>" + insight +
-      '<div class="hl2-meta">' + met + (c.merged > 1 ? '<span class="hl2-x">' + c.merged + " reports</span>" : "") + sparkHTML +
-      '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></button>";
+  // the per-desk analytical insights (synthesised from many decomposed stories) — the PRIMARY unit.
+  // angle → that desk's corner_insights points; no angle → the global themes. Each carries evidence.
+  function pointsFor(angle) {
+    if (angle) {
+      var ci = N.corner_insights && N.corner_insights[angle];
+      return (ci && ci.points) ? ci.points : [];
+    }
+    return (N.themes || []).map(function (t) {
+      return { headline: t.headline, so_what: t.so_what, direction: t.direction, evidence: (t.items || []) };
+    });
   }
-  // show EVERY story that clears the importance bar — ranked by the same score; click opens detail
-  function highlightStripHTML(angle) {
-    var cards = (angle && N.corner_highlights && N.corner_highlights[angle]) ? N.corner_highlights[angle] : N.highlights;
-    if (!cards || !cards.length) return "";
-    return '<div class="hl2">' + cards.map(hlCardHTML).join("") + "</div>";
+  function insightCardsHTML(angle) {
+    var pts = pointsFor(angle);
+    if (!pts.length) return "";
+    var head = angle
+      ? "Key insights · " + esc(cornerName(angle)) + ' <span class="dim">synthesised from this desk’s stories</span>'
+      : 'Key insights today <span class="dim">synthesised across all sources</span>';
+    return '<div class="sec-title">' + head + "</div><div class=\"ic-grid\">" + pts.map(function (p, k) {
+      var d = DIR[p.direction] || DIR.watch, n = (p.evidence || []).length;
+      return '<button class="ic-card d-' + esc(p.direction || "watch") + '" data-ic="' + (angle || "all") + ":" + k + '">' +
+        '<div class="ic-top"><span class="ic-dir ' + d.c + '">' + d.i + " " + d.t + "</span>" +
+        (n ? '<span class="ic-ev">' + n + " " + (n === 1 ? "story" : "stories") + " →</span>" : "") + "</div>" +
+        '<div class="ic-hl">' + esc(p.headline) + "</div>" +
+        (p.so_what ? '<div class="ic-so">' + esc(p.so_what) + "</div>" : "") + "</button>";
+    }).join("") + "</div>";
+  }
+  // evidence modal: the synthesis + the decomposed stories behind it (each opens its own detail)
+  function openEvidence(p) {
+    if (!p) return;
+    closeModal();
+    var d = DIR[p.direction] || DIR.watch;
+    var rows = (p.evidence || []).map(function (i) {
+      var it = N.items[i]; if (!it) return "";
+      return '<button class="ev-row" data-i="' + i + '"><div class="ev-h">' + esc(it.title_en || it.title) + "</div>" +
+        '<div class="ev-m">' + esc(it.sources[0]) + " · " + (it.date ? esc(it.date) : "undated") +
+        (it.merged > 1 ? " · " + it.merged + " articles" : "") + "</div></button>";
+    }).join("");
+    var ov = document.createElement("div");
+    ov.className = "modal-ov"; ov.id = "newsmodal";
+    ov.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-label="Insight evidence">' +
+      '<button class="modal-x" aria-label="Close">✕</button>' +
+      '<div class="ev-dir ' + d.c + '">' + d.i + " " + d.t + "</div>" +
+      '<div class="ev-title">' + esc(p.headline) + "</div>" +
+      (p.so_what ? '<div class="ev-so">' + esc(p.so_what) + "</div>" : "") +
+      '<div class="modal-relh">Evidence · ' + (p.evidence || []).length + " stories</div>" +
+      '<div class="ev-list">' + (rows || '<div class="nempty">No linked stories.</div>') + "</div></div>";
+    document.body.appendChild(ov); document.body.style.overflow = "hidden";
+    ov.onclick = function (e) { if (e.target === ov) closeModal(); };
+    ov.querySelector(".modal-x").onclick = closeModal;
+    document.addEventListener("keydown", escClose);
+    ov.querySelectorAll(".ev-row[data-i]").forEach(function (b) { b.onclick = function () { openModal(+b.getAttribute("data-i")); }; });
   }
   // single contextual bottom line: global when nothing/an entity is selected, the desk's own
   // bottom line when a corner is active (Option A).
@@ -415,40 +443,13 @@
     if (!text) return "";
     return '<div class="bluf"><div class="bluf-k">' + esc(kick) + '</div><div class="bluf-t">' + esc(text) + "</div></div>";
   }
-  function kpRow(headline, dir, so) {
-    var d = DIR[dir] || DIR.watch;
-    return '<div class="kp-row d-' + esc(dir) + '"><span class="kp-dir ' + d.c + '">' + d.i + '</span><div class="kp-b"><div class="kp-hl">' + esc(headline) + "</div>" + (so ? '<div class="kp-so">' + esc(so) + "</div>" : "") + "</div></div>";
-  }
-  // per-corner key points: each desk is combined from ITS OWN bucket of atoms (not the global
-  // pool sliced by angle), so corners say genuinely different things. Falls back to the global
-  // pool only if a desk has no distinct synthesis.
-  function keyPointsHTML(angle) {
-    if (angle) {
-      var ci = N.corner_insights && N.corner_insights[angle];
-      if (ci && ci.points && ci.points.length) {
-        return '<div class="kp">' +
-          '<div class="kp-h">Key points · ' + esc(cornerName(angle)) + ' <span class="dim">combined from this desk’s ' + (ci.n || ci.points.length) + " stories</span></div>" +
-          ci.points.map(function (p) { return kpRow(p.headline, p.direction, p.so_what); }).join("") + "</div>";
-      }
-      var ts = (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(angle) >= 0; });
-      if (!ts.length) return "";
-      return '<div class="kp"><div class="kp-h">Key points · ' + esc(cornerName(angle)) + ' <span class="dim">combined from all sources</span></div>' +
-        ts.slice(0, 6).map(function (t) { return kpRow(t.headline, t.direction, t.so_what); }).join("") + "</div>";
-    }
-    var all = (N.themes || []);
-    if (!all.length) return "";
-    return '<div class="kp"><div class="kp-h">Key points today <span class="dim">combined from all sources</span></div>' +
-      all.slice(0, 6).map(function (t) { return kpRow(t.headline, t.direction, t.so_what); }).join("") + "</div>";
-  }
-
   function feedView() {
     var lbl = STATE.concept ? ((N.labels && N.labels[STATE.concept]) || STATE.concept) : (STATE.angle ? cornerName(STATE.angle) : null);
     var clear = (STATE.concept || STATE.angle) ? '<button class="fclear" id="feedclear">✕ clear filter</button>' : "";
     return '<div class="split"><aside class="rail">' + railHTML() + "</aside>" +
       '<div class="stream">' +
-      (!STATE.concept ? highlightStripHTML(STATE.angle) : "") +
-      keyPointsHTML(STATE.angle) +
-      '<div class="sec-title">Stories' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + ' <span class="dim">— sources, de-duplicated</span></div>' +
+      (!STATE.concept ? insightCardsHTML(STATE.angle) : "") +
+      '<div class="sec-title">Stories' + (lbl ? ' · <span class="kj-corner">' + esc(lbl) + "</span>" : "") + ' <span class="dim">— the evidence, de-duplicated</span></div>' +
       '<div class="sec-sub">click a story to open its facts &amp; sources</div>' + clear + feedHTML() + "</div></div>";
   }
 
@@ -521,11 +522,9 @@
     // 3) KEY JUDGMENTS — a DISTINCT synthesis per corner; rich theme cards for "All news"
     var cn = STATE.angle ? cornerName(STATE.angle) : null;
     if (STATE.angle) {
-      var ci = N.corner_insights && N.corner_insights[STATE.angle];
-      html += '<div class="sec-title">Key judgments · <span class="kj-corner">' + esc(cn) + ' desk</span></div><div class="sec-sub">combined from this desk’s own stories — distinct from the other corners</div>';
-      html += keyPointsHTML(STATE.angle);
+      html += insightCardsHTML(STATE.angle);
       var evIdx = (N.byAngle && N.byAngle[STATE.angle]) || [];
-      html += '<div class="sec-title2">Stories on this desk <span class="dim">— de-duplicated</span></div>' +
+      html += '<div class="sec-title2">Stories on this desk <span class="dim">— the evidence, de-duplicated</span></div>' +
         (evIdx.length ? '<div class="conc-evid">' + evRows(evIdx) + "</div>" : '<div class="nempty">No stories.</div>');
     } else {
       html += '<div class="sec-title">Key judgments</div><div class="sec-sub">ranked assessments — what it means, what to do, what to watch · expand for talk-tracks, drivers &amp; evidence</div>';
@@ -576,9 +575,16 @@
     main.querySelectorAll(".rt-head[data-branch]").forEach(function (b) {
       b.onclick = function () { var k = b.getAttribute("data-branch"); STATE.tree[k] = !STATE.tree[k]; render(); };
     });
-    // feed story + highlight card → detail modal (keeps the page)
-    main.querySelectorAll(".fd-item[data-i], .hl2-card[data-i]").forEach(function (b) {
+    // feed story → detail modal (keeps the page)
+    main.querySelectorAll(".fd-item[data-i]").forEach(function (b) {
       b.onclick = function () { openModal(+b.getAttribute("data-i")); };
+    });
+    // insight card → evidence modal (the synthesis + its supporting stories)
+    main.querySelectorAll(".ic-card[data-ic]").forEach(function (b) {
+      b.onclick = function () {
+        var v = b.getAttribute("data-ic").split(":"), ang = v[0] === "all" ? null : v[0];
+        openEvidence(pointsFor(ang)[+v[1]]);
+      };
     });
     var fcl = document.getElementById("feedclear"); if (fcl) fcl.onclick = function () { STATE.concept = null; STATE.angle = null; render(); };
     main.querySelectorAll(".corner[data-angle], .cov-chip[data-angle]").forEach(function (b) {

@@ -168,16 +168,6 @@ def scrub_bundle(b):
                 it[f] = scrub_house(it[f])
         it["claims"] = [scrub_house(x) for x in it.get("claims", [])]
         it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
-        if it.get("angle_insights"):
-            it["angle_insights"] = {a: scrub_house(v) for a, v in it["angle_insights"].items()}
-    def _scrub_cards(cards):
-        for it in cards or []:
-            for f in ("headline", "insight", "category"):
-                if it.get(f):
-                    it[f] = scrub_house(it[f])
-    _scrub_cards(b.get("highlights"))
-    for cards in (b.get("corner_highlights") or {}).values():
-        _scrub_cards(cards)
     return b
 
 
@@ -614,87 +604,12 @@ def build_signals(clusters, hist, today_key):
             "ma_series": [hist["signal_days"].get(dk, {}).get("ma", 0) for dk in day_keys]}
 
 
-# ---------- HIGHLIGHTS: the most important STORIES right now, one consistent logic -----------
-# Every highlight is a REAL story (an item), never a category. ONE importance score ranks them all;
-# the same score decides position. New-today stories form "Today", multi-day ones "This week".
-# Each card carries a 2nd-tier insight (digest), a trend sparkline, and an item index so it opens
-# the story detail on click.
-ETYPE_IMPACT = {"policy": 1.0, "shortage": 0.95, "price-move": 0.92, "disruption": 0.9,
-                "capacity-capex": 0.85, "m&a": 0.82, "demand-shift": 0.8,
-                "product-launch": 0.65, "partnership": 0.6, "results": 0.6}
-def _concept_impact(c):
-    t, cid = c.get("type"), (c["key"].split(":", 1)[1] if ":" in c.get("key", "") else "")
-    return {"theme": THEME_IMPACT.get(cid, 0.6), "company": 0.8, "comp": 0.7, "em": 0.45}.get(t, 0.6)
-def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
-# investor/stock-price framing — relevant to traders, NOT supply-chain intelligence; must not headline
+# investor/stock-price framing — relevant to traders, NOT supply-chain intelligence; never seeds an
+# analytical insight (used to filter the per-desk synthesis pool in synthesize_corners).
 INVESTOR_RX = re.compile(
     r"\b(overvalued|undervalued|valuation|price target|moving average|top pick|buy rating|sell rating|"
     r"outperform|underperform|market cap|closed (up|down)|% ytd|year-to-date|wall ?st)\b"
     r"|\b(stock|shares)\b.{0,14}\b(up|down|rose|fell|surg\w*|jump\w*|gain\w*|slump\w*|soar\w*|\d)", re.I)
-def _item_impact(it):
-    th = max((THEME_IMPACT.get(t, 0.5) for t in it["tags"].get("themes", [])), default=0.5)
-    base = max(th, ETYPE_IMPACT.get(it.get("etype", ""), 0.0))
-    # a line-card vendor caught in a policy / disruption / M&A / capacity event = high SUPPLY impact
-    if any(ROLE_OF.get(co) in SUPPLY_ROLES for co in it["tags"].get("companies", [])) \
-            and it.get("etype") in ("policy", "disruption", "m&a", "capacity-capex"):
-        base = max(base, 0.95)
-    if INVESTOR_RX.search(it.get("title_en") or it.get("title", "")):
-        base = min(base, 0.35)   # stock-price moves are investor noise, not a distributor highlight
-    return base
-def _recency_factor(it):
-    a = it.get("age_h")  # published-age in hours (None = undated)
-    if a is None:
-        return 0.8
-    if a <= 168:         # <= 1 week
-        return 1.0
-    if a <= 720:         # <= 30 days
-        return 0.85
-    return 0.55          # older than a month — should not headline as "current"
-def _item_priority(it):
-    corrob = 1.0 + 0.12 * len(it.get("src_types", []))
-    return (_item_impact(it) ** 1.5) * corrob * math.log1p(it.get("merged", 1) or 1) * _recency_factor(it)
-def _hl_card(i, it, sent_dir, by_key, today_key, angle=None):
-    keys = [k for k in entity_keys(it["tags"]) if not k.startswith("geo:")]
-    sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
-    dom = None  # dominant concept = highest-impact entity present — drives the category chip + sparkline
-    for k in sorted((k for k in keys if k in by_key), key=lambda k: _concept_impact(by_key[k]), reverse=True):
-        dom = by_key[k]; break
-    # SAME event, DIFFERENT lens: per-desk insight when on a desk, neutral digest globally.
-    insight = (angle and (it.get("angle_insights") or {}).get(angle)) or it.get("digest") or next(iter(it.get("claims", [])), "") or ""
-    return {"i": i, "headline": it.get("title_en") or it["title"], "insight": insight,
-            "etype": it.get("etype", ""), "metric": it.get("metric", {}), "merged": it.get("merged", 1),
-            "is_new": it.get("first_seen") == today_key, "days_seen": it.get("days_seen", 1),
-            "sentiment": sentiment, "category": (dom["label"] if dom else ""),
-            "spark": (dom.get("spark") if dom else []) or [], "total": (_cum(dom) if dom else 0)}
-def _top_stories(idx_items, sent_dir, by_key, today_key, k=5, ratio=0.42, angle=None):
-    # ONE ranking over ALL stories — every one above (ratio × top priority), capped at k. No
-    # new-vs-old inclusion split (that dropped a story first-seen yesterday but tracked one day);
-    # new/tracked is shown as a badge instead.
-    ranked = sorted(idx_items, key=lambda p: _item_priority(p[1]), reverse=True)
-    if not ranked:
-        return []
-    bar = ratio * (_item_priority(ranked[0][1]) or 1.0)
-    out, seen = [], set()
-    for i, it in ranked:
-        if _item_priority(it) < bar or len(out) >= k:
-            break
-        h = it.get("title_en") or it["title"]
-        if h in seen:
-            continue
-        seen.add(h); out.append(_hl_card(i, it, sent_dir, by_key, today_key, angle))
-    return out
-def build_highlights(items, concepts, sent_dir, today_key):
-    by_key = {c["key"]: c for c in concepts}
-    return _top_stories(list(enumerate(items)), sent_dir, by_key, today_key, k=5)
-def build_corner_highlights(items, by_angle, concepts, sent_dir, today_key):
-    """Per-desk highlights — same ranking + a DESK-SPECIFIC insight on each card (angle lens)."""
-    by_key = {c["key"]: c for c in concepts}
-    out = {}
-    for aid, _label, _desc in CORNER_DEFS:
-        idx = [(i, items[i]) for i in by_angle.get(aid, [])]
-        if idx:
-            out[aid] = _top_stories(idx, sent_dir, by_key, today_key, k=4, angle=aid)
-    return out
 
 
 # ---------- COMBINE PER AREA: one synthesis per corner, not a global pool sliced ---------
@@ -713,90 +628,74 @@ CORNER_DEFS = [
     ("technology", "Technology", "roadmaps, new nodes, SiC/GaN, advanced packaging, next-gen interfaces, design-in cycles."),
     ("macro", "Macro", "the cycle — chip billings, book-to-bill, rates, FX, PMI, recovery/downturn."),
 ]
-def synthesize_corners(clusters):
+def synthesize_corners(items):
+    """The PRIMARY per-desk unit: SYNTHESISE analytical insights from each desk's decomposed stories
+    (not single articles), each carrying the evidence item-indices it draws from (so the card opens
+    its supporting stories). Runs over `items` so evidence ids == item indices. One Sonnet call."""
     buckets = {a: [] for a, _, _ in CORNER_DEFS}
-    for cl in clusters:
-        txt = (cl["rep"].get("title_en") or cl["rep"]["title"]) + " " + cl["rep"].get("summary", "")
-        for a in angle_tags(cl["tags"], txt):
+    for idx, it in enumerate(items):
+        title = it.get("title_en") or it["title"]
+        if INVESTOR_RX.search(title) or (it.get("age_h") or 0) > 720:
+            continue                                # investor noise / >30d stale never seeds an insight
+        for a in angle_tags(it["tags"], title + " " + (it.get("digest", "") or "")):
             if a in buckets:
-                buckets[a].append(cl)
+                buckets[a].append((idx, it))
     for a in buckets:
-        buckets[a] = sorted(buckets[a], key=lambda c: c.get("hot", 0), reverse=True)[:7]
+        buckets[a] = sorted(buckets[a], key=lambda p: p[1].get("hot", 0), reverse=True)[:8]
     blocks = []
     for a, label, desc in CORNER_DEFS:
         if not buckets[a]:
             continue
-        lines = []
-        for cl in buckets[a]:
-            h = (cl["rep"].get("title_en") or cl["rep"]["title"])[:95]
-            dg = cl.get("digest", "")
-            lines.append("  - " + h + (" — " + dg if dg else ""))
-        blocks.append("[" + a + "] " + label + " — lens: " + desc + "\n" + "\n".join(lines))
+        lines = [f"  [{idx}] {(it.get('title_en') or it['title'])[:95]}" + (f" — {it['digest']}" if it.get("digest") else "")
+                 for idx, it in buckets[a]]
+        blocks.append(f"=== desk a=\"{a}\" ({label}) — lens: {desc} ===\n" + "\n".join(lines))
     if not blocks:
         return {}
-    prompt = ("You are briefing a global electronic-components DISTRIBUTOR. Below are desks, each with its top "
-              "de-duplicated stories. For EACH desk, write 2-3 KEY POINTS that are SPECIFIC to that desk's lens and "
-              "DISTINCT from the other desks. DO NOT repeat the same point on two desks — if one event matters to "
-              "several desks, surface a DIFFERENT implication on each (e.g. a memory price spike is a margin window on "
-              "Products, a Samsung/Micron capacity call on Suppliers, and a smartphone build risk on End-industries). "
-              "Each point: headline (<=12 words), so_what (ONE sentence — the distributor implication or action), "
-              "direction (tailwind=good for a distributor, headwind=bad, watch=uncertain). Plus a desk bottom_line (<=20 words).\n"
-              "NEVER name Avnet, Farnell, element14, Newark or Premier Farnell — they are the house; refer to 'a major distributor' or frame as a sector read.\n"
-              'Return ONLY JSON {"desks":[{"a":"<id>","bottom_line":"...","points":[{"headline":"...","so_what":"...","direction":"tailwind|headwind|watch"}]}]}\n\n'
-              + "\n\n".join(blocks))
+    prompt = ("You are the analyst for a global electronic-components DISTRIBUTOR. Each desk below lists its "
+              "stories as `[id] headline — digest`; use the desk's a=\"…\" value VERBATIM as the JSON \"a\". "
+              "For EACH desk, SYNTHESISE 2-4 analytical INSIGHTS from "
+              "ITS stories — COMBINE related stories into one judgement; do NOT just restate a single headline. "
+              "Each insight:\n"
+              "- headline: the analytical judgement in <=13 words (a conclusion, not a copied headline)\n"
+              "- so_what: 1-2 sentences — what it means for the distributor AND the concrete action, through "
+              "THIS desk's lens\n"
+              "- direction: tailwind (good for a distributor) | headwind (bad) | watch (uncertain)\n"
+              "- evidence: the [id]s the insight draws from (1-4 ids)\n"
+              "Each desk's insights must be DISTINCT from the other desks (same event → different implication "
+              "per lens). Plus a desk bottom_line (<=20 words).\n"
+              "NEVER name Avnet/Farnell/element14/Newark — say 'a major distributor'.\n"
+              'Return ONLY JSON {"desks":[{"a":"<id>","bottom_line":"...","points":[{"headline":"...",'
+              '"so_what":"...","direction":"...","evidence":[<id>...]}]}]}\n\n' + "\n\n".join(blocks))
     try:
         out = run_claude(prompt)
+        n = len(items)
+        id_by_label = {label.lower(): aid for aid, label, _ in CORNER_DEFS}
         res = {}
         for d in out.get("desks", []):
-            a = d.get("a")
-            if a in buckets and d.get("points"):
-                pts = [{"headline": p.get("headline", ""), "so_what": p.get("so_what", ""),
-                        "direction": p.get("direction") if p.get("direction") in ("tailwind", "headwind", "watch") else "watch"}
-                       for p in d["points"][:3] if p.get("headline")]
-                if pts:
-                    res[a] = {"bottom_line": d.get("bottom_line", ""), "points": pts, "n": len(buckets[a])}
+            a = d.get("a", "")
+            a = a if a in buckets else id_by_label.get(str(a).lower(), a)   # tolerate label-as-id
+            if a not in buckets or not d.get("points"):
+                continue
+            pts = []
+            for p in d["points"][:4]:
+                if not p.get("headline"):
+                    continue
+                ev = []
+                for x in (p.get("evidence") or []):
+                    try:
+                        xi = int(x)
+                    except (TypeError, ValueError):
+                        continue
+                    if 0 <= xi < n and xi not in ev:
+                        ev.append(xi)
+                pts.append({"headline": p["headline"], "so_what": p.get("so_what", ""),
+                            "direction": p["direction"] if p.get("direction") in ("tailwind", "headwind", "watch") else "watch",
+                            "evidence": ev[:5]})
+            if pts:
+                res[a] = {"bottom_line": d.get("bottom_line", ""), "points": pts, "n": len(buckets[a])}
         return res
     except Exception as e:
         print(f"  corners: skipped ({type(e).__name__}: {str(e)[:90]})")
-        return {}
-
-
-def build_angle_insights(items, top_n=16):
-    """For the top highlight-candidate events, write a DESK-SPECIFIC insight per desk the event
-    touches — same event, different lens (Parts=the part, Suppliers=line-card vendor moves,
-    Demand=end-customer build impact, …). One Sonnet call. Returns {item_index: {angle: text}}."""
-    ranked = sorted(enumerate(items), key=lambda p: _item_priority(p[1]), reverse=True)[:top_n]
-    lines, nmap = [], {}
-    for n, (i, it) in enumerate(ranked):
-        txt = (it.get("title_en") or it["title"]) + " " + (it.get("digest", "") or "")
-        desks = [a for a in angle_tags(it["tags"], txt) if a in ANGLE_LABEL]
-        if len(desks) < 2:   # only worth it when an event spans multiple desks
-            continue
-        nmap[n] = i
-        head = (it.get("title_en") or it["title"])[:95]
-        lines.append(f"{n}. desks=[{','.join(desks)}] | {head}" + (f" — {it.get('digest','')}" if it.get("digest") else ""))
-    if not lines:
-        return {}
-    lensmap = "; ".join(f"{a}={desc}" for a, _lbl, desc in CORNER_DEFS)
-    prompt = ("You brief a component distributor's desks. Each numbered event lists the DESKS it touches. "
-              "For EACH listed desk, write ONE <=24-word insight framed through THAT desk's lens — the SAME "
-              "event must give a DIFFERENT implication and focus per desk (never repeat the same sentence). "
-              "Be specific and decision-useful (what it means / what to do for that desk).\n"
-              "Lenses: " + lensmap + "\n"
-              "NEVER name Avnet/Farnell/element14/Newark — refer to 'a major distributor'.\n"
-              'Return ONLY JSON {"events":[{"i":<n>,"angles":{"<desk>":"insight", ...}}]}\n\n' + "\n".join(lines))
-    try:
-        out = run_claude(prompt)
-        res = {}
-        for e in out.get("events", []):
-            n = e.get("i")
-            if n in nmap and isinstance(e.get("angles"), dict):
-                d = {a: v for a, v in e["angles"].items() if a in ANGLE_LABEL and v}
-                if d:
-                    res[nmap[n]] = d
-        return res
-    except Exception as ex:
-        print(f"  angle_insights: skipped ({type(ex).__name__}: {str(ex)[:80]})")
         return {}
 
 
@@ -1029,14 +928,6 @@ def main():
         sc = sent.get(c["key"])
         c["sentiment"] = max(sc, key=sc.get) if sc else "neutral"
 
-    # HIGHLIGHTS — the day's defining event + the week's dominant trend (global + per desk)
-    sent_dir = {k: max(v, key=v.get) for k, v in sent.items()}
-    # per-desk angle insights for the top events (same event → different lens per desk)
-    for i, d in build_angle_insights(items).items():
-        items[i]["angle_insights"] = d
-    highlights = build_highlights(items, concepts, sent_dir, today_key)
-    corner_highlights = build_corner_highlights(items, by_angle, concepts, sent_dir, today_key)
-
     # CONTRADICTION DETECTION — concepts where the window's sources disagree on supply/price direction
     conflicts = []
     for c in concepts:
@@ -1054,10 +945,11 @@ def main():
     print(f"  signals: {signals['n_records']} records -> {len(signals['by_type'])} types, "
           f"{len(signals['price'])} price-pressure components, M&A {signals['ma_count']}")
 
-    # COMBINE PER AREA — one distinct synthesis per corner (not the global pool sliced by angle)
-    corner_insights = synthesize_corners(clusters)
+    # COMBINE PER AREA — the PRIMARY per-desk unit: analytical insights synthesised from each desk's
+    # decomposed stories, with evidence item-indices (not single-article tiles)
+    corner_insights = synthesize_corners(items)
     if corner_insights:
-        print(f"  corners: distinct key points for {len(corner_insights)} desks ({', '.join(corner_insights)})")
+        print(f"  corners: synthesised insights for {len(corner_insights)} desks ({', '.join(corner_insights)})")
 
     bundle = {
         "as_of": raw.get("fetched", now.isoformat(timespec="seconds")),
@@ -1065,8 +957,8 @@ def main():
         "counts": {"raw": len(raw["articles"]), "relevant": len(arts), "clusters": len(clusters)},
         "brief": synth["brief"], "themes": synth["themes"],
         "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
-        "taxonomy": build_taxonomy(coverage), "signals": signals, "highlights": highlights,
-        "corner_highlights": corner_highlights, "corner_insights": corner_insights, "conflicts": conflicts,
+        "taxonomy": build_taxonomy(coverage), "signals": signals,
+        "corner_insights": corner_insights, "conflicts": conflicts,
         "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
     }
     scrub_bundle(bundle)  # house-name safety net before anything is written to the page
