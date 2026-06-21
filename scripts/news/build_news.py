@@ -14,7 +14,7 @@ forward call + breadth + emergence) instead of dumping a feed:
                  via `claude -p --model claude-sonnet-4-6`; rule-based fallback if CLI absent.
   7. emit web/news-bundle.js (window.NEWS) + roll history (30 days).
 """
-import json, os, re, sys, subprocess, datetime as dt
+import json, os, re, sys, subprocess, math, datetime as dt
 from email.utils import parsedate_to_datetime
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -585,12 +585,34 @@ def build_signals(clusters, hist, today_key):
 
 
 # ---------- HIGHLIGHTS: the day's defining event + the week's dominant trend -------------
+# IMPORTANCE-FIRST ranking (user 2026-06-21): rank by impact^1.5 × momentum × corroboration ×
+# log(volume), NOT raw volume — so a line-card-vendor ban (high impact, fewer mentions) beats a
+# loud-but-generic trend. Volume is log-damped; impact is amplified so it dominates.
+ETYPE_IMPACT = {"policy": 1.0, "shortage": 0.95, "price-move": 0.92, "disruption": 0.9,
+                "capacity-capex": 0.85, "m&a": 0.82, "demand-shift": 0.8,
+                "product-launch": 0.65, "partnership": 0.6, "results": 0.6}
+def _cluster_impact(c):
+    th = max((THEME_IMPACT.get(t, 0.5) for t in c["tags"].get("themes", [])), default=0.5)
+    base = max(th, ETYPE_IMPACT.get(c.get("etype", ""), 0.0))
+    # a line-card vendor caught in a policy / disruption / M&A / capacity event = high SUPPLY impact
+    if any(ROLE_OF.get(co) in SUPPLY_ROLES for co in c["tags"].get("companies", [])) \
+            and c.get("etype") in ("policy", "disruption", "m&a", "capacity-capex"):
+        base = max(base, 0.95)
+    return base
+def _cluster_priority(c):
+    corrob = 1.0 + 0.12 * len(c.get("src_types", []))
+    return (_cluster_impact(c) ** 1.5) * corrob * math.log1p(c.get("n_articles", 1) or 1)
+def _concept_impact(c):
+    t, cid = c.get("type"), (c["key"].split(":", 1)[1] if ":" in c.get("key", "") else "")
+    return {"theme": THEME_IMPACT.get(cid, 0.6), "company": 0.8, "comp": 0.7, "em": 0.45}.get(t, 0.6)
+_MOM = {"breaking": 1.6, "rising": 1.3, "active": 1.05, "steady": 1.0, "cooling": 0.6}
 def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
 def _active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
-def _wscore(c): return _cum(c) * {"company": 1.3, "theme": 1.15, "comp": 1.1, "em": 0.5}.get(c.get("type"), 1.0)
+def _wscore(c):
+    return (_concept_impact(c) ** 1.5) * _MOM.get(c.get("verdict", "steady"), 1.0) * math.log1p(_cum(c))
 def _daily_highlight(pool, sent_dir, today_key):
     todays = [c for c in pool if c.get("first_seen") == today_key]
-    p = sorted(todays or pool, key=lambda c: c.get("hot", 0), reverse=True)
+    p = sorted(todays or pool, key=_cluster_priority, reverse=True)
     if not p:
         return None
     c = p[0]
