@@ -391,9 +391,9 @@
       return { headline: t.headline, so_what: t.so_what, direction: t.direction, evidence: (t.items || []) };
     });
   }
-  // the dominant topic across an insight's evidence — a small category chip (like the original look).
+  // the dominant topic across an insight's evidence — drives the category chip AND a trend sparkline.
   // prefer a specific component/company/theme; fall back to the end-market so every card gets a chip.
-  function pointCategory(p) {
+  function pointTopic(p, cbk) {
     function pick(fields) {
       var cnt = {};
       (p.evidence || []).forEach(function (i) {
@@ -407,20 +407,28 @@
       return best;
     }
     var key = pick([["components", "comp"], ["companies", "company"], ["themes", "theme"]]) || pick([["end_markets", "em"]]);
-    return key ? ((N.labels && N.labels[key]) || key.split(":")[1]) : "";
+    var c = (key && cbk) ? cbk[key] : null;
+    return { label: key ? ((N.labels && N.labels[key]) || key.split(":")[1]) : "",
+             spark: c ? c.spark : null, sentiment: c ? c.sentiment : null };
   }
   function insightCardsHTML(angle) {
     var pts = pointsFor(angle);
     if (!pts.length) return "";
+    var cbk = {}; (N.concepts || []).forEach(function (c) { cbk[c.key] = c; });
     var head = angle
       ? "Key insights · " + esc(cornerName(angle)) + ' <span class="dim">synthesised from this desk’s stories</span>'
       : 'Key insights today <span class="dim">synthesised across all sources</span>';
     return '<div class="sec-title">' + head + "</div><div class=\"ic-grid\">" + pts.map(function (p, k) {
-      var d = DIR[p.direction] || DIR.watch, n = (p.evidence || []).length, cat = pointCategory(p);
+      var d = DIR[p.direction] || DIR.watch, n = (p.evidence || []).length, t = pointTopic(p, cbk);
+      var spk = "";
+      if (t.spark && t.spark.length > 1 && Math.max.apply(null, t.spark) > 0) {
+        var col = sentColor((t.sentiment && t.sentiment !== "neutral") ? t.sentiment : p.direction);
+        spk = '<span class="ic-spark">' + spark(t.spark, col) + "</span>";
+      }
       return '<button class="ic-card d-' + esc(p.direction || "watch") + '" data-ic="' + (angle || "all") + ":" + k + '">' +
         '<div class="ic-top"><span class="ic-tags"><span class="ic-dir ' + d.c + '">' + d.i + " " + d.t + "</span>" +
-        (cat ? '<span class="ic-cat">' + esc(cat) + "</span>" : "") + "</span>" +
-        (n ? '<span class="ic-ev">' + n + " " + (n === 1 ? "story" : "stories") + " →</span>" : "") + "</div>" +
+        (t.label ? '<span class="ic-cat">' + esc(t.label) + "</span>" : "") + "</span>" +
+        '<span class="ic-right">' + spk + (n ? '<span class="ic-ev">' + n + " " + (n === 1 ? "story" : "stories") + " →</span>" : "") + "</span></div>" +
         '<div class="ic-hl">' + esc(p.headline) + "</div>" +
         (p.so_what ? '<div class="ic-so">' + esc(p.so_what) + "</div>" : "") + "</button>";
     }).join("") + "</div>";

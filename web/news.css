@@ -150,6 +150,9 @@
 .ic-tags{display:flex;align-items:center;gap:6px;min-width:0;}
 .ic-dir{font-size:9.5px;font-weight:800;border-radius:5px;padding:1px 8px;white-space:nowrap;}
 .ic-cat{font-size:9.5px;font-weight:700;color:#1e3a8a;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:1px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ic-right{display:flex;align-items:center;gap:8px;flex:none;}
+.ic-spark{display:inline-flex;align-items:center;}
+.ic-spark svg{width:46px;height:16px;display:block;}
 .ic-ev{font-size:11px;font-weight:600;color:#2563eb;white-space:nowrap;}
 .ic-hl{font-size:13px;font-weight:600;line-height:1.35;color:#0f172a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .ic-so{font-size:12px;line-height:1.5;color:#64748b;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
