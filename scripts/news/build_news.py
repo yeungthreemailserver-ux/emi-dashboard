@@ -96,6 +96,18 @@ NOISE_RX = re.compile(r"\b(gaming|game console|playstation|ps5|xbox|nintendo|gef
 MACRO_RX = re.compile(r"\b(book-to-bill|wsts|sia |semiconductor sales|semiconductor billings|"
                       r"semiconductor forecast|chip sales|semiconductor market|manufacturing pmi|"
                       r"ism manufacturing|semiconductor cycle|semiconductor outlook)\b", re.I)
+# polarity for CONTRADICTION DETECTION — do sources disagree on supply/price direction?
+POS_RX = re.compile(r"\b(shortage|tight|tighten\w*|allocation|under-?supply|sold ?out|price hike|"
+                    r"price increase|prices? (?:rise|rising|jump|surge|spike)|surging|10x)\b", re.I)
+NEG_RX = re.compile(r"\b(oversupply|over-?capacity|glut|price (?:cut|drop|decline|war)|"
+                    r"prices? (?:fall|falling|drop)|easing|softening|soft demand|weak demand|"
+                    r"inventory correction|de-?stock\w*|order cut)\b", re.I)
+POS_CJK = ("涨价", "缺货", "紧缺", "短缺")
+NEG_CJK = ("降价", "砍单", "过剩", "跌价", "去库存")
+def polarity(text):
+    p = bool(POS_RX.search(text)) or any(w in text for w in POS_CJK)
+    n = bool(NEG_RX.search(text)) or any(w in text for w in NEG_CJK)
+    return p, n
 
 
 def relevance(tags, text, tier):
@@ -207,6 +219,12 @@ def entity_keys(tags):
     for gid in tags["geographies"]: keys.append("geo:" + gid)
     for th in tags["themes"]: keys.append("theme:" + th)
     return keys
+
+
+FACET_OF = {"company": "companies", "em": "end_markets", "comp": "components", "geo": "geographies", "theme": "themes"}
+def entity_in(cl, key):
+    typ, cid = key.split(":", 1)
+    return cid in cl["tags"].get(FACET_OF.get(typ, ""), [])
 
 
 def momentum_one(cnt, prior_vals):
@@ -343,12 +361,14 @@ def main():
         if not k:
             continue
         srcs = sorted({m["source"] for m in cl["members"]})
+        stypes = sorted({m.get("src_type", "") for m in cl["members"] if m.get("src_type")})
         e = ent.get(k)
         if e:
             if e.get("last_seen") != today_key:
                 e["days_seen"] = e.get("days_seen", 1) + 1
             e["last_seen"] = today_key
             e["sources"] = sorted(set(e.get("sources", [])) | set(srcs))
+            e["src_types"] = sorted(set(e.get("src_types", [])) | set(stypes))
             e["tags"] = cl["tags"]
             nd, od = parse_date(rep.get("published", "")), parse_date(e.get("published", ""))
             if nd and (not od or nd > od):
@@ -356,7 +376,7 @@ def main():
         else:
             ent[k] = {"title": rep["title"], "url": rep["url"], "source": rep["source"],
                       "published": rep.get("published", ""), "summary": rep.get("summary", ""),
-                      "tags": cl["tags"], "sources": srcs,
+                      "tags": cl["tags"], "sources": srcs, "src_types": stypes,
                       "first_seen": today_key, "last_seen": today_key, "days_seen": 1}
     cutoff = (now.date() - dt.timedelta(days=STORE_DAYS)).isoformat()
     ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff}
@@ -368,6 +388,7 @@ def main():
         cl = {"rep": {"title": e["title"], "url": e["url"], "source": e["source"],
                       "published": e.get("published", ""), "summary": e.get("summary", "")},
               "tags": e["tags"], "members": [{"source": s, "published": e.get("published", "")} for s in srcs],
+              "src_types": e.get("src_types", []),
               "first_seen": e.get("first_seen", today_key), "days_seen": e.get("days_seen", 1)}
         cl["hot"], cl["age_h"] = hotness(cl, now)
         clusters.append(cl)
@@ -396,7 +417,8 @@ def main():
                       "published": rep.get("published", ""), "date": dd.date().isoformat() if dd else "",
                       "age_h": cl["age_h"], "hot": cl["hot"],
                       "n": len(cl["members"]), "sources": sorted({m["source"] for m in cl["members"]}),
-                      "tags": cl["tags"], "first_seen": cl.get("first_seen", today_key), "days_seen": cl.get("days_seen", 1),
+                      "tags": cl["tags"], "src_types": cl.get("src_types", []),
+                      "first_seen": cl.get("first_seen", today_key), "days_seen": cl.get("days_seen", 1),
                       "angles": angle_tags(cl["tags"], rep["title"] + " " + rep.get("summary", ""))})
     by_entity = {}
     for i, it in enumerate(items):
@@ -482,6 +504,17 @@ def main():
                     if not kk.startswith("geo:"):
                         ekeys.add(kk)
         t["spark"] = [sum(day_map.get(d, {}).get(k, 0) for k in ekeys) for d in day_keys] if ekeys else []
+        # corroboration = independent backing for this judgment. Source TYPES (trade/aggregator/
+        # regional/industry/official) are the real independence signal — distinct source NAMES
+        # under-count because "Google News" collapses many outlets into one label.
+        srcset, typeset = set(), set()
+        for i in ev:
+            if i < len(items):
+                srcset.update(items[i]["sources"])
+                typeset.update(items[i].get("src_types", []))
+        t["corrob"] = len(srcset)
+        t["corrob_types"] = len(typeset)
+        t["thin"] = (t.get("confidence") == "high" and len(typeset) <= 1 and len(srcset) <= 1)
 
     # concept sentiment = distributor read, inherited from the themes a concept appears in
     # (so the treemap can colour by good/bad on day 1, before momentum history exists)
@@ -501,12 +534,25 @@ def main():
         sc = sent.get(c["key"])
         c["sentiment"] = max(sc, key=sc.get) if sc else "neutral"
 
+    # CONTRADICTION DETECTION — concepts where the window's sources disagree on supply/price direction
+    conflicts = []
+    for c in concepts:
+        pos = neg = 0
+        for cl in clusters:
+            if entity_in(cl, c["key"]):
+                p, n = polarity(cl["rep"]["title"] + " " + cl["rep"].get("summary", ""))
+                pos += p; neg += n
+        if pos >= 2 and neg >= 2 and min(pos, neg) >= 0.3 * max(pos, neg):
+            conflicts.append({"key": c["key"], "label": c["label"], "type": c["type"], "pos": pos, "neg": neg})
+    conflicts.sort(key=lambda x: -(x["pos"] + x["neg"]))
+
     bundle = {
         "as_of": raw.get("fetched", now.isoformat(timespec="seconds")),
         "generated": now.isoformat(timespec="seconds"),
         "counts": {"raw": len(raw["articles"]), "relevant": len(arts), "clusters": len(clusters)},
         "brief": synth["brief"], "themes": synth["themes"],
         "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
+        "conflicts": conflicts,
         "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
     }
     out_path = os.path.join(WEB, "news-bundle.js")

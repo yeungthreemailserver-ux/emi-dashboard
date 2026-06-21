@@ -55,7 +55,10 @@
         '<div class="tc-lbl">Evidence (' + (t.items ? t.items.length : 0) + ')</div><div class="tc-evid">' + evRows(t.items) + "</div></div>";
     }
     return '<div class="tcard d-' + esc(t.direction) + (open ? " open" : "") + '" data-theme="' + i + '">' +
-      '<div class="tc-top"><span class="tc-dir ' + d.c + '" data-dir="' + t.direction + '">' + d.i + " " + d.t + "</span>" + conf + '<span class="tc-angs">' + angc + "</span></div>" +
+      '<div class="tc-top"><span class="tc-dir ' + d.c + '" data-dir="' + t.direction + '">' + d.i + " " + d.t + "</span>" + conf +
+      (t.corrob_types ? '<span class="tc-corr">✓ ' + t.corrob_types + " source type" + (t.corrob_types > 1 ? "s" : "") + "</span>" : "") +
+      (t.thin ? '<span class="tc-thin">⚠ thinly sourced</span>' : "") +
+      '<span class="tc-angs">' + angc + "</span></div>" +
       '<div class="tc-headline">' + esc(t.headline) + "</div>" +
       (t.so_what ? '<div class="tc-sowhat">' + esc(t.so_what) + "</div>" : "") +
       (t.action ? '<div class="tc-line tc-act"><b>Act</b>' + esc(t.action) + "</div>" : "") +
@@ -181,6 +184,15 @@
       '<div class="cov-panel">' + row("Lenses", cv.angles, "angle") + row("End-markets", cv.end_markets, "em") + row("Geographies", cv.geographies, "geo") + srcRow + "</div>";
   }
 
+  function conflictsHTML() {
+    var cf = N.conflicts || [];
+    if (!cf.length) return "";
+    return '<div class="sec-title">Signal conflicts</div><div class="sec-sub">where this week\'s sources <b>disagree</b> on direction — treat as uncertain, verify before acting</div>' +
+      '<div class="conflicts">' + cf.map(function (x) {
+        return '<div class="cf-row" data-cov="' + esc(x.key) + '"><span class="cf-lbl">' + esc(x.label) + '</span><span class="cf-bars"><span class="cf-pos">▲ ' + x.pos + " tightening/up</span><span class=\"cf-neg\">▼ " + x.neg + " easing/down</span></span></div>";
+      }).join("") + "</div>";
+  }
+
   function render() {
     var c = N.counts || {}, asof = (N.as_of || "").slice(0, 10);
     var html = '<div class="nhead"><h1>News &amp; Trends</h1><div class="nmeta">week of <b>' + esc(asof) + '</b> · ' + (c.clusters || 0) + ' stories analysed · curated free sources · Sonnet analysis</div></div>';
@@ -198,6 +210,9 @@
     html += '<div class="angle-bar">' + angBtns + "</div>";
     var vis = STATE.angle ? (N.themes || []).filter(function (t) { return (t.angles || []).indexOf(STATE.angle) >= 0; }) : (N.themes || []);
     html += '<div class="themes">' + vis.map(function (t) { return themeCard(t, (N.themes || []).indexOf(t)); }).join("") + "</div>";
+
+    // signal conflicts (sources disagree) — a credibility/uncertainty check
+    html += conflictsHTML();
 
     // 3) MARKET LANDSCAPE — descriptive heat map (supporting, not the headline)
     var comps = (N.concepts || []).filter(function (x) { return x.type === "comp"; }).slice(0, 3).map(function (x) { return x.label.split(/[ /&]/)[0].toLowerCase(); });
@@ -223,7 +238,7 @@
     main.querySelectorAll(".angle-chip[data-angle], .cov-chip[data-angle]").forEach(function (b) {
       b.onclick = function () { STATE.angle = b.getAttribute("data-angle") || null; STATE.open = -1; render(); window.scrollTo({ top: 0, behavior: "smooth" }); };
     });
-    main.querySelectorAll(".cov-chip[data-cov]").forEach(function (b) {
+    main.querySelectorAll(".cov-chip[data-cov], .cf-row[data-cov]").forEach(function (b) {
       b.onclick = function () { STATE.concept = b.getAttribute("data-cov"); var ce = document.getElementById("concevid"); ce.innerHTML = conceptEvidence(); ce.scrollIntoView({ behavior: "smooth", block: "nearest" }); };
     });
     main.querySelectorAll(".tcard[data-theme]").forEach(function (card) {
