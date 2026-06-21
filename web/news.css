@@ -140,17 +140,17 @@
 /* insight cards — the PRIMARY per-desk unit: a synthesis (not a single article), opens its evidence */
 .ic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0 0 18px;}
 @media(max-width:640px){.ic-grid{grid-template-columns:1fr;}}
-.ic-card{display:block;width:100%;text-align:left;font:inherit;background:#fff;border:1px solid #e5e9f0;border-left:4px solid #94a3b8;border-radius:10px;padding:13px 16px;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;}
+.ic-card{display:block;width:100%;text-align:left;font:inherit;background:#fff;border:1px solid #e5e9f0;border-left:4px solid #94a3b8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;}
 .ic-card:hover{box-shadow:0 4px 16px rgba(15,23,42,.08);transform:translateY(-1px);border-color:#cbd5e1;}
 .ic-card:focus-visible{outline:2px solid #2563eb;outline-offset:2px;}
 .ic-card.d-tailwind{border-left-color:#15803d;}
 .ic-card.d-headwind{border-left-color:#b91c1c;}
 .ic-card.d-watch{border-left-color:#b45309;}
-.ic-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;}
-.ic-dir{font-size:10px;font-weight:800;border-radius:5px;padding:1px 8px;}
+.ic-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.ic-dir{font-size:9.5px;font-weight:800;border-radius:5px;padding:1px 8px;}
 .ic-ev{font-size:11px;font-weight:600;color:#2563eb;white-space:nowrap;}
-.ic-hl{font-size:15px;font-weight:600;line-height:1.4;color:#0f172a;}
-.ic-so{font-size:12.5px;line-height:1.55;color:#475569;margin-top:6px;}
+.ic-hl{font-size:14px;font-weight:600;line-height:1.35;color:#0f172a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ic-so{font-size:12px;line-height:1.5;color:#64748b;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 /* evidence modal — the synthesis + the decomposed stories behind it */
 .ev-dir{display:inline-block;font-size:10px;font-weight:800;border-radius:5px;padding:2px 9px;margin-bottom:8px;}
 .ev-title{font-size:18px;font-weight:700;line-height:1.3;color:var(--ink);margin:0 0 8px;}
