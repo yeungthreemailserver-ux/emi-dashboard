@@ -381,35 +381,28 @@
   function sentColor(s) { return s === "tailwind" ? "#15803d" : s === "headwind" ? "#b91c1c" : "#b45309"; }
   // two scannable highlight cards: the day's defining event + the week's dominant trend.
   // Shown only on the unfiltered landing — when you drill into a desk, its own key points take over.
-  function eventCardHTML(d) {
-    var dd = DIR[d.sentiment] || DIR.watch;
-    var m = d.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
+  // one card type — every highlight is a real STORY (clickable to detail), with a 2nd-tier insight.
+  function hlCardHTML(c) {
+    var dd = DIR[c.sentiment] || DIR.watch;
+    var m = c.metric || {}, met = (m.direction === "up" || m.direction === "down") ?
       '<span class="hl2-met ' + m.direction + '">' + (m.direction === "up" ? "▲" : "▼") + (m.magnitude ? " " + esc(m.magnitude) : "") + "</span>" : "";
-    return '<div class="hl2-card d-' + esc(d.sentiment) + '">' +
-      '<div class="hl2-kick"><span class="hl2-tag">Today</span><span class="hl2-cap">defining story</span>' + (d.is_new ? '<span class="hl2-new">new</span>' : "") + "</div>" +
-      '<div class="hl2-hl">' + esc(d.headline) + "</div>" +
-      '<div class="hl2-meta">' + (d.etype ? '<span class="hl2-type">' + esc(d.etype) + "</span>" : "") + met +
-      (d.merged > 1 ? '<span class="hl2-x">' + d.merged + " reports</span>" : "") +
-      '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></div>";
+    var badge = c.is_new ? '<span class="hl2-new">new</span>'
+      : (c.days_seen > 1 ? '<span class="hl2-track">tracked ' + c.days_seen + "d</span>" : "");
+    var sr = (c.spark || []).slice(); if (sr.length && sr.length < 2) sr = [0].concat(sr);
+    var sparkHTML = (sr.length > 1 && c.total > 1) ? '<span class="hl2-spark">' + spark(sr, sentColor(c.sentiment)) + "</span>" : "";
+    var cat = c.category ? '<span class="hl2-cat">' + esc(c.category) + "</span>" : "";
+    var insight = c.insight ? '<div class="hl2-ins">' + esc(c.insight) + "</div>" : "";
+    return '<button class="hl2-card d-' + esc(c.sentiment) + '" data-i="' + c.i + '" aria-label="Open story">' +
+      '<div class="hl2-kick">' + (c.etype ? '<span class="hl2-type">' + esc(c.etype) + "</span>" : "") + cat + badge + "</div>" +
+      '<div class="hl2-hl">' + esc(c.headline) + "</div>" + insight +
+      '<div class="hl2-meta">' + met + (c.merged > 1 ? '<span class="hl2-x">' + c.merged + " reports</span>" : "") + sparkHTML +
+      '<span class="hl2-read ' + dd.c + '">' + dd.i + " " + dd.t + "</span></div></button>";
   }
-  function trendCardHTML(w) {
-    var wd = DIR[w.sentiment] || DIR.watch;
-    var sr = (w.spark || []).slice(); if (sr.length < 2) sr = [0].concat(sr);
-    return '<div class="hl2-card d-' + esc(w.sentiment) + '">' +
-      '<div class="hl2-kick"><span class="hl2-tag">This week</span><span class="hl2-cap">trend</span><span class="hl2-trend">' + esc(w.verdict) + "</span></div>" +
-      '<div class="hl2-hl">' + esc(w.label) + (w.headline ? '<span class="hl2-sub">' + esc(w.headline) + "</span>" : "") + "</div>" +
-      '<div class="hl2-meta"><span class="hl2-spark">' + spark(sr, sentColor(w.sentiment)) + "</span>" +
-      '<span class="hl2-x">' + w.total + " mentions · " + w.days + "d tracked</span>" +
-      '<span class="hl2-read ' + wd.c + '">' + wd.i + " " + wd.t + "</span></div></div>";
-  }
-  // show EVERY highlight that clears the importance bar (events + trends), not just one of each
+  // show EVERY story that clears the importance bar — ranked by the same score; click opens detail
   function highlightStripHTML(angle) {
-    var h = (angle && N.corner_highlights && N.corner_highlights[angle]) ? N.corner_highlights[angle] : N.highlights;
-    if (!h) return "";
-    var daily = h.daily || [], weekly = h.weekly || [];
-    if (!daily.length && !weekly.length) return "";
-    var cards = daily.map(eventCardHTML).join("") + weekly.map(trendCardHTML).join("");
-    return '<div class="hl2">' + cards + "</div>";
+    var cards = (angle && N.corner_highlights && N.corner_highlights[angle]) ? N.corner_highlights[angle] : N.highlights;
+    if (!cards || !cards.length) return "";
+    return '<div class="hl2">' + cards.map(hlCardHTML).join("") + "</div>";
   }
   // single contextual bottom line: global when nothing/an entity is selected, the desk's own
   // bottom line when a corner is active (Option A).
@@ -583,8 +576,8 @@
     main.querySelectorAll(".rt-head[data-branch]").forEach(function (b) {
       b.onclick = function () { var k = b.getAttribute("data-branch"); STATE.tree[k] = !STATE.tree[k]; render(); };
     });
-    // feed story → detail modal (keeps the page)
-    main.querySelectorAll(".fd-item[data-i]").forEach(function (b) {
+    // feed story + highlight card → detail modal (keeps the page)
+    main.querySelectorAll(".fd-item[data-i], .hl2-card[data-i]").forEach(function (b) {
       b.onclick = function () { openModal(+b.getAttribute("data-i")); };
     });
     var fcl = document.getElementById("feedclear"); if (fcl) fcl.onclick = function () { STATE.concept = null; STATE.angle = null; render(); };

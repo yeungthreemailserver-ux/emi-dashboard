@@ -27,7 +27,8 @@ WEB = os.path.join(ROOT, "web")
 ONT = json.load(open(os.path.join(DATA, "ontology.json"), encoding="utf-8"))
 
 SYNTH_INPUT_N = 45      # clusters fed to the synthesis LLM (extractive pre-select)
-MAX_ITEMS = 140         # evidence clusters written to the bundle
+MAX_ITEMS = 600         # evidence clusters written to the bundle (≈ whole window, so highlights
+                        # can rank over EVERY story and stay clickable; the feed still shows ~90)
 STORE_DAYS = 30         # rolling-window length for the accumulating knowledge store
 CONCEPTS_N = 22         # concepts for the treemap
 RIVER_N = 7             # concepts tracked in the themeriver
@@ -167,15 +168,14 @@ def scrub_bundle(b):
                 it[f] = scrub_house(it[f])
         it["claims"] = [scrub_house(x) for x in it.get("claims", [])]
         it["subject"] = [scrub_house(x) for x in it.get("subject", [])]
-    def _scrub_hl(hl):
-        for side in ("daily", "weekly"):
-            for item in (hl.get(side) or []):
-                for f in ("headline", "digest", "label"):
-                    if item.get(f):
-                        item[f] = scrub_house(item[f])
-    _scrub_hl(b.get("highlights") or {})
-    for hl in (b.get("corner_highlights") or {}).values():
-        _scrub_hl(hl)
+    def _scrub_cards(cards):
+        for it in cards or []:
+            for f in ("headline", "insight", "category"):
+                if it.get(f):
+                    it[f] = scrub_house(it[f])
+    _scrub_cards(b.get("highlights"))
+    for cards in (b.get("corner_highlights") or {}).values():
+        _scrub_cards(cards)
     return b
 
 
@@ -584,99 +584,69 @@ def build_signals(clusters, hist, today_key):
             "ma_series": [hist["signal_days"].get(dk, {}).get("ma", 0) for dk in day_keys]}
 
 
-# ---------- HIGHLIGHTS: the day's defining event + the week's dominant trend -------------
-# IMPORTANCE-FIRST ranking (user 2026-06-21): rank by impact^1.5 × momentum × corroboration ×
-# log(volume), NOT raw volume — so a line-card-vendor ban (high impact, fewer mentions) beats a
-# loud-but-generic trend. Volume is log-damped; impact is amplified so it dominates.
+# ---------- HIGHLIGHTS: the most important STORIES right now, one consistent logic -----------
+# Every highlight is a REAL story (an item), never a category. ONE importance score ranks them all;
+# the same score decides position. New-today stories form "Today", multi-day ones "This week".
+# Each card carries a 2nd-tier insight (digest), a trend sparkline, and an item index so it opens
+# the story detail on click.
 ETYPE_IMPACT = {"policy": 1.0, "shortage": 0.95, "price-move": 0.92, "disruption": 0.9,
                 "capacity-capex": 0.85, "m&a": 0.82, "demand-shift": 0.8,
                 "product-launch": 0.65, "partnership": 0.6, "results": 0.6}
-def _cluster_impact(c):
-    th = max((THEME_IMPACT.get(t, 0.5) for t in c["tags"].get("themes", [])), default=0.5)
-    base = max(th, ETYPE_IMPACT.get(c.get("etype", ""), 0.0))
-    # a line-card vendor caught in a policy / disruption / M&A / capacity event = high SUPPLY impact
-    if any(ROLE_OF.get(co) in SUPPLY_ROLES for co in c["tags"].get("companies", [])) \
-            and c.get("etype") in ("policy", "disruption", "m&a", "capacity-capex"):
-        base = max(base, 0.95)
-    return base
-def _cluster_priority(c):
-    corrob = 1.0 + 0.12 * len(c.get("src_types", []))
-    return (_cluster_impact(c) ** 1.5) * corrob * math.log1p(c.get("n_articles", 1) or 1)
 def _concept_impact(c):
     t, cid = c.get("type"), (c["key"].split(":", 1)[1] if ":" in c.get("key", "") else "")
     return {"theme": THEME_IMPACT.get(cid, 0.6), "company": 0.8, "comp": 0.7, "em": 0.45}.get(t, 0.6)
-_MOM = {"breaking": 1.6, "rising": 1.3, "active": 1.05, "steady": 1.0, "cooling": 0.6}
 def _cum(c): return sum(c.get("spark") or [c.get("count", 0)])
-def _active_days(c): return sum(1 for x in (c.get("spark") or []) if x > 0)
-def _wscore(c):
-    return (_concept_impact(c) ** 1.5) * _MOM.get(c.get("verdict", "steady"), 1.0) * math.log1p(_cum(c))
-def _event_card(c, sent_dir, today_key):
-    keys = [k for k in entity_keys(c["tags"]) if not k.startswith("geo:")]
+def _item_impact(it):
+    th = max((THEME_IMPACT.get(t, 0.5) for t in it["tags"].get("themes", [])), default=0.5)
+    base = max(th, ETYPE_IMPACT.get(it.get("etype", ""), 0.0))
+    # a line-card vendor caught in a policy / disruption / M&A / capacity event = high SUPPLY impact
+    if any(ROLE_OF.get(co) in SUPPLY_ROLES for co in it["tags"].get("companies", [])) \
+            and it.get("etype") in ("policy", "disruption", "m&a", "capacity-capex"):
+        base = max(base, 0.95)
+    return base
+def _item_priority(it):
+    corrob = 1.0 + 0.12 * len(it.get("src_types", []))
+    return (_item_impact(it) ** 1.5) * corrob * math.log1p(it.get("merged", 1) or 1)
+def _hl_card(i, it, sent_dir, by_key, today_key):
+    keys = [k for k in entity_keys(it["tags"]) if not k.startswith("geo:")]
     sentiment = next((sent_dir[k] for k in keys if sent_dir.get(k) in ("tailwind", "headwind")), "watch")
-    return {"headline": c["rep"].get("title_en") or c["rep"]["title"], "digest": c.get("digest", ""),
-            "etype": c.get("etype", ""), "metric": c.get("metric", {}), "merged": c.get("n_articles", 1),
-            "is_new": c.get("first_seen") == today_key, "sentiment": sentiment}
-def _trend_card(c, items, by_entity, restrict=None):
-    idxs = by_entity.get(c["key"], [])
-    if restrict is not None:
-        idxs = [i for i in idxs if i in restrict]
-    cand = sorted((items[i] for i in idxs),
-                  key=lambda it: (1 if it.get("digest") else 0, it.get("merged", 1), it.get("n", 1)), reverse=True)
-    return {"label": c["label"], "key": c["key"], "type": c.get("type", ""), "total": _cum(c),
-            "spark": c.get("spark", []), "days": _active_days(c), "verdict": c.get("verdict", "active"),
-            "sentiment": c.get("sentiment", "watch"),
-            "headline": (cand[0].get("title_en") or cand[0]["title"]) if cand else ""}
-# Show EVERY item that clears the importance bar (>= ratio × the top score), capped at k — not just one.
-def _top_events(pool, sent_dir, today_key, k=3, ratio=0.5):
-    base = [c for c in pool if c.get("first_seen") == today_key] or pool
-    ranked = sorted(base, key=_cluster_priority, reverse=True)
+    dom = None  # dominant concept = highest-impact entity present — drives the category chip + sparkline
+    for k in sorted((k for k in keys if k in by_key), key=lambda k: _concept_impact(by_key[k]), reverse=True):
+        dom = by_key[k]; break
+    insight = it.get("digest") or next(iter(it.get("claims", [])), "") or ""
+    return {"i": i, "headline": it.get("title_en") or it["title"], "insight": insight,
+            "etype": it.get("etype", ""), "metric": it.get("metric", {}), "merged": it.get("merged", 1),
+            "is_new": it.get("first_seen") == today_key, "days_seen": it.get("days_seen", 1),
+            "sentiment": sentiment, "category": (dom["label"] if dom else ""),
+            "spark": (dom.get("spark") if dom else []) or [], "total": (_cum(dom) if dom else 0)}
+def _top_stories(idx_items, sent_dir, by_key, today_key, k=5, ratio=0.42):
+    # ONE ranking over ALL stories — every one above (ratio × top priority), capped at k. No
+    # new-vs-old inclusion split (that dropped a story first-seen yesterday but tracked one day);
+    # new/tracked is shown as a badge instead.
+    ranked = sorted(idx_items, key=lambda p: _item_priority(p[1]), reverse=True)
     if not ranked:
         return []
-    bar = ratio * (_cluster_priority(ranked[0]) or 1.0)
+    bar = ratio * (_item_priority(ranked[0][1]) or 1.0)
     out, seen = [], set()
-    for c in ranked:
-        if _cluster_priority(c) < bar or len(out) >= k:
+    for i, it in ranked:
+        if _item_priority(it) < bar or len(out) >= k:
             break
-        h = c["rep"].get("title_en") or c["rep"]["title"]
+        h = it.get("title_en") or it["title"]
         if h in seen:
             continue
-        seen.add(h); out.append(_event_card(c, sent_dir, today_key))
+        seen.add(h); out.append(_hl_card(i, it, sent_dir, by_key, today_key))
     return out
-def _top_trends(concept_pool, items, by_entity, restrict=None, drop_em=False, k=3, ratio=0.5, exclude=None):
-    pool = [c for c in concept_pool if not (drop_em and c.get("type") == "em")] or concept_pool
-    sustained = [c for c in pool if _active_days(c) >= 2]
-    ranked = sorted(sustained or pool, key=_wscore, reverse=True)
-    if not ranked:
-        return []
-    bar = ratio * (_wscore(ranked[0]) or 1.0)
-    out, seen = [], set(exclude or [])
-    for c in ranked:
-        if _wscore(c) < bar or len(out) >= k:
-            break
-        card = _trend_card(c, items, by_entity, restrict)
-        if card["headline"] and card["headline"] in seen:
-            continue
-        seen.add(card["headline"]); out.append(card)
-    return out
-def build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key):
-    daily = _top_events(clusters, sent_dir, today_key, k=3)
-    weekly = _top_trends(concepts, items, by_entity, k=3, exclude={d["headline"] for d in daily})
-    return {"daily": daily, "weekly": weekly}
-def build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent_dir, today_key):
-    """Per-desk Today/This-week — every event/trend on the desk that clears the importance bar."""
+def build_highlights(items, concepts, sent_dir, today_key):
+    by_key = {c["key"]: c for c in concepts}
+    return _top_stories(list(enumerate(items)), sent_dir, by_key, today_key, k=5)
+def build_corner_highlights(items, by_angle, concepts, sent_dir, today_key):
+    """Per-desk highlights — same ranking, restricted to the desk's own stories (by_angle)."""
     by_key = {c["key"]: c for c in concepts}
     out = {}
     for aid, _label, _desc in CORNER_DEFS:
-        cc = [c for c in clusters
-              if aid in angle_tags(c["tags"], (c["rep"].get("title_en") or c["rep"]["title"]) + " " + c["rep"].get("summary", ""))]
-        if not cc:
-            continue
-        ckeys = {k for c in cc for k in entity_keys(c["tags"]) if not k.startswith("geo:") and k in by_key}
-        cpool = [by_key[k] for k in ckeys]
-        daily = _top_events(cc, sent_dir, today_key, k=2)
-        weekly = _top_trends(cpool, items, by_entity, set(by_angle.get(aid, [])), drop_em=True, k=2,
-                             exclude={d["headline"] for d in daily})
-        out[aid] = {"daily": daily, "weekly": weekly}
+        idx = [(i, items[i]) for i in by_angle.get(aid, [])]
+        if idx:
+            out[aid] = _top_stories(idx, sent_dir, by_key, today_key, k=4)
     return out
 
 
@@ -975,8 +945,8 @@ def main():
 
     # HIGHLIGHTS — the day's defining event + the week's dominant trend (global + per desk)
     sent_dir = {k: max(v, key=v.get) for k, v in sent.items()}
-    highlights = build_highlights(clusters, concepts, items, by_entity, sent_dir, today_key)
-    corner_highlights = build_corner_highlights(clusters, concepts, items, by_entity, by_angle, sent_dir, today_key)
+    highlights = build_highlights(items, concepts, sent_dir, today_key)
+    corner_highlights = build_corner_highlights(items, by_angle, concepts, sent_dir, today_key)
 
     # CONTRADICTION DETECTION — concepts where the window's sources disagree on supply/price direction
     conflicts = []
