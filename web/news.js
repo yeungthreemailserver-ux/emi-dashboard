@@ -391,6 +391,24 @@
       return { headline: t.headline, so_what: t.so_what, direction: t.direction, evidence: (t.items || []) };
     });
   }
+  // the dominant topic across an insight's evidence — a small category chip (like the original look).
+  // prefer a specific component/company/theme; fall back to the end-market so every card gets a chip.
+  function pointCategory(p) {
+    function pick(fields) {
+      var cnt = {};
+      (p.evidence || []).forEach(function (i) {
+        var it = N.items[i]; if (!it) return;
+        fields.forEach(function (f) {
+          (it.tags[f[0]] || []).forEach(function (id) { var key = f[1] + ":" + id; cnt[key] = (cnt[key] || 0) + 1; });
+        });
+      });
+      var best = null, bn = 0;
+      Object.keys(cnt).forEach(function (k) { if (cnt[k] > bn) { bn = cnt[k]; best = k; } });
+      return best;
+    }
+    var key = pick([["components", "comp"], ["companies", "company"], ["themes", "theme"]]) || pick([["end_markets", "em"]]);
+    return key ? ((N.labels && N.labels[key]) || key.split(":")[1]) : "";
+  }
   function insightCardsHTML(angle) {
     var pts = pointsFor(angle);
     if (!pts.length) return "";
@@ -398,9 +416,10 @@
       ? "Key insights · " + esc(cornerName(angle)) + ' <span class="dim">synthesised from this desk’s stories</span>'
       : 'Key insights today <span class="dim">synthesised across all sources</span>';
     return '<div class="sec-title">' + head + "</div><div class=\"ic-grid\">" + pts.map(function (p, k) {
-      var d = DIR[p.direction] || DIR.watch, n = (p.evidence || []).length;
+      var d = DIR[p.direction] || DIR.watch, n = (p.evidence || []).length, cat = pointCategory(p);
       return '<button class="ic-card d-' + esc(p.direction || "watch") + '" data-ic="' + (angle || "all") + ":" + k + '">' +
-        '<div class="ic-top"><span class="ic-dir ' + d.c + '">' + d.i + " " + d.t + "</span>" +
+        '<div class="ic-top"><span class="ic-tags"><span class="ic-dir ' + d.c + '">' + d.i + " " + d.t + "</span>" +
+        (cat ? '<span class="ic-cat">' + esc(cat) + "</span>" : "") + "</span>" +
         (n ? '<span class="ic-ev">' + n + " " + (n === 1 ? "story" : "stories") + " →</span>" : "") + "</div>" +
         '<div class="ic-hl">' + esc(p.headline) + "</div>" +
         (p.so_what ? '<div class="ic-so">' + esc(p.so_what) + "</div>" : "") + "</button>";
