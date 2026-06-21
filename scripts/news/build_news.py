@@ -97,6 +97,19 @@ NOISE_RX = re.compile(r"\b(gaming|game console|playstation|ps5|xbox|nintendo|gef
 REPORTMILL_RX = re.compile(r"\bcagr\b|\bspargers?\b|\bsintered metal mesh\b|"
                            r"market\b[^.]{0,45}\b20(2[7-9]|3[0-9])\b|"
                            r"\bmarket (size|share|outlook|trajectory)\b", re.I)
+# investor / stock-price / fund-holding framing — trader content, NOT supply-chain intelligence
+INVESTOR_RX = re.compile(
+    r"\b(overvalued|undervalued|valuation|price target|moving average|top pick|buy rating|sell rating|"
+    r"outperform|underperform|market cap|closed (up|down)|% ytd|year-to-date|wall ?st|stock price|"
+    r"stock quote|share price|shares of|13f|investment management|asset management|capital management)\b"
+    r"|\bstock \(|\b(stock|shares)\b.{0,14}\b(up|down|rose|fell|surg\w*|jump\w*|gain\w*|slump\w*|soar\w*|\d)"
+    r"|\b(acquires?|boosts?|trims?|raises?|cuts?|sells?|buys?)\b[^.]{0,30}\b(shares?|stake|position|holdings?)\b"
+    r"|\b(fair value|hiding in plain sight|bull case|bear case|buy the dip|price-to-earnings|p/e ratio|dividend yield)\b"
+    r"|\bstock\b[^.]{0,30}\b(fair value|rally|hiding|bull|bear|upside|downside|target|undervalued|overvalued)\b", re.I)
+# investor-content domains — Seeking Alpha / Trefis / simplywall.st etc. are trader sites, not supply news
+INVESTOR_DOMAIN_RX = re.compile(
+    r"(seekingalpha|trefis|simplywall|fool\.com|motleyfool|zacks|tipranks|benzinga|marketbeat|gurufocus|"
+    r"stocktwits|barchart|insidermonkey|investorplace|24/7wallst|247wallst|nasdaq\.com/articles|stockstotrade|tradingview)", re.I)
 # industry-macro signals (often have no part tag, but matter for the Macro lens) — let them through
 MACRO_RX = re.compile(r"\b(book-to-bill|wsts|sia |semiconductor sales|semiconductor billings|"
                       r"semiconductor forecast|chip sales|semiconductor market|manufacturing pmi|"
@@ -136,6 +149,8 @@ def relevance(tags, text, tier):
         s -= 3.0
     if REPORTMILL_RX.search(text):
         s -= 5.0                              # SEO report-mill spam — drop it
+    if INVESTOR_RX.search(text):
+        s -= 4.0                              # investor/stock-price noise — keep only if a strong supply signal also fires
     return s
 
 
@@ -604,14 +619,6 @@ def build_signals(clusters, hist, today_key):
             "ma_series": [hist["signal_days"].get(dk, {}).get("ma", 0) for dk in day_keys]}
 
 
-# investor/stock-price framing — relevant to traders, NOT supply-chain intelligence; never seeds an
-# analytical insight (used to filter the per-desk synthesis pool in synthesize_corners).
-INVESTOR_RX = re.compile(
-    r"\b(overvalued|undervalued|valuation|price target|moving average|top pick|buy rating|sell rating|"
-    r"outperform|underperform|market cap|closed (up|down)|% ytd|year-to-date|wall ?st)\b"
-    r"|\b(stock|shares)\b.{0,14}\b(up|down|rose|fell|surg\w*|jump\w*|gain\w*|slump\w*|soar\w*|\d)", re.I)
-
-
 # ---------- COMBINE PER AREA: one synthesis per corner, not a global pool sliced ---------
 # The fix for "every corner looks the same": instead of synthesising ONE global set of
 # judgments and filtering them by angle, we bucket the atoms BY framework area (corner) and
@@ -709,6 +716,8 @@ def main():
     for a in raw["articles"]:
         if not a.get("title") or not a.get("url"):
             continue
+        if INVESTOR_DOMAIN_RX.search(a.get("url", "")):
+            continue                              # investor-blog domain — never supply intelligence
         text = a["title"] + " " + a.get("summary", "")
         tags = tag(text)
         if not is_relevant(tags, text, a.get("tier", "gnews")):
@@ -764,7 +773,12 @@ def main():
                       "object": sig.get("object", []), "metric": sig.get("metric", {}), "claims": sig.get("claims", []),
                       "first_seen": today_key, "last_seen": today_key, "days_seen": 1}
     cutoff = (now.date() - dt.timedelta(days=STORE_DAYS)).isoformat()
-    ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff}
+    # prune by age AND purge accumulated investor/report-mill spam (older entries may pre-date the
+    # source filter, so the rolling window stays clean, not just new ingestion)
+    def _spam(e):
+        t = (e.get("title_en") or e.get("title", ""))
+        return bool(INVESTOR_RX.search(t) or REPORTMILL_RX.search(t))
+    ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff and not _spam(e)}
 
     # working set = the rolling window — this is what we synthesise, score and show
     clusters = []
