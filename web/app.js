@@ -310,6 +310,12 @@ function openCompany(tk) {
         ${stat('This-Q Rev', fUSD(rc.this_q_usd))}${stat('This-Q YoY', fSign(rc.this_q_yoy), rc.this_q_yoy)}${stat('This-Q QoQ', fSign(rc.this_q_qoq), rc.this_q_qoq)}
         ${stat('Next-Q Rev', fUSD(rc.next_q_usd))}${stat('Next-Q YoY', fSign(rc.next_q_yoy), rc.next_q_yoy)}${stat('EPS YoY (nextQ)', fSign(ec.next_q_yoy), ec.next_q_yoy)}</div>
       <div class="note">Consensus = mean of ${rc.num_analysts || '—'} analyst estimates. Company-issued guidance (CEO/CFO) is a later phase — this is the analyst consensus midpoint.</div></div>`;
+  // cross-lens: what the NEWS desk is saying about this company right now (shared ontology)
+  if (window.EMINews && EMINews.ready()) {
+    const nkey = EMINews.companyKey(c.name) || EMINews.companyKey(c.ticker);
+    const blk = nkey ? EMINews.block([nkey], (c.name || c.ticker) + ' — in the news now') : '';
+    if (blk) document.getElementById('m-body').innerHTML += blk;
+  }
   document.getElementById('scrim').classList.add('open'); document.getElementById('modal').classList.add('open');
   coChart(c);
 }

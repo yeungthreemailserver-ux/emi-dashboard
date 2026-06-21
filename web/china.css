@@ -135,6 +135,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 'InterVar',-a
 .nb-so{font-size:12px;line-height:1.45;background:#f0f7ff;border:1px solid #dbeafe;border-radius:7px;padding:6px 9px;color:#1e3a5f;margin:6px 0 4px;}
 .nb-so b{color:#1d4ed8;font-weight:700;}
 .nb-foot{font-size:10px;color:var(--faint);margin-top:8px;}
+.nb-sig{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.nb-dir{font-size:9.5px;font-weight:800;border-radius:5px;padding:1px 8px;}
+.nb-tw{color:#047857;background:#ecfdf5;}.nb-hw{color:#b91c1c;background:#fef2f2;}.nb-wa{color:#b45309;background:#fffbeb;}
+.nb-n{font-size:10.5px;color:var(--muted);font-weight:600;}
+.nb-spark{margin-left:auto;display:inline-flex;align-items:center;}
+.nb-lead{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:2px;}
 /* city name label beside the canvas circle dot (anchor "left" marker — never drifts) */
 .citylbl{font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:5px;padding:1px 6px;white-space:nowrap;box-shadow:0 1px 4px rgba(15,23,42,.14);cursor:pointer;}
 .citylbl:hover{color:var(--blue);border-color:var(--blue);z-index:6;}

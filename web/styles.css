@@ -597,3 +597,23 @@ tr.grp:hover td, tr.grp:hover .sticky { filter: brightness(0.985); }
 .cv-hdr .cv-why { color: var(--text-faint); }
 .cv-why.quote { font-style: italic; color: var(--text-faint); }
 .cv-why.llm { color: var(--text-dim); }
+
+/* shared News widget (EMINews.block) — self-contained so it renders inside the company modal */
+.newsblock{background:#fff;border:1px solid #e5e9f0;border-radius:12px;padding:13px 15px;margin-top:16px;}
+.nb-h{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#64748b;margin-bottom:9px;}
+.nb-more{font-size:11px;font-weight:600;color:#2563eb;text-decoration:none;text-transform:none;letter-spacing:0;}
+.nb-more:hover{text-decoration:underline;}
+.nb-sig{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.nb-dir{font-size:9.5px;font-weight:800;border-radius:5px;padding:1px 8px;}
+.nb-tw{color:#047857;background:#ecfdf5;}.nb-hw{color:#b91c1c;background:#fef2f2;}.nb-wa{color:#b45309;background:#fffbeb;}
+.nb-n{font-size:10.5px;color:#64748b;font-weight:600;}
+.nb-spark{margin-left:auto;display:inline-flex;align-items:center;}
+.nb-lead{font-size:13.5px;font-weight:600;color:#0f172a;line-height:1.4;margin-bottom:2px;}
+.nb-so{font-size:12px;line-height:1.45;background:#f0f7ff;border:1px solid #dbeafe;border-radius:7px;padding:6px 9px;color:#1e3a5f;margin:6px 0 4px;}
+.nb-item{display:flex;align-items:baseline;gap:8px;padding:5px 0;text-decoration:none;border-top:1px solid #eef1f5;}
+.nb-item:first-of-type{border-top:none;}
+.nb-dot{flex:none;width:5px;height:5px;border-radius:50%;background:#2563eb;transform:translateY(-2px);}
+.nb-tt{flex:1;font-size:13px;color:#0f172a;line-height:1.35;}
+.nb-item:hover .nb-tt{color:#2563eb;text-decoration:underline;}
+.nb-src{flex:none;font-size:10.5px;color:#94a3b8;font-weight:600;white-space:nowrap;}
+.nb-foot{font-size:10px;color:#94a3b8;margin-top:8px;}

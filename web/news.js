@@ -4,6 +4,11 @@
   var N = window.NEWS;
   var main = document.getElementById("main");
   var STATE = { open: -1, concept: null, angle: null, tree: { supply: true }, view: "feed" };
+  // deep link from Atlas / Earnings: news.html?focus=<covkey> pre-filters the feed to that entity
+  try {
+    var _focus = new URLSearchParams(window.location.search).get("focus");
+    if (_focus) STATE.concept = _focus;
+  } catch (e) { }
   var ANGLEL = {};
   ((window.NEWS && window.NEWS.angles) || []).forEach(function (a) { ANGLEL[a.id] = a.label; });
 
