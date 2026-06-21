@@ -81,6 +81,7 @@
 .evrow:hover .ev-tt{color:var(--blue);text-decoration:underline;}
 .ev-src{flex:none;font-size:10px;color:var(--faint);font-weight:600;white-space:nowrap;}
 .ev-src .undated{font-style:italic;color:#b45309;font-weight:600;}
+.ev-track{color:var(--blue);font-weight:600;}
 
 /* hot-concept treemap + themeriver */
 /* consulting-exhibit frame for the heat map */

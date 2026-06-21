@@ -68,11 +68,12 @@ def stamp(arts, src, source_name):
     return arts
 
 
+GNEWS_LANG = {"zh": ("zh-CN", "CN", "CN:zh"), "ja": ("ja", "JP", "JP:ja"),
+              "de": ("de", "DE", "DE:de"), "en": ("en-US", "US", "US:en")}
+
 def fetch_gnews(q, lang):
-    if lang == "zh":
-        url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q) + "&hl=zh-CN&gl=CN&ceid=CN:zh"
-    else:
-        url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q) + "&hl=en-US&gl=US&ceid=US:en"
+    hl, gl, ceid = GNEWS_LANG.get(lang, GNEWS_LANG["en"])
+    url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q) + f"&hl={hl}&gl={gl}&ceid={ceid}"
     return parse_feed(http_get(url))[:12]
 
 

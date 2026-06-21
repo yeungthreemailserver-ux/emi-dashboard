@@ -31,3 +31,5 @@ data/paste/
 # News module — regenerable each daily run (raw fetch input + run log); the bundle + history are kept
 data/news_raw.json
 data/news_last_run.txt
+# rolling cluster store — local accumulating state (grows to MB, like a cache/db)
+data/news_store.json

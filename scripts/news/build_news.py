@@ -28,6 +28,7 @@ ONT = json.load(open(os.path.join(DATA, "ontology.json"), encoding="utf-8"))
 
 SYNTH_INPUT_N = 45      # clusters fed to the synthesis LLM (extractive pre-select)
 MAX_ITEMS = 140         # evidence clusters written to the bundle
+STORE_DAYS = 30         # rolling-window length for the accumulating knowledge store
 CONCEPTS_N = 22         # concepts for the treemap
 RIVER_N = 7             # concepts tracked in the themeriver
 SOURCE_WEIGHT = {"SemiEngineering": 1.0, "EE Times": 1.0, "Federal Register": 1.0,
@@ -158,6 +159,12 @@ def tokens(s):
     for i in range(len(cjk) - 1):
         toks.add(cjk[i:i + 2])
     return toks
+
+
+def cluster_key(title):
+    """stable cross-day signature so the same storyline merges across runs (token set, CJK-aware)."""
+    t = tokens(title)
+    return ("|".join(sorted(t))[:240]) if t else re.sub(r"[^a-z0-9]+", "", title.lower())[:80]
 
 
 def cluster(articles):
@@ -318,16 +325,54 @@ def main():
         arts.append(a)
     print(f"Relevant: {len(arts)}/{len(raw['articles'])} (strict distributor focus)")
 
-    clusters = cluster(arts)
-    for cl in clusters:
+    today_clusters = cluster(arts)
+    for cl in today_clusters:
         merged = {k: set() for k in ("companies", "end_markets", "components", "geographies", "themes")}
         for m in cl["members"]:
             for k in merged:
                 merged[k].update(m["tags"][k])
         cl["tags"] = {k: sorted(v) for k, v in merged.items()}
+    print(f"Today clusters: {len(today_clusters)}")
+
+    # ---- accumulating store: merge today into a rolling 30-day window so the result is DYNAMIC ----
+    sp = os.path.join(DATA, "news_store.json")
+    store = json.load(open(sp, encoding="utf-8")) if os.path.exists(sp) else {}
+    ent = store.get("entries", {})
+    for cl in today_clusters:
+        rep = cl["rep"]; k = cluster_key(rep["title"])
+        if not k:
+            continue
+        srcs = sorted({m["source"] for m in cl["members"]})
+        e = ent.get(k)
+        if e:
+            if e.get("last_seen") != today_key:
+                e["days_seen"] = e.get("days_seen", 1) + 1
+            e["last_seen"] = today_key
+            e["sources"] = sorted(set(e.get("sources", [])) | set(srcs))
+            e["tags"] = cl["tags"]
+            nd, od = parse_date(rep.get("published", "")), parse_date(e.get("published", ""))
+            if nd and (not od or nd > od):
+                e.update({"title": rep["title"], "url": rep["url"], "source": rep["source"], "published": rep["published"]})
+        else:
+            ent[k] = {"title": rep["title"], "url": rep["url"], "source": rep["source"],
+                      "published": rep.get("published", ""), "summary": rep.get("summary", ""),
+                      "tags": cl["tags"], "sources": srcs,
+                      "first_seen": today_key, "last_seen": today_key, "days_seen": 1}
+    cutoff = (now.date() - dt.timedelta(days=STORE_DAYS)).isoformat()
+    ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff}
+
+    # working set = the rolling window — this is what we synthesise, score and show
+    clusters = []
+    for k, e in ent.items():
+        srcs = e.get("sources") or [e["source"]]
+        cl = {"rep": {"title": e["title"], "url": e["url"], "source": e["source"],
+                      "published": e.get("published", ""), "summary": e.get("summary", "")},
+              "tags": e["tags"], "members": [{"source": s, "published": e.get("published", "")} for s in srcs],
+              "first_seen": e.get("first_seen", today_key), "days_seen": e.get("days_seen", 1)}
         cl["hot"], cl["age_h"] = hotness(cl, now)
+        clusters.append(cl)
     clusters.sort(key=lambda c: c["hot"], reverse=True)
-    print(f"Clusters: {len(clusters)}")
+    print(f"Window clusters: {len(clusters)} (rolling {STORE_DAYS}d store, was {len(today_clusters)} today)")
 
     # history (prior days, before today)
     hist = {}
@@ -336,7 +381,7 @@ def main():
         hist = json.load(open(hp, encoding="utf-8"))
     prior_days = [d for k, d in sorted(hist.get("days", {}).items()) if k < today_key][-7:]
 
-    # per-entity counts today
+    # per-entity counts over the current window
     today_counts = {}
     for cl in clusters:
         for key in set(entity_keys(cl["tags"])):
@@ -351,7 +396,7 @@ def main():
                       "published": rep.get("published", ""), "date": dd.date().isoformat() if dd else "",
                       "age_h": cl["age_h"], "hot": cl["hot"],
                       "n": len(cl["members"]), "sources": sorted({m["source"] for m in cl["members"]}),
-                      "tags": cl["tags"],
+                      "tags": cl["tags"], "first_seen": cl.get("first_seen", today_key), "days_seen": cl.get("days_seen", 1),
                       "angles": angle_tags(cl["tags"], rep["title"] + " " + rep.get("summary", ""))})
     by_entity = {}
     for i, it in enumerate(items):
@@ -473,6 +518,11 @@ def main():
     hist["days"] = dict(sorted(hist["days"].items())[-30:])
     json.dump(hist, open(hp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"History: {len(hist['days'])} day(s) tracked")
+
+    store["entries"] = ent
+    store["updated"] = today_key
+    json.dump(store, open(sp, "w", encoding="utf-8"), ensure_ascii=False)
+    print(f"Store: {len(ent)} clusters in rolling {STORE_DAYS}d window")
     return 0
 
 

@@ -33,7 +33,8 @@
   function evRows(indices) {
     return (indices || []).slice(0, 8).map(function (i) {
       var it = N.items[i]; if (!it) return "";
-      return '<a class="evrow" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer"><span class="ev-dot"></span><span class="ev-tt">' + esc(it.title) + '</span><span class="ev-src">' + esc(it.sources[0]) + " · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + "</span></a>";
+      var trk = (it.days_seen > 1) ? ' · <span class="ev-track">tracked ' + it.days_seen + "d</span>" : "";
+      return '<a class="evrow" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer"><span class="ev-dot"></span><span class="ev-tt">' + esc(it.title) + '</span><span class="ev-src">' + esc(it.sources[0]) + " · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + trk + "</span></a>";
     }).join("");
   }
   function themeCard(t, i) {
@@ -161,7 +162,7 @@
     var its = (N.byEntity[STATE.concept] || []).map(function (i) { return N.items[i]; }).filter(Boolean).slice(0, 8);
     var lbl = (N.labels && N.labels[STATE.concept]) || STATE.concept;
     return '<div class="conc-evid"><div class="ce-h">Evidence for <b>' + esc(lbl) + "</b> (" + its.length + ")</div>" +
-      (its.length ? its.map(function (it) { return '<a class="evrow" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer"><span class="ev-dot"></span><span class="ev-tt">' + esc(it.title) + '</span><span class="ev-src">' + esc(it.sources[0]) + " · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + "</span></a>"; }).join("") : '<div class="nempty">No stories.</div>') + "</div>";
+      (its.length ? its.map(function (it) { var trk = (it.days_seen > 1) ? ' · <span class="ev-track">tracked ' + it.days_seen + "d</span>" : ""; return '<a class="evrow" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer"><span class="ev-dot"></span><span class="ev-tt">' + esc(it.title) + '</span><span class="ev-src">' + esc(it.sources[0]) + " · " + (it.date ? esc(it.date) : '<i class="undated">undated</i>') + trk + "</span></a>"; }).join("") : '<div class="nempty">No stories.</div>') + "</div>";
   }
 
   function coverageHTML() {
