@@ -53,6 +53,20 @@ def git_publish():
         print(f"git publish skipped ({type(e).__name__}: {str(e)[:120]})")
 
 
+def cloudflare_deploy():
+    """Publish the freshly built site to Cloudflare (Workers Static Assets) via wrangler, so the
+    live emi-dashboard.*.workers.dev updates daily. Needs a one-time `npx wrangler login`. No-ops
+    gracefully if wrangler/auth is missing (the local build still succeeds)."""
+    try:
+        win = (os.name == "nt")
+        cmd = "npx --yes wrangler@latest deploy" if win else ["npx", "--yes", "wrangler@latest", "deploy"]
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=600, shell=win)
+        ok = r.returncode == 0
+        print("cloudflare deploy: " + ("ok — live site updated" if ok else "FAILED — " + ((r.stderr or r.stdout).strip()[-200:])))
+    except Exception as e:
+        print(f"cloudflare deploy skipped ({type(e).__name__}: {str(e)[:120]})")
+
+
 def main():
     start = dt.datetime.now()
     print(f"EMI News daily run @ {start.isoformat(timespec='seconds')}")
@@ -62,7 +76,8 @@ def main():
     rc = step("build_news.py")
     if rc == 0:
         stamp_cache()
-        git_publish()
+        cloudflare_deploy()   # publish the updated site to Cloudflare
+        git_publish()         # also push to GitHub as a version backup
     status = "OK" if rc == 0 else f"FAIL(build rc={rc})"
     log = os.path.join(ROOT, "data", "news_last_run.txt")
     with open(log, "a", encoding="utf-8") as f:

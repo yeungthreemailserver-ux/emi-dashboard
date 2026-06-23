@@ -1,0 +1,9 @@
+# Cloudflare deploy config for the EMI static site (Workers Static Assets).
+# `npx wrangler deploy` (run from the project root) publishes the web/ folder as
+# emi-dashboard.yeungthreemailserver.workers.dev. The daily build calls this automatically.
+name = "emi-dashboard"
+compatibility_date = "2026-06-22"
+
+[assets]
+directory = "./web"
+# web/_redirects handles routing (site root -> /home.html); .html is auto-normalised by Cloudflare.
