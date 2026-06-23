@@ -31,6 +31,28 @@ def stamp_cache():
     print(f"Cache-stamped news-bundle -> v={ver} on {n} page(s)")
 
 
+def git_publish():
+    """Commit the day's regenerated bundle + cache-stamped pages and push, so the live
+    Cloudflare Pages site auto-redeploys. No-ops gracefully if there's no remote / auth /
+    git — the local build still succeeds. Local secrets (Claude token, raw fetch, store)
+    are git-ignored and never leave the machine."""
+    try:
+        g = ["git", "-C", ROOT]
+        if not subprocess.run(g + ["remote"], capture_output=True, text=True).stdout.strip():
+            print("git: no remote — skipping push (configure one to go live; see DEPLOY.md)")
+            return
+        subprocess.run(g + ["add", "web", "data/news_history.json"], check=False)
+        msg = "News: daily auto-build " + dt.datetime.now().strftime("%Y-%m-%d")
+        c = subprocess.run(g + ["commit", "-m", msg], capture_output=True, text=True)
+        if c.returncode != 0 and "nothing to commit" in (c.stdout + c.stderr):
+            print("git: nothing changed today — no push")
+            return
+        p = subprocess.run(g + ["push"], capture_output=True, text=True)
+        print("git push: " + ("ok — Cloudflare will redeploy" if p.returncode == 0 else "FAILED — " + p.stderr.strip()[:160]))
+    except Exception as e:
+        print(f"git publish skipped ({type(e).__name__}: {str(e)[:120]})")
+
+
 def main():
     start = dt.datetime.now()
     print(f"EMI News daily run @ {start.isoformat(timespec='seconds')}")
@@ -40,6 +62,7 @@ def main():
     rc = step("build_news.py")
     if rc == 0:
         stamp_cache()
+        git_publish()
     status = "OK" if rc == 0 else f"FAIL(build rc={rc})"
     log = os.path.join(ROOT, "data", "news_last_run.txt")
     with open(log, "a", encoding="utf-8") as f:
