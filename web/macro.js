@@ -29,7 +29,23 @@ const mkEl = (el, opt) => { const c = echarts.init(el); c.setOption(opt); charts
 const disposeAll = () => { charts.forEach(c => { try { c.dispose(); } catch (e) {} }); charts.length = 0; };
 
 /* ---- series accessors (everything normalised to [{x, v}] ascending) ---- */
-const wstsName = S => (S.wsts_region || {})[STATE.region];
+/* region selector config (client-side; the bundle only ships APAC/EMEA/AMER, we add Worldwide + Japan,
+   which are distinct WSTS regions — "Asia Pacific" in WSTS excludes Japan) */
+function regionCfg(S) {
+  const names = Object.assign({}, ...Object.values(S.region_names || {}), { JPN: "Japan" });
+  const allEcon = [...new Set(Object.values(S.regions || {}).flat())];
+  return {
+    WW:   { wsts: "Worldwide",    econ: allEcon,                      auto: "sum",  label: "Worldwide" },
+    APAC: { wsts: "Asia Pacific", econ: (S.regions || {}).APAC || [], auto: "APAC", label: "APAC" },
+    JPN:  { wsts: "Japan",        econ: ["JPN"],                      auto: null,   label: "Japan" },
+    EMEA: { wsts: "Europe",       econ: (S.regions || {}).EMEA || [], auto: "EMEA", label: "EMEA" },
+    AMER: { wsts: "Americas",     econ: (S.regions || {}).AMER || [], auto: "AMER", label: "AMER" },
+    _names: names,
+  };
+}
+const RC = () => (STATE.cfg || {})[STATE.region] || {};
+const regionLabel = () => RC().label || STATE.region;
+const wstsName = S => RC().wsts;
 const wstsSeries = (S, sheet) => { const w = (S.wsts || {})[sheet] || {}; return w[wstsName(S)] || []; };
 const billingsPts = S => wstsSeries(S, "mma3").map(p => ({ x: p.ym, v: p.val }));
 function capexCombined(hs) {
@@ -40,9 +56,19 @@ function capexCombined(hs) {
 const capexPts = S => capexCombined(S.hyperscaler_capex).filter(r => r.n >= 3).map(r => ({ x: r.q, v: r.sum }));
 const fredPts = (S, id) => { const o = (S.fred || {})[id]; return o && o.points ? o.points.map(p => ({ x: p.date, v: +p.value })) : []; };
 const wbPts = (S, iso, code) => { const p = (((S.worldbank || {})[iso] || {}).series || {})[code]; return p && p.points ? p.points.map(q => ({ x: q.date, v: +q.value })) : []; };
-const regionEcon = S => (S.regions || {})[STATE.region] || [];
-const econName = (S, iso) => ((S.region_names || {})[STATE.region] || {})[iso] || iso;
-const autoPts = S => (((S.auto || {}).production_by_region || {})[STATE.region] || []).map(p => ({ x: String(p.year), v: p.units }));
+const regionEcon = S => RC().econ || [];
+const econName = (S, iso) => ((STATE.cfg || {})._names || {})[iso] || iso;
+function autoPts(S) {                                          // Japan has no own auto series (→ none); Worldwide = sum of regions
+  const cfg = RC(), pr = (S.auto || {}).production_by_region || {};
+  if (cfg.auto == null) return [];
+  if (cfg.auto === "sum") { const by = {}; Object.values(pr).forEach(a => (a || []).forEach(p => { by[p.year] = (by[p.year] || 0) + p.units; })); return Object.keys(by).sort().map(y => ({ x: String(y), v: by[y] })); }
+  return (pr[cfg.auto] || []).map(p => ({ x: String(p.year), v: p.units }));
+}
+/* economies of the current region, largest GDP first; pass n to cap (keeps Worldwide comparisons readable) */
+function coreEcon(S, n) {
+  const arr = regionEcon(S).map(iso => ({ iso, v: (wbPts(S, iso, "NY.GDP.MKTP.CD").slice(-1)[0] || {}).v || 0 })).sort((a, b) => b.v - a.v);
+  return (n ? arr.slice(0, n) : arr).map(x => x.iso);
+}
 
 function leaderGDP(S) {
   let best = null;
@@ -195,9 +221,9 @@ const CATEGORIES = [
 
 /* build the live indicator list for the current region (each carries computed metrics) */
 function buildIndicators(S) {
-  const R = STATE.region, out = [];
+  const R = regionLabel(), out = [];
   const add = (def) => {
-    if (def.regions && def.regions.indexOf(R) < 0) return;     // not tracked for this region
+    if (def.regions && def.regions.indexOf(STATE.region) < 0) return;     // not tracked for this region
     const pts = def.pts; if (!pts || pts.length < 2) return;
     out.push({ ...def, m: vsHistory(pts, def.ppy, def.mode), v: verdict(def.kind, vsHistory(pts, def.ppy, def.mode)) });
   };
@@ -240,7 +266,7 @@ function buildIndicators(S) {
 function regimeRead(S, inds) {
   const by = k => inds.filter(i => i.cat === k);
   const cyc = by("cycle")[0];
-  if (!cyc || !cyc.m) return `${STATE.region} — semiconductor market environment`;
+  if (!cyc || !cyc.m) return `${regionLabel()} — semiconductor market environment`;
   const phase = cyc.v.word.toLowerCase();
   const bits = [`billings ${pct(cyc.m.dir)} YoY${cyc.m.pctile != null ? ` (${cyc.m.pctile}th pctile of ${cyc.m.yearsHist}y)` : ""}`];
   const cap = by("demand").find(i => i.label.indexOf("capex") >= 0);
@@ -249,7 +275,7 @@ function regimeRead(S, inds) {
   if (ind && ind.m) bits.push(`industrial output ${ind.v.word.toLowerCase()}`);
   const pr = by("prices")[0];
   if (pr && pr.m) bits.push(`prices ${pr.v.word.toLowerCase()}`);
-  return `${STATE.region} semis: ${phase} — ${bits.join(" · ")}.`;
+  return `${regionLabel()} semis: ${phase} — ${bits.join(" · ")}.`;
 }
 
 function climateBoardHTML(S, inds) {
@@ -315,7 +341,7 @@ function renderIndustry(S) {
   if (us.length) defs.push({ name: "US", color: PALETTE[0], data: align(us, true) });
   if (kr.length) defs.push({ name: "Korea", color: PALETTE[1], data: align(kr, false) });
   if (jp.length) defs.push({ name: "Japan", color: PALETTE[2], data: align(jp, false) });
-  const active = { APAC: "Korea", AMER: "US", EMEA: "" }[STATE.region];
+  const active = { WW: "", APAC: "Korea", JPN: "Japan", AMER: "US", EMEA: "" }[STATE.region];
   if (defs.length) compareLines("ch_ind", months, defs, active, { unit: "YoY %", rate: true, fmt: v => v == null ? "—" : (v >= 0 ? "+" : "") + v + "%", zoom: true, zoomStart: 50 });
   // secondary: US INDPRO level+YoY combo
   if (us.length) comboChart("ch_indpro", us.map(p => p.x), us.map(p => +p.v.toFixed(1)), yoyArr(us, 12),
@@ -326,28 +352,27 @@ function renderPrices(S) {
   const ppi = fredPts(S, "PPIACO");
   if (ppi.length) comboChart("ch_ppi", ppi.map(p => p.x), ppi.map(p => +p.v.toFixed(1)), yoyArr(ppi, 12),
     { levelName: "PPI", levelUnit: "index", levelColor: PALETTE[3], levelFmt: v => v.toFixed(0), avg: false, zoomStart: 45 });
-  // CPI by economy (annual YoY) — comparison
-  const econ = regionEcon(S).filter(iso => wbPts(S, iso, "FP.CPI.TOTL.ZG").length);
+  // CPI by economy (annual YoY) — comparison (cap to the largest economies so Worldwide stays readable)
+  const econ = coreEcon(S, 8).filter(iso => wbPts(S, iso, "FP.CPI.TOTL.ZG").length);
   const yrs = [...new Set(econ.flatMap(iso => wbPts(S, iso, "FP.CPI.TOTL.ZG").map(p => p.x)))].sort();
   const defs = econ.map((iso, i) => { const map = Object.fromEntries(wbPts(S, iso, "FP.CPI.TOTL.ZG").map(p => [p.x, +p.v.toFixed(1)])); return { name: econName(S, iso), color: PALETTE[i % PALETTE.length], data: yrs.map(y => map[y] ?? null) }; });
   if (defs.length) compareLines("ch_cpi", yrs, defs, "", { unit: "CPI YoY %", rate: true, fmt: v => v == null ? "—" : v + "%" });
 }
 
 function renderTrade(S) {
-  const econ = regionEcon(S), names = (S.region_names || {})[STATE.region] || {};
-  const rows = econ.map(iso => { const pts = wbPts(S, iso, "TX.VAL.TECH.CD"); return { name: names[iso] || iso, v: pts.length ? pts[pts.length - 1].v / 1e9 : 0 }; })
+  const rows = coreEcon(S, 12).map(iso => { const pts = wbPts(S, iso, "TX.VAL.TECH.CD"); return { name: econName(S, iso), v: pts.length ? pts[pts.length - 1].v / 1e9 : 0 }; })
     .filter(r => r.v > 0).sort((a, b) => a.v - b.v);
   if (rows.length) rankBar("ch_exp", rows, { unit: "US$B", fmt: v => "$" + (+v).toFixed(0) + "B", lbl: v => "$" + v + "B" });
+  const econ = coreEcon(S, 8).filter(iso => wbPts(S, iso, "TX.VAL.TECH.CD").length);
   const yrs = [...new Set(econ.flatMap(iso => wbPts(S, iso, "TX.VAL.TECH.CD").map(p => p.x)))].sort();
-  const defs = econ.filter(iso => wbPts(S, iso, "TX.VAL.TECH.CD").length).map((iso, i) => { const map = Object.fromEntries(wbPts(S, iso, "TX.VAL.TECH.CD").map(p => [p.x, +(p.v / 1e9).toFixed(1)])); return { name: names[iso] || iso, color: PALETTE[i % PALETTE.length], data: yrs.map(y => map[y] ?? null) }; });
+  const defs = econ.map((iso, i) => { const map = Object.fromEntries(wbPts(S, iso, "TX.VAL.TECH.CD").map(p => [p.x, +(p.v / 1e9).toFixed(1)])); return { name: econName(S, iso), color: PALETTE[i % PALETTE.length], data: yrs.map(y => map[y] ?? null) }; });
   if (defs.length) compareLines("ch_exptrend", yrs, defs, "", { unit: "US$B", fmt: v => v == null ? "—" : "$" + v + "B" });
 }
 
 function renderGrowth(S) {
-  const wb = S.worldbank || {}, econ = regionEcon(S), names = (S.region_names || {})[STATE.region] || {};
-  const have = econ.filter(iso => wbPts(S, iso, "NY.GDP.MKTP.CD").length);
+  const have = coreEcon(S, 8).filter(iso => wbPts(S, iso, "NY.GDP.MKTP.CD").length);
   const yrs = [...new Set(have.flatMap(iso => wbPts(S, iso, "NY.GDP.MKTP.CD").map(p => p.x)))].sort();
-  const defs = have.map((iso, i) => { const pts = wbPts(S, iso, "NY.GDP.MKTP.CD"), base = pts[0].v, map = Object.fromEntries(pts.map(p => [p.x, p.v])); return { name: names[iso] || iso, color: PALETTE[i % PALETTE.length], data: yrs.map(y => map[y] != null && base ? +(map[y] / base * 100).toFixed(1) : null) }; });
+  const defs = have.map((iso, i) => { const pts = wbPts(S, iso, "NY.GDP.MKTP.CD"), base = pts[0].v, map = Object.fromEntries(pts.map(p => [p.x, p.v])); return { name: econName(S, iso), color: PALETTE[i % PALETTE.length], data: yrs.map(y => map[y] != null && base ? +(map[y] / base * 100).toFixed(1) : null) }; });
   if (defs.length) compareLines("ch_gdp", yrs, defs, "", { unit: `idx (${yrs[0] || ""}=100)`, fmt: v => v == null ? "—" : v });
   yieldCurve("ch_curve", (S.us_macro || {}).treasury_latest);
 }
@@ -357,13 +382,13 @@ function renderGrowth(S) {
  * ====================================================================== */
 function renderSM(S, containerId, indicator, isLevel) {
   const cont = document.getElementById(containerId); if (!cont) return;
-  const econ = regionEcon(S), names = (S.region_names || {})[STATE.region] || {};
+  const econ = coreEcon(S, 12);
   cont.innerHTML = "";
   econ.forEach(iso => {
     const pts = wbPts(S, iso, indicator); if (!pts.length) return;
     const last = pts[pts.length - 1], val = isLevel ? "$" + (last.v / 1e9).toFixed(0) + "B" : (+last.v).toFixed(1) + "%";
     const cell = document.createElement("div"); cell.className = "sm-cell";
-    cell.innerHTML = `<div class="sm-lbl">${names[iso] || iso}</div><div class="sm-val">${val}</div><div class="sm-chart"></div>`;
+    cell.innerHTML = `<div class="sm-lbl">${econName(S, iso)}</div><div class="sm-val">${val}</div><div class="sm-chart"></div>`;
     cont.appendChild(cell);
     mkEl(cell.querySelector(".sm-chart"), {
       grid: { left: 2, right: 2, top: 4, bottom: 2 },
@@ -419,8 +444,9 @@ function panel(c, id, sub) { return `<div class="card"><h3>${c.title}</h3><div c
 function render() {
   const S = DATA, main = document.getElementById("main");
   if (!S) { main.innerHTML = '<div class="loading">No data — run scripts/fetch_macro.py</div>'; return; }
+  STATE.cfg = regionCfg(S); const RL = regionLabel();
   document.querySelectorAll("#regionTabs .tab").forEach(b => b.classList.toggle("active", b.dataset.region === STATE.region));
-  document.getElementById("asof").textContent = `${STATE.region} · latest available`;
+  document.getElementById("asof").textContent = `${RL} · latest available`;
   const inds = buildIndicators(S);
   const board = climateBoardHTML(S, inds);
   const C = Object.fromEntries(CATEGORIES.map(c => [c.key, c]));
@@ -429,7 +455,7 @@ function render() {
   const vline = (i, txt) => i && i.m ? txt(i) : "";
 
   main.innerHTML = `
-    <div class="view-head"><h1>${STATE.region} — macro &amp; semiconductor market environment</h1>
+    <div class="view-head"><h1>${RL} — macro &amp; semiconductor market environment</h1>
       <div class="regime">${regimeRead(S, inds)}</div></div>
 
     <div class="layer-tag">① Climate board <span class="dim">latest reading for every tracked indicator, by category · colour = direction · bar = percentile vs own history</span></div>
@@ -439,14 +465,14 @@ function render() {
 
     ${catHead(C.cycle, vline(cyc, i => `Billings <b class="${i.m.dir >= 0 ? "up" : "down"}">${pct(i.m.dir)} YoY</b>, ${i.fmt(i.m.latest)}/mo · ${i.m.pctile}th percentile of ${i.m.yearsHist}y.`))}
     <div class="grid">
-      ${panel(C.cycle, "ch_bill", `${STATE.region} billings — level (line) + YoY% (bars) · WSTS 3MMA · drag to zoom`)}
-      ${panel(C.cycle, "ch_cmp", `By region · ${STATE.region} bold · US$B/mo (3MMA)`)}
+      ${panel(C.cycle, "ch_bill", `${RL} billings — level (line) + YoY% (bars) · WSTS 3MMA · drag to zoom`)}
+      ${panel(C.cycle, "ch_cmp", `By WSTS region · active region bold · US$B/mo (3MMA)`)}
     </div>
 
     ${catHead(C.demand, vline(dem, i => `AI/datacenter capex ${i.v.word.toLowerCase()} — ${i.fmt(i.m.latest)}/Q, <b class="${i.m.dir >= 0 ? "up" : "down"}">${pct(i.m.dir)} YoY</b>.`))}
     <div class="grid">
       ${panel(C.demand, "ch_capex", "Hyperscaler capex — level + YoY% · MSFT/GOOGL/AMZN/META · the dominant semi end-market")}
-      ${panel(C.demand, "ch_auto", `Auto production by region · ${STATE.region} bold · M units/yr (OICA, to 2022)`)}
+      ${panel(C.demand, "ch_auto", `Auto production · APAC/EMEA/AMER · active bold · M units/yr (OICA, to 2022)`)}
     </div>
 
     ${catHead(C.industry, vline(ind, i => `${i.label} ${i.v.word.toLowerCase()} at ${i.mode === "rate" ? sign1(i.m.latest) + "%" : pct(i.m.dir) + " YoY"}.`))}
@@ -458,18 +484,18 @@ function render() {
     ${catHead(C.prices, vline(pr, i => `${i.label} ${i.v.word.toLowerCase()} — ${i.mode === "rate" ? sign1(i.m.latest) + "% YoY" : i.fmt(i.m.latest) + ", " + pct(i.m.dir) + " YoY"}.`))}
     <div class="grid">
       ${panel(C.prices, "ch_ppi", "US PPI all-commodities — level + YoY% · input-cost pressure")}
-      ${panel(C.prices, "ch_cpi", `CPI by economy · ${STATE.region} · annual YoY% · zero line`)}
+      ${panel(C.prices, "ch_cpi", `CPI by economy · ${RL} · annual YoY% · zero line`)}
     </div>
 
-    ${catHead(C.trade, vline(tr, i => `${STATE.region} high-tech exports ${i.fmt(i.m.latest)} latest yr, <b class="${i.m.dir >= 0 ? "up" : "down"}">${pct(i.m.dir)} YoY</b>.`))}
+    ${catHead(C.trade, vline(tr, i => `${RL} high-tech exports ${i.fmt(i.m.latest)} latest yr, <b class="${i.m.dir >= 0 ? "up" : "down"}">${pct(i.m.dir)} YoY</b>.`))}
     <div class="grid">
       ${panel(C.trade, "ch_exp", "High-tech exports — latest year ranking · US$B")}
-      ${panel(C.trade, "ch_exptrend", `Export trend by economy · ${STATE.region} · US$B/yr`)}
+      ${panel(C.trade, "ch_exptrend", `Export trend by economy · ${RL} · US$B/yr`)}
     </div>
 
     ${catHead(C.growth, vline(gr, i => `${i.label} ${i.fmt(i.m.latest)}, <b class="${i.m.dir >= 0 ? "up" : "down"}">${pct(i.m.dir)} YoY</b>.`))}
     <div class="grid">
-      ${panel(C.growth, "ch_gdp", `GDP — indexed · ${STATE.region} economies · World Bank (annual)`)}
+      ${panel(C.growth, "ch_gdp", `GDP — indexed · ${RL} economies · World Bank (annual)`)}
       ${panel(C.growth, "ch_curve", "US Treasury yield curve — cost of money · latest snapshot")}
     </div>
 
