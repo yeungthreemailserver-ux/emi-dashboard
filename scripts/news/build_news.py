@@ -30,6 +30,9 @@ SYNTH_INPUT_N = 45      # clusters fed to the synthesis LLM (extractive pre-sele
 MAX_ITEMS = 600         # evidence clusters written to the bundle (≈ whole window, so highlights
                         # can rank over EVERY story and stay clickable; the feed still shows ~90)
 STORE_DAYS = 30         # rolling-window length for the accumulating knowledge store
+PUBLISHED_MAX_AGE_DAYS = 60   # drop items whose ARTICLE date is older than this — keeps the feed "current".
+                              # Regulatory filings (Entity List, Section 232…) keep re-appearing yet carry
+                              # their original publication date, so last_seen-pruning alone left 2024/2016 cruft.
 CONCEPTS_N = 22         # concepts for the treemap
 RIVER_N = 7             # concepts tracked in the themeriver
 SOURCE_WEIGHT = {"SemiEngineering": 1.0, "EE Times": 1.0, "Federal Register": 1.0,
@@ -778,7 +781,11 @@ def main():
     def _spam(e):
         t = (e.get("title_en") or e.get("title", ""))
         return bool(INVESTOR_RX.search(t) or REPORTMILL_RX.search(t))
-    ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff and not _spam(e)}
+    pub_cutoff = now.date() - dt.timedelta(days=PUBLISHED_MAX_AGE_DAYS)
+    def _stale(e):                                          # article published too long ago (e.g. an old re-listed rule)
+        pd = parse_date(e.get("published", ""))
+        return pd is not None and pd.date() < pub_cutoff
+    ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff and not _spam(e) and not _stale(e)}
 
     # working set = the rolling window — this is what we synthesise, score and show
     clusters = []
