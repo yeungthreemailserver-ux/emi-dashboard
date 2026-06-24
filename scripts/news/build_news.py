@@ -14,7 +14,7 @@ forward call + breadth + emergence) instead of dumping a feed:
                  via `claude -p --model claude-sonnet-4-6`; rule-based fallback if CLI absent.
   7. emit web/news-bundle.js (window.NEWS) + roll history (30 days).
 """
-import json, os, re, sys, subprocess, math, datetime as dt
+import json, os, re, sys, subprocess, math, shutil, datetime as dt
 from email.utils import parsedate_to_datetime
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -387,10 +387,27 @@ def momentum_one(cnt, prior_vals):
 
 
 # ---------- LLM synthesis (Sonnet via Claude Code CLI) ----------------------
+def _claude_bin():
+    """Resolve the claude CLI to an ABSOLUTE path. The Windows Task Scheduler launches the daily
+    build with a minimal PATH that often omits npm's global bin (%APPDATA%\\npm), so a bare
+    'claude' isn't found and every LLM call silently fails (this is why corner_insights came up
+    empty on scheduled runs while working interactively). Fall back to known install locations."""
+    exe = shutil.which("claude")
+    if exe:
+        return exe
+    for c in (os.path.expandvars(r"%APPDATA%\npm\claude.cmd"), os.path.expandvars(r"%APPDATA%\npm\claude"),
+              os.path.expanduser("~/AppData/Roaming/npm/claude.cmd"),
+              os.path.expanduser("~/.npm-global/bin/claude"), "/usr/local/bin/claude"):
+        if os.path.exists(c):
+            return c
+    return "claude"
+
+
 def run_claude(prompt):
     shell = (os.name == "nt")
-    cmd = ("claude -p --model claude-sonnet-4-6 --output-format json" if shell
-           else ["claude", "-p", "--model", "claude-sonnet-4-6", "--output-format", "json"])
+    binp = _claude_bin()
+    cmd = (f'"{binp}" -p --model claude-sonnet-4-6 --output-format json' if shell
+           else [binp, "-p", "--model", "claude-sonnet-4-6", "--output-format", "json"])
     res = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
                          timeout=360, shell=shell, encoding="utf-8")
     if res.returncode != 0:

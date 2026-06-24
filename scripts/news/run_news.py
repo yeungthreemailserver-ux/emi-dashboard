@@ -9,11 +9,14 @@ import os, re, sys, glob, subprocess, datetime as dt
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 PY = sys.executable
+BUILD_LOG = os.path.join(ROOT, "data", "news_build_last.log")   # full stdout of each step (scheduled-task console is lost)
 
 
 def step(name):
     print(f"\n=== {name} ===")
-    r = subprocess.run([PY, os.path.join(HERE, name)])
+    with open(BUILD_LOG, "a", encoding="utf-8") as f:
+        f.write(f"\n=== {name} @ {dt.datetime.now().isoformat(timespec='seconds')} ===\n"); f.flush()
+        r = subprocess.run([PY, os.path.join(HERE, name)], stdout=f, stderr=subprocess.STDOUT)
     return r.returncode
 
 
@@ -74,6 +77,7 @@ def cloudflare_deploy():
 def main():
     start = dt.datetime.now()
     print(f"EMI News daily run @ {start.isoformat(timespec='seconds')}")
+    open(BUILD_LOG, "w", encoding="utf-8").close()   # fresh per run
     rc = step("fetch_news.py")
     if rc != 0:
         print("fetch failed but continuing to build with whatever is cached")
