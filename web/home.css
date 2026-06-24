@@ -1,37 +1,71 @@
 /* EMI hub homepage — the four-lens launcher (shell + vars from china.css) */
-.hero{margin:18px 0 6px;}
-.hero h1{font-size:28px;margin:0 0 6px;letter-spacing:-0.025em;}
-.hero-sub{font-size:14.5px;color:var(--muted);max-width:680px;line-height:1.55;margin:0;}
 
-.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:22px 0 8px;}
-.lens{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;position:relative;transition:border-color .14s,box-shadow .14s,transform .14s;border-top:3px solid var(--line);}
-.lens:hover{box-shadow:0 6px 22px rgba(15,23,42,.09);transform:translateY(-2px);}
-.lens.l-news:hover{border-color:var(--blue);}
-.lens.l-atlas:hover{border-color:var(--green);}
-.lens.l-earn:hover{border-color:#7c3aed;}
-.lens.l-macro:hover{border-color:var(--amber);}
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.hero{margin:26px 0 4px;}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:9px;}
+.hero h1{font-size:30px;line-height:1.15;margin:0 0 10px;letter-spacing:-0.028em;color:var(--ink);max-width:760px;}
+.hero-sub{font-size:14.5px;color:var(--muted);max-width:700px;line-height:1.6;margin:0;}
+.hero-status{margin-top:14px;font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.01em;display:flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(16,185,129,.45);animation:livepulse 2.4s ease-out infinite;}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.45);}70%{box-shadow:0 0 0 6px rgba(16,185,129,0);}100%{box-shadow:0 0 0 0 rgba(16,185,129,0);}}
+@media (prefers-reduced-motion:reduce){.live-dot{animation:none;}}
+
+/* ── Lens grid ──────────────────────────────────────────────────────── */
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin:26px 0 8px;}
+.lens{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 16px;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+  transition:border-color .15s,box-shadow .15s,transform .15s;border-top:3px solid var(--line);}
+.lens:hover{box-shadow:0 8px 26px rgba(15,23,42,.10);transform:translateY(-3px);}
+.lens:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
 .lens.l-news{border-top-color:var(--blue);}
 .lens.l-atlas{border-top-color:var(--green);}
 .lens.l-earn{border-top-color:#7c3aed;}
 .lens.l-macro{border-top-color:var(--amber);}
-.lens-kick{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:5px;}
-.lens-title{font-size:19px;font-weight:700;color:var(--ink);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.lens-title .go{font-size:13px;color:var(--blue);font-weight:600;opacity:0;transition:opacity .14s;}
-.lens:hover .lens-title .go{opacity:1;}
-.lens-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px;}
-.lens-snap{border-top:1px solid var(--line-2);padding-top:11px;font-size:12.5px;color:var(--ink-2);min-height:42px;}
+.lens.l-news:hover{border-color:var(--blue);}
+.lens.l-atlas:hover{border-color:var(--green);}
+.lens.l-earn:hover{border-color:#7c3aed;}
+.lens.l-macro:hover{border-color:var(--amber);}
+
+/* head: icon chip + the question it answers */
+.lens-head{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
+.lens-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
+.lens-ico svg{width:23px;height:23px;}
+.l-news  .lens-ico{background:#eff6ff;color:#2563eb;}
+.l-atlas .lens-ico{background:#ecfdf5;color:#047857;}
+.l-earn  .lens-ico{background:#f5f3ff;color:#7c3aed;}
+.l-macro .lens-ico{background:#fffbeb;color:#b45309;}
+.lens-kick{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);}
+
+.lens-title{font-size:19px;font-weight:700;color:var(--ink);margin-bottom:5px;letter-spacing:-0.01em;}
+.lens-desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:13px;}
+
+/* snapshot row — grows to push the CTA to the bottom (equal-height cards) */
+.lens-snap{flex:1;border-top:1px solid var(--line-2);padding-top:12px;font-size:12.5px;color:var(--ink-2);min-height:44px;}
 .lens-snap .snap-dim{color:var(--faint);}
-.snap-stat{display:flex;gap:18px;}
-.snap-stat b{display:block;font-size:20px;font-weight:700;color:var(--ink);line-height:1.1;}
-.snap-stat span{font-size:11px;color:var(--muted);}
+.snap-stat{display:flex;gap:20px;}
+.snap-stat b{display:block;font-size:21px;font-weight:700;color:var(--ink);line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-0.01em;}
+.snap-stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.snap-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.snap-tags span{font-size:10.5px;color:var(--ink-2);background:var(--line-2);border-radius:6px;padding:2px 9px;text-transform:uppercase;letter-spacing:.03em;font-weight:600;}
+
 /* live news snapshot */
-.snap-dir{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.03em;margin-right:6px;vertical-align:1px;}
+.snap-dir{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;margin-right:6px;vertical-align:1px;}
 .snap-dir.tailwind{background:#ecfdf5;color:#047857;}
 .snap-dir.headwind{background:#fef2f2;color:#b91c1c;}
 .snap-dir.watch{background:#fffbeb;color:#b45309;}
 .snap-theme{font-weight:600;color:var(--ink);}
+.snap-brief{margin-top:5px;color:var(--faint);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 
-.onto-note{margin:22px 0 8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:12.5px;color:var(--muted);line-height:1.55;}
+/* CTA pinned to the bottom of every card */
+.lens-cta{margin-top:14px;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+.l-news  .lens-cta{color:#2563eb;}
+.l-atlas .lens-cta{color:#047857;}
+.l-earn  .lens-cta{color:#7c3aed;}
+.l-macro .lens-cta{color:#b45309;}
+.cta-arr{transition:transform .15s;}
+.lens:hover .cta-arr{transform:translateX(4px);}
+
+/* ── Ontology footer band ───────────────────────────────────────────── */
+.onto-note{margin:24px 0 10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px;font-size:12.5px;color:var(--muted);line-height:1.55;}
 .onto-note b{color:var(--ink-2);font-weight:600;}
-.onto-note .tags{margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;}
+.onto-note .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
 .onto-note .tags span{font-size:11px;background:var(--line-2);color:var(--ink-2);border-radius:6px;padding:2px 9px;}

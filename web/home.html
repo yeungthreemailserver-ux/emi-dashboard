@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EMI — Electronic Market Intelligence</title>
   <link rel="stylesheet" href="china.css?v=071" />
-  <link rel="stylesheet" href="home.css?v=001" />
+  <link rel="stylesheet" href="home.css?v=002" />
 </head>
 <body>
   <div class="app">
@@ -16,37 +16,55 @@
     </header>
     <main class="main" id="main">
       <div class="hero">
-        <h1>Electronic Market Intelligence</h1>
-        <p class="hero-sub">Four lenses on the global electronics &amp; semiconductor supply chain — built for a components distributor. One shared ontology, free public data only.</p>
+        <div class="hero-eyebrow">Electronic Market Intelligence</div>
+        <h1>One terminal for the electronics supply chain.</h1>
+        <p class="hero-sub">Four analyst lenses over a single shared ontology — what's breaking, where it sits in the value chain, what insiders are saying, and the macro climate. Built for a components distributor; free public data only.</p>
+        <div class="hero-status"><span class="live-dot" aria-hidden="true"></span>Live · News updated daily · <span id="asof">—</span></div>
       </div>
 
       <div class="lens-grid">
-        <a class="lens l-news" href="news.html">
-          <div class="lens-kick">What's breaking</div>
-          <div class="lens-title">News &amp; Trends <span class="go">open ↗</span></div>
-          <div class="lens-desc">Synthesized themes, distributor verdicts, and a hot-concept map — refreshed daily.</div>
+        <a class="lens l-news" href="news.html" aria-label="Open News &amp; Trends">
+          <div class="lens-head">
+            <span class="lens-ico" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 27 L12 27 L16 13 L22 31 L26 7 L31 22 L36 22"/></svg></span>
+            <span class="lens-kick">What's breaking now?</span>
+          </div>
+          <div class="lens-title">News &amp; Trends</div>
+          <div class="lens-desc">Synthesized daily signals — distributor verdicts, hot-concept map, and a per-desk read (parts · suppliers · demand · channel · geopolitics).</div>
           <div class="lens-snap" id="newsSnap"><span class="snap-dim">loading latest…</span></div>
+          <div class="lens-cta">Open News<span class="cta-arr">→</span></div>
         </a>
 
-        <a class="lens l-atlas" href="atlas.html">
-          <div class="lens-kick">The map</div>
-          <div class="lens-title">Asia Atlas <span class="go">open ↗</span></div>
-          <div class="lens-desc">Demand by end-market × supply-chain role × geography. Drill country → city.</div>
+        <a class="lens l-atlas" href="atlas.html" aria-label="Open Asia Atlas">
+          <div class="lens-head">
+            <span class="lens-ico" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="13" r="3"/><circle cx="20" cy="29" r="3"/><circle cx="31" cy="11" r="3"/><circle cx="30" cy="29" r="3"/><path d="M11.5 14.5 L17.5 26.5 M22.5 27.5 L28.5 13 M23 29 L27 29"/></svg></span>
+            <span class="lens-kick">Where in the chain?</span>
+          </div>
+          <div class="lens-title">Asia Atlas</div>
+          <div class="lens-desc">Demand by end-market × supply-chain role × geography — chokepoints and a role-coloured map. Drill country → city.</div>
           <div class="lens-snap"><div class="snap-stat"><span><b>12</b>countries</span><span><b>9</b>end-markets</span><span><b>5</b>chip roles</span></div></div>
+          <div class="lens-cta">Open Atlas<span class="cta-arr">→</span></div>
         </a>
 
-        <a class="lens l-earn" href="earnings.html">
-          <div class="lens-kick">What insiders say</div>
-          <div class="lens-title">Company signals <span class="go">open ↗</span></div>
-          <div class="lens-desc">Earnings-call analysis — topics, forward outlook, guidance, emergent themes.</div>
+        <a class="lens l-earn" href="earnings.html" aria-label="Open Company signals">
+          <div class="lens-head">
+            <span class="lens-ico" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 31 L8 23 M17 31 L17 17 M26 31 L26 25 M35 31 L35 11" stroke-width="3.2"/><path d="M5 34 L37 34" stroke-width="2"/></svg></span>
+            <span class="lens-kick">What do insiders say?</span>
+          </div>
+          <div class="lens-title">Company signals</div>
+          <div class="lens-desc">Earnings-call analysis — topics, forward outlook, guidance vs. consensus, and emergent themes across the line-card.</div>
           <div class="lens-snap"><div class="snap-stat"><span><b>517</b>earnings calls</span><span><b>143</b>companies</span></div></div>
+          <div class="lens-cta">Open Earnings<span class="cta-arr">→</span></div>
         </a>
 
-        <a class="lens l-macro" href="macro.html">
-          <div class="lens-kick">The climate</div>
-          <div class="lens-title">Macro <span class="go">open ↗</span></div>
-          <div class="lens-desc">The market environment — semiconductor billings, demand &amp; cycle indicators.</div>
-          <div class="lens-snap"><span class="snap-dim">WSTS billings · regional demand · cycle</span></div>
+        <a class="lens l-macro" href="macro.html" aria-label="Open Macro">
+          <div class="lens-head">
+            <span class="lens-ico" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21 C10 7 16 7 20 21 C24 35 30 35 36 21"/><path d="M4 29 L36 29" stroke-width="1.6" stroke-dasharray="2 3.5"/></svg></span>
+            <span class="lens-kick">What's the climate?</span>
+          </div>
+          <div class="lens-title">Macro</div>
+          <div class="lens-desc">The market environment — semiconductor billings, regional demand, and where we sit in the cycle.</div>
+          <div class="lens-snap"><div class="snap-tags"><span>WSTS billings</span><span>regional demand</span><span>cycle</span></div></div>
+          <div class="lens-cta">Open Macro<span class="cta-arr">→</span></div>
         </a>
       </div>
 
@@ -57,6 +75,6 @@
     </main>
   </div>
   <script src="news-bundle.js?v=20260624"></script>
-  <script src="home.js?v=001"></script>
+  <script src="home.js?v=002"></script>
 </body>
 </html>
