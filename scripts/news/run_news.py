@@ -54,15 +54,19 @@ def git_publish():
 
 
 def cloudflare_deploy():
-    """Publish the freshly built site to Cloudflare (Workers Static Assets) via wrangler, so the
-    live emi-dashboard.*.workers.dev updates daily. Needs a one-time `npx wrangler login`. No-ops
-    gracefully if wrangler/auth is missing (the local build still succeeds)."""
+    """Publish the freshly built site to Cloudflare PAGES via wrangler, so the live
+    https://emi-dashboard.pages.dev updates daily. Auth = CLOUDFLARE_API_TOKEN env var
+    (set as a Windows user variable; the scheduled task inherits it). No-ops gracefully
+    if wrangler/auth is missing — the local build still succeeds."""
     try:
         win = (os.name == "nt")
-        cmd = "npx --yes wrangler@latest deploy" if win else ["npx", "--yes", "wrangler@latest", "deploy"]
+        cmd = ("npx --yes wrangler@latest pages deploy web --project-name=emi-dashboard "
+               "--branch=main --commit-dirty=true")
+        if not win:
+            cmd = cmd.split()
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=600, shell=win)
         ok = r.returncode == 0
-        print("cloudflare deploy: " + ("ok — live site updated" if ok else "FAILED — " + ((r.stderr or r.stdout).strip()[-200:])))
+        print("cloudflare deploy: " + ("ok — emi-dashboard.pages.dev updated" if ok else "FAILED — " + ((r.stderr or r.stdout).strip()[-200:])))
     except Exception as e:
         print(f"cloudflare deploy skipped ({type(e).__name__}: {str(e)[:120]})")
 

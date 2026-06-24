@@ -1,11 +1,11 @@
 # EMI deployment (Cloudflare, free)
 
-**Live site:** https://emi-dashboard.yeungthreemailserver.workers.dev
+**Live site:** https://emi-dashboard.pages.dev
 - Root `/` → EMI hub (`home.html`); News `/news`, Atlas `/atlas`, Earnings `/earnings`, Macro `/macro`.
   (Cloudflare auto-normalises `.html` to clean paths; `web/_redirects` sends the root to the hub.)
 
 ## How it's hosted
-EMI is a **static site** (`web/`) published to **Cloudflare Workers Static Assets** via `wrangler`.
+EMI is a **static site** (`web/`) published to **Cloudflare Pages** via `wrangler`.
 Config is `wrangler.toml` at the project root (`[assets] directory = "./web"`, `name = "emi-dashboard"`).
 GitHub (`emi-dashboard` repo) is kept as a version backup; the live site is served by Cloudflare.
 
@@ -16,7 +16,7 @@ So the live site refreshes every morning as long as the PC is on at 07:00. One-t
 (`npx wrangler login`) is already done; the task deploys non-interactively from the stored login.
 
 - Verify a run: `data/news_last_run.txt`, and the deploy line in the task output.
-- Manual deploy anytime: from the project root, `npx wrangler deploy`.
+- Manual deploy anytime: from the project root, `npx wrangler pages deploy`.
 
 ## Housekeeping
 - **Delete the leftover worker:** the first upload created a random `super-king-a2ab` worker —
