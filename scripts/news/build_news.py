@@ -162,12 +162,13 @@ def is_relevant(tags, text, tier="gnews"):
 
 
 # ---- house guard: our own brands must NEVER surface in the UI -----------------
-# EMI is built for a broadline distributor (Avnet / Farnell perspective) but the dashboard
-# must never NAME them. Scrub any house brand out of every LLM-generated / displayed string;
-# the underlying story stays (as a sector read), only the name is generalised.
+# House-name anonymisation RETIRED (2026-06-24): the user confirmed EMI contains only PUBLIC
+# data (no internal/proprietary data), so house brands are shown normally — public information
+# (e.g. Avnet's public earnings/8-K) is not hidden. scrub_house is kept as a no-op hook and
+# HOUSE_RX is left defined so the guard can be re-enabled in one line if the policy changes.
 HOUSE_RX = re.compile(r"\b(avnet|farnell|premier\s+farnell|element\s*14|element14|newark\b(?!\s+airport)|silica\s+avnet|ebv\s+elektronik)\b", re.I)
 def scrub_house(s):
-    return HOUSE_RX.sub("a major distributor", s) if isinstance(s, str) and s else s
+    return s   # retired — restore `HOUSE_RX.sub("a major distributor", s) if isinstance(s, str) and s else s` to re-enable
 def scrub_bundle(b):
     """Final safety net — generalise house names across every UI-facing text field."""
     b["brief"] = scrub_house(b.get("brief", ""))
