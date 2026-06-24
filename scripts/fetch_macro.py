@@ -29,9 +29,11 @@ WB_INDICATORS = {
     "FP.CPI.TOTL.ZG": "Inflation, CPI (% YoY)",
     "TX.VAL.TECH.CD": "High-tech exports (current US$)",
 }
-HYPERSCALERS = {  # CIK -> name (capex = us-gaap PaymentsToAcquirePropertyPlantAndEquipment)
-    "0000789019": "Microsoft", "0001652044": "Alphabet",
-    "0001018724": "Amazon", "0001326801": "Meta",
+HYPERSCALERS = {  # CIK -> (name, capex XBRL concept). Amazon stopped tagging PP&E-payments in 2017 -> ProductiveAssets.
+    "0000789019": ("Microsoft", "PaymentsToAcquirePropertyPlantAndEquipment"),
+    "0001652044": ("Alphabet",  "PaymentsToAcquirePropertyPlantAndEquipment"),
+    "0001018724": ("Amazon",    "PaymentsToAcquireProductiveAssets"),
+    "0001326801": ("Meta",      "PaymentsToAcquirePropertyPlantAndEquipment"),
 }
 
 
@@ -71,24 +73,35 @@ def world_bank():
 
 
 def hyperscaler_capex():
-    """Quarterly capex (PP&E payments) per hyperscaler -> proxy for AI/datacenter buildout."""
+    """Discrete quarterly capex per hyperscaler -> proxy for AI/datacenter buildout.
+
+    EDGAR cash-flow capex is reported YTD-cumulative (3/6/9/12-month), and calendar-year filers
+    (Alphabet/Meta) only tag Q1 as a discrete 3-month value — Q2/Q3/Q4 exist only as cumulatives.
+    So we rebuild each quarter by differencing every fiscal year's YTD ladder (facts sharing the
+    fiscal-year start date), i.e. Q2 = 6mo-Q1, Q3 = 9mo-6mo, Q4 = FY-9mo. Mixed quarterly+cumulative
+    facts for the same period-end are deduped (ladder keyed by end), which kills the old double-count."""
+    def ddays(a, b):
+        from datetime import date
+        d = lambda s: date(*map(int, s.split("-")))
+        return (d(b) - d(a)).days
     out = {}
-    for cik, name in HYPERSCALERS.items():
-        j = get_json(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/PaymentsToAcquirePropertyPlantAndEquipment.json",
+    for cik, (name, concept) in HYPERSCALERS.items():
+        j = get_json(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/{concept}.json",
                      headers={"User-Agent": UA})
-        pts = []
+        groups = {}                                        # period-start -> {period-end: cumulative val}
         if j and "units" in j and "USD" in j["units"]:
-            # quarterly-ish frames: keep form 10-Q/10-K, dedupe by (end), take frame-tagged where present
-            seen = {}
             for u in j["units"]["USD"]:
-                if u.get("form") in ("10-Q", "10-K") and u.get("start") and u.get("end"):
-                    # approx-quarter: keep entries spanning ~<=100 days (quarterly), drop annual cumulatives
-                    seen[u["end"] + "|" + u["start"]] = u
-            rows = sorted(seen.values(), key=lambda u: u["end"])
-            for u in rows:
-                pts.append({"end": u["end"], "start": u["start"], "val": u["val"], "fy": u.get("fy"), "fp": u.get("fp")})
-        out[name] = pts[-24:]   # last ~6yr of quarter-ish points
-        print(f"  EDGAR {name:10} {len(out[name])} capex points")
+                if u.get("form") in ("10-Q", "10-K") and u.get("start") and u.get("end") and ddays(u["start"], u["end"]) <= 370:
+                    groups.setdefault(u["start"], {})[u["end"]] = u["val"]   # same start = one fiscal-year YTD ladder
+        disc = {}                                          # quarter-end -> discrete-quarter capex
+        for start, ends in groups.items():                 # difference each ladder: Q1=3mo, Q2=6mo-3mo, Q3=9mo-6mo, Q4=FY-9mo
+            prev = 0
+            for end in sorted(ends):
+                disc[end] = ends[end] - prev               # single-entry groups (discrete 3-month facts) yield themselves
+                prev = ends[end]
+        pts = [{"end": e, "val": v} for e, v in sorted(disc.items()) if v is not None]
+        out[name] = pts[-24:]                              # last ~6yr of true quarters
+        print(f"  EDGAR {name:10} {len(out[name])} capex quarters (latest {out[name][-1]['end'] if out[name] else 'n/a'})")
     return out
 
 

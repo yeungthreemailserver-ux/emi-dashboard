@@ -53,7 +53,7 @@ function capexCombined(hs) {
   Object.values(hs || {}).forEach(pts => (pts || []).forEach(p => { const q = qOf(p.end); (byQ[q] = byQ[q] || { sum: 0, n: 0 }); byQ[q].sum += p.val; byQ[q].n++; }));
   return Object.keys(byQ).sort().map(q => ({ q, sum: byQ[q].sum, n: byQ[q].n }));
 }
-const capexPts = S => capexCombined(S.hyperscaler_capex).filter(r => r.n >= 3).map(r => ({ x: r.q, v: r.sum }));
+const capexPts = S => capexCombined(S.hyperscaler_capex).filter(r => r.n >= 4).map(r => ({ x: r.q, v: r.sum }));
 const fredPts = (S, id) => { const o = (S.fred || {})[id]; return o && o.points ? o.points.map(p => ({ x: p.date, v: +p.value })) : []; };
 const wbPts = (S, iso, code) => { const p = (((S.worldbank || {})[iso] || {}).series || {})[code]; return p && p.points ? p.points.map(q => ({ x: q.date, v: +q.value })) : []; };
 const regionEcon = S => RC().econ || [];
@@ -130,12 +130,12 @@ function comboChart(elId, x, level, yoy, opts = {}) {
   const lvlName = opts.levelName || "Level", lvlFmt = opts.levelFmt || (v => v);
   const o = {
     tooltip: { trigger: "axis", valueFormatter: null },
-    legend: { top: 0, right: 4, textStyle: { fontSize: 10, color: "#334155" }, data: [lvlName, "YoY %"], itemWidth: 14, itemHeight: 8 },
-    grid: { left: compact ? 44 : 52, right: compact ? 40 : 46, top: 26, bottom: compact ? 26 : 40 },
-    xAxis: { type: "category", data: x, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, interval: Math.floor(x.length / (compact ? 6 : 9)) } },
+    legend: { show: !compact, top: 0, right: 4, textStyle: { fontSize: 10, color: "#334155" }, data: [lvlName, "YoY %"], itemWidth: 14, itemHeight: 8 },
+    grid: { left: compact ? 40 : 52, right: compact ? 36 : 44, top: compact ? 12 : 26, bottom: compact ? 22 : 40 },
+    xAxis: { type: "category", data: x, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, hideOverlap: true, interval: Math.floor(x.length / (compact ? 4 : 9)) } },
     yAxis: [
-      { type: "value", name: opts.levelUnit || "", scale: true, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, formatter: lvlFmt } },
-      { type: "value", name: "YoY %", ...axis(), axisLabel: { color: "#64748b", fontSize: 9, formatter: "{value}%" } },
+      { type: "value", name: compact ? "" : (opts.levelUnit || ""), scale: true, ...axis(), axisLabel: { color: "#64748b", fontSize: 9, formatter: lvlFmt } },
+      { type: "value", name: "", ...axis(), axisLabel: { color: "#64748b", fontSize: 9, formatter: "{value}%" } },
     ],
     series: [
       { name: lvlName, type: "line", yAxisIndex: 0, data: level, smooth: true, symbol: "none", z: 3,
