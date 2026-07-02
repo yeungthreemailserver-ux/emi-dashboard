@@ -33,6 +33,8 @@ data/news_raw.json
 data/news_last_run.txt
 # rolling cluster store — local accumulating state (grows to MB, like a cache/db)
 data/news_store.json
+data/news_themes.json
 
 # wrangler local cache (account id/build cache) — not for the repo
 .wrangler/
+data/news_build_last.log

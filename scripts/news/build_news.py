@@ -27,8 +27,8 @@ WEB = os.path.join(ROOT, "web")
 ONT = json.load(open(os.path.join(DATA, "ontology.json"), encoding="utf-8"))
 
 SYNTH_INPUT_N = 45      # clusters fed to the synthesis LLM (extractive pre-select)
-MAX_ITEMS = 600         # evidence clusters written to the bundle (≈ whole window, so highlights
-                        # can rank over EVERY story and stay clickable; the feed still shows ~90)
+MAX_ITEMS = 1000        # evidence clusters written to the bundle (≈ whole window, so highlights and
+                        # theme evidence can reference EVERY story; the feed still shows ~90)
 STORE_DAYS = 30         # rolling-window length for the accumulating knowledge store
 PUBLISHED_MAX_AGE_DAYS = 60   # drop items whose ARTICLE date is older than this — keeps the feed "current".
                               # Regulatory filings (Entity List, Section 232…) keep re-appearing yet carry
@@ -370,6 +370,264 @@ def entity_in(cl, key):
     return cid in cl["tags"].get(FACET_OF.get(typ, ""), [])
 
 
+# ---------- canonical events: cross-day store consolidation (Phase 1) ----------
+def consolidate_store(ent):
+    """Merge store entries that are the SAME storyline told with different wording. cluster_key()
+    is a title-token signature, so re-reported events used to pile up as separate entries — this
+    pass merges them semantically: cosine >= 0.80 (same local model as event_cluster) AND >=1 shared
+    company/component entity AND published within EVENT_WINDOW_DAYS. The survivor is the entry first
+    seen (the canonical event); it absorbs sources/tags/claims and keeps the freshest headline.
+    Local + free (no LLM). Returns (consolidated_entries, n_merged)."""
+    keys = list(ent.keys())
+    if len(keys) < 2:
+        return ent, 0
+    try:
+        model = _embedder()
+        texts = []
+        for k in keys:
+            e = ent[k]
+            extra = e.get("digest") or (e.get("claims") or [""])[0] or ""
+            texts.append(((e.get("title_en") or e.get("title", "")) + " " + extra)[:300])
+        emb = model.encode(texts, normalize_embeddings=True, batch_size=64, show_progress_bar=False)
+    except Exception as ex:  # model unavailable -> skip gracefully, store stays as-is
+        print(f"  consolidate: skipped ({type(ex).__name__}: {str(ex)[:80]})")
+        return ent, 0
+    pub = []
+    for k in keys:
+        d = parse_date(ent[k].get("published", ""))
+        pub.append(d.date() if d else None)
+    ents = [{x for x in entity_keys(ent[k]["tags"]) if x.startswith(("company:", "comp:"))} for k in keys]
+    # cross-language pairs (a Chinese-titled entry vs its English twin — e.g. when a day's translation
+    # failed) score lower on the multilingual model, so they get a laxer threshold; the shared-entity
+    # and published-window gates still guard against over-merging.
+    cjk = [bool(re.search(r"[一-鿿]", t)) for t in texts]
+    # RARE title tokens act as implicit entities for names the ontology doesn't know (e.g. an
+    # acquisition target like "Synaptics"): a token appearing in <=2.5% of entries that two titles
+    # share is a strong same-story signal the tag gate would otherwise miss.
+    _STOP = set(("the a an and or of for to in on with by from as at is are its his her new says say said announces "
+                 "announce announced launches launch launched unveils unveiled week today year billion million deal "
+                 "chip chips semiconductor semiconductors electronics electronic market markets report reports company").split())
+    toks = [{w for w in re.findall(r"[a-z0-9]{3,}", (ent[k].get("title_en") or ent[k].get("title", "")).lower())
+             if w not in _STOP} for k in keys]
+    df = {}
+    for s in toks:
+        for w in s:
+            df[w] = df.get(w, 0) + 1
+    rare_cut = max(5, round(0.025 * len(keys)))
+    rare = [{w for w in s if df[w] <= rare_cut} for s in toks]
+    parent = list(range(len(keys)))
+    gsize = [1] * len(keys)                                # union-find group sizes
+    MAX_GROUP = 10                                         # a true same-event chain rarely exceeds ~10
+    def find(i):                                           # distinct wordings; the cap stops transitive
+        while parent[i] != i:                              # chaining from snowballing a whole topic
+            parent[i] = parent[parent[i]]; i = parent[i]   # (a 271-article "event" happened without it)
+        return i
+    sim = emb @ emb.T
+    for i in range(len(keys)):
+        for j in range(i + 1, len(keys)):
+            shared = ents[i] & ents[j]
+            if not shared and not (rare[i] & rare[j]):
+                continue
+            # >=2 shared ontology entities (e.g. acquirer + target) is the strongest signal (0.68);
+            # a shared RARE title token (names the ontology doesn't know) is good but noisier (0.72);
+            # otherwise plain same-language pairs need 0.80 (0.70 cross-language).
+            thr = (0.68 if len(shared) >= 2 else
+                   0.72 if (rare[i] & rare[j]) else
+                   0.70 if (cjk[i] or cjk[j]) else 0.80)
+            if sim[i, j] < thr:
+                continue
+            if not pub[i] or not pub[j] or abs((pub[i] - pub[j]).days) > EVENT_WINDOW_DAYS:
+                continue                                   # undated or >2 weeks apart = different events
+            ri, rj = find(i), find(j)
+            if ri != rj and gsize[ri] + gsize[rj] <= MAX_GROUP:
+                parent[rj] = ri
+                gsize[ri] += gsize[rj]
+    groups = {}
+    for i in range(len(keys)):
+        groups.setdefault(find(i), []).append(i)
+    out, merged = {}, 0
+    for idxs in groups.values():
+        if len(idxs) == 1:
+            k = keys[idxs[0]]; out[k] = ent[k]
+            continue
+        idxs.sort(key=lambda i: (ent[keys[i]].get("first_seen", "9999"), -ent[keys[i]].get("n_articles", 1)))
+        es = [ent[keys[i]] for i in idxs]
+        base = dict(es[0])                                 # canonical = earliest first_seen
+        def _pd(e):
+            d = parse_date(e.get("published", ""))
+            return d.date() if d else dt.date.min
+        fresh = max(es, key=_pd)                           # freshest metadata wins (same rule as per-key merge)
+        for f in ("title", "title_en", "url", "source", "published", "summary", "digest", "etype", "metric", "subject", "object"):
+            if fresh.get(f):
+                base[f] = fresh[f]
+        base["sources"] = sorted({s for e in es for s in (e.get("sources") or [e.get("source", "")]) if s})
+        base["src_types"] = sorted({t for e in es for t in e.get("src_types", [])})
+        tags = {f: set() for f in ("companies", "end_markets", "components", "geographies", "themes")}
+        for e in es:
+            for f in tags:
+                tags[f].update((e.get("tags") or {}).get(f, []))
+        base["tags"] = {f: sorted(v) for f, v in tags.items()}
+        claims = []
+        for e in es:
+            for c in e.get("claims", []):
+                if c and c not in claims:
+                    claims.append(c)
+        base["claims"] = claims[:8]
+        base["n_articles"] = sum(e.get("n_articles", 1) for e in es)
+        base["days_seen"] = max(e.get("days_seen", 1) for e in es)
+        base["first_seen"] = min(e.get("first_seen", "9999") for e in es)
+        base["last_seen"] = max(e.get("last_seen", "") for e in es)
+        out[keys[idxs[0]]] = base
+        merged += len(idxs) - 1
+    return out, merged
+
+
+# ---------- persistent theme registry (Phase 2) ----------
+# The 6 business dimensions of the value chain — the skeleton for the (Phase-3) impact matrix.
+DIMENSIONS = [
+    ("products",   "Products"),
+    ("technology", "Technology"),
+    ("suppliers",  "Suppliers"),
+    ("channel",    "Distribution & Channel"),
+    ("endmarkets", "End Markets"),
+    ("geopolicy",  "Geography & Policy"),
+]
+DIM_IDS = {d for d, _ in DIMENSIONS}
+THEME_TIER_W = {"trade": 1.0, "official": 1.0, "china": 0.9, "gnews": 0.7, "gdelt": 0.6}
+THEMES_PATH = os.path.join(DATA, "news_themes.json")
+
+
+def _theme_strengths(reg, ent, today_key, now):
+    """Local (no-LLM) scoring: strength = Σ source-tier × corroboration × recency over the theme's
+    live events, normalized 0-100 vs the strongest theme. Appends today to a rolling 30-day history
+    (same-day re-runs replace, so it's idempotent) and derives stage from the 3-day trajectory."""
+    for th in reg["themes"].values():
+        th["event_keys"] = [k for k in th.get("event_keys", []) if k in ent]
+    reg["themes"] = {tid: th for tid, th in reg["themes"].items() if th["event_keys"]}
+    raws = {}
+    for tid, th in reg["themes"].items():
+        s = 0.0
+        for k in th["event_keys"]:
+            e = ent[k]
+            w = max((THEME_TIER_W.get(t, 0.7) for t in e.get("src_types", [])), default=0.7)
+            d = parse_date(e.get("published", ""))
+            try:
+                age = (now.date() - d.date()).days if d else (now.date() - dt.date.fromisoformat(e.get("last_seen", today_key))).days
+            except ValueError:
+                age = 0
+            s += w * math.log1p(len(e.get("sources", [])) or 1) * math.exp(-max(age, 0) / 10.0)
+        raws[tid] = s
+    mx = max(raws.values(), default=0) or 1.0
+    for tid, th in reg["themes"].items():
+        s = round(100.0 * raws[tid] / mx, 1)
+        hist = [h for h in th.get("history", []) if h.get("d") != today_key][-29:]
+        prev = hist[-1]["s"] if hist else None
+        hist.append({"d": today_key, "s": s})
+        th["history"], th["strength"] = hist, s
+        th["delta"] = round(s - prev, 1) if prev is not None else 0.0
+        base = hist[-4]["s"] if len(hist) >= 4 else (hist[0]["s"] if len(hist) > 1 else None)
+        th["stage"] = ("new" if base is None else "rising" if s - base > 8 else "fading" if s - base < -8 else "steady")
+
+
+def update_themes(ent, today_key, now):
+    """Maintain the PERSISTENT theme registry (data/news_themes.json): named market storylines that
+    accumulate evidence and strength across days — this is what turns a news pile into "where are
+    the key themes". Incremental: only today's not-yet-assigned events go to ONE Sonnet call
+    (skipped entirely when there's nothing new); strength/stage/history are computed locally.
+    Returns the ranked board rows (with event_keys for the caller to map to item indices)."""
+    reg = json.load(open(THEMES_PATH, encoding="utf-8")) if os.path.exists(THEMES_PATH) else {"themes": {}, "next_id": 1}
+    assigned = {k for th in reg["themes"].values() for k in th.get("event_keys", [])}
+    delta = [(k, e) for k, e in ent.items() if e.get("last_seen") == today_key and k not in assigned]
+    delta.sort(key=lambda kv: len(kv[1].get("sources", [])) * 2 + kv[1].get("days_seen", 1), reverse=True)
+    delta = delta[:80]                                     # cap (also bounds the one-off first-run seed)
+    n_new = 0
+    if delta:
+        reg_lines = "\n".join(f'{tid} | {th["name"]} | {th.get("thesis", "")[:100]}'
+                              for tid, th in reg["themes"].items()) or "(none yet)"
+        ev_lines = []
+        for i, (k, e) in enumerate(delta):
+            tg = e.get("tags", {})
+            ename = ",".join((tg.get("companies", []) + tg.get("components", []))[:5])
+            ev_lines.append(f"[{i}] {(e.get('title_en') or e['title'])[:95]}"
+                            + (f" — {e['digest'][:80]}" if e.get("digest") else "")
+                            + (f" ({ename})" if ename else ""))
+        prompt = (
+            "You are the market-intelligence analyst for a high-service electronic-components CATALOG "
+            "distributor (customers = design engineers & maintenance buyers; long-tail SKUs, small "
+            "quantities, strong EMEA/APAC). You maintain the persistent THEME REGISTRY over the "
+            "market-news stream.\n\n"
+            f"CURRENT THEMES (id | name | thesis):\n{reg_lines}\n\n"
+            "NEW EVENTS TODAY ([idx] headline — digest (entities)):\n" + "\n".join(ev_lines) + "\n\n"
+            "Rules:\n"
+            "- assign an event to an existing theme when it clearly advances that theme's storyline.\n"
+            "- new_themes ONLY for a genuinely distinct, multi-event market storyline (never a one-off "
+            "announcement); name <=6 words; thesis = 1-2 sentences: what is happening AND why it matters "
+            "to the distributor.\n"
+            '- dims: 1-3 of "products" (component families/pricing/supply), "technology" (tech shifts), '
+            '"suppliers" (line-card vendor moves), "channel" (distribution/inventory/logistics), '
+            '"endmarkets" (demand pull), "geopolicy" (policy/geopolitics).\n'
+            "- update_thesis when today's events materially change a theme's storyline.\n"
+            "- merge [keep, duplicate] when two themes are the same storyline.\n"
+            "- routine one-offs: leave unassigned (omit).\n"
+            'Return ONLY JSON: {"assign":[{"e":<idx>,"t":"<tid>"}],"new_themes":[{"name":"...","thesis":"...",'
+            '"dims":["..."],"events":[<idx>]}],"update_thesis":[{"t":"<tid>","thesis":"..."}],'
+            '"merge":[["<keep>","<dup>"]]}')
+        try:
+            out = run_claude(prompt)
+            for a in out.get("assign", []):
+                try:
+                    i, tid = int(a.get("e")), str(a.get("t"))
+                except (TypeError, ValueError):
+                    continue
+                if 0 <= i < len(delta) and tid in reg["themes"]:
+                    ks = reg["themes"][tid]["event_keys"]
+                    if delta[i][0] not in ks:
+                        ks.append(delta[i][0])
+            for nt in out.get("new_themes", []):
+                if not nt.get("name"):
+                    continue
+                evs = []
+                for i in nt.get("events", []):
+                    try:
+                        i = int(i)
+                    except (TypeError, ValueError):
+                        continue
+                    if 0 <= i < len(delta):
+                        evs.append(delta[i][0])
+                if not evs:
+                    continue
+                tid = f"T{reg['next_id']}"; reg["next_id"] += 1; n_new += 1
+                reg["themes"][tid] = {"name": nt["name"][:60], "thesis": (nt.get("thesis") or "")[:220],
+                                      "dims": [d for d in (nt.get("dims") or []) if d in DIM_IDS][:3],
+                                      "event_keys": evs, "first_seen": today_key, "history": [], "stage": "new"}
+            for u in out.get("update_thesis", []):
+                tid = str(u.get("t"))
+                if tid in reg["themes"] and u.get("thesis"):
+                    reg["themes"][tid]["thesis"] = u["thesis"][:220]
+            for pair in out.get("merge", []):
+                if isinstance(pair, list) and len(pair) == 2:
+                    keep, dup = str(pair[0]), str(pair[1])
+                    if keep in reg["themes"] and dup in reg["themes"] and keep != dup:
+                        dth = reg["themes"].pop(dup)
+                        reg["themes"][keep]["event_keys"] = list(dict.fromkeys(
+                            reg["themes"][keep]["event_keys"] + dth["event_keys"]))
+        except Exception as e:  # noqa: BLE001 — LLM failure never loses the registry
+            print(f"  themes: LLM skipped ({type(e).__name__}: {str(e)[:80]}) — registry kept")
+    _theme_strengths(reg, ent, today_key, now)
+    for th in reg["themes"].values():
+        th["last_updated"] = today_key
+    json.dump(reg, open(THEMES_PATH, "w", encoding="utf-8"), ensure_ascii=False)
+    board = []
+    for tid, th in sorted(reg["themes"].items(), key=lambda kv: -kv[1].get("strength", 0))[:10]:
+        eks = sorted(th["event_keys"], key=lambda k: -len(ent[k].get("sources", [])))
+        board.append({"id": tid, "name": th["name"], "thesis": th["thesis"], "dims": th.get("dims", []),
+                      "strength": th["strength"], "delta": th["delta"], "stage": th["stage"],
+                      "n_events": len(th["event_keys"]), "spark": [h["s"] for h in th["history"]],
+                      "first_seen": th.get("first_seen", today_key), "event_keys": eks})
+    print(f"  themes: registry {len(reg['themes'])} themes ({n_new} new, {len(delta)} events considered)")
+    return board
+
+
 def momentum_one(cnt, prior_vals):
     avg = (sum(prior_vals) / len(prior_vals)) if prior_vals else 0.0
     delta = (cnt - avg) / (avg + 1.0)
@@ -406,12 +664,17 @@ def _claude_bin():
 def run_claude(prompt):
     shell = (os.name == "nt")
     binp = _claude_bin()
+    # strip session markers so a build launched FROM a Claude Code session doesn't make the child
+    # CLI behave like a nested session (host-auth etc.) — it must auth from its own stored login
+    env = {k: v for k, v in os.environ.items() if not (k.startswith("CLAUDE") or k.startswith("ANTHROPIC"))}
     cmd = (f'"{binp}" -p --model claude-sonnet-4-6 --output-format json' if shell
            else [binp, "-p", "--model", "claude-sonnet-4-6", "--output-format", "json"])
     res = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
-                         timeout=360, shell=shell, encoding="utf-8")
+                         timeout=360, shell=shell, encoding="utf-8", env=env)
     if res.returncode != 0:
-        raise RuntimeError(f"CLI rc={res.returncode}: {res.stderr[:160]}")
+        # with --output-format json the CLI reports errors (e.g. auth 401) on STDOUT, not stderr
+        err = (res.stderr or "").strip() or (res.stdout or "").strip()
+        raise RuntimeError(f"CLI rc={res.returncode}: {err[:200]}")
     env = json.loads(res.stdout)
     txt = env.get("result", "") if isinstance(env, dict) else str(env)
     txt = re.sub(r"^```(?:json)?|```$", "", txt.strip(), flags=re.M).strip()
@@ -805,17 +1068,24 @@ def main():
         return pd is not None and pd.date() < pub_cutoff
     ent = {k: e for k, e in ent.items() if e.get("last_seen", "") >= cutoff and not _spam(e) and not _stale(e)}
 
+    # CANONICAL EVENTS — merge same-storyline entries across days/wording (semantic, local, free)
+    n_before = len(ent)
+    ent, n_merged = consolidate_store(ent)
+    print(f"  consolidate: {n_before} entries -> {len(ent)} canonical events (merged {n_merged})")
+
     # working set = the rolling window — this is what we synthesise, score and show
     clusters = []
     for k, e in ent.items():
         srcs = e.get("sources") or [e["source"]]
-        cl = {"rep": {"title": e["title"], "title_en": e.get("title_en") or e["title"], "url": e["url"], "source": e["source"],
+        cl = {"key": k,
+              "rep": {"title": e["title"], "title_en": e.get("title_en") or e["title"], "url": e["url"], "source": e["source"],
                       "published": e.get("published", ""), "summary": e.get("summary", "")},
               "tags": e["tags"], "members": [{"source": s, "published": e.get("published", "")} for s in srcs],
               "src_types": e.get("src_types", []), "claims": e.get("claims", []), "n_articles": e.get("n_articles", len(srcs)),
               "digest": e.get("digest", ""), "etype": e.get("etype", ""), "subject": e.get("subject", []),
               "object": e.get("object", []), "metric": e.get("metric", {}),
-              "first_seen": e.get("first_seen", today_key), "days_seen": e.get("days_seen", 1)}
+              "first_seen": e.get("first_seen", today_key), "last_seen": e.get("last_seen", today_key),
+              "days_seen": e.get("days_seen", 1)}
         cl["hot"], cl["age_h"] = hotness(cl, now)
         clusters.append(cl)
     clusters.sort(key=lambda c: c["hot"], reverse=True)
@@ -839,10 +1109,19 @@ def main():
     for cl in clusters[:MAX_ITEMS]:
         rep = cl["rep"]
         dd = parse_date(rep.get("published", ""))
+        srcs = sorted({m["source"] for m in cl["members"]})
+        ls = cl.get("last_seen", today_key)
+        try:
+            ls_age = (now.date() - dt.date.fromisoformat(ls)).days
+        except ValueError:
+            ls_age = 0
+        status = ("new" if cl.get("first_seen") == today_key else
+                  "developing" if ls == today_key else
+                  "persisting" if ls_age <= 3 else "fading")
         items.append({"title": rep["title"], "url": rep["url"], "source": rep["source"],
                       "published": rep.get("published", ""), "date": dd.date().isoformat() if dd else "",
                       "age_h": cl["age_h"], "hot": cl["hot"],
-                      "n": len(cl["members"]), "sources": sorted({m["source"] for m in cl["members"]}),
+                      "n": len(cl["members"]), "sources": srcs, "src_n": len(srcs), "status": status,
                       "tags": cl["tags"], "src_types": cl.get("src_types", []),
                       "title_en": rep.get("title_en") or rep["title"], "digest": cl.get("digest", ""),
                       "etype": cl.get("etype", ""), "metric": cl.get("metric", {}),
@@ -990,6 +1269,12 @@ def main():
     if corner_insights:
         print(f"  corners: synthesised insights for {len(corner_insights)} desks ({', '.join(corner_insights)})")
 
+    # PERSISTENT THEMES — named storylines with strength/lifecycle; map their events to item indices
+    theme_board = update_themes(ent, today_key, now)
+    key2idx = {cl.get("key"): i for i, cl in enumerate(clusters[:MAX_ITEMS]) if cl.get("key")}
+    for t in theme_board:
+        t["evidence"] = [key2idx[k] for k in t.pop("event_keys") if k in key2idx][:4]
+
     bundle = {
         "as_of": raw.get("fetched", now.isoformat(timespec="seconds")),
         "generated": now.isoformat(timespec="seconds"),
@@ -997,7 +1282,7 @@ def main():
         "brief": synth["brief"], "themes": synth["themes"],
         "concepts": concepts, "river": river, "angles": angles_list, "coverage": coverage,
         "taxonomy": build_taxonomy(coverage), "signals": signals,
-        "corner_insights": corner_insights, "conflicts": conflicts,
+        "corner_insights": corner_insights, "conflicts": conflicts, "theme_board": theme_board,
         "items": items, "byEntity": by_entity, "byAngle": by_angle, "labels": LABELS,
     }
     scrub_bundle(bundle)  # house-name safety net before anything is written to the page

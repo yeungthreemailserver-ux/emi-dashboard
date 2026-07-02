@@ -277,6 +277,29 @@
     if (net < 0) return '<span class="sg-dn">' + new Array(Math.min(-net, 4) + 1).join("▼") + "</span>";
     return '<span class="sg-fl">▬</span>';
   }
+  // ---- key market themes: the persistent theme registry (named storylines w/ strength+lifecycle) ----
+  var DIML = { products: "Products", technology: "Technology", suppliers: "Suppliers",
+               channel: "Distribution", endmarkets: "End markets", geopolicy: "Geo & policy" };
+  function themeBoardHTML() {
+    var tb = N.theme_board; if (!tb || !tb.length) return "";
+    var rows = tb.map(function (t, i) {
+      var stg = t.stage || "steady";
+      var dl = t.delta > 0 ? "▲ +" + t.delta : (t.delta < 0 ? "▼ " + t.delta : "—");
+      var dims = (t.dims || []).map(function (d) { return '<span class="tb-dim">' + esc(DIML[d] || d) + "</span>"; }).join("");
+      var spk = (t.spark && t.spark.length > 1) ? '<span class="tb-spark">' + spark(t.spark, "#2563eb") + "</span>" : "";
+      return '<button class="tb-row" data-tb="' + i + '">' +
+        '<span class="tb-rank">' + (i + 1) + "</span>" +
+        '<span class="tb-main"><span class="tb-head"><span class="tb-name">' + esc(t.name) + '</span>' +
+        '<span class="tb-chip st-' + esc(stg) + '">' + esc(stg) + "</span>" + dims + "</span>" +
+        '<span class="tb-thesis">' + esc(t.thesis || "") + "</span></span>" +
+        '<span class="tb-right"><span class="tb-bar" title="strength vs the strongest theme"><i style="width:' + Math.round(t.strength || 0) + '%"></i></span>' +
+        '<span class="tb-delta ' + (t.delta > 0 ? "up" : t.delta < 0 ? "dn" : "fl") + '">' + dl + "</span>" + spk +
+        '<span class="tb-n">' + (t.n_events || 0) + " events</span></span></button>";
+    }).join("");
+    return '<div class="sec-title">Key market themes <span class="dim">persistent storylines tracked across days · bar = strength · ▲▼ = day change</span></div>' +
+      '<div class="tboard">' + rows + "</div>";
+  }
+
   function signalsHTML() {
     var s = N.signals; if (!s || !s.n_records) return "";
     var maxT = Math.max.apply(null, s.by_type.map(function (t) { return t.count; }).concat([1]));
@@ -355,11 +378,12 @@
       var jm = jmap[i], dd = DIR[jm && jm.dir] || null;
       var read = (jm && jm.so) ? '<div class="fd-read d-' + esc(jm.dir) + '"><b>' + (dd ? dd.t : jm.dir) + "</b> " + esc(jm.so) + "</div>" : "";
       var more = (it.n > 1) ? '<div class="fd-more">+ ' + it.n + " reports · " + esc(it.sources.join(", ")) + "</div>" : "";
-      var trk = (it.days_seen > 1) ? " · <span class=\"ev-track\">tracked " + it.days_seen + "d</span>" : "";
+      var trk = (it.days_seen > 1) ? " · <span class=\"ev-track\">since " + esc((it.first_seen || "").slice(5) || "?") + " · " + it.days_seen + "d</span>" : "";
       var op = Math.min(1, (it.hot || 0) / 85 + 0.3).toFixed(2);
       var head = esc(it.title_en || it.title);
       var dig = it.digest ? '<div class="fd-dig">' + esc(it.digest) + "</div>" : "";
-      var typ = it.etype ? '<span class="fd-type">' + esc(it.etype) + "</span>" : "";
+      var st = it.status ? '<span class="st-chip st-' + esc(it.status) + '">' + esc(it.status) + "</span>" : "";
+      var typ = (it.etype ? '<span class="fd-type">' + esc(it.etype) + "</span>" : "") + st;
       var mdir = it.metric && it.metric.direction;
       var met = (mdir === "up" || mdir === "down") ? '<span class="fd-metric ' + mdir + '">' + (mdir === "up" ? "▲" : "▼") + (it.metric.magnitude ? " " + esc(it.metric.magnitude) : "") + "</span>" : "";
       return '<div class="fd-item" data-i="' + i + '"><span class="fd-dot" style="opacity:' + op + '"></span>' +
@@ -451,9 +475,11 @@
     }).join("");
     var ov = document.createElement("div");
     ov.className = "modal-ov"; ov.id = "newsmodal";
+    var dirHtml = p.stagechip
+      ? '<div class="ev-dir"><span class="tb-chip st-' + esc(p.stagechip) + '">' + esc(p.stagechip) + "</span></div>"
+      : '<div class="ev-dir ' + d.c + '">' + d.i + " " + d.t + "</div>";
     ov.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-label="Insight evidence">' +
-      '<button class="modal-x" aria-label="Close">✕</button>' +
-      '<div class="ev-dir ' + d.c + '">' + d.i + " " + d.t + "</div>" +
+      '<button class="modal-x" aria-label="Close">✕</button>' + dirHtml +
       '<div class="ev-title">' + esc(p.headline) + "</div>" +
       (p.so_what ? '<div class="ev-so">' + esc(p.so_what) + "</div>" : "") +
       '<div class="modal-relh">Evidence · ' + (p.evidence || []).length + " stories</div>" +
@@ -548,6 +574,7 @@
     // 2) DAILY 3 HIGHLIGHTS + LATEST TREND + CORNERS
     html += highlightsHTML();
     html += trendHTML();
+    html += themeBoardHTML();
     html += signalsHTML();
     html += cornersHTML();
 
@@ -592,6 +619,13 @@
   function wire() {
     main.querySelectorAll(".view-tab[data-view]").forEach(function (b) {
       b.onclick = function () { STATE.view = b.getAttribute("data-view"); STATE.concept = null; STATE.angle = null; render(); window.scrollTo({ top: 0 }); };
+    });
+    // theme board rows -> evidence modal (name + thesis + linked events)
+    main.querySelectorAll(".tb-row[data-tb]").forEach(function (b) {
+      b.onclick = function () {
+        var t = (N.theme_board || [])[+b.getAttribute("data-tb")];
+        if (t) openEvidence({ headline: t.name, so_what: t.thesis, stagechip: t.stage, evidence: t.evidence });
+      };
     });
     // feed tag chips filter (must NOT open the story modal)
     main.querySelectorAll(".feed .chip[data-cov]").forEach(function (b) {

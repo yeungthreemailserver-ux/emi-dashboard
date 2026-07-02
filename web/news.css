@@ -383,3 +383,33 @@
 .conc-evid .ce-h b{color:var(--blue);}
 .nempty{padding:14px;text-align:center;color:var(--muted);font-size:12.5px;}
 @media(max-width:560px){.themes{grid-template-columns:1fr;}}
+
+/* ---- event lifecycle status chips (canonical events) ---- */
+.st-chip{font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:1px 6px;white-space:nowrap;}
+.st-new{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.st-developing{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;}
+.st-persisting{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.st-fading{background:#f8fafc;color:#94a3b8;border:1px solid #eef2f6;}
+/* theme lifecycle reuses the same chip look */
+.st-rising{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;}
+.st-steady{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+
+/* ---- key market themes board (persistent registry) ---- */
+.tboard{display:flex;flex-direction:column;gap:8px;margin:10px 0 4px;}
+.tb-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer;font:inherit;transition:border-color .12s, box-shadow .12s;}
+.tb-row:hover{border-color:var(--blue);box-shadow:0 3px 12px rgba(15,23,42,.07);}
+.tb-rank{font-size:15px;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums;}
+.tb-main{min-width:0;display:flex;flex-direction:column;gap:3px;}
+.tb-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.tb-name{font-size:13.5px;font-weight:700;color:var(--ink);}
+.tb-chip{font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:1px 6px;white-space:nowrap;}
+.tb-dim{font-size:9.5px;font-weight:600;color:#475569;background:#eef2f7;border-radius:4px;padding:1px 7px;white-space:nowrap;}
+.tb-thesis{font-size:12px;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tb-right{display:flex;align-items:center;gap:10px;flex:none;}
+.tb-bar{width:86px;height:7px;background:#eef2f6;border-radius:4px;overflow:hidden;display:inline-block;}
+.tb-bar i{display:block;height:100%;background:var(--blue);border-radius:4px;}
+.tb-delta{font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;min-width:44px;text-align:right;}
+.tb-delta.up{color:#047857;} .tb-delta.dn{color:#b91c1c;} .tb-delta.fl{color:var(--faint);}
+.tb-spark{display:inline-flex;align-items:center;}
+.tb-n{font-size:10.5px;color:var(--faint);white-space:nowrap;}
+@media(max-width:760px){.tb-right .tb-spark{display:none;}.tb-bar{width:56px;}}
